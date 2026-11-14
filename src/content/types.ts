@@ -28,17 +28,8 @@ export type Exercise =
   | { kind: "wiring"; q: string; pairs: { l: string; r: string }[]; why: string }
   | { kind: "feynman"; q: string; model: string; criteria: string[] };
 
+// Simulateurs de FORMA-8 (aucun simulateur de FORMA-7 n'est repris).
 export type WidgetId =
-  | "NextWord"
-  | "CoreCompare"
-  | "ContextRam"
-  | "PromptLab"
-  | "ProjectSim"
-  | "SkillAnatomy"
-  | "PatchBay"
-  | "AgentLoop"
-  | "SkillWorkshop"
-  // Simulateurs propres à FORMA-8
   | "GitBranches"
   | "RequestTrip"
   | "PipelineLights"

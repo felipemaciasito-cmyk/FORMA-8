@@ -93,31 +93,6 @@ export async function reexplain(term: string, definition: string, analogy: strin
   });
 }
 
-export async function runPrompt(prompt: string) {
-  return ask({ system: "Réponds en français.", user: prompt, maxTokens: 2500, effort: "low" });
-}
-
-export interface SkillTest { output: string; followed: boolean; notes: string[] }
-
-export async function testSkill(skillMd: string, input: string): Promise<SkillTest> {
-  const output = await ask({
-    system: `Tu appliques STRICTEMENT le Skill suivant pour répondre à l'utilisateur. Réponds en français.\n\n${skillMd}`,
-    user: input,
-    maxTokens: 3000,
-  });
-  const schema = {
-    type: "object", additionalProperties: false, required: ["followed", "notes"],
-    properties: { followed: { type: "boolean" }, notes: { type: "array", items: { type: "string" } } },
-  };
-  const verdict = JSON.parse(await ask({
-    system: "Tu vérifies si une réponse respecte les instructions d'un Skill. Réponds en français, de façon concise et concrète.",
-    user: `SKILL :\n${skillMd}\n\nDEMANDE :\n${input}\n\nRÉPONSE PRODUITE :\n${output}\n\nLa réponse respecte-t-elle les étapes, le format et les points à éviter ? notes : 1 à 4 remarques pour améliorer le Skill lui-même (pas la réponse).`,
-    schema,
-    maxTokens: 1500,
-  })) as { followed: boolean; notes: string[] };
-  return { output, ...verdict };
-}
-
 // ---------------- Mécaniques de FORMA-8 ----------------
 
 export interface ConsigneGrade {

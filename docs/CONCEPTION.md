@@ -60,7 +60,7 @@ Profil de **pilote débutant** : sait mener un projet de bout en bout avec Claud
 | Sujet | Décision |
 |---|---|
 | Programme source | Parcours sur mesure, construit sur la documentation officielle de Claude Code **en français**. Les programmes des cours Anthropic Academy (Claude Code 101, Claude Code in Action) servent de liste de contrôle : chaque sujet est couvert en français, réécrit (jamais traduit mot pour mot), source citée. |
-| Autonomie | FORMA-8 enseigne elle-même toutes les notions qu'elle utilise, y compris celles de FORMA-7 (fiches réutilisées et adaptées). |
+| Autonomie | FORMA-8 enseigne elle-même toutes les notions qu'elle utilise. **Aucun contenu de FORMA-7 n'est repris** (décision du 14/11/2026) : fiches, leçons, exercices et simulateurs sont écrits à neuf à partir de nouvelles sources (Anthropic et autres). Seules la couche visuelle et la mécanique de jeu viennent de FORMA-7. |
 | Lien avec FORMA-7 | Clin d'œil seulement : si une progression FORMA-7 est trouvée, reprise du prénom et affichage des badges FORMA-7 en souvenir, sans effet sur l'apprentissage. Lecture seule, jamais d'écriture. |
 | Univers | **L'Équipe** : le datacenter rallumé réveille des automates ; chacun incarne un vrai outil de Claude Code ; le joueur passe d'apprenti à chef d'orchestre d'agents. Dans l'appli, on parle toujours d'« équipe », jamais d'« équipage ». |
 | Nom | « FORMA-8 · Réveille l'équipe » (confirmé). |
@@ -225,8 +225,8 @@ contrôle. Il tourne en local et dans l'intégration continue (qui récupère FO
   request fusionnée, workflow réussi), avec liste à cocher en secours.
 - **Atelier des consignes**, **pannes à diagnostiquer** (dépôt d'entraînement créé par le joueur au moment
   voulu, comme exercice), **fiches de l'équipe**, **simulateurs**, **portfolio**.
-- **Glossaire** : notions de FORMA-7 reprises et adaptées quand elles servent, plus les nouvelles notions
-  du parcours.
+- **Glossaire** : toutes les notions rédigées à neuf, à partir de nouvelles sources. Les simulateurs et la
+  forge de Skills de FORMA-7 ne sont pas repris ; une nouvelle forge sera écrite au caisson 02.
 
 ### Jeton GitHub (un seul, « fine-grained »)
 

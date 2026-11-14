@@ -19,7 +19,6 @@ import { TopBar } from "./Chrome";
 import { Icon } from "./Icon";
 import { ConsigneBlock, ProductForm } from "./Mechanics";
 import { OraSays } from "./Ora";
-import SkillWorkshop from "./SkillWorkshop";
 
 // ======================= Base de connaissances =======================
 export function BaseView({ focus }: { focus?: string }) {
@@ -287,43 +286,28 @@ function ReviewCard({ id, pool, onDone }: { id: string; pool: string[]; onDone: 
 // ======================= Atelier =======================
 export function AtelierView() {
   const p = useProgress();
-  const [tab, setTab] = useState<"consignes" | "skills">("consignes");
   const open = SITUATIONS.filter((x) => !x.after || roomComplete(p, ROOMS.find((r) => r.id === x.after)!));
   const locked = SITUATIONS.length - open.length;
   const [pick, setPick] = useState(open[0]?.id ?? "");
   const sit = open.find((x) => x.id === pick) ?? open[0];
   return (
     <div className="wrap">
-      <TopBar title="Atelier" kicker={tab === "consignes" ? "Atelier des consignes" : "Forge de Skills"} />
-      <div className="row wrap-row" style={{ gap: 8, marginBottom: 14 }}>
-        <button className={`chip ${tab === "consignes" ? "on" : ""}`} onClick={() => { sfx("tap"); setTab("consignes"); }}>Consignes</button>
-        <button className={`chip ${tab === "skills" ? "on" : ""}`} onClick={() => { sfx("tap"); setTab("skills"); }}>Skills</button>
+      <TopBar title="Atelier" kicker="Atelier des consignes" />
+      <OraSays compact md="Ici, tu t'entraînes à rédiger des **ordres de mission** pour ton équipe. Claude note chaque consigne sur cinq critères : contexte, objectif, critères de réussite, contraintes, vérification." />
+      <div className="stack" style={{ marginTop: 14 }}>
+        {open.map((x) => (
+          <button key={x.id} className={`choice ${sit?.id === x.id ? "ok" : ""}`} onClick={() => { sfx("tap"); setPick(x.id); }} style={{ alignItems: "center" }}>
+            <Icon name="pencil" size={18} />
+            <span className="grow"><b>{x.title}</b></span>
+            {p.consignes[`atelier:${x.id}`] !== undefined && <span className="pill cyan">{p.consignes[`atelier:${x.id}`]}/100</span>}
+          </button>
+        ))}
+        {locked > 0 && <div className="small dim">{locked} autre{locked > 1 ? "s" : ""} situation{locked > 1 ? "s" : ""} s'ouvrir{locked > 1 ? "ont" : "a"} en réveillant l'équipe.</div>}
       </div>
-      {tab === "consignes" ? (
-        <>
-          <OraSays compact md="Ici, tu t'entraînes à rédiger des **ordres de mission** pour ton équipe. Claude note chaque consigne sur cinq critères : contexte, objectif, critères de réussite, contraintes, vérification." />
-          <div className="stack" style={{ marginTop: 14 }}>
-            {open.map((x) => (
-              <button key={x.id} className={`choice ${sit?.id === x.id ? "ok" : ""}`} onClick={() => { sfx("tap"); setPick(x.id); }} style={{ alignItems: "center" }}>
-                <Icon name="pencil" size={18} />
-                <span className="grow"><b>{x.title}</b></span>
-                {p.consignes[`atelier:${x.id}`] !== undefined && <span className="pill cyan">{p.consignes[`atelier:${x.id}`]}/100</span>}
-              </button>
-            ))}
-            {locked > 0 && <div className="small dim">{locked} autre{locked > 1 ? "s" : ""} situation{locked > 1 ? "s" : ""} s'ouvrir{locked > 1 ? "ont" : "a"} en réveillant l'équipe.</div>}
-          </div>
-          {sit && <div key={sit.id} style={{ marginTop: 14 }}><ConsigneBlock id={`atelier:${sit.id}`} situation={sit.situation} expected={sit.expected} /></div>}
-        </>
-      ) : (
-        <>
-          <OraSays compact md={notionKnown("skill") ? "Ici, tu forges de **vrais** fichiers SKILL.md, prêts à installer dans ton équipe." : "La forge est ouverte, mais tu comprendras tout son intérêt au **Caisson 02**. Tu peux déjà partir d'un modèle pour voir à quoi ça ressemble."} />
-          <div style={{ marginTop: 16 }}><SkillWorkshop /></div>
-        </>
-      )}
+      {sit && <div key={sit.id} style={{ marginTop: 14 }}><ConsigneBlock id={`atelier:${sit.id}`} situation={sit.situation} expected={sit.expected} /></div>}
     </div>
   );
 }
-function notionKnown(id: string) { return !!getState().progress.notions[id]; }
 
 // ======================= L'équipe : fiches reliées aux vrais fichiers du produit =======================
 export function TeamView() {

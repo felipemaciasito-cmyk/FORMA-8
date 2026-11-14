@@ -11,9 +11,13 @@
   2. un exercice ;
   3. un ordre de mission confié à Claude Code ;
   4. au quart suivant, la vérification de la livraison.
-- **Zéro zone de flou** : chaque notion est définie (3 niveaux, analogie, exemple) avant d'être utilisée. Les
-  notions marquées **(F7)** reprennent une fiche de FORMA-7, adaptée au code. Le validateur bloque toute
-  notion utilisée trop tôt.
+- **Zéro zone de flou** : chaque notion est définie (3 niveaux, analogie, exemple) avant d'être utilisée. Le
+  validateur bloque toute notion utilisée trop tôt.
+- **Aucun contenu repris de FORMA-7** (décision du 14/11/2026) : toutes les fiches de notions, les leçons, les
+  exercices et les simulateurs sont écrits à neuf, à partir de nouvelles sources (Anthropic, GitHub, MDN, CNIL,
+  OWASP…). Seules la couche visuelle et la mécanique de jeu viennent de FORMA-7. Le projet FORMA-7 lui-même
+  (son historique, ses bugs, ses choix) peut servir d'étude de cas : ce sont des faits de ton propre projet,
+  pas des leçons recopiées.
 - **Tout depuis Safari** : chaque manipulation est faite sur claude.ai/code et sur github.com dans le
   navigateur, sans ordinateur. Chaque consigne sera vérifiée dans ces conditions au moment de l'écriture.
 - **Sources** : la documentation officielle de Claude Code, en français (`code.claude.com/docs/fr/...`), celle de
@@ -38,7 +42,7 @@ Légende des livraisons : **[fichier]** = fichier présent dans le dépôt du pr
 |---|---|---|
 | 1. Ce qu'est une application | `application`, `site-web`, `navigateur`, `serveur`, `fichier` | Simulateur « trajet d'une requête » (site statique) |
 | 2. Les trois langues d'une page | `html`, `css`, `javascript`, `code-source` | Lecture d'une première modification (un titre qui change) |
-| 3. Créer avec une IA | `ia` (F7), `modele-de-langage` (F7), `prompt` (F7), `agent` (F7), `vibe-coding`, `claude-code` (F7) | Origine du terme (popularisé par Andrej Karpathy en février 2025, d'après plusieurs sources secondaires : source primaire à vérifier), ce que l'IA fait et ne fait pas |
+| 3. Créer avec une IA | `ia`, `modele-de-langage`, `prompt`, `agent`, `vibe-coding`, `claude-code` | Origine du terme (popularisé par Andrej Karpathy en février 2025, d'après plusieurs sources secondaires : source primaire à vérifier), ce que l'IA fait et ne fait pas |
 | 4. Choisir ton produit | `probleme-utilisateur`, `proposition-de-valeur`, `produit-minimum` | Atelier guidé : 3 idées, critères (utilité, faisable depuis un iPhone, coût, potentiel métier), choix et fiche produit |
 | 5. Ta première mise en ligne | `github`, `depot`, `github-pages`, `adresse-web` | Créer le dépôt dans Safari, première session Claude Code, ordre de mission « page de présentation », activer GitHub Pages |
 
@@ -67,12 +71,12 @@ Légende des livraisons : **[fichier]** = fichier présent dans le dépôt du pr
 
 | Protocole | Notions introduites | Activités |
 |---|---|---|
-| 1. Une séance de travail dans le navigateur | `session`, `environnement-cloud`, `terminal` (F7), `commande` | Visite guidée d'une session sur claude.ai/code |
-| 2. Ce que Claude voit | `token` (F7), `contexte` (F7), `fenetre-contexte` (F7), `compaction` | Simulateur « barrette de contexte » (repris de FORMA-7) |
+| 1. Une séance de travail dans le navigateur | `session`, `environnement-cloud`, `terminal`, `commande` | Visite guidée d'une session sur claude.ai/code |
+| 2. Ce que Claude voit | `token`, `contexte`, `fenetre-contexte`, `compaction` | Nouveau simulateur « ce que Claude voit » : fichiers lus, conversation et règles qui remplissent la fenêtre, puis compaction |
 | 3. Le fichier de règles | `claude-md`, `memoire-projet` | Ordre de mission : écrire le `CLAUDE.md` du produit ; atelier « Écrire les règles » |
-| 4. Les permissions | `permission` (F7), `mode-permission`, `mode-plan` | Choisir le bon mode selon la tâche |
-| 5. Les savoir-faire et les prises | `markdown` (F7), `skill` (F7), `mcp` (F7), `connecteur` (F7), `plugin` | Simulateurs « anatomie d'un Skill » et « baie de brassage » (repris), Forge de Skills |
-| 6. Le jeton d'accès | `jeton-acces` (F7), `moindre-privilege` | Simulateur « constructeur de jeton », puis création du vrai jeton FORMA-8 et activation de la synchronisation |
+| 4. Les permissions | `permission`, `mode-permission`, `mode-plan` | Choisir le bon mode selon la tâche |
+| 5. Les savoir-faire et les prises | `markdown`, `skill`, `mcp`, `connecteur`, `plugin` | Nouveaux simulateurs « boîte à outils de l'équipe » (un Skill chargé seulement quand il sert) et « prises MCP » ; nouvelle Forge de Skills écrite d'après la documentation d'Anthropic |
+| 6. Le jeton d'accès | `jeton-acces`, `moindre-privilege` | Simulateur « constructeur de jeton », puis création du vrai jeton FORMA-8 et activation de la synchronisation |
 
 - **Panne** : « Claude ignore une règle » (fichier trop long ou contradictoire), « Permission refusée », « Contexte saturé ».
 - **Livraison v0.2** : `CLAUDE.md` [fichier] · `.claude/settings.json` [fichier] · un Skill dans `.claude/skills` [fichier] ·
@@ -101,7 +105,7 @@ Légende des livraisons : **[fichier]** = fichier présent dans le dépôt du pr
 
 | Protocole | Notions introduites | Activités |
 |---|---|---|
-| 1. La boucle de travail | `iteration` (F7), `boucle-agent` (F7) | Explorer, planifier, coder, vérifier, enregistrer |
+| 1. La boucle de travail | `iteration`, `boucle-agent` | Nouveau simulateur « la boucle de l'agent » : lire, agir, vérifier, recommencer |
 | 2. Relire ce que Claude a fait | `diff` | Lecture guidée de vraies modifications, de plus en plus longues |
 | 3. Quand ça casse | `bug`, `reproduire`, `message-erreur` | Trouver un message d'erreur depuis Safari |
 | 4. Le rapport de bug | `rapport-de-bug`, `hypothese` | Pannes à diagnostiquer, notées par Claude |
@@ -149,7 +153,7 @@ Légende des livraisons : **[fichier]** = fichier présent dans le dépôt du pr
 | Protocole | Notions introduites | Activités |
 |---|---|---|
 | 1. Où vivent les données | `donnees`, `stockage-local`, `base-de-donnees` | Cas d'étude : le stockage et la synchronisation de FORMA-7 |
-| 2. Le serveur et l'API | `api` (F7), `backend`, `requete` | Simulateur « trajet d'une requête » (appli avec serveur) |
+| 2. Le serveur et l'API | `api`, `backend`, `requete` | Simulateur « trajet d'une requête » (appli avec serveur) |
 | 3. Les comptes | `authentification`, `autorisation-acces` | Qui a le droit de voir quoi |
 | 4. Choisir un service | `service-backend`, `offre-gratuite` | Comparatif vérifié à la date d'écriture, puis décision |
 | 5. L'IA dans ton produit | `cle-api`, `appel-api` | Pourquoi la clé reste sur un serveur ; simulateur « calculateur de coûts » |
@@ -210,7 +214,9 @@ Légende des livraisons : **[fichier]** = fichier présent dans le dépôt du pr
 
 ## Volume et rythme
 
-- **Environ 60 protocoles** et **environ 140 notions**, dont une vingtaine reprises de FORMA-7.
+- **Environ 60 protocoles** et **environ 140 notions**, toutes rédigées à neuf.
+- **Simulateurs** : les 5 du lot 2, plus 4 nouveaux à écrire avec le contenu (ce que Claude voit, boîte à outils
+  de l'équipe, prises MCP, boucle de l'agent). Aucun simulateur de FORMA-7 n'est utilisé.
 - À raison d'un à deux quarts par protocole, plus les livraisons : **environ 6 à 10 mois** à 15-30 minutes par jour.
   C'est une estimation, qui affine celle du document de conception.
 
