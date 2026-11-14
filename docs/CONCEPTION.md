@@ -1,11 +1,11 @@
 # FORMA-8 · Réveille l'équipe : document de conception
 
-> **Statut : brouillon en cours de rédaction, non validé.** Aucune construction (aucune ligne de code)
+> **Statut : version complète, soumise à validation.** Aucune construction (aucune ligne de code)
 > avant la validation de ce document par le propriétaire du projet.
 > Dernière mise à jour : 14/11/2026.
 
-Ce document rassemble les décisions prises pendant la phase de conception. Il sera complété section par
-section (game design, plan technique), puis soumis à validation.
+Ce document rassemble les décisions prises pendant la phase de conception : diagnostic, programme source,
+parcours, game design et plan technique.
 
 ---
 
@@ -67,6 +67,10 @@ Profil de **pilote débutant** : sait mener un projet de bout en bout avec Claud
 | Vérification des livrables | Automatique, par l'API GitHub, avec un jeton en lecture limité aux dépôts concernés ; liste à cocher en secours si la vérification est impossible. |
 | Nouvelles mécaniques | Atelier des consignes, pannes à diagnostiquer, livraisons vérifiées ; plus les fiches de l'équipe, les simulateurs et le portfolio. La revue de code n'a pas de mécanique dédiée mais reste une notion du niveau 5. |
 | Claude intégré | **Indispensable** : l'appli utilise l'API Claude (clé fournie par le joueur, facturée à l'usage, séparément de l'abonnement). |
+| Abonnement du joueur | Claude **Pro** : pas de crédits API inclus ; l'API est payée à part (crédits achetés dans la Console Claude), avec un plafond de dépense mensuel. |
+| Modèle par défaut | **Claude Opus 5.5** (modifiable dans Réglages : Sonnet 5.5, Haiku 5.5). |
+| Ordre de construction | **Tout le parcours d'un coup** : socle, mécaniques et 11 niveaux construits avant le premier test complet. |
+| Méthode de travail sur FORMA-8 | **Exemplaire** : `CLAUDE.md`, tests automatiques, intégration continue, et une pull request par lot, relue et fusionnée par le propriétaire (demande explicite de pull requests). |
 | Projets | Un **produit fil rouge**, du niveau 0 au niveau 10, choisi dans l'appli grâce à un atelier guidé au niveau 0. |
 | Premiers vrais utilisateurs | Au **niveau 6** : produit fonctionnel, testé, publié, sans comptes ni données personnelles. |
 | Missions du jour | **Aucune** : pas de lecture de mails. FORMA-7-data ne sert qu'à la synchronisation. |
@@ -149,17 +153,142 @@ Modèles, tarifs et coût mensuel estimé : à établir dans le plan technique, 
 
 ## 6. Plan technique
 
-À rédiger. Points déjà identifiés à vérifier :
+### Identité
 
-- Sur iOS, une appli web ajoutée à l'écran d'accueil a peut-être un stockage isolé de Safari et des autres
-  applis : la lecture locale de la progression FORMA-7 pourrait être impossible ; repli possible sur
-  `progress/progress.json` (lecture seule), qui suppose un jeton créé.
-- Hébergement et services des niveaux 7 et suivants (base de données, comptes, IA intégrée) : choix à
-  faire en tenant compte de l'usage exclusif de Safari et de l'accès réseau des environnements cloud de
-  Claude Code.
-- Contrôle de conformité visuelle `scripts/check-design-parity.mjs` (exigence du brief).
+- Nom : **FORMA-8 · Réveille l'équipe** (nom court : FORMA-8).
+- Dépôt : `felipemaciasito-cmyk/FORMA-8`. Adresse : `https://felipemaciasito-cmyk.github.io/FORMA-8/`
+  (GitHub Pages, base `/FORMA-8/`, même origine que FORMA-7).
 
-## 7. Sources (consultées le 14/11/2026)
+### Pile (identique à FORMA-7, mêmes versions)
+
+Vite 8, React 19, TypeScript, motion 14 (import depuis `motion/react`), idb-keyval, @fontsource Space
+Grotesk et JetBrains Mono, vite-plugin-pwa, @anthropic-ai/sdk chargé à la demande. Le `package.json` de
+FORMA-7 sert de base. Seul ajout : `@playwright/test` en dépendance de développement, pour les tests.
+
+### Couche visuelle copiée de FORMA-7, sans retouche
+
+- `src/styles/app.css` (variables de `:root`, grille, balayage, HUD, onglets, panneaux, boutons, pastilles,
+  feuille du bas, toasts, animations, règles « animations réduites ») ;
+- `src/components/` : `Icon.tsx`, `glyphs.ts`, `Emblems.tsx`, `Chrome.tsx`, `Ora.tsx`, `Art.tsx`, `Boot.tsx`,
+  `TermSheet.tsx`, `Exercises.tsx` ;
+- `src/content/icon-ids.json` et `glyphs.ts` : **seulement enrichis** de nouveaux glyphes dans le même style
+  (grille de 24, trait de 1,8, coins arrondis) ;
+- `src/lib/sound.ts`, `src/lib/motion.ts` (`MotionConfig`, `useReduceMotion`) ;
+- PWA : `theme-color` `#04060c`, barre d'état `black-translucent`, icônes générées par
+  `scripts/gen-icons.mjs` ; réglages son et animations (complètes ou réduites).
+
+**Substitutions indispensables, soumises à validation** (textes et clés, aucun changement visuel) :
+
+| Fichier | Substitution | Raison |
+|---|---|---|
+| `Boot.tsx` | Lignes du BIOS (« FORMA-7 · BIOS v7.0.26 », « Salles détectées », « Datacenter hors tension ») et texte d'accueil d'ORA, réécrits pour FORMA-8 et l'équipe | Récit de FORMA-8 |
+| `Exercises.tsx` | Clé de brouillon `forma7:brouillon:` remplacée par `forma8:brouillon:` | Ne jamais écrire dans les données de FORMA-7 |
+| `index.html`, `vite.config.ts` | Nom, description, titre, base `/FORMA-8/` | Identité de l'appli |
+| Commentaires de code | Mentions de FORMA-7 adaptées | Exactitude |
+
+Ces substitutions sont décrites dans `scripts/design-parity.json`. Le script
+**`scripts/check-design-parity.mjs`** compare, quand les deux dépôts sont présents : les variables de
+`:root` (à l'identique) et chaque fichier de la couche visuelle (identique à celui de FORMA-7 après
+application des seules substitutions autorisées). Tout autre écart est signalé et fait échouer le
+contrôle. Il tourne en local et dans l'intégration continue (qui récupère FORMA-7, dépôt public).
+
+### Repris de FORMA-7 et adapté
+
+- **Stockage** : IndexedDB « keyval-store », clés préfixées `forma8:` (`forma8:progress`,
+  `forma8:settings`, `forma8:sync`…). Aucune écriture sous `forma7:`.
+- **Synchronisation** : même mécanisme de fusion sans perte (`merge.ts`, `sync.ts`), vers
+  `progress/forma-8.json` dans FORMA-7-data. `progress/progress.json` n'est jamais modifié.
+- **Clin d'œil FORMA-7** : sur iOS, les applis de l'écran d'accueil ont un stockage isolé (comportement
+  voulu par WebKit). La progression FORMA-7 est donc lue, en lecture seule, dans
+  `progress/progress.json` de FORMA-7-data quand il existe ; sinon, rien n'est affiché.
+- **Claude** : module de FORMA-7 (`claude.ts`) repris : appel direct depuis le navigateur, clé stockée sur
+  l'appareil, modèles Opus 5.5 (défaut), Sonnet 5.5, Haiku 5.5, repli serveur en cas de refus, réponses
+  structurées, nettoyage des emoji. Nouvelles fonctions : noter une consigne, accompagner un diagnostic.
+- **Validateurs** : « zéro zone de flou » (`validate-content.mjs`) et « zéro emoji »
+  (`emoji-rules.js`, `check-no-emoji.mjs`), adaptés au nouveau modèle de contenu.
+- **Moteur de jeu** : énergie, grades, Uptime, badges, Leitner, reprise des leçons (`game.ts`,
+  `progress.ts`), avec le vocabulaire de l'équipe.
+
+### Nouveau
+
+- **Modèle de contenu** : notions (comme FORMA-7, avec source et date de vérification pour ce qui évolue
+  vite), caissons (niveaux), protocoles de réveil (leçons), pannes, livraisons. Nouveaux blocs : ordre de
+  mission à copier dans Claude Code, atelier des consignes, vérification de livraison, lecture d'une
+  modification de code.
+- **Livraisons vérifiées** : module qui interroge l'API GitHub (page en ligne, fichier présent, pull
+  request fusionnée, workflow réussi), avec liste à cocher en secours.
+- **Atelier des consignes**, **pannes à diagnostiquer** (dépôt d'entraînement créé par le joueur au moment
+  voulu, comme exercice), **fiches de l'équipe**, **simulateurs**, **portfolio**.
+- **Glossaire** : notions de FORMA-7 reprises et adaptées quand elles servent, plus les nouvelles notions
+  du parcours.
+
+### Jeton GitHub (un seul, « fine-grained »)
+
+Limité aux dépôts nécessaires : FORMA-7-data (Contents : lecture et écriture, pour la synchronisation) et
+le dépôt du produit (lecture : contenu, pull requests, Actions), ajouté quand ce dépôt existe. Stocké sur
+l'appareil, jamais dans le code. Sa création est une leçon guidée. À vérifier : la possibilité d'ajouter un
+dépôt à un jeton existant (sinon, on en crée un nouveau).
+
+### Clé API Claude
+
+Plan Pro : crédits achetés dans la Console Claude (montant minimal d'achat à vérifier). Recommandation :
+un espace de travail dédié à FORMA-8 avec un plafond de dépense mensuel (impossible sur l'espace par
+défaut), et une clé créée dans cet espace.
+
+| Modèle | Entrée / million de tokens | Sortie / million de tokens | Estimation mensuelle |
+|---|---|---|---|
+| Opus 5.5 (défaut) | 4 $ | 20 $ | environ 8 $ |
+| Sonnet 5.5 | 2 $ | 10 $ | environ 4 $ |
+| Haiku 5.5 | 0,10 $ | 0,50 $ | moins de 0,50 $ |
+
+Tarifs officiels vérifiés le 14/11/2026. L'estimation est une hypothèse de conception (6 appels par
+séance, 30 séances par mois, environ 3 000 tokens envoyés et 1 500 reçus par appel) ; le coût réel peut
+varier du simple au double. L'appli affichera la consommation réelle mesurée (champ `usage` des réponses).
+
+### Technique du produit fil rouge (niveaux 7 et suivants)
+
+Base de données, comptes, serveur et IA intégrée : choix reporté au moment d'écrire ces niveaux, à partir
+de sources vérifiées à cette date (les offres gratuites évoluent vite). Contraintes connues : tout se fait
+depuis Safari via Claude Code dans le navigateur ; une clé d'IA ne doit jamais être exposée dans une appli
+publique (passage obligé par un serveur).
+
+### Qualité du dépôt FORMA-8 (méthode exemplaire)
+
+- `CLAUDE.md` : règles du projet (zéro emoji, zéro zone de flou, parité visuelle, préfixe `forma8:`,
+  messages de commit en français, interdiction de modifier `progress/progress.json`).
+- Tests : tests de bout en bout Playwright (démarrage, navigation, protocole complet, aucune écriture sous
+  `forma7:`) et tests de la fusion et du validateur.
+- Intégration continue sur chaque pull request : validation du contenu, zéro emoji, parité visuelle,
+  vérification des types, build, tests. Déploiement sur GitHub Pages à chaque fusion sur `main`.
+- Réglage manuel à faire par le propriétaire : Settings › Pages › Source : GitHub Actions (le dépôt doit être
+  public pour GitHub Pages gratuit : à vérifier).
+
+## 7. Plan de construction
+
+Après validation de ce document, tout est construit avant le premier test complet, en pull requests
+successives, chacune relue et fusionnée par le propriétaire :
+
+1. **Socle** : couche visuelle copiée, contrôle de parité, `CLAUDE.md`, stockage, synchronisation, Claude,
+   carte des caissons, réglages, tests, intégration continue.
+2. **Mécaniques** : modèle de contenu et validateur, livraisons vérifiées, atelier des consignes, pannes,
+   fiches de l'équipe, simulateurs, portfolio.
+3. **Contenu des niveaux 0 à 10** : une pull request par niveau.
+
+Le premier envoi sur `main` n'a lieu qu'avec l'accord explicite du propriétaire.
+
+## 8. Risques et points de vigilance
+
+- **Volume** : 11 niveaux de contenu « zéro zone de flou » représentent un travail long, réparti sur
+  plusieurs sessions ; chaque pull request reste relisible.
+- **Évolution rapide** : Claude Code, les tarifs et les services changent souvent ; chaque notion
+  susceptible d'évoluer porte sa source et sa date de vérification.
+- **Safari sur iPhone** : non cité explicitement par la documentation de Claude Code dans le navigateur ;
+  chaque manipulation du parcours est vérifiée dans cette configuration.
+- **Coût de l'API** : plafond de dépense recommandé dès le départ ; consommation affichée dans l'appli.
+- **Droits d'auteur** : aucun contenu de cours tiers copié ou traduit intégralement ; reformulation et
+  citation des sources.
+
+## 9. Sources (consultées le 14/11/2026)
 
 Ces informations évoluent vite : chaque leçon indiquera la date de sa source.
 
@@ -172,3 +301,8 @@ Ces informations évoluent vite : chaque leçon indiquera la date de sa source.
 - Flux GitHub (documentation GitHub en français) : https://docs.github.com/fr/get-started/using-github/github-flow
 - OWASP Top 10:2025 : https://owasp.org/Top10/2025/
 - CNIL, développer en conformité avec le RGPD : https://www.cnil.fr/fr/developper-en-conformite-avec-le-rgpd
+- Tarifs de l'API Claude : https://platform.claude.com/docs/en/about-claude/pricing
+- Crédits API des plans Max, Ultra et Team : https://support.claude.com/en/articles/17154008-monthly-api-credits-for-max-ultra-and-team-plans
+- Plafonds de dépense et limites : https://platform.claude.com/docs/en/api/rate-limits
+- Espaces de travail de la Console : https://support.claude.com/en/articles/9796807-create-and-manage-workspaces-in-the-claude-console
+- Stockage des applis de l'écran d'accueil sur iOS (WebKit, bug 181849) : https://bugs.webkit.org/show_bug.cgi?id=181849
