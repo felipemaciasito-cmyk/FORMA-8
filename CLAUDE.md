@@ -29,6 +29,10 @@ Lui répondre en français, en le tutoyant, simplement, en signalant toute incer
 8. **Sources** : le contenu s'appuie sur la documentation officielle (en français quand elle existe :
    `https://code.claude.com/docs/fr/`), citée avec sa date de vérification. Aucun cours tiers copié ou
    traduit mot pour mot.
+9. **Aucun contenu de FORMA-7** : fiches de notions, leçons, exercices, simulateurs et modèles sont écrits à
+   neuf à partir de nouvelles sources. Seules la couche visuelle et la mécanique de jeu viennent de FORMA-7.
+   Le projet FORMA-7 (historique, bugs, choix) peut servir d'étude de cas. Le plan validé du contenu est dans
+   `docs/PROGRAMME.md`.
 
 ## Méthode de travail
 

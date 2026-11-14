@@ -10,5 +10,10 @@
   "requires": [
     "c01"
   ],
-  "steps": []
+  "steps": [],
+  "teamFile": {
+    "label": "Le fichier de règles CLAUDE.md",
+    "path": "CLAUDE.md",
+    "role": "Écrit les règles que l'équipe suit à chaque séance de travail."
+  }
 }

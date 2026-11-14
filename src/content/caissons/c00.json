@@ -8,5 +8,10 @@
   "tagline": "Comprendre ce qu'est une application avant d'en construire une, et choisir ton produit.",
   "hue": 190,
   "requires": [],
-  "steps": []
+  "steps": [],
+  "teamFile": {
+    "label": "La page d'accueil (index.html)",
+    "path": "index.html",
+    "role": "Guide de l'équipe : présente ton produit au monde."
+  }
 }

@@ -2,22 +2,24 @@ import { motion } from "motion/react";
 import { lazy, Suspense } from "react";
 import type { Block, WidgetId } from "../content/types";
 import { RichText } from "../lib/richtext";
-import { Art } from "./Art";
+import { Illustration } from "./Illustrations";
 import { Icon, type IconId } from "./Icon";
 import { ExerciseView } from "./Exercises";
+import { BugReportBlock, ConsigneBlock, DiffBlock, MissionBlock, ProcedureBlock, SourceBlock } from "./Mechanics";
 import { OraSays } from "./Ora";
 import { TermCard } from "./TermSheet";
 
 const Widgets = {
-  NextWord: lazy(() => import("./widgets/NextWord")),
-  CoreCompare: lazy(() => import("./widgets/CoreCompare")),
-  ContextRam: lazy(() => import("./widgets/ContextRam")),
-  PromptLab: lazy(() => import("./widgets/PromptLab")),
-  ProjectSim: lazy(() => import("./widgets/ProjectSim")),
-  SkillAnatomy: lazy(() => import("./widgets/SkillAnatomy")),
-  PatchBay: lazy(() => import("./widgets/PatchBay")),
-  AgentLoop: lazy(() => import("./widgets/AgentLoop")),
-  SkillWorkshop: lazy(() => import("./SkillWorkshop")),
+  GitBranches: lazy(() => import("./widgets/GitBranches")),
+  RequestTrip: lazy(() => import("./widgets/RequestTrip")),
+  PipelineLights: lazy(() => import("./widgets/PipelineLights")),
+  TokenBuilder: lazy(() => import("./widgets/TokenBuilder")),
+  CostCalc: lazy(() => import("./widgets/CostCalc")),
+  ContextView: lazy(() => import("./widgets/ContextView")),
+  SkillToolbox: lazy(() => import("./widgets/SkillToolbox")),
+  McpPlugs: lazy(() => import("./widgets/McpPlugs")),
+  AgentCycle: lazy(() => import("./widgets/AgentCycle")),
+  ProductLab: lazy(() => import("./widgets/ProductLab")),
 } satisfies Record<WidgetId, unknown>;
 
 export function BlockView({ block, exKey, solvedBefore, onSolved }: { block: Block; exKey: string; solvedBefore: boolean; onSolved: (attempts: number) => void }) {
@@ -35,7 +37,7 @@ export function BlockView({ block, exKey, solvedBefore, onSolved }: { block: Blo
       return (
         <div className="panel" style={{ background: "rgba(167,139,250,.07)", borderColor: "rgba(167,139,250,.3)" }}>
           <div className="panel-title" style={{ color: "var(--violet)" }}><Icon name="frame" size={16} /> Analogie</div>
-          {block.art && <div style={{ margin: "-4px 0 8px" }}><Art name={block.art} /></div>}
+          {block.art && <div style={{ margin: "-4px 0 8px" }}><Illustration name={block.art} /></div>}
           <div className="h3">{block.title}</div>
           <RichText md={block.md} />
         </div>
@@ -93,5 +95,17 @@ export function BlockView({ block, exKey, solvedBefore, onSolved }: { block: Blo
           ))}
         </motion.div>
       );
+    case "mission":
+      return <MissionBlock block={block} exKey={exKey} />;
+    case "procedure":
+      return <ProcedureBlock block={block} />;
+    case "consigne":
+      return <ConsigneBlock id={block.id} situation={block.situation} expected={block.expected} />;
+    case "bugreport":
+      return <BugReportBlock id={block.id} symptom={block.symptom} context={block.context} expected={block.expected} />;
+    case "diff":
+      return <DiffBlock block={block} />;
+    case "source":
+      return <SourceBlock block={block} />;
   }
 }

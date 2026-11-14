@@ -10,5 +10,10 @@
   "requires": [
     "c07"
   ],
-  "steps": []
+  "steps": [],
+  "teamFile": {
+    "label": "La politique de sécurité (SECURITY.md)",
+    "path": "SECURITY.md",
+    "role": "Protège les secrets, les utilisateurs et le budget."
+  }
 }

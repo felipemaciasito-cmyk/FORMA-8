@@ -10,5 +10,10 @@
   "requires": [
     "c06"
   ],
-  "steps": []
+  "steps": [],
+  "teamFile": {
+    "label": "La description des données (docs/DONNEES.md)",
+    "path": "docs/DONNEES.md",
+    "role": "Garde les données et les comptes de tes utilisateurs."
+  }
 }

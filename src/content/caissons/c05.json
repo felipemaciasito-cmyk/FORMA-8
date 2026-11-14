@@ -10,5 +10,10 @@
   "requires": [
     "c04"
   ],
-  "steps": []
+  "steps": [],
+  "teamFile": {
+    "label": "Le dossier des tests (tests)",
+    "path": "tests",
+    "role": "Vérifie automatiquement que rien ne casse."
+  }
 }

@@ -10,5 +10,10 @@
   "requires": [
     "c09"
   ],
-  "steps": []
+  "steps": [],
+  "teamFile": {
+    "label": "Le journal des versions (CHANGELOG.md)",
+    "path": "CHANGELOG.md",
+    "role": "Lance la version 1.0 et raconte l'histoire du produit."
+  }
 }

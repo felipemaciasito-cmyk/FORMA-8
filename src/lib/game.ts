@@ -41,6 +41,9 @@ export const REWARD = {
   review: 5,
   skill: 80,
   feynman: 20,
+  delivery: 150,
+  consigne: 15,
+  report: 25,
 };
 
 export function addEnergy(amount: number, label?: string) {
@@ -114,6 +117,13 @@ export const BADGES: { id: string; icon: IconId; title: string; desc: string; te
   { id: "feyn", icon: "mic", title: "Pédagogue", desc: "Une explication « avec tes mots » notée 80 ou plus.", test: (p) => Object.values(p.feynman).some((s) => s >= 80) },
   { id: "skill", icon: "forge", title: "Forgeron de Skills", desc: "Un Skill finalisé dans l'Atelier.", test: (p) => p.skills.some((s) => s.finalized) },
 ];
+
+// Badges propres à FORMA-8 (mécaniques du code).
+BADGES.push(
+  { id: "livraison1", icon: "rocket", title: "Première livraison", desc: "Une livraison vérifiée sur GitHub.", test: (p) => Object.keys(p.deliveries ?? {}).length >= 1 },
+  { id: "plume", icon: "pencil", title: "Plume de commandant", desc: "Une consigne notée 85 ou plus.", test: (p) => Object.values(p.consignes ?? {}).some((s) => s >= 85) },
+  { id: "detective", icon: "search", title: "Détective", desc: "Un rapport de bug noté 80 ou plus.", test: (p) => Object.values(p.reports ?? {}).some((s) => s >= 80) },
+);
 
 export interface BadgeCtx { roomsDone: number; roomsTotal: number }
 let badgeCtx: BadgeCtx = { roomsDone: 0, roomsTotal: 11 };

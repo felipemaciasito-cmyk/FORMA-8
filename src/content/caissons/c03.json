@@ -10,5 +10,10 @@
   "requires": [
     "c02"
   ],
-  "steps": []
+  "steps": [],
+  "teamFile": {
+    "label": "Le cahier des charges (docs/SPEC.md)",
+    "path": "docs/SPEC.md",
+    "role": "Décrit ce qu'il faut construire et le découpe en tâches."
+  }
 }

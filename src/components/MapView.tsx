@@ -5,8 +5,8 @@ import { dueNotions, fx } from "../lib/game";
 import { currentRoom, roomComplete, roomPower, roomReady, roomUnlocked, roomsDoneCount, totalPower } from "../lib/progress";
 import { go } from "../lib/router";
 import { sfx } from "../lib/sound";
-import { useProgress } from "../lib/store";
-import { Icon } from "./Icon";
+import { useProgress, type Progress } from "../lib/store";
+import { Icon, type IconId } from "./Icon";
 import { OraSays } from "./Ora";
 
 // Carte de la réserve : les 11 caissons, reliés par des câbles qui s'allument
@@ -19,8 +19,6 @@ export function MapView() {
   const cur = currentRoom(p);
   const power = totalPower(p);
   const due = new Set(dueNotions(p));
-  const nextStep = cur.steps.find((s) => !p.steps[stepKey(cur.id, s.id)]);
-  const resumeAt = nextStep ? Math.min(nextStep.blocks.length, p.lessons?.[stepKey(cur.id, nextStep.id)] ?? 0) : 0;
   const height = ROOMS.length * ROW + 40;
   const awake = roomsDoneCount(p);
 
@@ -41,16 +39,14 @@ export function MapView() {
           <div className="h2" style={{ margin: "2px 0 4px", fontSize: 19, whiteSpace: "nowrap" }}>Équipe réveillée {power}&nbsp;%</div>
           <div className="small muted">{awake} / {ROOMS.length} membres de l'équipe réveillés</div>
         </div>
+        <button className="icon-btn" style={{ alignSelf: "flex-start" }} onClick={() => { sfx("tap"); go("equipe"); }} aria-label="Ton équipe">
+          <Icon name="team" size={20} />
+        </button>
       </div>
 
       <div style={{ margin: "16px 0" }}><OraSays compact md={greet} mood={due.size ? "alert" : "happy"} /></div>
 
-      {nextStep && roomUnlocked(p, cur) && (
-        <motion.button className="btn block" style={{ ["--hue" as string]: cur.hue, marginBottom: 12 }} whileTap={{ scale: 0.97 }}
-          onClick={() => { sfx("open"); go(`caisson/${cur.id}/${nextStep.id}`); }}>
-          <Icon name="play" size={18} /> {resumeAt > 1 ? `Reprendre · ${cur.code} · ${nextStep.title} · ${Math.round((resumeAt / nextStep.blocks.length) * 100)} %` : `Continuer · ${cur.code} · ${nextStep.title}`}
-        </motion.button>
-      )}
+      <QuartPanel />
 
       <div style={{ position: "relative", height, marginTop: 8 }}>
         <Cables p={p} />
@@ -74,6 +70,55 @@ export function MapView() {
               }} />
           );
         })}
+      </div>
+    </div>
+  );
+}
+
+// ---------- Le quart du jour : quoi faire maintenant, dans l'ordre, avec la durée estimée ----------
+interface QuartAction { icon: IconId; label: string; detail: string; minutes: number; go: string; primary?: boolean }
+
+export function quartActions(p: Progress): QuartAction[] {
+  const out: QuartAction[] = [];
+  const due = dueNotions(p).length;
+  const cur = currentRoom(p);
+  if (due > 0) out.push({ icon: "thermo", label: `Refroidir ${due} notion${due > 1 ? "s" : ""}`, detail: "Maintenance : révision espacée", minutes: Math.min(10, 2 + due), go: "maintenance" });
+  if (roomUnlocked(p, cur) && roomReady(cur)) {
+    const next = cur.steps.find((s) => !p.steps[stepKey(cur.id, s.id)]);
+    if (next) {
+      const at = Math.min(next.blocks.length, p.lessons?.[stepKey(cur.id, next.id)] ?? 0);
+      out.push({ icon: "play", label: at > 1 ? `Reprendre : ${next.title}` : `Continuer : ${next.title}`, detail: `${cur.code} · ${at > 1 ? `${Math.round((at / next.blocks.length) * 100)} % fait` : next.kicker}`, minutes: Math.max(5, Math.round(next.blocks.length * 1.5)), go: `caisson/${cur.id}/${next.id}` });
+    } else if (cur.incident && !p.incidents[cur.id]) {
+      out.push({ icon: "siren", label: `Réparer la panne : ${cur.incident.title}`, detail: cur.code, minutes: 5, go: `panne/${cur.id}` });
+    }
+    if (cur.delivery && !p.deliveries[cur.id] && cur.steps.every((s) => p.steps[stepKey(cur.id, s.id)])) {
+      out.push({ icon: "rocket", label: `Vérifier ta livraison ${cur.version}`, detail: cur.delivery.title, minutes: 5, go: `caisson/${cur.id}` });
+    }
+  }
+  if (out.length) out[due > 0 && out.length > 1 ? 1 : 0].primary = true;
+  return out.slice(0, 3);
+}
+
+function QuartPanel() {
+  const p = useProgress();
+  const actions = quartActions(p);
+  if (!actions.length) return null;
+  const total = actions.reduce((a, x) => a + x.minutes, 0);
+  return (
+    <div className="panel" style={{ marginBottom: 12, borderColor: "rgba(59,232,255,.3)" }}>
+      <div className="row"><span className="panel-title grow" style={{ margin: 0 }}><Icon name="clock" size={16} /> Ton quart du jour</span><span className="mono small" style={{ color: "var(--cyan)" }}>environ {total} min</span></div>
+      <div className="stack" style={{ marginTop: 10 }}>
+        {actions.map((a, i) => (
+          <motion.button key={a.go + i} className={a.primary ? "btn block" : "choice"} whileTap={{ scale: 0.97 }} onClick={() => { sfx("open"); go(a.go); }}
+            style={a.primary ? { justifyContent: "flex-start", textAlign: "left" } : { alignItems: "center" }}>
+            <Icon name={a.icon} size={18} />
+            <span className="grow" style={{ minWidth: 0 }}>
+              <b style={{ display: "block", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{a.label}</b>
+              <span className="small" style={{ opacity: 0.8 }}>{a.detail}</span>
+            </span>
+            <span className="mono small">{a.minutes} min</span>
+          </motion.button>
+        ))}
       </div>
     </div>
   );

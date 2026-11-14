@@ -28,16 +28,18 @@ export type Exercise =
   | { kind: "wiring"; q: string; pairs: { l: string; r: string }[]; why: string }
   | { kind: "feynman"; q: string; model: string; criteria: string[] };
 
+// Simulateurs de FORMA-8 (aucun simulateur de FORMA-7 n'est repris).
 export type WidgetId =
-  | "NextWord"
-  | "CoreCompare"
-  | "ContextRam"
-  | "PromptLab"
-  | "ProjectSim"
-  | "SkillAnatomy"
-  | "PatchBay"
-  | "AgentLoop"
-  | "SkillWorkshop";
+  | "GitBranches"
+  | "RequestTrip"
+  | "PipelineLights"
+  | "TokenBuilder"
+  | "CostCalc"
+  | "ContextView"
+  | "SkillToolbox"
+  | "McpPlugs"
+  | "AgentCycle"
+  | "ProductLab";
 
 export type Block =
   | { type: "text"; md: string }
@@ -47,7 +49,20 @@ export type Block =
   | { type: "example"; title: string; before?: { label: string; md: string }; after: { label: string; md: string }; note?: string }
   | { type: "callout"; tone: "info" | "warn" | "volatile" | "ora"; md: string }
   | { type: "exercise"; ex: Exercise }
-  | { type: "recap"; points: string[] };
+  | { type: "recap"; points: string[] }
+  // ----- Blocs propres à FORMA-8 -----
+  /** Ordre de mission à copier dans Claude Code, puis points à vérifier dans sa livraison. */
+  | { type: "mission"; title: string; goal: string; prompt: string; verify: string[] }
+  /** Atelier des consignes : le joueur rédige une consigne pour une situation, Claude la note. */
+  | { type: "consigne"; id: string; situation: string; expected: string[] }
+  /** Panne à diagnostiquer : le joueur rédige un rapport de bug, Claude le note. */
+  | { type: "bugreport"; id: string; symptom: string; context: string; expected: string[] }
+  /** Lecture d'une modification de code (« diff ») : lignes ajoutées, retirées ou inchangées. */
+  | { type: "diff"; title: string; file: string; lines: { kind: "add" | "del" | "ctx"; t: string }[]; note?: string }
+  /** Procédure pas à pas (manipulation dans Safari) : étapes à cocher, ce qu'on doit voir, aide si bloqué. */
+  | { type: "procedure"; id: string; title: string; intro?: string; steps: { do: string; see?: string; help?: string }[] }
+  /** Source officielle citée, avec sa date de vérification (AAAA-MM-JJ). */
+  | { type: "source"; title: string; url: string; checked: string; note?: string };
 
 export interface Step {
   id: string;
@@ -88,6 +103,34 @@ export interface Room {
   /** Panne de fin de caisson. */
   incident?: Incident;
   project?: Project;
+  /** Livraison vérifiée : nouvelle version du produit fil rouge. */
+  delivery?: Delivery;
+  /** Fichier du produit qui incarne ce membre de l'équipe (fiche de l'équipe). */
+  teamFile?: TeamFile;
+}
+
+/** Contrôle d'une livraison, vérifié sur GitHub dans le dépôt du produit (ou coché à la main). */
+export type DeliveryCheck =
+  | { id: string; kind: "manual"; label: string }
+  | { id: string; kind: "file"; label: string; path: string }
+  | { id: string; kind: "commits"; label: string; min: number }
+  | { id: string; kind: "pullsMerged"; label: string; min: number }
+  | { id: string; kind: "workflow"; label: string; file?: string }
+  | { id: string; kind: "pages"; label: string };
+
+export interface Delivery {
+  title: string;
+  goal: string;
+  steps: string[];
+  checks: DeliveryCheck[];
+}
+
+export interface TeamFile {
+  /** Ce que le joueur doit voir dans son dépôt (ex. « Le fichier CLAUDE.md »). */
+  label: string;
+  /** Chemin vérifié dans le dépôt du produit ; « commits » pour l'historique. */
+  path: string;
+  role: string;
 }
 
 export interface Project {
