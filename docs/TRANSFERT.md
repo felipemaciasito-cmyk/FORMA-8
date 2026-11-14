@@ -476,6 +476,11 @@ Le plan détaillé de chaque caisson (protocoles, notions, simulateurs, pannes, 
 - Visuel : 4 substitutions validées, plus l'icône « 8 » et les tuiles des caissons (validées le 14/11/2026).
 - Contenu : d'abord le plan (`PROGRAMME.md`, validé), puis l'écriture caisson par caisson.
   Aucun contenu de FORMA-7 (décision du 14/11/2026).
+- Étude de cas FORMA-7 (décision du 14/11/2026, après vérification du caisson 01) : citer **mot pour mot** des faits
+  de l'historique de FORMA-7 (messages de commit, dates, nombre de fichiers, courts extraits d'un commit) est permis,
+  comme étude de cas de son propre projet. Les leçons, fiches, exercices, simulateurs et illustrations de FORMA-7
+  restent interdits. Contrôle fait au caisson 01 : aucune suite de 5 mots du texte pédagogique n'est commune avec
+  FORMA-7, en dehors de ces citations et de tournures courantes.
 
 ### 4.2 Pistes écartées, et pourquoi
 - **Traduire intégralement les cours Anthropic Academy** : droits d'auteur, et ces cours demandent une connexion.
