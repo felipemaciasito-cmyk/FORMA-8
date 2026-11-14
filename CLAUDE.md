@@ -33,6 +33,8 @@ Lui répondre en français, en le tutoyant, simplement, en signalant toute incer
    neuf à partir de nouvelles sources. Seules la couche visuelle et la mécanique de jeu viennent de FORMA-7.
    Le projet FORMA-7 (historique, bugs, choix) peut servir d'étude de cas. Le plan validé du contenu est dans
    `docs/PROGRAMME.md`.
+   Illustrations : uniquement celles de `src/components/Illustrations.tsx` (jamais le composant `Art` de FORMA-7).
+   Chaque caisson doit passer le banc d'essai de bout en bout (`tests/e2e/caisson00.spec.ts` en est le modèle).
 
 ## Méthode de travail
 

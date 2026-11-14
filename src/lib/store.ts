@@ -1,6 +1,6 @@
 import { useSyncExternalStore } from "react";
 import { get, set } from "idb-keyval";
-import { withTotals } from "./merge";
+import { mergeProgress, withTotals } from "./merge";
 
 // ---------------------------------------------------------------
 // État persistant de FORMA-8 (stocké sur l'appareil, IndexedDB),
@@ -144,11 +144,23 @@ function scheduleSave() {
   window.clearTimeout(saveTimer);
   saveTimer = window.setTimeout(saveNow, 250);
 }
-// Enregistrement immédiat quand l'appli passe en arrière-plan, se ferme ou se recharge :
-// sans cela, une saisie faite dans le dernier quart de seconde serait perdue.
+// Quand l'appli passe en arrière-plan, se ferme ou se recharge : écriture immédiate, plus une
+// copie de secours SYNCHRONE (localStorage). L'écriture en base locale (IndexedDB) est
+// asynchrone et peut être interrompue par la fermeture ; la copie de secours, elle, est
+// garantie, puis fusionnée sans perte au démarrage suivant (voir initStore).
+const BACKUP = "forma8:progress-secours";
+function flush() {
+  if (!state.ready) return;
+  try { localStorage.setItem(BACKUP, JSON.stringify(state.progress)); } catch { /* stockage indisponible */ }
+  pending = true;
+  saveNow();
+}
 if (typeof window !== "undefined") {
-  window.addEventListener("pagehide", saveNow);
-  document.addEventListener("visibilitychange", () => { if (document.visibilityState === "hidden") saveNow(); });
+  window.addEventListener("pagehide", flush);
+  document.addEventListener("visibilitychange", () => { if (document.visibilityState === "hidden") flush(); });
+}
+function readBackup(): Partial<Progress> | undefined {
+  try { const raw = localStorage.getItem(BACKUP); return raw ? (JSON.parse(raw) as Partial<Progress>) : undefined; } catch { return undefined; }
 }
 
 const nowIso = () => new Date().toISOString();
@@ -184,7 +196,14 @@ export async function initStore() {
     const [p, s] = await Promise.all([get<Progress>(KEY_P), get<Settings>(KEY_S)]);
     const settings = { ...DEFAULT_SETTINGS, ...(s ?? {}) };
     if (!settings.deviceId) settings.deviceId = newId();
-    state = { progress: normalizeProgress(p, settings.deviceId), settings, ready: true };
+    let progress = normalizeProgress(p, settings.deviceId);
+    const backup = readBackup();
+    if (backup) {
+      // Fusion sans perte avec la copie de secours écrite à la dernière fermeture.
+      progress = mergeProgress(progress, normalizeProgress(backup, settings.deviceId));
+      try { localStorage.removeItem(BACKUP); } catch { /* stockage indisponible */ }
+    }
+    state = { progress, settings, ready: true };
     scheduleSave();
   } catch {
     state = { ...state, settings: { ...state.settings, deviceId: state.settings.deviceId || newId() }, ready: true };

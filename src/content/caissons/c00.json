@@ -1,17 +1,877 @@
 {
-  "id": "c00",
-  "index": 0,
-  "code": "CAISSON 00",
-  "member": "ORA",
-  "name": "Les bases du logiciel, sans coder",
-  "version": "v0.0",
-  "tagline": "Comprendre ce qu'est une application avant d'en construire une, et choisir ton produit.",
-  "hue": 190,
-  "requires": [],
-  "steps": [],
-  "teamFile": {
-    "label": "La page d'accueil (index.html)",
-    "path": "index.html",
-    "role": "Guide de l'équipe : présente ton produit au monde."
+ "id": "c00",
+ "index": 0,
+ "code": "CAISSON 00",
+ "member": "ORA",
+ "name": "Les bases du logiciel, sans coder",
+ "version": "v0.0",
+ "tagline": "Comprendre ce qu'est une application avant d'en construire une, et choisir ton produit.",
+ "hue": 190,
+ "requires": [],
+ "steps": [
+  {
+   "id": "p1",
+   "title": "Ce qu'est une application",
+   "kicker": "Avant de construire, on regarde comment c'est fait.",
+   "introduces": [
+    "fichier",
+    "application",
+    "navigateur",
+    "serveur",
+    "site-web"
+   ],
+   "uses": [],
+   "blocks": [
+    {
+     "type": "callout",
+     "tone": "ora",
+     "md": "Bienvenue dans ton premier **protocole de réveil**. Avant de diriger une équipe qui construit des applications, il faut savoir ce qu'est une application, et d'où elle vient quand elle s'affiche sur ton écran."
+    },
+    {
+     "type": "definition",
+     "notion": "fichier"
+    },
+    {
+     "type": "definition",
+     "notion": "application"
+    },
+    {
+     "type": "text",
+     "md": "Sur ton iPhone, tu utilises des [[application|applications]] tous les jours. Certaines s'installent depuis l'App Store ; d'autres s'ouvrent simplement dans Safari, sans rien installer. C'est le cas de FORMA-8."
+    },
+    {
+     "type": "definition",
+     "notion": "navigateur"
+    },
+    {
+     "type": "definition",
+     "notion": "serveur"
+    },
+    {
+     "type": "analogy",
+     "title": "Le web, c'est comme faire ses courses",
+     "md": "Ton [[navigateur]] est le client qui passe commande. Le [[serveur]] est un magasin ouvert jour et nuit, qui garde les produits en rayon. Quand tu tapes une adresse, tu passes commande ; le magasin te livre les [[fichier|fichiers]] de la page, et ton navigateur les déballe sous tes yeux.",
+     "art": "web-magasin"
+    },
+    {
+     "type": "definition",
+     "notion": "site-web"
+    },
+    {
+     "type": "example",
+     "title": "Ce qui se passe quand tu ouvres une page",
+     "after": {
+      "label": "Ce qui se passe vraiment",
+      "md": "1. Safari demande la page au [[serveur]].\n2. Le serveur renvoie les [[fichier|fichiers]] de la page.\n3. Safari les assemble et affiche le [[site-web|site]]."
+     },
+     "before": {
+      "label": "Ce que tu vois",
+      "md": "Tu touches un lien, la page s'affiche en une seconde."
+     },
+     "note": "Tout ce trajet se fait en une fraction de seconde, des milliers de fois par jour."
+    },
+    {
+     "type": "exercise",
+     "ex": {
+      "kind": "qcm",
+      "q": "Quand tu ouvres un [[site-web]] dans Safari, où sont rangés au départ les fichiers de la page ?",
+      "options": [
+       {
+        "t": "Sur un serveur, un ordinateur toujours allumé",
+        "ok": true,
+        "why": "Oui : le [[serveur]] garde les fichiers et les envoie à chaque [[navigateur]] qui les demande."
+       },
+       {
+        "t": "Dans ton iPhone, depuis toujours",
+        "ok": false,
+        "why": "Non : ton iPhone les reçoit au moment où tu ouvres la page. Avant, ils sont sur un [[serveur]]."
+       },
+       {
+        "t": "Dans l'App Store",
+        "ok": false,
+        "why": "L'App Store distribue les applications à installer. Un site, lui, est servi par un [[serveur]] au moment où tu l'ouvres."
+       }
+      ]
+     }
+    },
+    {
+     "type": "exercise",
+     "ex": {
+      "kind": "wiring",
+      "q": "Relie chaque élément à son rôle.",
+      "why": "Le [[navigateur]] demande et affiche, le [[serveur]] garde et envoie, le [[fichier]] contient l'information, le [[site-web]] rassemble des pages à une adresse.",
+      "pairs": [
+       {
+        "l": "Navigateur",
+        "r": "Demande et affiche les pages"
+       },
+       {
+        "l": "Serveur",
+        "r": "Garde les fichiers et répond"
+       },
+       {
+        "l": "Fichier",
+        "r": "Un morceau d'information nommé"
+       },
+       {
+        "l": "Site web",
+        "r": "Des pages réunies à une adresse"
+       }
+      ]
+     }
+    },
+    {
+     "type": "source",
+     "title": "Comment fonctionne le Web (MDN, en français)",
+     "url": "https://developer.mozilla.org/fr/docs/Learn_web_development/Getting_started/Web_standards/How_the_web_works",
+     "checked": "2026-11-14",
+     "note": "La référence des développeurs web, avec l'analogie du magasin."
+    },
+    {
+     "type": "recap",
+     "points": [
+      "Une [[application]] est un programme qui rend un service.",
+      "Le [[navigateur]] demande les pages ; le [[serveur]] garde les [[fichier|fichiers]] et les envoie.",
+      "Un [[site-web]] est un ensemble de pages, à une adresse."
+     ]
+    }
+   ]
+  },
+  {
+   "id": "p2",
+   "title": "Les trois langues d'une page",
+   "kicker": "Une page web, c'est trois sortes de texte qui travaillent ensemble.",
+   "introduces": [
+    "code-source",
+    "html",
+    "css",
+    "javascript"
+   ],
+   "uses": [
+    "site-web",
+    "navigateur"
+   ],
+   "blocks": [
+    {
+     "type": "text",
+     "md": "Les [[fichier|fichiers]] d'un [[site-web]] ne sont pas des images de pages : ce sont des textes, écrits dans des langues que le [[navigateur]] sait lire."
+    },
+    {
+     "type": "definition",
+     "notion": "code-source"
+    },
+    {
+     "type": "definition",
+     "notion": "html"
+    },
+    {
+     "type": "definition",
+     "notion": "css"
+    },
+    {
+     "type": "definition",
+     "notion": "javascript"
+    },
+    {
+     "type": "analogy",
+     "title": "Une page, c'est une maison",
+     "md": "Le [[html]] construit les murs et les pièces : la structure. Le [[css]] peint et décore : l'apparence. Le [[javascript]] installe l'électricité : quand tu appuies sur l'interrupteur, quelque chose se passe.",
+     "art": "trois-couches"
+    },
+    {
+     "type": "diff",
+     "title": "Ton premier code lu",
+     "file": "index.html",
+     "lines": [
+      {
+       "kind": "ctx",
+       "t": "<body>"
+      },
+      {
+       "kind": "del",
+       "t": "  <h1>Bienvenue</h1>"
+      },
+      {
+       "kind": "add",
+       "t": "  <h1>Carnet de chantier</h1>"
+      },
+      {
+       "kind": "ctx",
+       "t": "  <p>Suis tes chantiers depuis ton téléphone.</p>"
+      },
+      {
+       "kind": "ctx",
+       "t": "</body>"
+      }
+     ],
+     "note": "Ceci est un **diff** : les lignes en rouge sont retirées, les lignes en vert sont ajoutées, les autres ne changent pas. Ici, seul le grand titre change ; c'est du [[html]]. Tu n'auras pas à écrire ce code, mais tu sauras le lire."
+    },
+    {
+     "type": "interactive",
+     "widget": "RequestTrip",
+     "caption": "Suis le trajet d'une demande, du navigateur au serveur et retour. Commence par « Site statique » : c'est le cas de ta future page."
+    },
+    {
+     "type": "exercise",
+     "ex": {
+      "kind": "cloze",
+      "q": "Complète la phrase.",
+      "text": "Le {{HTML}} donne la structure de la page, le {{CSS}} son apparence, et le {{JavaScript}} la fait réagir quand tu touches un bouton.",
+      "distractors": [
+       "serveur",
+       "navigateur"
+      ],
+      "why": "Trois langues, trois rôles : structure ([[html]]), apparence ([[css]]), comportement ([[javascript]])."
+     }
+    },
+    {
+     "type": "exercise",
+     "ex": {
+      "kind": "order",
+      "q": "Remets dans l'ordre le trajet d'une page.",
+      "items": [
+       "Tu tapes l'adresse dans Safari",
+       "Safari envoie une demande au serveur",
+       "Le serveur renvoie les fichiers",
+       "Safari assemble les fichiers et affiche la page"
+      ],
+      "why": "Demande, réponse, affichage : c'est le cycle de chaque page que tu ouvres."
+     }
+    },
+    {
+     "type": "source",
+     "title": "HTML (glossaire MDN, en français)",
+     "url": "https://developer.mozilla.org/fr/docs/Glossary/HTML",
+     "checked": "2026-11-14"
+    },
+    {
+     "type": "source",
+     "title": "CSS (glossaire MDN, en français)",
+     "url": "https://developer.mozilla.org/fr/docs/Glossary/CSS",
+     "checked": "2026-11-14"
+    },
+    {
+     "type": "source",
+     "title": "JavaScript (glossaire MDN, en français)",
+     "url": "https://developer.mozilla.org/fr/docs/Glossary/JavaScript",
+     "checked": "2026-11-14"
+    },
+    {
+     "type": "recap",
+     "points": [
+      "Le [[code-source]] est le texte qui dit à l'ordinateur quoi faire.",
+      "[[html]] : la structure ; [[css]] : l'apparence ; [[javascript]] : le comportement.",
+      "Un diff montre ce qui change : rouge retiré, vert ajouté."
+     ]
+    }
+   ]
+  },
+  {
+   "id": "p3",
+   "title": "Créer avec une IA",
+   "kicker": "Tu ne vas pas écrire ce code toi-même : tu vas le faire écrire.",
+   "introduces": [
+    "ia",
+    "modele-de-langage",
+    "prompt",
+    "agent",
+    "claude-code",
+    "vibe-coding"
+   ],
+   "uses": [
+    "code-source"
+   ],
+   "blocks": [
+    {
+     "type": "callout",
+     "tone": "ora",
+     "md": "Bonne nouvelle : tu n'as pas besoin d'apprendre à écrire ces trois langues. Ton équipe va le faire pour toi. Mais pour bien la diriger, tu dois comprendre **comment elle travaille**."
+    },
+    {
+     "type": "definition",
+     "notion": "ia"
+    },
+    {
+     "type": "definition",
+     "notion": "modele-de-langage"
+    },
+    {
+     "type": "definition",
+     "notion": "prompt"
+    },
+    {
+     "type": "text",
+     "md": "Un [[modele-de-langage]] seul ne fait que répondre avec du texte. Pour créer une application, il faut davantage : lire des [[fichier|fichiers]], les modifier, vérifier que tout marche. C'est le rôle d'un agent."
+    },
+    {
+     "type": "definition",
+     "notion": "agent"
+    },
+    {
+     "type": "definition",
+     "notion": "claude-code"
+    },
+    {
+     "type": "analogy",
+     "title": "Tu donnes le plan, l'agent fait le chantier",
+     "md": "Tu décris ce que tu veux. L'[[agent]] cherche les bons [[fichier|fichiers]], agit, puis vérifie le résultat. Si la vérification échoue, il recommence. À tout moment, tu peux l'interrompre pour préciser ta demande.",
+     "art": "chef-equipe"
+    },
+    {
+     "type": "interactive",
+     "widget": "AgentCycle",
+     "caption": "Une vraie tâche, étape par étape : regarde comment l'agent enchaîne les trois phases, et ce qu'il fait quand la vérification échoue."
+    },
+    {
+     "type": "definition",
+     "notion": "vibe-coding"
+    },
+    {
+     "type": "callout",
+     "tone": "info",
+     "md": "Le terme « vibe coding » s'est répandu début 2025. Le dictionnaire Collins l'a choisi comme **mot de l'année 2025** (annonce du 6 novembre 2025)."
+    },
+    {
+     "type": "example",
+     "title": "Une demande floue, une demande précise",
+     "after": {
+      "label": "Demande précise",
+      "md": "« Crée une page d'accueil pour mon produit Carnet de chantier : un titre, une phrase qui dit pour qui c'est, et un bouton Contact. Vérifie qu'elle s'affiche bien sur un écran de téléphone. »"
+     },
+     "before": {
+      "label": "Demande floue",
+      "md": "« Fais-moi un site. »"
+     },
+     "note": "Plus ton [[prompt]] est précis, plus le résultat ressemble à ce que tu veux. Tu t'entraîneras dans l'Atelier des consignes."
+    },
+    {
+     "type": "exercise",
+     "ex": {
+      "kind": "truefalse",
+      "q": "Vrai ou faux ?",
+      "items": [
+       {
+        "s": "[[claude-code]] peut lire et modifier les fichiers d'un projet.",
+        "ok": true,
+        "why": "Oui : c'est un [[agent]], il a des outils pour agir sur les fichiers."
+       },
+       {
+        "s": "Un [[modele-de-langage]] seul, sans outils, peut modifier tes fichiers.",
+        "ok": false,
+        "why": "Sans outils, il ne peut que répondre avec du texte. Ce sont les outils qui en font un agent."
+       },
+       {
+        "s": "Pendant que Claude Code travaille, tu peux l'interrompre pour le réorienter.",
+        "ok": true,
+        "why": "Oui : tu restes aux commandes, à chaque instant."
+       },
+       {
+        "s": "Faire du [[vibe-coding]], c'est ne jamais vérifier ce que l'IA produit.",
+        "ok": false,
+        "why": "Au contraire : tu décris, puis tu vérifies. C'est ce qui fait la différence entre un amateur et un expert."
+       }
+      ]
+     }
+    },
+    {
+     "type": "exercise",
+     "ex": {
+      "kind": "feynman",
+      "q": "Explique avec tes mots la différence entre un [[modele-de-langage]] et un [[agent]] comme [[claude-code]].",
+      "model": "Un modèle de langage lit un texte et écrit une réponse : il ne fait que produire du texte. Un agent comme Claude Code utilise un modèle de langage, mais il a en plus des outils : il peut lire et modifier des fichiers, lancer des vérifications, puis recommencer si le résultat n'est pas bon. Moi, je donne la demande et je contrôle le résultat.",
+      "criteria": [
+       "Le modèle de langage produit du texte (des réponses)",
+       "L'agent a des outils pour agir (lire, modifier, lancer)",
+       "L'agent vérifie son travail et recommence si besoin",
+       "C'est moi qui donne la demande et qui contrôle"
+      ]
+     }
+    },
+    {
+     "type": "source",
+     "title": "Comment fonctionne Claude Code (documentation officielle, en français)",
+     "url": "https://code.claude.com/docs/fr/how-claude-code-works",
+     "checked": "2026-11-14",
+     "note": "La boucle agentive : rassembler le contexte, agir, vérifier."
+    },
+    {
+     "type": "source",
+     "title": "« Vibe coding », mot de l'année 2025 du dictionnaire Collins (AFP, via Dawn)",
+     "url": "https://www.dawn.com/news/1953511",
+     "checked": "2026-11-14"
+    },
+    {
+     "type": "recap",
+     "points": [
+      "Un [[modele-de-langage]] écrit du texte, et donc du code.",
+      "Un [[agent]] agit avec des outils, puis vérifie, en boucle.",
+      "[[claude-code]] est l'agent qui construira ton produit, à partir de tes [[prompt|demandes]]."
+     ]
+    }
+   ]
+  },
+  {
+   "id": "p4",
+   "title": "Choisir ton produit",
+   "kicker": "Tout le parcours tourne autour d'une seule chose : ton produit.",
+   "introduces": [
+    "probleme-utilisateur",
+    "proposition-de-valeur",
+    "produit-minimum"
+   ],
+   "uses": [],
+   "blocks": [
+    {
+     "type": "callout",
+     "tone": "ora",
+     "md": "Chaque membre de l'équipe que tu réveilleras t'aidera à construire **le même produit**, version après version, jusqu'à son lancement public. Prends le temps de bien le choisir : tu vas vivre avec lui pendant des mois."
+    },
+    {
+     "type": "definition",
+     "notion": "probleme-utilisateur"
+    },
+    {
+     "type": "analogy",
+     "title": "La serrure avant la clé",
+     "md": "Un bon produit commence par la serrure (un [[probleme-utilisateur]] réel), pas par la clé. On cherche d'abord qui est bloqué, et par quoi ; la solution vient ensuite.",
+     "art": "serrure-cle"
+    },
+    {
+     "type": "definition",
+     "notion": "proposition-de-valeur"
+    },
+    {
+     "type": "example",
+     "title": "Préciser une idée",
+     "after": {
+      "label": "Proposition de valeur",
+      "md": "« Pour les parents pressés : trouver en 30 secondes un dîner avec ce qu'il reste dans le frigo. »"
+     },
+     "before": {
+      "label": "Idée de départ",
+      "md": "« Une appli de recettes. »"
+     },
+     "note": "La version précisée dit **pour qui**, **quel problème**, et **quelle promesse**. Des milliers d'applis de recettes existent ; celle-ci a une raison d'exister."
+    },
+    {
+     "type": "exercise",
+     "ex": {
+      "kind": "qcm",
+      "q": "Quelle [[proposition-de-valeur]] est la plus claire ?",
+      "options": [
+       {
+        "t": "« Pour les artisans : retrouve toutes les photos d'un chantier en deux touchers. »",
+        "ok": true,
+        "why": "Elle dit pour qui, quel problème, et quelle promesse mesurable."
+       },
+       {
+        "t": "« Une application moderne et innovante. »",
+        "ok": false,
+        "why": "Elle ne dit ni pour qui, ni quel problème elle résout."
+       },
+       {
+        "t": "« Un site avec beaucoup de fonctionnalités. »",
+        "ok": false,
+        "why": "Le nombre de fonctionnalités n'est pas une promesse : qui en a besoin, et pourquoi ?"
+       }
+      ]
+     }
+    },
+    {
+     "type": "definition",
+     "notion": "produit-minimum"
+    },
+    {
+     "type": "interactive",
+     "widget": "ProductLab",
+     "caption": "Note tes trois idées sur cinq critères, puis choisis ton produit. Tu pourras encore changer d'avis plus tard."
+    },
+    {
+     "type": "exercise",
+     "ex": {
+      "kind": "qcm",
+      "q": "Pour ce caisson, quel est ton [[produit-minimum]] ?",
+      "options": [
+       {
+        "t": "Une page en ligne qui présente ton produit",
+        "ok": true,
+        "why": "Oui : c'est la plus petite version utile, et tu pourras déjà la montrer."
+       },
+       {
+        "t": "L'application complète, avec des comptes",
+        "ok": false,
+        "why": "Ce sera pour bien plus tard : au caisson 07."
+       },
+       {
+        "t": "Un logo",
+        "ok": false,
+        "why": "Un logo ne rend aucun service : ce n'est pas encore un produit."
+       }
+      ]
+     }
+    },
+    {
+     "type": "exercise",
+     "ex": {
+      "kind": "feynman",
+      "q": "Présente ton produit en deux ou trois phrases : pour qui, quel [[probleme-utilisateur]], et ta [[proposition-de-valeur]].",
+      "model": "Mon produit s'adresse à [qui]. Leur problème : [ce qui les gêne, et à quelle fréquence]. Ma promesse : [ce que mon produit leur apporte, en une phrase concrète].",
+      "criteria": [
+       "Dit précisément pour qui",
+       "Décrit un problème réel et fréquent",
+       "Formule une promesse concrète"
+      ]
+     }
+    },
+    {
+     "type": "recap",
+     "points": [
+      "On part d'un [[probleme-utilisateur]] réel.",
+      "La [[proposition-de-valeur]] dit pour qui, et ce que tu promets.",
+      "On commence par un [[produit-minimum]], puis on améliore."
+     ]
+    }
+   ]
+  },
+  {
+   "id": "p5",
+   "title": "Ta première mise en ligne",
+   "kicker": "Aujourd'hui, ton produit existe sur internet.",
+   "introduces": [
+    "github",
+    "depot",
+    "pull-request",
+    "github-pages",
+    "adresse-web"
+   ],
+   "uses": [
+    "claude-code",
+    "prompt"
+   ],
+   "blocks": [
+    {
+     "type": "callout",
+     "tone": "ora",
+     "md": "Dernier protocole du caisson. Tu vas **publier la page de présentation de ton produit**, avec ton premier ordre de mission à [[claude-code]]. Prévois deux quarts : un pour préparer, un pour publier."
+    },
+    {
+     "type": "definition",
+     "notion": "github"
+    },
+    {
+     "type": "definition",
+     "notion": "depot"
+    },
+    {
+     "type": "procedure",
+     "id": "c00-creer-depot",
+     "title": "Créer le dépôt de ton produit",
+     "intro": "Dans Safari. GitHub s'affiche souvent en anglais : les libellés exacts sont en **gras**, avec leur traduction.",
+     "steps": [
+      {
+       "do": "Ouvre **github.com** et connecte-toi (**Sign in**), ou crée un compte gratuit (**Sign up**).",
+       "see": "Ta page d'accueil GitHub, avec ta photo de profil en haut à droite.",
+       "help": "Mot de passe oublié : touche **Forgot password?**. GitHub peut envoyer un code de vérification par mail."
+      },
+      {
+       "do": "Ouvre l'adresse **github.com/new** (ou touche **+** en haut, puis **New repository**).",
+       "see": "Le formulaire **Create a new repository** (créer un dépôt)."
+      },
+      {
+       "do": "Dans **Repository name** (nom du dépôt), écris le nom de ton produit en minuscules, avec des tirets : par exemple `carnet-chantier`.",
+       "see": "Une coche verte : le nom est libre.",
+       "help": "Pas d'espaces ni d'accents : remplace-les par des tirets."
+      },
+      {
+       "do": "Choisis **Public**.",
+       "see": "« Public » est sélectionné.",
+       "help": "La publication gratuite avec GitHub Pages demande un dépôt public. Ne mets jamais de mot de passe ni de clé dans un dépôt public."
+      },
+      {
+       "do": "Active **Add README** (ajouter un fichier de présentation), puis touche **Create repository** (créer le dépôt).",
+       "see": "La page de ton dépôt, avec un fichier README.md.",
+       "help": "Le README rend le dépôt non vide : Claude Code en a besoin pour démarrer."
+      },
+      {
+       "do": "Dans FORMA-8, ouvre l'écran **Ton équipe** (bouton en haut de la carte) et indique le **nom exact** de ton dépôt.",
+       "see": "L'adresse attendue de ta page s'affiche sous le formulaire."
+      }
+     ]
+    },
+    {
+     "type": "definition",
+     "notion": "pull-request"
+    },
+    {
+     "type": "procedure",
+     "id": "c00-ouvrir-claude-code",
+     "title": "Ouvrir une séance Claude Code",
+     "intro": "Toujours dans Safari, connecté à ton compte Claude.",
+     "steps": [
+      {
+       "do": "Ouvre **claude.ai/code**.",
+       "see": "Une zone de saisie pour décrire une tâche."
+      },
+      {
+       "do": "La première fois, suis l'invitation à connecter GitHub et autorise l'accès.",
+       "see": "Tu reviens sur claude.ai/code.",
+       "help": "Ton dépôt est public : l'installation de l'application Claude sur GitHub n'est pas obligatoire. Si elle t'est proposée, tu peux toucher **Ignorer**."
+      },
+      {
+       "do": "Sous la zone de saisie, touche le sélecteur de dépôt et choisis le dépôt de ton produit.",
+       "see": "Le nom de ton dépôt apparaît sous la zone de saisie.",
+       "help": "Ton dépôt n'apparaît pas ? Recharge la page ; vérifie qu'il est bien public et qu'il contient le fichier README."
+      },
+      {
+       "do": "Choisis le mode **Auto** ou **Accept edits** (accepter les modifications).",
+       "help": "Tu découvriras les modes en détail au caisson 02. Le mode **Plan** fonctionne aussi : Claude te présente d'abord un plan à approuver."
+      }
+     ]
+    },
+    {
+     "type": "mission",
+     "title": "Ta page de présentation",
+     "goal": "Ton premier ordre de mission : Claude Code crée la page de présentation de ton produit, puis une [[pull-request]]. Copie-le, colle-le dans la séance, envoie.",
+     "prompt": "Crée la page d'accueil de mon produit dans un fichier index.html, à la racine du dépôt.\n\nMon produit : {produit}.\nPour qui, pour quoi : {phrase}.\n\nLa page doit contenir : le nom du produit en grand titre, la phrase « pour qui, pour quoi », trois avantages courts, et un bouton « Me contacter » qui ouvre un mail.\n\nContraintes : une seule page, en français, lisible sur un écran d'iPhone, sans service extérieur ni publicité. Ne crée pas d'autres fichiers qu'index.html (et une feuille de style si nécessaire).\n\nQuand c'est fini, explique-moi en trois phrases simples ce que tu as fait, puis crée une pull request.",
+     "verify": [
+      "Le fichier index.html apparaît dans la carte **Changes** (modifications) de la séance",
+      "Le grand titre est bien le nom de ton produit",
+      "Une [[pull-request]] a été créée"
+     ]
+    },
+    {
+     "type": "procedure",
+     "id": "c00-fusionner",
+     "title": "Accepter le travail de Claude",
+     "steps": [
+      {
+       "do": "Dans la séance, si Claude ne l'a pas déjà fait, touche **Create PR** sur la carte **Changes**.",
+       "see": "Un lien vers la pull request sur GitHub."
+      },
+      {
+       "do": "Ouvre la pull request sur GitHub, puis l'onglet **Files changed** (fichiers modifiés) : c'est un diff, comme au protocole 2.",
+       "see": "Des lignes vertes : le contenu de ta page."
+      },
+      {
+       "do": "Touche **Merge pull request** (fusionner), puis **Confirm merge** (confirmer).",
+       "see": "Le bandeau violet **Merged** (fusionnée).",
+       "help": "Bouton grisé ? Attends quelques secondes, GitHub vérifie que tout est prêt. Tu peux aussi recharger la page."
+      }
+     ]
+    },
+    {
+     "type": "definition",
+     "notion": "github-pages"
+    },
+    {
+     "type": "definition",
+     "notion": "adresse-web"
+    },
+    {
+     "type": "analogy",
+     "title": "Ta vitrine sur internet",
+     "md": "[[github-pages]] pose ta page dans une vitrine, à une [[adresse-web]] que tout le monde peut ouvrir. Chaque fois que tu fusionneras une nouvelle version, la vitrine se mettra à jour.",
+     "art": "vitrine"
+    },
+    {
+     "type": "procedure",
+     "id": "c00-activer-pages",
+     "title": "Publier ta page avec GitHub Pages",
+     "steps": [
+      {
+       "do": "Dans ton dépôt sur GitHub, ouvre **Settings** (paramètres).",
+       "see": "La page des réglages du dépôt.",
+       "help": "Sur iPhone, l'onglet **Settings** peut être caché derrière le bouton **…** à droite des onglets."
+      },
+      {
+       "do": "Dans le menu, touche **Pages** (rubrique « Code and automation »).",
+       "see": "La section **Build and deployment** (construction et déploiement)."
+      },
+      {
+       "do": "Sous **Source**, choisis **Deploy from a branch** (déployer à partir d'une branche).",
+       "help": "L'autre choix, **GitHub Actions**, sert aux sites qui doivent être construits avant d'être publiés : tu l'utiliseras au caisson 06."
+      },
+      {
+       "do": "Sous **Branch**, choisis **main** et le dossier **/ (root)**, puis touche **Save** (enregistrer).",
+       "see": "Un message indique que la publication est en cours."
+      },
+      {
+       "do": "Patiente quelques minutes (jusqu'à 10), puis recharge la page : l'adresse de ton site s'affiche en haut, après **Your site is live at**.",
+       "help": "Rien après 10 minutes ? Vérifie que la pull request est bien fusionnée et que le fichier index.html est à la racine du dépôt. La panne de ce caisson t'aidera aussi."
+      },
+      {
+       "do": "Ouvre cette adresse sur ton iPhone.",
+       "see": "Ta page, en ligne, visible par tout le monde."
+      }
+     ]
+    },
+    {
+     "type": "callout",
+     "tone": "volatile",
+     "md": "Les menus de GitHub et de Claude Code évoluent souvent. Si un libellé a changé, cherche le mot le plus proche, ou utilise **Demander à ORA** (en haut de l'écran)."
+    },
+    {
+     "type": "exercise",
+     "ex": {
+      "kind": "order",
+      "q": "Remets dans l'ordre ta première mise en ligne.",
+      "items": [
+       "Créer le dépôt sur GitHub",
+       "Donner l'ordre de mission à Claude Code",
+       "Fusionner la pull request",
+       "Activer GitHub Pages",
+       "Ouvrir l'adresse de ta page"
+      ],
+      "why": "Le [[depot]] d'abord, puis le travail de [[claude-code]], ta validation (la fusion de la [[pull-request]]), et enfin la publication par [[github-pages]]."
+     }
+    },
+    {
+     "type": "exercise",
+     "ex": {
+      "kind": "qcm",
+      "q": "Pourquoi le dépôt de ton produit est-il public ?",
+      "options": [
+       {
+        "t": "Parce que GitHub Pages gratuit publie depuis un dépôt public",
+        "ok": true,
+        "why": "Oui. C'est aussi pour cela qu'on n'y met jamais de mot de passe ni de clé secrète."
+       },
+       {
+        "t": "Pour que n'importe qui puisse modifier ton code",
+        "ok": false,
+        "why": "Non : public veut dire visible, pas modifiable. Seul toi (et ceux que tu invites) peux le modifier."
+       },
+       {
+        "t": "Parce que Claude Code ne lit que les dépôts publics",
+        "ok": false,
+        "why": "Claude Code peut aussi travailler sur des dépôts privés, avec l'application Claude installée sur GitHub."
+       }
+      ]
+     }
+    },
+    {
+     "type": "source",
+     "title": "Démarrer avec Claude Code dans le cloud (documentation officielle, en français)",
+     "url": "https://code.claude.com/docs/fr/web-quickstart",
+     "checked": "2026-11-14",
+     "note": "Connexion à GitHub, choix du dépôt, modes, revue des changements et création de la pull request."
+    },
+    {
+     "type": "source",
+     "title": "Démarrage rapide pour GitHub Pages (documentation GitHub, en français)",
+     "url": "https://docs.github.com/fr/pages/quickstart",
+     "checked": "2026-11-14",
+     "note": "La publication peut prendre jusqu'à 10 minutes."
+    },
+    {
+     "type": "recap",
+     "points": [
+      "Le [[depot]] de ton produit vit sur [[github]], en public.",
+      "Claude Code propose son travail dans une [[pull-request]] ; tu la fusionnes.",
+      "[[github-pages]] publie ta page à son [[adresse-web]]."
+     ]
+    }
+   ]
   }
+ ],
+ "incident": {
+  "title": "Ma page ne s'affiche pas",
+  "brief": "Ta page devrait être en ligne, mais quelque chose cloche. Trouve la cause avant de griller tes trois fusibles.",
+  "scenarios": [
+   {
+    "alert": "En ouvrant l'adresse de ta page : « 404 — There isn't a GitHub Pages site here. »",
+    "q": "Quelle est la cause la plus probable ?",
+    "options": [
+     {
+      "t": "GitHub Pages n'est pas encore activé, ou la publication est en cours",
+      "ok": true,
+      "why": "C'est le cas le plus fréquent : vérifie **Settings › Pages**, puis patiente jusqu'à 10 minutes."
+     },
+     {
+      "t": "Safari est en panne",
+      "ok": false,
+      "why": "Le [[navigateur]] fonctionne : il affiche justement la réponse du [[serveur]], qui dit qu'il n'y a pas encore de site ici."
+     },
+     {
+      "t": "Claude Code a effacé ton compte",
+      "ok": false,
+      "why": "Claude Code ne travaille que dans ton [[depot]], sur des [[pull-request|pull requests]] que tu acceptes."
+     }
+    ]
+   },
+   {
+    "alert": "Ta page s'affiche, mais elle montre seulement le texte de ton fichier README.",
+    "q": "Que s'est-il passé ?",
+    "options": [
+     {
+      "t": "Le fichier index.html n'est pas à la racine du dépôt, ou il est mal nommé",
+      "ok": true,
+      "why": "Sans index.html à la racine, GitHub Pages affiche le README. Vérifie le nom exact : tout en minuscules, à la racine."
+     },
+     {
+      "t": "Le CSS est trop sombre",
+      "ok": false,
+      "why": "Le [[css]] change l'apparence, pas le contenu affiché."
+     },
+     {
+      "t": "Ton iPhone n'a plus de batterie",
+      "ok": false,
+      "why": "Une page qui s'affiche prouve que l'iPhone fonctionne : le problème vient des fichiers publiés."
+     }
+    ]
+   },
+   {
+    "alert": "Claude Code a modifié ta page, mais rien ne change en ligne.",
+    "q": "Que vérifies-tu en premier ?",
+    "options": [
+     {
+      "t": "Que la pull request a bien été fusionnée",
+      "ok": true,
+      "why": "Tant qu'elle n'est pas fusionnée, le travail de Claude reste à part. Ensuite, la publication peut prendre quelques minutes ; recharge la page."
+     },
+     {
+      "t": "Que le JavaScript est activé",
+      "ok": false,
+      "why": "Le [[javascript]] gère le comportement de la page, pas sa publication."
+     },
+     {
+      "t": "Qu'il faut racheter un nom de domaine",
+      "ok": false,
+      "why": "Ta page vit à l'[[adresse-web]] fournie gratuitement par [[github-pages]] : aucun achat n'est nécessaire."
+     }
+    ]
+   }
+  ]
+ },
+ "delivery": {
+  "title": "Ta page de présentation en ligne",
+  "goal": "Ton produit a sa première page publique, à son adresse : c'est la version 0.0.",
+  "steps": [
+   "Termine les quatre procédures du protocole 5.",
+   "Reviens ici et touche **Vérifier ma livraison**."
+  ],
+  "checks": [
+   {
+    "id": "page-index",
+    "kind": "file",
+    "label": "Le fichier **index.html** est dans ton dépôt",
+    "path": "index.html"
+   },
+   {
+    "id": "en-ligne",
+    "kind": "pages",
+    "label": "Ta page répond à son adresse publique"
+   },
+   {
+    "id": "vue-iphone",
+    "kind": "manual",
+    "label": "J'ai ouvert ma page sur mon iPhone, et elle s'affiche bien"
+   }
+  ]
+ },
+ "teamFile": {
+  "label": "La page d'accueil (index.html)",
+  "path": "index.html",
+  "role": "Guide de l'équipe : elle présente ton produit au monde."
+ }
 }

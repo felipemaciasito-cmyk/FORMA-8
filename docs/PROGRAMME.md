@@ -44,7 +44,7 @@ Légende des livraisons : **[fichier]** = fichier présent dans le dépôt du pr
 | 2. Les trois langues d'une page | `html`, `css`, `javascript`, `code-source` | Lecture d'une première modification (un titre qui change) |
 | 3. Créer avec une IA | `ia`, `modele-de-langage`, `prompt`, `agent`, `vibe-coding`, `claude-code` | Origine du terme (popularisé par Andrej Karpathy en février 2025, d'après plusieurs sources secondaires : source primaire à vérifier), ce que l'IA fait et ne fait pas |
 | 4. Choisir ton produit | `probleme-utilisateur`, `proposition-de-valeur`, `produit-minimum` | Atelier guidé : 3 idées, critères (utilité, faisable depuis un iPhone, coût, potentiel métier), choix et fiche produit |
-| 5. Ta première mise en ligne | `github`, `depot`, `github-pages`, `adresse-web` | Créer le dépôt dans Safari, première session Claude Code, ordre de mission « page de présentation », activer GitHub Pages |
+| 5. Ta première mise en ligne | `github`, `depot`, `pull-request` (version simple), `github-pages`, `adresse-web` | Créer le dépôt dans Safari, première session Claude Code, ordre de mission « page de présentation », activer GitHub Pages |
 
 - **Panne** : « Ma page ne s'affiche pas » (mauvaise adresse, dépôt privé, fichier mal nommé, page encore en cache).
 - **Livraison v0.0** : `index.html` [fichier] · page [en ligne] · « J'ai ouvert ma page sur mon iPhone » [main].
@@ -58,7 +58,7 @@ Légende des livraisons : **[fichier]** = fichier présent dans le dépôt du pr
 | 1. Pourquoi garder les versions | `version`, `git`, `historique` | Analogie des photos d'un chantier |
 | 2. Le commit | `commit`, `message-de-commit` | Simulateur « branches », lecture d'un vrai commit de FORMA-7 |
 | 3. Les branches | `branche`, `branche-principale` | Simulateur « branches » |
-| 4. La pull request | `pull-request`, `fusion`, `relecture` | Ordre de mission : changement sur une branche, pull request, relecture et fusion depuis Safari |
+| 4. La pull request en détail | `fusion`, `relecture` (la notion `pull-request` est vue simplement au caisson 00) | Ordre de mission : changement sur une branche, pull request, relecture et fusion depuis Safari |
 | 5. Revenir en arrière | `annulation`, `conflit` | Panne simulée : un conflit, une fusion à annuler |
 
 - **Panne** : « J'ai fusionné un bug » (annuler), « Conflit de fusion », « Message de commit illisible ».
@@ -211,6 +211,12 @@ Légende des livraisons : **[fichier]** = fichier présent dans le dépôt du pr
 - **Sources** : CNIL (mesure d'audience exemptée de consentement) ; Claude Code « Journal des modifications ».
 
 ---
+
+## Ajustements faits pendant l'écriture
+
+- **Caisson 00** (écrit le 14/11/2026) : la notion `pull-request` y est introduite dans une version simple, car
+  la première mise en ligne passe par la fusion du travail de Claude Code. Le caisson 01 l'approfondit.
+- **Illustrations** : celles de FORMA-7 portent des textes de ses leçons ; FORMA-8 a ses propres illustrations.
 
 ## Volume et rythme
 

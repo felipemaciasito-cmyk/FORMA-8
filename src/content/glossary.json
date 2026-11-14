@@ -1,1 +1,401 @@
-[]
+[
+ {
+  "id": "fichier",
+  "term": "Fichier",
+  "icon": "file-lines",
+  "def": {
+   "simple": "Un morceau d'information rangé sous un nom : une photo, un texte, une page.",
+   "standard": "Un fichier est un ensemble de données enregistré sous un nom, avec une extension qui indique son type (par exemple .jpg pour une photo, .html pour une page web).",
+   "expert": "Une suite d'octets stockée sur un support et identifiée par un chemin (dossiers + nom). L'extension n'est qu'une convention : c'est le programme qui l'ouvre qui interprète son contenu."
+  },
+  "analogy": "Comme une feuille rangée dans un classeur, avec une étiquette qui dit ce qu'elle contient.",
+  "example": "Une photo de vacances s'appelle par exemple « plage.jpg » ; la page d'accueil d'un site s'appelle souvent « index.html ».",
+  "prereq": []
+ },
+ {
+  "id": "application",
+  "term": "Application",
+  "icon": "window",
+  "def": {
+   "simple": "Un programme qui t'aide à faire quelque chose : écrire, payer, apprendre.",
+   "standard": "Une application est un logiciel conçu pour une tâche précise. Elle peut s'installer sur un appareil (comme une app de l'App Store) ou s'ouvrir directement dans une page web.",
+   "expert": "Un ensemble de code, de fichiers et souvent de données qui rend un service à un utilisateur. On distingue les applications natives (installées) et les applications web (servies par un serveur et exécutées dans un navigateur)."
+  },
+  "analogy": "Comme un outil dans une boîte à outils : chaque outil sert à une tâche.",
+  "example": "Météo, Messages ou FORMA-8 sont des applications. FORMA-8 s'ouvre dans Safari : c'est une application web.",
+  "prereq": [
+   "fichier"
+  ]
+ },
+ {
+  "id": "navigateur",
+  "term": "Navigateur",
+  "icon": "globe",
+  "def": {
+   "simple": "L'application qui affiche les pages web. Sur ton iPhone, c'est Safari.",
+   "standard": "Un navigateur demande les pages web aux serveurs, reçoit leurs fichiers, puis les assemble pour les afficher et les rendre interactives.",
+   "expert": "Un client web : il résout l'adresse, envoie des requêtes (protocole HTTP), interprète les fichiers reçus (HTML, CSS, JavaScript) et gère le stockage local de chaque site."
+  },
+  "analogy": "Comme un client au comptoir d'un magasin : il passe commande, reçoit les produits, puis les déballe.",
+  "example": "Safari, Chrome et Firefox sont des navigateurs. Quand tu ouvres FORMA-8, c'est Safari qui l'affiche.",
+  "prereq": [
+   "application"
+  ],
+  "watch": [
+   "navigateur"
+  ]
+ },
+ {
+  "id": "serveur",
+  "term": "Serveur",
+  "icon": "server",
+  "def": {
+   "simple": "Un ordinateur toujours allumé qui garde des fichiers et répond aux demandes.",
+   "standard": "Un serveur est un ordinateur connecté en permanence à internet. Il stocke les fichiers d'un site et les envoie à chaque navigateur qui les demande.",
+   "expert": "Une machine (souvent virtuelle, dans un centre de données) qui exécute un programme à l'écoute des requêtes réseau et renvoie des réponses. Un même serveur peut servir des milliers de visiteurs en même temps."
+  },
+  "analogy": "Comme un magasin ouvert jour et nuit : il garde les produits en rayon et sert chaque client qui passe commande.",
+  "example": "Quand tu ouvres FORMA-8, Safari demande ses fichiers à un serveur de GitHub, qui les lui envoie.",
+  "prereq": [
+   "fichier"
+  ],
+  "watch": [
+   "serveur"
+  ]
+ },
+ {
+  "id": "site-web",
+  "term": "Site web",
+  "icon": "layout",
+  "def": {
+   "simple": "Un ensemble de pages qu'on ouvre dans un navigateur, grâce à une adresse.",
+   "standard": "Un site web regroupe des pages reliées entre elles, rangées sur un serveur et accessibles à une adresse précise depuis n'importe quel navigateur.",
+   "expert": "Un ensemble de ressources (pages HTML, styles, scripts, images) servies sous un même nom de domaine. Un site « statique » envoie des fichiers déjà prêts ; un site « dynamique » fabrique ses pages à la demande."
+  },
+  "analogy": "Comme une boutique avec une adresse : on s'y rend, on parcourt ses rayons (ses pages).",
+  "example": "La page de présentation de ton produit sera ton premier site web.",
+  "prereq": [
+   "navigateur",
+   "serveur",
+   "fichier"
+  ],
+  "watch": [
+   "site web"
+  ]
+ },
+ {
+  "id": "code-source",
+  "term": "Code source",
+  "icon": "code",
+  "def": {
+   "simple": "Le texte, écrit dans un langage précis, qui dit à l'ordinateur quoi faire.",
+   "standard": "Le code source est l'ensemble des instructions d'un programme, écrites dans des langages de programmation. C'est un texte lisible par un humain, que la machine sait interpréter.",
+   "expert": "Les fichiers texte d'un projet, rédigés dans un ou plusieurs langages, qui décrivent la structure et le comportement d'un logiciel. Il est souvent versionné (on garde l'historique de chaque modification)."
+  },
+  "analogy": "Comme une recette de cuisine : des étapes écrites, que quelqu'un suit pour obtenir le plat.",
+  "example": "Le fichier index.html de ta future page sera du code source, écrit par Claude Code.",
+  "prereq": [
+   "fichier"
+  ],
+  "watch": [
+   "code source"
+  ]
+ },
+ {
+  "id": "html",
+  "term": "HTML",
+  "icon": "layout",
+  "def": {
+   "simple": "La langue qui décrit le contenu d'une page : titres, paragraphes, boutons.",
+   "standard": "Le HTML est un langage qui définit la structure d'une page web. Il entoure chaque contenu de balises qui disent ce que c'est : un titre, un texte, une image, un lien.",
+   "expert": "HyperText Markup Language : un langage de balisage, pas un langage de programmation. Le navigateur lit le HTML pour construire l'arbre des éléments de la page (le DOM)."
+  },
+  "analogy": "Comme les murs et les pièces d'une maison : la structure, avant la décoration.",
+  "example": "Dans « <h1>Carnet de chantier</h1> », la balise h1 dit au navigateur : ceci est le titre principal.",
+  "prereq": [
+   "code-source",
+   "navigateur"
+  ],
+  "watch": [
+   "HTML"
+  ]
+ },
+ {
+  "id": "css",
+  "term": "CSS",
+  "icon": "palette",
+  "def": {
+   "simple": "La langue qui décrit l'apparence d'une page : couleurs, tailles, disposition.",
+   "standard": "Le CSS est un langage qui décrit la présentation d'une page web : les couleurs, les polices, les espacements, et la façon de s'adapter aux petits écrans.",
+   "expert": "Cascading Style Sheets (feuilles de style en cascade) : un langage déclaratif. Des règles ciblent des éléments HTML et leur appliquent des propriétés ; quand plusieurs règles s'appliquent, la « cascade » décide laquelle l'emporte."
+  },
+  "analogy": "Comme la peinture et la décoration d'une maison : on change l'apparence sans toucher aux murs.",
+  "example": "La règle « h1 { color: blue; } » colore en bleu tous les grands titres de la page.",
+  "prereq": [
+   "html"
+  ],
+  "watch": [
+   "CSS"
+  ]
+ },
+ {
+  "id": "javascript",
+  "term": "JavaScript",
+  "icon": "bolt",
+  "def": {
+   "simple": "La langue qui fait réagir une page : quand tu touches un bouton, il se passe quelque chose.",
+   "standard": "Le JavaScript est un langage de programmation qui donne un comportement à une page web : réagir à un toucher, afficher un message, enregistrer une donnée.",
+   "expert": "Un langage de programmation exécuté principalement par le navigateur (côté client), mais aussi côté serveur. Il peut modifier la page à la volée en agissant sur ses éléments HTML."
+  },
+  "analogy": "Comme l'électricité d'une maison : quand tu appuies sur l'interrupteur, la lumière s'allume.",
+  "example": "Dans FORMA-8, quand tu touches « Continuer », c'est du JavaScript qui affiche le bloc suivant.",
+  "prereq": [
+   "html"
+  ],
+  "watch": [
+   "JavaScript"
+  ]
+ },
+ {
+  "id": "ia",
+  "term": "Intelligence artificielle (IA)",
+  "icon": "neural-chip",
+  "def": {
+   "simple": "Un programme capable de faire des tâches qui demandent d'habitude de l'intelligence humaine : comprendre, rédiger, résoudre.",
+   "standard": "L'intelligence artificielle désigne des programmes qui apprennent à partir d'énormes quantités d'exemples, puis savent reconnaître, prédire ou produire du contenu : du texte, des images, du code.",
+   "expert": "Un champ de l'informatique. Les systèmes actuels les plus visibles sont des réseaux de neurones entraînés sur de grands volumes de données ; ils produisent des réponses probables, pas des certitudes, et peuvent donc se tromper."
+  },
+  "analogy": "Comme un apprenti qui a lu des millions de livres : il sait beaucoup de choses, mais il faut vérifier son travail.",
+  "example": "Claude, l'assistant que tu utilises, est une intelligence artificielle.",
+  "prereq": []
+ },
+ {
+  "id": "modele-de-langage",
+  "term": "Modèle de langage",
+  "icon": "cube",
+  "def": {
+   "simple": "Une IA entraînée sur beaucoup de textes, qui sait comprendre et écrire du texte, et donc du code.",
+   "standard": "Un modèle de langage est une IA qui lit un texte et produit la suite la plus probable. Entraîné sur d'immenses quantités de textes et de code, il sait répondre, résumer, traduire et programmer.",
+   "expert": "Un réseau de neurones (souvent appelé LLM, pour Large Language Model) qui prédit la suite d'un texte, morceau par morceau. Claude est une famille de modèles de langage conçue par Anthropic."
+  },
+  "analogy": "Comme un auteur très rapide : tu lui donnes le début, il écrit la suite qui a le plus de sens.",
+  "example": "Quand tu demandes à Claude d'expliquer une notion, c'est le modèle de langage qui rédige la réponse.",
+  "prereq": [
+   "ia"
+  ],
+  "watch": [
+   "modèle de langage"
+  ]
+ },
+ {
+  "id": "prompt",
+  "term": "Prompt (demande)",
+  "icon": "chat",
+  "def": {
+   "simple": "Le message que tu écris à une IA pour lui dire ce que tu veux.",
+   "standard": "Un prompt est la demande que tu donnes à un modèle de langage : une question, une consigne, du contexte. La qualité du résultat dépend beaucoup de sa précision.",
+   "expert": "L'entrée textuelle d'un modèle : instructions, contexte, exemples, contraintes. Avec un agent, le prompt devient un véritable ordre de mission, qui doit dire quoi faire, dans quelles limites, et comment vérifier."
+  },
+  "analogy": "Comme une commande au restaurant : « un plat » donne n'importe quoi ; « une salade sans oignon, sauce à part » donne ce que tu veux.",
+  "example": "« Crée une page d'accueil avec un titre et un bouton Contact, lisible sur iPhone » est un prompt précis.",
+  "prereq": [
+   "modele-de-langage"
+  ],
+  "watch": [
+   "prompt"
+  ]
+ },
+ {
+  "id": "agent",
+  "term": "Agent (IA)",
+  "icon": "bot",
+  "def": {
+   "simple": "Une IA qui ne se contente pas de répondre : elle agit, puis vérifie son travail.",
+   "standard": "Un agent est un modèle de langage équipé d'outils : il peut lire et modifier des fichiers, lancer des commandes, chercher une information. Il enchaîne seul les étapes nécessaires pour accomplir une tâche.",
+   "expert": "Un système qui place un modèle dans une boucle : rassembler le contexte, agir avec des outils, vérifier les résultats, recommencer jusqu'au but. Chaque résultat d'outil informe la décision suivante. L'humain peut interrompre et réorienter à tout moment."
+  },
+  "analogy": "Comme un artisan à qui tu confies un chantier : il regarde, travaille, contrôle, et revient vers toi si besoin.",
+  "example": "Pour corriger un bouton qui ne marche pas, un agent cherche le bon fichier, le modifie, puis teste que le bouton réagit.",
+  "prereq": [
+   "modele-de-langage",
+   "prompt"
+  ],
+  "watch": [
+   "agent"
+  ]
+ },
+ {
+  "id": "claude-code",
+  "term": "Claude Code",
+  "icon": "terminal",
+  "def": {
+   "simple": "L'agent d'Anthropic qui crée et modifie des applications pour toi, à partir de tes demandes.",
+   "standard": "Claude Code est un agent de programmation : il lit le code d'un projet, le modifie, lance des vérifications et enregistre son travail. Tu peux l'utiliser depuis le navigateur, sur claude.ai/code, même sur iPhone.",
+   "expert": "Un « harnais » autour des modèles Claude : il fournit les outils (fichiers, commandes, web), gère le contexte et les permissions, et fait tourner la boucle agentive. Dans le cloud, chaque séance tourne sur une machine virtuelle qui travaille sur une copie de ton dépôt GitHub."
+  },
+  "analogy": "Comme un chef de chantier très rapide : tu donnes le plan, il dirige les travaux et te montre le résultat.",
+  "example": "Au protocole 5, tu demanderas à Claude Code de créer la page de présentation de ton produit.",
+  "prereq": [
+   "agent"
+  ],
+  "watch": [
+   "Claude Code"
+  ],
+  "checked": "2026-11-14"
+ },
+ {
+  "id": "vibe-coding",
+  "term": "Vibe coding",
+  "icon": "spark",
+  "def": {
+   "simple": "Créer une application en décrivant à une IA ce que tu veux, plutôt qu'en écrivant le code toi-même.",
+   "standard": "Le vibe coding consiste à piloter une IA en langage naturel pour qu'elle écrive le code d'une application. Toi, tu décris, tu testes, tu décides ; l'IA écrit.",
+   "expert": "Une pratique popularisée en 2025, où le code est produit par un modèle à partir de consignes en langage naturel. Pratiqué en expert, il reste exigeant : spécifier, relire, tester, sécuriser. C'est tout l'objet de ce parcours."
+  },
+  "analogy": "Comme un réalisateur de film : il ne tient pas la caméra, mais il sait exactement ce qu'il veut voir à l'écran.",
+  "example": "Construire FORMA-7 en dialoguant avec Claude Code depuis un iPhone, c'était du vibe coding.",
+  "prereq": [
+   "claude-code",
+   "prompt"
+  ],
+  "watch": [
+   "vibe coding"
+  ],
+  "checked": "2026-11-14"
+ },
+ {
+  "id": "probleme-utilisateur",
+  "term": "Problème utilisateur",
+  "icon": "target",
+  "def": {
+   "simple": "Ce qui gêne vraiment une personne, et qu'un produit pourrait régler.",
+   "standard": "Un problème utilisateur est une difficulté réelle, vécue par des personnes précises, souvent et assez fortement pour qu'elles veuillent une solution.",
+   "expert": "Le point de départ d'un produit : un besoin identifié et vérifié (qui, dans quelle situation, à quelle fréquence, avec quelle intensité). Un produit qui ne résout aucun problème réel ne trouve pas d'utilisateurs."
+  },
+  "analogy": "Comme une serrure : on cherche d'abord quelle porte est fermée, avant de fabriquer une clé.",
+  "example": "« Les artisans perdent les photos de leurs chantiers dans leur téléphone » est un problème utilisateur.",
+  "prereq": []
+ },
+ {
+  "id": "proposition-de-valeur",
+  "term": "Proposition de valeur",
+  "icon": "tag",
+  "def": {
+   "simple": "Une phrase qui dit pour qui est ton produit, et ce qu'il leur apporte.",
+   "standard": "La proposition de valeur résume en une phrase le bénéfice principal d'un produit pour ses utilisateurs : pour qui, quel problème, quelle promesse.",
+   "expert": "L'énoncé du bénéfice distinctif d'une offre pour une cible donnée. Bien formulée, elle guide les choix : chaque fonctionnalité doit servir cette promesse, sinon elle attend."
+  },
+  "analogy": "Comme l'enseigne d'une boutique : en un coup d'œil, on sait ce qu'on y trouvera.",
+  "example": "« Pour les artisans : retrouve toutes les photos d'un chantier en deux touchers. »",
+  "prereq": [
+   "probleme-utilisateur"
+  ]
+ },
+ {
+  "id": "produit-minimum",
+  "term": "Produit minimum",
+  "icon": "flask",
+  "def": {
+   "simple": "La plus petite version de ton produit qui rend déjà service, pour apprendre vite.",
+   "standard": "Un produit minimum est une première version volontairement réduite : juste ce qu'il faut pour être utile et montrer l'idée à de vraies personnes.",
+   "expert": "Souvent appelé MVP (Minimum Viable Product) : la version la plus simple qui permet de tester une hypothèse auprès d'utilisateurs réels, puis d'améliorer le produit à partir de leurs retours."
+  },
+  "analogy": "Comme un premier dessin avant le tableau : on vérifie que l'idée plaît avant de passer des mois à peindre.",
+  "example": "Ta version 0.0 sera une simple page qui présente ton produit : c'est déjà un produit minimum de présentation.",
+  "prereq": [
+   "proposition-de-valeur"
+  ]
+ },
+ {
+  "id": "github",
+  "term": "GitHub",
+  "icon": "hub",
+  "def": {
+   "simple": "Un site où l'on range et partage le code de ses projets.",
+   "standard": "GitHub est un service en ligne qui héberge le code des projets, garde l'historique de chaque modification et permet de travailler à plusieurs, humains comme agents.",
+   "expert": "Une plateforme d'hébergement de dépôts Git, avec revue de code (pull requests), automatisation (GitHub Actions) et publication de sites (GitHub Pages). Claude Code dans le cloud travaille sur des dépôts GitHub."
+  },
+  "analogy": "Comme une bibliothèque où chaque projet a son étagère, avec le registre de tous les changements.",
+  "example": "FORMA-8 et FORMA-7 sont rangés sur GitHub, dans ton compte.",
+  "prereq": [
+   "site-web"
+  ],
+  "watch": [
+   "GitHub"
+  ],
+  "checked": "2026-11-14"
+ },
+ {
+  "id": "depot",
+  "term": "Dépôt",
+  "icon": "folder",
+  "def": {
+   "simple": "Le dossier en ligne d'un projet, sur GitHub : tous ses fichiers et leur histoire.",
+   "standard": "Un dépôt (repository en anglais) contient tous les fichiers d'un projet et l'historique de leurs modifications. Il peut être public (visible par tous) ou privé.",
+   "expert": "Un répertoire suivi par Git : l'arborescence des fichiers et la base des versions (commits, branches). Sur GitHub, il s'y ajoute les pull requests, les réglages et les automatisations."
+  },
+  "analogy": "Comme un classeur de projet : les documents actuels, et dans une pochette, toutes leurs versions précédentes.",
+  "example": "Le dépôt de ton produit s'appellera par exemple « carnet-chantier ».",
+  "prereq": [
+   "github",
+   "fichier"
+  ],
+  "watch": [
+   "dépôt"
+  ]
+ },
+ {
+  "id": "pull-request",
+  "term": "Pull request",
+  "icon": "branch",
+  "def": {
+   "simple": "Une proposition de modification, que tu relis puis acceptes (ou non) avant qu'elle entre dans ton dépôt.",
+   "standard": "Une pull request (souvent abrégée PR) présente un ensemble de modifications : tu vois ce qui change, tu peux commenter, puis tu la fusionnes pour l'intégrer à la version principale du dépôt.",
+   "expert": "Une demande d'intégration d'une branche dans une autre, avec la vue des différences (diff), les commentaires de relecture et les vérifications automatiques. Tu l'approfondiras au caisson 01."
+  },
+  "analogy": "Comme un devis à signer : tu lis ce qui est proposé, et rien n'est fait tant que tu n'as pas signé.",
+  "example": "Claude Code termine son travail en créant une pull request ; tu la fusionnes d'un toucher sur GitHub.",
+  "prereq": [
+   "depot"
+  ],
+  "watch": [
+   "pull request"
+  ]
+ },
+ {
+  "id": "github-pages",
+  "term": "GitHub Pages",
+  "icon": "globe-search",
+  "def": {
+   "simple": "Le service gratuit de GitHub qui publie un dépôt comme site web.",
+   "standard": "GitHub Pages transforme les fichiers d'un dépôt en site web accessible à une adresse publique. Pour un compte gratuit, le dépôt doit être public.",
+   "expert": "Un hébergement de sites statiques : il sert les fichiers d'une branche (ou le résultat d'une automatisation GitHub Actions) sous une adresse de la forme compte.github.io/dépôt. La publication peut prendre jusqu'à 10 minutes."
+  },
+  "analogy": "Comme une vitrine : tu y poses ta page, et tout le monde peut la voir depuis la rue.",
+  "example": "FORMA-8 est publiée par GitHub Pages ; ta page de présentation le sera aussi.",
+  "prereq": [
+   "github",
+   "site-web",
+   "serveur"
+  ],
+  "watch": [
+   "GitHub Pages"
+  ],
+  "checked": "2026-11-14"
+ },
+ {
+  "id": "adresse-web",
+  "term": "Adresse web",
+  "icon": "link",
+  "def": {
+   "simple": "Le texte qu'on tape pour ouvrir une page, comme une adresse postale.",
+   "standard": "Une adresse web (ou URL) indique où trouver une page sur internet : le nom du site, puis le chemin de la page.",
+   "expert": "Uniform Resource Locator : schéma (https), nom de domaine (traduit en adresse de serveur par le DNS), puis chemin. Une adresse en https garantit que l'échange est chiffré."
+  },
+  "analogy": "Comme l'adresse d'une maison : sans elle, impossible d'y aller.",
+  "example": "L'adresse de ta page aura la forme https://ton-compte.github.io/ton-produit/.",
+  "prereq": [
+   "site-web"
+  ]
+ }
+]
