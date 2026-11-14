@@ -1,0 +1,14 @@
+{
+  "id": "c02",
+  "index": 2,
+  "code": "CAISSON 02",
+  "member": "Le Règlement de bord",
+  "name": "L'environnement de ton équipe",
+  "version": "v0.2",
+  "tagline": "Écrire les règles que ton équipe suivra à chaque séance de travail.",
+  "hue": 210,
+  "requires": [
+    "c01"
+  ],
+  "steps": []
+}

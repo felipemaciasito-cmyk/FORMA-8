@@ -1,0 +1,12 @@
+{
+  "id": "c00",
+  "index": 0,
+  "code": "CAISSON 00",
+  "member": "ORA",
+  "name": "Les bases du logiciel, sans coder",
+  "version": "v0.0",
+  "tagline": "Comprendre ce qu'est une application avant d'en construire une, et choisir ton produit.",
+  "hue": 190,
+  "requires": [],
+  "steps": []
+}

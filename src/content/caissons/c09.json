@@ -1,0 +1,14 @@
+{
+  "id": "c09",
+  "index": 9,
+  "code": "CAISSON 09",
+  "member": "Les Escouades et les Réflexes",
+  "name": "Le niveau expert",
+  "version": "v0.9",
+  "tagline": "Faire travailler plusieurs agents en parallèle et automatiser l'entretien de ton produit.",
+  "hue": 45,
+  "requires": [
+    "c08"
+  ],
+  "steps": []
+}

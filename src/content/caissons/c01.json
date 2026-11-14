@@ -1,0 +1,14 @@
+{
+  "id": "c01",
+  "index": 1,
+  "code": "CAISSON 01",
+  "member": "L'Archiviste",
+  "name": "Garder chaque version",
+  "version": "v0.1",
+  "tagline": "Garder la trace de chaque version de ton produit, et revenir en arrière sans rien perdre.",
+  "hue": 150,
+  "requires": [
+    "c00"
+  ],
+  "steps": []
+}

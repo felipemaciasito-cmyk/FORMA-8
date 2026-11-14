@@ -1,0 +1,14 @@
+{
+  "id": "c07",
+  "index": 7,
+  "code": "CAISSON 07",
+  "member": "La Mémoire",
+  "name": "Données et comptes",
+  "version": "v0.7",
+  "tagline": "Donner une mémoire à ton produit : des comptes, des données, et une IA intégrée.",
+  "hue": 280,
+  "requires": [
+    "c06"
+  ],
+  "steps": []
+}
