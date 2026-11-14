@@ -18,6 +18,11 @@ const Widgets = {
   PatchBay: lazy(() => import("./widgets/PatchBay")),
   AgentLoop: lazy(() => import("./widgets/AgentLoop")),
   SkillWorkshop: lazy(() => import("./SkillWorkshop")),
+  GitBranches: lazy(() => import("./widgets/GitBranches")),
+  RequestTrip: lazy(() => import("./widgets/RequestTrip")),
+  PipelineLights: lazy(() => import("./widgets/PipelineLights")),
+  TokenBuilder: lazy(() => import("./widgets/TokenBuilder")),
+  CostCalc: lazy(() => import("./widgets/CostCalc")),
 } satisfies Record<WidgetId, unknown>;
 
 export function BlockView({ block, exKey, solvedBefore, onSolved }: { block: Block; exKey: string; solvedBefore: boolean; onSolved: (attempts: number) => void }) {
