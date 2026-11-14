@@ -49,6 +49,21 @@ test("un ordre de mission sans texte et une livraison mal formée bloquent", () 
   assert.match(r.out, /champ path requis/);
 });
 
+test("un simulateur inconnu ou un mode mal écrit bloque", () => {
+  const step = { id: "p1", title: "Titre", kicker: "Accroche", introduces: [], uses: [], blocks: [
+    { type: "interactive", widget: "GitBranches", mode: "commits" },
+    { type: "interactive", widget: "GitBranches", mode: "comits" },
+    { type: "interactive", widget: "MachineInconnue" },
+    { type: "interactive", widget: "TimeMachine", mode: "commits" },
+  ] };
+  const r = validate(caisson([step]));
+  assert.equal(r.code, 1);
+  assert.match(r.out, /mode inconnu « comits »/);
+  assert.match(r.out, /simulateur inconnu « MachineInconnue »/);
+  assert.match(r.out, /ce simulateur n'a pas de mode/);
+  assert.equal((r.out.match(/✗/g) ?? []).length, 3, r.out);
+});
+
 test("une source sans date de vérification bloque", () => {
   const step = { id: "p1", title: "Titre", kicker: "Accroche", introduces: [], uses: [], blocks: [{ type: "source", title: "Doc", url: "https://code.claude.com/docs/fr/overview", checked: "novembre" }] };
   const r = validate(caisson([step]));

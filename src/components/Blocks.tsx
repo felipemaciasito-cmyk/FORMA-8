@@ -1,5 +1,5 @@
 import { motion } from "motion/react";
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, type ComponentType } from "react";
 import type { Block, WidgetId } from "../content/types";
 import { RichText } from "../lib/richtext";
 import { Illustration } from "./Illustrations";
@@ -20,6 +20,8 @@ const Widgets = {
   McpPlugs: lazy(() => import("./widgets/McpPlugs")),
   AgentCycle: lazy(() => import("./widgets/AgentCycle")),
   ProductLab: lazy(() => import("./widgets/ProductLab")),
+  TimeMachine: lazy(() => import("./widgets/TimeMachine")),
+  ConflictLab: lazy(() => import("./widgets/ConflictLab")),
 } satisfies Record<WidgetId, unknown>;
 
 export function BlockView({ block, exKey, solvedBefore, onSolved }: { block: Block; exKey: string; solvedBefore: boolean; onSolved: (attempts: number) => void }) {
@@ -43,12 +45,13 @@ export function BlockView({ block, exKey, solvedBefore, onSolved }: { block: Blo
         </div>
       );
     case "interactive": {
-      const W = Widgets[block.widget];
+      // Chaque simulateur accepte un « mode » optionnel ; ceux qui n'en ont pas l'ignorent.
+      const W = Widgets[block.widget] as ComponentType<{ mode?: string }>;
       return (
         <div className="panel" style={{ borderColor: "rgba(77,255,160,.3)", background: "linear-gradient(160deg, rgba(77,255,160,.06), rgba(12,19,34,.85) 45%)" }}>
           <div className="panel-title" style={{ color: "var(--led)" }}><span className="led" />Simulateur</div>
           {block.caption && <div className="small muted" style={{ marginBottom: 12 }}>{block.caption}</div>}
-          <Suspense fallback={<div className="mono small dim">Chargement du module…</div>}><W /></Suspense>
+          <Suspense fallback={<div className="mono small dim">Chargement du module…</div>}><W mode={block.mode} /></Suspense>
         </div>
       );
     }

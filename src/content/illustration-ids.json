@@ -3,5 +3,9 @@
   "trois-couches": "Structure, apparence et comportement d'une page (HTML, CSS, JavaScript)",
   "chef-equipe": "Toi qui donnes la demande, l'agent qui agit et vérifie en boucle",
   "serrure-cle": "Le problème d'abord (la serrure), la solution ensuite (la clé)",
-  "vitrine": "Une page publiée à son adresse, visible par tous"
+  "vitrine": "Une page publiée à son adresse, visible par tous",
+  "photos-chantier": "Un chantier photographié à chaque étape : chaque version est gardée, datée",
+  "voie-essai": "La version principale en ligne droite, et une branche qui s'en écarte puis la rejoint",
+  "relecture": "Un changement proposé, relu ligne par ligne, puis fusionné",
+  "correction": "Un registre où l'on n'efface rien : on ajoute une ligne qui annule la précédente"
 }
