@@ -5,7 +5,7 @@ import { RichText } from "../lib/richtext";
 import { Art } from "./Art";
 import { Icon, type IconId } from "./Icon";
 import { ExerciseView } from "./Exercises";
-import { BugReportBlock, ConsigneBlock, DiffBlock, MissionBlock, SourceBlock } from "./Mechanics";
+import { BugReportBlock, ConsigneBlock, DiffBlock, MissionBlock, ProcedureBlock, SourceBlock } from "./Mechanics";
 import { OraSays } from "./Ora";
 import { TermCard } from "./TermSheet";
 
@@ -15,6 +15,11 @@ const Widgets = {
   PipelineLights: lazy(() => import("./widgets/PipelineLights")),
   TokenBuilder: lazy(() => import("./widgets/TokenBuilder")),
   CostCalc: lazy(() => import("./widgets/CostCalc")),
+  ContextView: lazy(() => import("./widgets/ContextView")),
+  SkillToolbox: lazy(() => import("./widgets/SkillToolbox")),
+  McpPlugs: lazy(() => import("./widgets/McpPlugs")),
+  AgentCycle: lazy(() => import("./widgets/AgentCycle")),
+  ProductLab: lazy(() => import("./widgets/ProductLab")),
 } satisfies Record<WidgetId, unknown>;
 
 export function BlockView({ block, exKey, solvedBefore, onSolved }: { block: Block; exKey: string; solvedBefore: boolean; onSolved: (attempts: number) => void }) {
@@ -91,7 +96,9 @@ export function BlockView({ block, exKey, solvedBefore, onSolved }: { block: Blo
         </motion.div>
       );
     case "mission":
-      return <MissionBlock block={block} />;
+      return <MissionBlock block={block} exKey={exKey} />;
+    case "procedure":
+      return <ProcedureBlock block={block} />;
     case "consigne":
       return <ConsigneBlock id={block.id} situation={block.situation} expected={block.expected} />;
     case "bugreport":

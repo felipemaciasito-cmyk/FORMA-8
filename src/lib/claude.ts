@@ -160,3 +160,37 @@ export async function gradeBugReport(symptom: string, context: string, expected:
   });
   return JSON.parse(text) as BugReportGrade;
 }
+
+export interface ProductIdea { name: string; pitch: string; why: string }
+
+/** Laboratoire produit : trois idées de produit adaptées aux centres d'intérêt du joueur. */
+export async function suggestIdeas(interests: string): Promise<ProductIdea[]> {
+  const schema = {
+    type: "object", additionalProperties: false, required: ["ideas"],
+    properties: {
+      ideas: {
+        type: "array",
+        items: {
+          type: "object", additionalProperties: false, required: ["name", "pitch", "why"],
+          properties: { name: { type: "string" }, pitch: { type: "string" }, why: { type: "string" } },
+        },
+      },
+    },
+  };
+  const text = await ask({
+    system: "Tu aides un débutant qui ne sait pas coder à choisir le premier produit qu'il construira avec Claude Code depuis son iPhone, et qu'il pourra peut-être vendre plus tard. Tu réponds en français, en tutoyant, avec des mots simples.",
+    user: `Ses centres d'intérêt et son contexte : """${interests}"""\n\nPropose exactement 3 idées de produit web. Chacune doit : résoudre un problème réel et fréquent, commencer par un simple site web (puis grandir), pouvoir intéresser des personnes prêtes à l'utiliser ou à payer, et être réalisable pas à pas. name : un nom court. pitch : une phrase « pour qui, pour quoi ». why : pourquoi c'est un bon premier produit, en une phrase.`,
+    schema,
+    maxTokens: 2000,
+  });
+  return (JSON.parse(text) as { ideas: ProductIdea[] }).ideas.slice(0, 3);
+}
+
+/** « Demander à ORA » : répond à une question posée pendant un protocole, avec les notions déjà connues. */
+export async function askOra(question: string, lesson: string, known: string[]): Promise<string> {
+  return ask({
+    system: "Tu es ORA, guide bienveillante d'une appli qui apprend à un débutant à créer des applications avec Claude Code, depuis son iPhone. Tu réponds en français, en tutoyant, en 150 mots maximum. Tu n'utilises AUCUN terme technique que l'apprenant ne connaît pas encore sans l'expliquer aussitôt avec des mots simples. Si la question sort du sujet ou dépasse son niveau actuel, dis-le gentiment et donne une réponse simple. Si tu n'es pas sûr d'une information qui évolue vite (prix, fonctionnalités), dis-le et invite à vérifier la documentation officielle.",
+    user: `Leçon en cours :\n"""${lesson.slice(0, 6000)}"""\n\nNotions que l'apprenant connaît déjà : ${known.length ? known.join(", ") : "aucune pour l'instant"}.\n\nSa question : """${question}"""`,
+    maxTokens: 1500,
+  });
+}

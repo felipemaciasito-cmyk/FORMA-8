@@ -188,6 +188,13 @@ function checkMechanicBlock(b, where) {
       if (!b.file || !b.title || !(b.lines?.length)) err(where, "lecture de modification : titre, fichier et lignes requis");
       for (const l of b.lines ?? []) if (!["add", "del", "ctx"].includes(l.kind)) err(where, `ligne de modification invalide : ${l.kind}`);
       break;
+    case "procedure":
+      if (!b.id) err(where, "procédure : identifiant requis");
+      else if (blockIds.has(`proc:${b.id}`)) err(where, `procédure : identifiant en double ${b.id}`);
+      else blockIds.add(`proc:${b.id}`);
+      if (!b.title || !(b.steps?.length >= 2)) err(where, "procédure : titre et au moins 2 étapes requis");
+      for (const [k, st] of (b.steps ?? []).entries()) if (!st.do) err(where, `procédure : étape ${k + 1} sans action`);
+      break;
     case "source":
       if (!/^https:\/\//.test(b.url ?? "")) err(where, `source : adresse invalide ${b.url}`);
       if (!ISO_DATE.test(b.checked ?? "")) err(where, "source : date de vérification au format AAAA-MM-JJ requise");

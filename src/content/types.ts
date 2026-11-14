@@ -34,7 +34,12 @@ export type WidgetId =
   | "RequestTrip"
   | "PipelineLights"
   | "TokenBuilder"
-  | "CostCalc";
+  | "CostCalc"
+  | "ContextView"
+  | "SkillToolbox"
+  | "McpPlugs"
+  | "AgentCycle"
+  | "ProductLab";
 
 export type Block =
   | { type: "text"; md: string }
@@ -54,6 +59,8 @@ export type Block =
   | { type: "bugreport"; id: string; symptom: string; context: string; expected: string[] }
   /** Lecture d'une modification de code (« diff ») : lignes ajoutées, retirées ou inchangées. */
   | { type: "diff"; title: string; file: string; lines: { kind: "add" | "del" | "ctx"; t: string }[]; note?: string }
+  /** Procédure pas à pas (manipulation dans Safari) : étapes à cocher, ce qu'on doit voir, aide si bloqué. */
+  | { type: "procedure"; id: string; title: string; intro?: string; steps: { do: string; see?: string; help?: string }[] }
   /** Source officielle citée, avec sa date de vérification (AAAA-MM-JJ). */
   | { type: "source"; title: string; url: string; checked: string; note?: string };
 

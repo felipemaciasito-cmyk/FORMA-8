@@ -35,9 +35,13 @@ function NeedKey() {
 }
 
 // ======================= Ordre de mission =======================
-export function MissionBlock({ block }: { block: Extract<Block, { type: "mission" }> }) {
+export function MissionBlock({ block, exKey }: { block: Extract<Block, { type: "mission" }>; exKey?: string }) {
   const [copied, setCopied] = useState(false);
-  const [ticks, setTicks] = useState<boolean[]>(block.verify.map(() => false));
+  const p = useProgress();
+  // La liste de vérification est gardée (et synchronisée) : on la complète au retour de Claude Code.
+  const vkey = (i: number) => `mission:${exKey || block.title}:${i}`;
+  const ticks = block.verify.map((_v, i) => !!p.checks[vkey(i)]);
+  const setTick = (i: number) => updateProgress((d) => { d.checks = { ...d.checks, [vkey(i)]: !ticks[i] }; });
   return (
     <div className="panel" style={{ borderColor: "rgba(59,232,255,.35)", background: "linear-gradient(160deg, rgba(59,232,255,.07), rgba(12,19,34,.88) 45%)" }}>
       <div className="panel-title" style={{ color: "var(--cyan)" }}><Icon name="rocket" size={16} /> Ordre de mission</div>
@@ -52,7 +56,7 @@ export function MissionBlock({ block }: { block: Extract<Block, { type: "mission
         <>
           <div className="panel-title" style={{ marginTop: 14 }}>À vérifier dans sa livraison</div>
           {block.verify.map((v, i) => (
-            <button key={i} className={`choice ${ticks[i] ? "ok" : ""}`} onClick={() => { sfx(ticks[i] ? "tap" : "ok"); setTicks((t) => t.map((x, k) => (k === i ? !x : x))); }}>
+            <button key={i} className={`choice ${ticks[i] ? "ok" : ""}`} onClick={() => { sfx(ticks[i] ? "tap" : "ok"); setTick(i); }}>
               <span className="key">{ticks[i] ? <Icon name="check" size={14} stroke={2.4} /> : i + 1}</span><span><RichText md={v} /></span>
             </button>
           ))}
@@ -280,6 +284,52 @@ export function DeliveryCard({ r }: { r: Room }) {
       )}
       {!s.ghToken && !st.validated && d.checks.some((c) => c.kind !== "manual" && c.kind !== "pages") && <div className="small dim" style={{ marginTop: 6 }}>Sans jeton GitHub, seuls les dépôts publics peuvent être vérifiés.</div>}
       {st.validated && <div className="feedback ok"><span className="tag">Livraison validée</span>Le {new Date(p.deliveries[r.id] + "T12:00:00").toLocaleDateString("fr-FR")} · {st.verified} contrôle{st.verified > 1 ? "s" : ""} vérifié{st.verified > 1 ? "s" : ""} sur GitHub. Elle figure dans ton portfolio.</div>}
+    </div>
+  );
+}
+
+// ======================= Procédure pas à pas =======================
+/** Manipulation guidée (souvent dans Safari) : chaque étape se coche, la position est gardée et synchronisée. */
+export function ProcedureBlock({ block }: { block: Extract<Block, { type: "procedure" }> }) {
+  const p = useProgress();
+  const key = (i: number) => `proc:${block.id}:${i}`;
+  const done = block.steps.map((_s, i) => !!p.checks[key(i)]);
+  const count = done.filter(Boolean).length;
+  const current = done.indexOf(false);
+  const [help, setHelp] = useState<number | null>(null);
+  const toggle = (i: number) => {
+    const on = !done[i];
+    sfx(on ? "ok" : "tap");
+    updateProgress((d) => { d.checks = { ...d.checks, [key(i)]: on }; });
+    if (on && i === block.steps.length - 1 && done.slice(0, -1).every(Boolean)) fx({ type: "burst", color: "#4dffa0" });
+  };
+  return (
+    <div className="panel" style={{ borderColor: "rgba(77,255,160,.35)", background: "linear-gradient(160deg, rgba(77,255,160,.06), rgba(12,19,34,.88) 45%)" }}>
+      <div className="panel-title" style={{ color: "var(--led)" }}><Icon name="checklist" size={16} /> Procédure · {count}/{block.steps.length}</div>
+      <div className="h3">{block.title}</div>
+      {block.intro && <div className="small muted" style={{ marginBottom: 10 }}><RichText md={block.intro} /></div>}
+      <div className="progress" style={{ margin: "6px 0 12px" }}><motion.i animate={{ width: `${(count / block.steps.length) * 100}%` }} style={{ background: "var(--led)" }} /></div>
+      <div className="stack">
+        {block.steps.map((st, i) => (
+          <div key={i} className={`choice ${done[i] ? "ok" : i === current ? "sel" : ""}`} style={{ cursor: "default", flexDirection: "column", alignItems: "stretch", gap: 8 }}>
+            <div className="row" style={{ alignItems: "flex-start" }}>
+              <button className="key" style={{ flex: "none" }} onClick={() => toggle(i)} aria-label={done[i] ? `Étape ${i + 1} faite, toucher pour décocher` : `Marquer l'étape ${i + 1} comme faite`}>
+                {done[i] ? <Icon name="check" size={14} stroke={2.4} /> : i + 1}
+              </button>
+              <span className="grow"><RichText md={st.do} /></span>
+            </div>
+            {st.see && (i === current || done[i]) && <div className="small" style={{ color: "var(--text-2)", paddingLeft: 40 }}><Icon name="eye" size={13} /> <RichText md={st.see} /></div>}
+            {st.help && !done[i] && (
+              <div style={{ paddingLeft: 40 }}>
+                {help === i
+                  ? <div className="feedback info" style={{ marginTop: 0 }}><span className="tag">Si tu es bloqué</span><RichText md={st.help} /></div>
+                  : <button className="btn small ghost" onClick={() => { sfx("tap"); setHelp(i); }}><Icon name="help" size={14} /> Je suis bloqué</button>}
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+      {count === block.steps.length && <div className="feedback ok"><span className="tag">Procédure terminée</span>Bravo : tout est fait. Tu peux continuer.</div>}
     </div>
   );
 }
