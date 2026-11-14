@@ -186,6 +186,11 @@ changement visuel ; aucune autre retouche n'est autorisée) :
 | `Exercises.tsx` | Clé de brouillon `forma7:brouillon:` remplacée par `forma8:brouillon:` | Ne jamais écrire dans les données de FORMA-7 |
 | `index.html`, `vite.config.ts` | Nom, description, titre, base `/FORMA-8/` | Identité de l'appli |
 | Commentaires de code | Mentions de FORMA-7 adaptées | Exactitude |
+| `public/icons/icon.svg` | Chiffre « 7 » remplacé par « 8 » (même dessin, mêmes couleurs) ; validé le 14/11/2026 | Identité de l'appli |
+
+Nouvel élément visuel validé le 14/11/2026 : sur la carte, chaque caisson est dessiné sur la même dalle
+isométrique que les salles de FORMA-7 (mêmes couleurs, mêmes voyants), avec une capsule et une
+silhouette à la place des baies de serveurs.
 
 Ces substitutions sont décrites dans `scripts/design-parity.json`. Le script
 **`scripts/check-design-parity.mjs`** compare, quand les deux dépôts sont présents : les variables de
