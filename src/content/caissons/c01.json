@@ -1,19 +1,1136 @@
 {
-  "id": "c01",
-  "index": 1,
-  "code": "CAISSON 01",
-  "member": "L'Archiviste",
-  "name": "Garder chaque version",
-  "version": "v0.1",
-  "tagline": "Garder la trace de chaque version de ton produit, et revenir en arrière sans rien perdre.",
-  "hue": 150,
-  "requires": [
-    "c00"
-  ],
-  "steps": [],
-  "teamFile": {
-    "label": "L'historique des versions",
-    "path": "commits",
-    "role": "Garde la mémoire de chaque version et permet de revenir en arrière."
+ "id": "c01",
+ "index": 1,
+ "code": "CAISSON 01",
+ "member": "L'Archiviste",
+ "name": "Garder chaque version",
+ "version": "v0.1",
+ "tagline": "Garder la trace de chaque version de ton produit, et revenir en arrière sans rien perdre.",
+ "hue": 150,
+ "requires": [
+  "c00"
+ ],
+ "steps": [
+  {
+   "id": "p1",
+   "title": "Pourquoi garder les versions",
+   "kicker": "Un projet sans mémoire, c'est un chantier sans photos.",
+   "introduces": [
+    "version",
+    "git",
+    "historique"
+   ],
+   "uses": [
+    "depot",
+    "github",
+    "claude-code"
+   ],
+   "blocks": [
+    {
+     "type": "callout",
+     "tone": "ora",
+     "md": "Caisson 01. Ici dort **l'Archiviste**. Il n'oublie rien : avec lui, tu ne perdras plus jamais un état de ton produit, et tu pourras toujours revenir en arrière. Avant de le réveiller, une question : que se passe-t-il le jour où un changement casse tout ?"
+    },
+    {
+     "type": "example",
+     "title": "Le jour où tout casse",
+     "before": {
+      "label": "Sans mémoire",
+      "md": "Tu demandes un changement. La page est cassée. L'ancien état a été écrasé : il faut tout refaire de tête, en espérant ne rien oublier."
+     },
+     "after": {
+      "label": "Avec mémoire",
+      "md": "Chaque étape a été gardée. Tu reviens au dernier état qui marchait, en quelques touchers, puis tu reprends calmement."
+     },
+     "note": "Tout ce caisson sert à te placer, pour toujours, dans le second cas."
+    },
+    {
+     "type": "definition",
+     "notion": "version"
+    },
+    {
+     "type": "analogy",
+     "title": "Les photos du chantier",
+     "art": "photos-chantier",
+     "md": "Un bon chef de chantier prend une photo à chaque étape : les fondations, les murs, le toit. Si un mur est monté de travers, il ressort la photo d'avant et sait exactement quoi refaire. Chaque photo est une [[version]] : datée, rangée, jamais jetée."
+    },
+    {
+     "type": "definition",
+     "notion": "git"
+    },
+    {
+     "type": "callout",
+     "tone": "info",
+     "md": "Ne confonds pas les deux : **[[git]]** est l'outil qui garde les versions ; **[[github]]** est le site qui héberge ton [[depot]] et te montre ce que Git a gardé. Tu utilises Git depuis le premier jour sans le savoir : quand [[claude-code]] a enregistré ta page, c'est Git qui en a gardé la version."
+    },
+    {
+     "type": "definition",
+     "notion": "historique"
+    },
+    {
+     "type": "text",
+     "md": "Un bon [[historique]] répond à quatre questions, pour chaque changement :\n- **quoi** a changé ;\n- **qui** l'a changé ;\n- **quand** ;\n- **pourquoi** c'était nécessaire.\n\nAvec ces quatre réponses, n'importe qui peut comprendre un projet qu'il découvre. Toi compris, dans six mois."
+    },
+    {
+     "type": "interactive",
+     "widget": "TimeMachine",
+     "caption": "Voici la page d'un produit imaginaire, gardée à chaque étape. Remonte le temps avec les pastilles, puis restaure une ancienne version. Deux défis t'attendent."
+    },
+    {
+     "type": "exercise",
+     "ex": {
+      "kind": "qcm",
+      "q": "Dans la machine, tu restaures la version 3. Que deviennent les versions 4 et 5 ?",
+      "options": [
+       {
+        "t": "Elles restent dans l'historique : restaurer ajoute une version de plus",
+        "ok": true,
+        "why": "Oui. Revenir en arrière n'efface rien : l'[[historique]] grandit toujours. C'est ce qui rend le retour en arrière sans danger."
+       },
+       {
+        "t": "Elles sont effacées pour toujours",
+        "ok": false,
+        "why": "Non : recompte les pastilles de la machine. Aucune n'a disparu, il y en a une de plus."
+       },
+       {
+        "t": "Elles sont envoyées à tes utilisateurs",
+        "ok": false,
+        "why": "Non : l'[[historique]] reste dans ton [[depot]]. Tes utilisateurs ne voient que la page publiée."
+       }
+      ]
+     }
+    },
+    {
+     "type": "exercise",
+     "ex": {
+      "kind": "wiring",
+      "q": "Relie chaque question de l'historique à sa réponse.",
+      "why": "Quoi, qui, quand, pourquoi : les quatre réponses que [[git]] garde pour chaque [[version]].",
+      "pairs": [
+       {
+        "l": "Quoi ?",
+        "r": "Le titre de la page a été raccourci"
+       },
+       {
+        "l": "Qui ?",
+        "r": "Claude Code, à ta demande"
+       },
+       {
+        "l": "Quand ?",
+        "r": "Mardi, à 12 h 41"
+       },
+       {
+        "l": "Pourquoi ?",
+        "r": "Le titre débordait sur iPhone"
+       }
+      ]
+     }
+    },
+    {
+     "type": "exercise",
+     "ex": {
+      "kind": "truefalse",
+      "q": "Vrai ou faux ?",
+      "items": [
+       {
+        "s": "[[git]] et [[github]] sont deux noms pour la même chose.",
+        "ok": false,
+        "why": "Git est l'outil qui garde les versions ; GitHub est le site qui héberge ton dépôt et s'appuie sur Git."
+       },
+       {
+        "s": "Garder chaque [[version]] permet de revenir à un état qui marchait.",
+        "ok": true,
+        "why": "Oui : c'est la première raison d'être de la gestion de versions."
+       },
+       {
+        "s": "L'[[historique]] ne garde que la dernière version.",
+        "ok": false,
+        "why": "Au contraire : il les garde toutes, de la première à la dernière."
+       },
+       {
+        "s": "Le dépôt de ton produit a déjà un historique.",
+        "ok": true,
+        "why": "Oui : il a commencé le jour où tu as créé le dépôt, au caisson 00. Tu vas l'ouvrir au prochain protocole."
+       }
+      ]
+     }
+    },
+    {
+     "type": "callout",
+     "tone": "info",
+     "md": "**Cas réel.** Ton projet précédent, FORMA-7, a été construit en 20 heures environ. Son [[historique]] tient en 6 entrées, et il suffit de le lire pour savoir quel jour chaque fonction est arrivée, et pourquoi. Au prochain protocole, tu l'ouvriras."
+    },
+    {
+     "type": "source",
+     "title": "À propos de Git (documentation GitHub, en français)",
+     "url": "https://docs.github.com/fr/get-started/using-git/about-git",
+     "checked": "2026-11-14",
+     "note": "La gestion de versions, et les quatre questions auxquelles répond l'historique."
+    },
+    {
+     "type": "recap",
+     "points": [
+      "Une [[version]] est l'état de ton projet à un instant précis.",
+      "[[git]] garde toutes les versions ; [[github]] héberge ton dépôt et te les montre.",
+      "L'[[historique]] dit quoi, qui, quand et pourquoi. Revenir en arrière n'efface rien."
+     ]
+    }
+   ]
+  },
+  {
+   "id": "p2",
+   "title": "Le commit",
+   "kicker": "Une photo de ton projet, avec sa légende.",
+   "introduces": [
+    "commit",
+    "message-de-commit"
+   ],
+   "uses": [
+    "git",
+    "version",
+    "historique",
+    "depot",
+    "claude-code",
+    "adresse-web"
+   ],
+   "blocks": [
+    {
+     "type": "text",
+     "md": "Dans [[git]], chaque [[version]] enregistrée porte un nom. Tu vas le lire partout sur GitHub, alors autant l'apprendre tout de suite."
+    },
+    {
+     "type": "definition",
+     "notion": "commit"
+    },
+    {
+     "type": "interactive",
+     "widget": "GitBranches",
+     "mode": "commits",
+     "caption": "Chaque rond est un commit. Enregistres-en quelques-uns, puis touche un rond pour relire son message. Deux défis à réussir."
+    },
+    {
+     "type": "definition",
+     "notion": "message-de-commit"
+    },
+    {
+     "type": "example",
+     "title": "La légende au dos de la photo",
+     "before": {
+      "label": "Message flou",
+      "md": "« Modifs »\n« maj »\n« ok cette fois »"
+     },
+     "after": {
+      "label": "Message utile",
+      "md": "« Raccourcit le titre : il débordait sur iPhone »"
+     },
+     "note": "Un bon [[message-de-commit]] dit **ce qui change** et, si possible, **pourquoi**. Dans six mois, c'est tout ce qu'il te restera pour retrouver ce changement."
+    },
+    {
+     "type": "callout",
+     "tone": "info",
+     "md": "**Un commit, un seul changement.** Dans l'idéal, chaque [[commit]] contient un changement isolé et complet. Le jour où tu voudras revenir sur ce changement, tu reviendras sur ce commit, et sur rien d'autre."
+    },
+    {
+     "type": "diff",
+     "title": "Un vrai commit de FORMA-7",
+     "file": "README.md",
+     "lines": [
+      {
+       "kind": "del",
+       "t": "`https://<compte>.github.io/forma-7/`."
+      },
+      {
+       "kind": "add",
+       "t": "`https://<compte>.github.io/FORMA-7/`."
+      }
+     ],
+     "note": "Extrait du deuxième [[commit]] de FORMA-7 (13 novembre 2026). Son message : « Aligner l'appli sur les dépôts FORMA-7 et FORMA-7-data ». Dans le fichier de présentation du projet, l'[[adresse-web]] du site était écrite en minuscules ; le commit la corrige. En entier, ce commit touche 4 fichiers : 8 lignes retirées, 8 lignes ajoutées."
+    },
+    {
+     "type": "text",
+     "md": "**Étude de cas : les 6 commits de FORMA-7.** Voici tout l'[[historique]] de ton projet précédent (heures UTC) :\n- 13/11, 06:45 · « FORMA-7 : appli d'apprentissage \"Rallume le datacenter\" » · **66 fichiers**\n- 13/11, 07:26 · « Aligner l'appli sur les dépôts FORMA-7 et FORMA-7-data » · 4 fichiers\n- 13/11, 07:32 · « CI : actions GitHub à jour (Node 24) » · 1 fichier\n- 13/11, 20:51 · « Synchronisation de la progression entre appareils » · 9 fichiers\n- 14/11, 01:43 · « Zéro emoji : bibliothèque d'icônes maison… » · 40 fichiers\n- 14/11, 02:17 · « Leçons : reprise fiable là où on s'était arrêté » · 6 fichiers"
+    },
+    {
+     "type": "callout",
+     "tone": "info",
+     "md": "**Ce que cet historique fait bien :** chaque message dit clairement ce qui change. **Ce qui se discute :** le premier commit contient presque tout le projet, 66 fichiers d'un coup. Impossible de revenir sur un seul morceau sans revenir sur tout. Plus un commit est petit, plus il est facile à relire, et à défaire."
+    },
+    {
+     "type": "procedure",
+     "id": "c01-lire-historique",
+     "title": "Lire l'historique de ton dépôt",
+     "intro": "Dans Safari, connecté à GitHub. Tu ne modifies rien : tu regardes.",
+     "steps": [
+      {
+       "do": "Ouvre le dépôt de ton produit sur **github.com**.",
+       "see": "La liste de tes fichiers : README.md, index.html."
+      },
+      {
+       "do": "Juste au-dessus de la liste des fichiers, une ligne montre le dernier changement. Touche la petite **horloge**, à droite de cette ligne.",
+       "see": "La page **Commits** : tes commits rangés par jour, du plus récent au plus ancien.",
+       "help": "Tu ne trouves pas l'horloge ? Dans la barre d'adresse de Safari, ajoute `/commits` à la fin de l'adresse de ton dépôt : `github.com/ton-compte/ton-depot/commits`."
+      },
+      {
+       "do": "Compte tes commits et lis leurs messages.",
+       "see": "Au moins deux ou trois lignes : la création du dépôt (**Initial commit**), la page créée par Claude Code, et la fusion de sa pull request (un message qui commence par **Merge pull request**)."
+      },
+      {
+       "do": "Touche le message du commit où Claude Code a créé ta page.",
+       "see": "Le détail de ce commit : en haut, le nombre de fichiers modifiés (par exemple **1 file changed**) ; en dessous, les lignes vertes de index.html.",
+       "help": "Sur un petit écran, les longues lignes se font défiler de gauche à droite, avec le doigt."
+      },
+      {
+       "do": "Reviens à la liste (flèche Retour de Safari) et regarde, sous chaque message, qui a fait le commit et quand.",
+       "see": "Une mention du type **committed 2 days ago** (enregistré il y a 2 jours)."
+      }
+     ]
+    },
+    {
+     "type": "exercise",
+     "ex": {
+      "kind": "cloze",
+      "q": "Complète la phrase.",
+      "text": "Un {{commit}} est une photo du projet à un instant précis. Son {{message}} dit ce qui a changé. Mis bout à bout, ils forment l'{{historique}}.",
+      "distractors": [
+       "serveur",
+       "navigateur"
+      ],
+      "why": "Le [[commit]] garde le changement, le [[message-de-commit]] l'explique, et l'[[historique]] les range dans l'ordre."
+     }
+    },
+    {
+     "type": "exercise",
+     "ex": {
+      "kind": "qcm",
+      "q": "Quel [[message-de-commit]] te sera le plus utile dans six mois ?",
+      "options": [
+       {
+        "t": "« Corrige le bouton Contact : il n'ouvrait pas le mail »",
+        "ok": true,
+        "why": "Il dit ce qui change et pourquoi. Tu retrouveras ce commit en dix secondes."
+       },
+       {
+        "t": "« Modifications diverses »",
+        "ok": false,
+        "why": "Lesquelles ? Il faudrait ouvrir le commit pour le savoir : le message ne sert à rien."
+       },
+       {
+        "t": "« Version finale 2 (la vraie) »",
+        "ok": false,
+        "why": "Ce message ne décrit aucun changement. Et avec [[git]], il n'y a jamais de « version finale » : seulement le commit suivant."
+       }
+      ]
+     }
+    },
+    {
+     "type": "exercise",
+     "ex": {
+      "kind": "truefalse",
+      "q": "Vrai ou faux ? (étude de cas FORMA-7)",
+      "items": [
+       {
+        "s": "On peut facilement revenir sur un seul morceau du premier commit de FORMA-7.",
+        "ok": false,
+        "why": "Non : il contient 66 fichiers d'un coup. Revenir sur ce commit, c'est revenir sur presque tout le projet."
+       },
+       {
+        "s": "« Leçons : reprise fiable là où on s'était arrêté » dit ce que le commit change.",
+        "ok": true,
+        "why": "Oui : sans ouvrir le code, on comprend le sujet (les leçons) et l'effet (la reprise devient fiable)."
+       },
+       {
+        "s": "Un commit garde aussi la date et l'auteur du changement.",
+        "ok": true,
+        "why": "Oui : c'est ce qui permet à l'[[historique]] de répondre à « qui ? » et « quand ? »."
+       }
+      ]
+     }
+    },
+    {
+     "type": "source",
+     "title": "Engagements : à propos des commits (documentation GitHub, en français)",
+     "url": "https://docs.github.com/fr/pull-requests/reference/commits",
+     "checked": "2026-11-14",
+     "note": "La traduction officielle écrit parfois « validation » ou « engagement » à la place de commit : c'est le même mot."
+    },
+    {
+     "type": "source",
+     "title": "flux de GitHub (documentation GitHub, en français)",
+     "url": "https://docs.github.com/fr/get-started/using-github/github-flow",
+     "checked": "2026-11-14",
+     "note": "Un message descriptif par commit ; un changement isolé et complet par commit."
+    },
+    {
+     "type": "recap",
+     "points": [
+      "Un [[commit]] est une version enregistrée : les changements, l'auteur, la date.",
+      "Un bon [[message-de-commit]] dit ce qui change, et pourquoi.",
+      "Un commit, un seul changement : c'est ce qui le rend facile à relire et à défaire."
+     ]
+    }
+   ]
+  },
+  {
+   "id": "p3",
+   "title": "Les branches",
+   "kicker": "Un endroit sûr pour essayer, sans toucher à ce qui marche.",
+   "introduces": [
+    "branche",
+    "branche-principale"
+   ],
+   "uses": [
+    "commit",
+    "message-de-commit",
+    "historique",
+    "depot",
+    "github-pages",
+    "claude-code",
+    "pull-request"
+   ],
+   "blocks": [
+    {
+     "type": "callout",
+     "tone": "ora",
+     "md": "Jusqu'ici, chaque [[commit]] s'ajoutait à la suite, sur une seule ligne. Mais ta page est en ligne : un essai raté serait vu par tout le monde. Il te faut un endroit pour essayer **à côté**."
+    },
+    {
+     "type": "definition",
+     "notion": "branche"
+    },
+    {
+     "type": "analogy",
+     "title": "Une voie d'essai, à côté de la voie principale",
+     "art": "voie-essai",
+     "md": "Dans une gare, on ne teste pas un nouveau train sur la voie des voyageurs. On l'envoie sur une voie d'essai : il peut y manœuvrer, caler, recommencer. Quand tout est prêt, un aiguillage le ramène sur la voie principale. Une [[branche]], c'est cette voie d'essai."
+    },
+    {
+     "type": "definition",
+     "notion": "branche-principale"
+    },
+    {
+     "type": "text",
+     "md": "Sur GitHub, la [[branche-principale]] s'appelle presque toujours **main**. C'est elle que [[github-pages]] publie : tout ce qui arrive sur main finit en ligne. D'où la règle d'or de ce caisson : **on ne travaille jamais directement sur main**."
+    },
+    {
+     "type": "interactive",
+     "widget": "GitBranches",
+     "mode": "branches",
+     "caption": "Le même simulateur, avec deux boutons de plus. Crée une branche, fais-y deux commits, regarde main rester immobile, puis fusionne. Trois défis."
+    },
+    {
+     "type": "callout",
+     "tone": "info",
+     "md": "**Claude Code fait pareil.** Quand tu lui confies une tâche sur claude.ai/code, [[claude-code]] ne touche pas à main : il travaille sur sa propre [[branche]], puis l'envoie sur GitHub pour que tu regardes son travail. Dans le dépôt de FORMA-8, l'une de ses branches s'appelle `claude/forma8-c00`."
+    },
+    {
+     "type": "callout",
+     "tone": "info",
+     "md": "**Étude de cas.** Les 6 commits de FORMA-7 ont tous été faits directement sur main : aucune [[branche]]. Chaque commit partait donc en ligne aussitôt, sans étape d'essai. Conséquence connue : un défaut de reprise des leçons, découvert après la mise en ligne et corrigé au sixième commit. FORMA-8 a fait l'inverse : depuis sa création, tout son travail est arrivé sur main en passant par des branches."
+    },
+    {
+     "type": "procedure",
+     "id": "c01-creer-branche",
+     "title": "Ta première branche, et ton premier commit à la main",
+     "intro": "Dans Safari. Pour une fois, c'est toi qui modifies un fichier, sans Claude Code : tu vas sentir chaque geste.",
+     "steps": [
+      {
+       "do": "Ouvre ton dépôt sur **github.com**. Au-dessus de la liste des fichiers, touche le bouton **main** (avec une petite flèche).",
+       "see": "Le menu **Switch branches/tags** s'ouvre, avec un champ de saisie : **Find or create a branch…** (trouver ou créer une branche).",
+       "help": "Si le champ dit seulement **Find a branch…**, tu n'es pas connecté à ton compte GitHub : touche **Sign in**, puis recommence."
+      },
+      {
+       "do": "Écris `essai-readme` dans ce champ, puis touche la ligne **Create branch** qui apparaît en dessous (créer la branche).",
+       "see": "Le bouton affiche maintenant **essai-readme** à la place de main : tu es sur ta branche.",
+       "help": "Pas d'espace ni d'accent dans un nom de branche : utilise des tirets. Un nom court qui dit le sujet du travail est idéal."
+      },
+      {
+       "do": "Touche le fichier **README.md**, puis le **crayon** en haut à droite du fichier.",
+       "see": "Le texte du README devient modifiable.",
+       "help": "Vérifie d'abord que le bouton de branche affiche bien **essai-readme**. Pas de crayon visible sur ton écran ? Écris directement cette adresse dans Safari, avec ton compte et ton dépôt : `github.com/ton-compte/ton-depot/edit/essai-readme/README.md`."
+      },
+      {
+       "do": "Ajoute une ligne à la fin : une phrase qui présente ton produit, avec tes mots."
+      },
+      {
+       "do": "Touche **Commit changes...** (enregistrer les modifications). Dans le champ **Commit message**, remplace le texte proposé par un vrai message, par exemple : « Présente le produit dans le README ».",
+       "see": "Une fenêtre avec ton message et, en dessous, deux choix."
+      },
+      {
+       "do": "Garde le premier choix, **Commit directly to the essai-readme branch** (enregistrer directement sur ta branche), puis touche **Commit changes**.",
+       "see": "Le README modifié, sur ta branche.",
+       "help": "Si la fenêtre parle de main au lieu de essai-readme, touche **Cancel** : tu n'es pas sur la bonne branche."
+      },
+      {
+       "do": "Reviens à l'accueil du dépôt, et repasse sur **main** avec le bouton de branche.",
+       "see": "Sur main, le README n'a pas changé : ton essai vit seulement sur ta branche. Un bandeau jaune propose **Compare & pull request** : tu t'en serviras au prochain protocole."
+      }
+     ]
+    },
+    {
+     "type": "callout",
+     "tone": "volatile",
+     "md": "Les menus de GitHub s'affichent en anglais et changent parfois de place. Les libellés en gras ont été relevés le 14 novembre 2026, dans la documentation de GitHub et sur github.com affiché à la taille d'un iPhone. Si un bouton a bougé, cherche le mot le plus proche, ou utilise **Demander à ORA** (en haut de l'écran)."
+    },
+    {
+     "type": "exercise",
+     "ex": {
+      "kind": "qcm",
+      "q": "Tu viens de faire un commit sur la branche essai-readme. Que voit un visiteur de ta page en ligne ?",
+      "options": [
+       {
+        "t": "Rien de nouveau : la page publiée vient de main",
+        "ok": true,
+        "why": "Oui : [[github-pages]] publie la [[branche-principale]]. Tant que ta branche n'y est pas intégrée, ton essai reste invisible."
+       },
+       {
+        "t": "Ton changement, aussitôt",
+        "ok": false,
+        "why": "Non : c'est justement l'intérêt d'une [[branche]]. Rien ne part en ligne tant que tu ne l'as pas décidé."
+       },
+       {
+        "t": "Une page d'erreur",
+        "ok": false,
+        "why": "Non : main n'a pas bougé, la page en ligne non plus."
+       }
+      ]
+     }
+    },
+    {
+     "type": "exercise",
+     "ex": {
+      "kind": "wiring",
+      "q": "Relie chaque mot à ce qu'il désigne.",
+      "why": "La [[branche-principale]] est la référence publiée ; une [[branche]] est une ligne de travail à part ; chaque [[commit]] y ajoute une photo.",
+      "pairs": [
+       {
+        "l": "main",
+        "r": "La version de référence, celle qui est publiée"
+       },
+       {
+        "l": "essai-readme",
+        "r": "Une ligne de travail à part, pour essayer"
+       },
+       {
+        "l": "Commit",
+        "r": "Une photo du projet, avec son message"
+       },
+       {
+        "l": "Historique",
+        "r": "Toutes les photos, dans l'ordre"
+       }
+      ]
+     }
+    },
+    {
+     "type": "exercise",
+     "ex": {
+      "kind": "order",
+      "q": "Remets dans l'ordre le début d'un travail propre.",
+      "items": [
+       "Créer une branche à partir de main",
+       "Faire les changements sur cette branche",
+       "Enregistrer chaque changement par un commit",
+       "Proposer la branche dans une pull request"
+      ],
+      "why": "C'est le début du « flux de GitHub » : une [[branche]], des [[commit|commits]], puis une [[pull-request]]. La suite au prochain protocole."
+     }
+    },
+    {
+     "type": "source",
+     "title": "flux de GitHub (documentation GitHub, en français)",
+     "url": "https://docs.github.com/fr/get-started/using-github/github-flow",
+     "checked": "2026-11-14",
+     "note": "« Votre branche constitue un endroit sûr pour apporter des modifications. »"
+    },
+    {
+     "type": "source",
+     "title": "Gestion des branches au sein de votre référentiel (documentation GitHub, en français)",
+     "url": "https://docs.github.com/fr/pull-requests/how-tos/commit-changes/managing-branches-within-your-repository",
+     "checked": "2026-11-14",
+     "note": "Créer une branche depuis le menu des branches."
+    },
+    {
+     "type": "source",
+     "title": "Modification de fichiers (documentation GitHub, en français)",
+     "url": "https://docs.github.com/fr/repositories/working-with-files/managing-files/editing-files",
+     "checked": "2026-11-14",
+     "note": "Modifier un fichier dans le navigateur et enregistrer un commit."
+    },
+    {
+     "type": "recap",
+     "points": [
+      "Une [[branche]] est une ligne de commits à part : un endroit sûr pour essayer.",
+      "La [[branche-principale]], main, est la version de référence, celle qui est publiée.",
+      "Règle d'or : on ne travaille jamais directement sur main."
+     ]
+    }
+   ]
+  },
+  {
+   "id": "p4",
+   "title": "La pull request en détail",
+   "kicker": "Rien n'entre dans main sans avoir été relu.",
+   "introduces": [
+    "fusion",
+    "relecture"
+   ],
+   "uses": [
+    "pull-request",
+    "branche",
+    "branche-principale",
+    "commit",
+    "message-de-commit",
+    "claude-code",
+    "historique"
+   ],
+   "blocks": [
+    {
+     "type": "callout",
+     "tone": "ora",
+     "md": "Ta branche essai-readme attend sur sa voie d'essai. Pour que son contenu rejoigne main, il faut deux gestes, dans cet ordre : **relire**, puis **fusionner**. La [[pull-request]] que tu as découverte au caisson 00 sert exactement à cela."
+    },
+    {
+     "type": "definition",
+     "notion": "fusion"
+    },
+    {
+     "type": "definition",
+     "notion": "relecture"
+    },
+    {
+     "type": "analogy",
+     "title": "Le contrôle avant la mise en service",
+     "art": "relecture",
+     "md": "Avant qu'un train quitte la voie d'essai, quelqu'un fait le tour et vérifie. La [[relecture]] est ce contrôle : tu regardes ce que la [[branche]] change. Ensuite seulement, tu actionnes l'aiguillage : c'est la [[fusion]], qui fait entrer le travail en service."
+    },
+    {
+     "type": "text",
+     "md": "Une [[pull-request]] a plusieurs onglets. Trois te suffisent pour l'instant :\n- **Conversation** : la description, les remarques, et tout en bas le bouton de fusion ;\n- **Commits** : les [[commit|commits]] de la branche, un par un ;\n- **Files changed** (fichiers modifiés) : le diff, c'est-à-dire tout ce qui change, en rouge et en vert.\n\nUn quatrième onglet, **Checks**, montre des vérifications automatiques : tu le découvriras au caisson 05."
+    },
+    {
+     "type": "text",
+     "md": "**Relire, ce n'est pas tout comprendre.** Tu n'as pas à lire chaque ligne comme un développeur. Pose-toi quatre questions :\n- Les fichiers modifiés sont-ils ceux que j'attendais ?\n- Y a-t-il des lignes rouges (retirées) que je n'ai pas demandées ?\n- Le changement fait-il ce que j'ai demandé, et seulement cela ?\n- Est-ce que je sais comment vérifier le résultat ?"
+    },
+    {
+     "type": "diff",
+     "title": "Une pull request à relire",
+     "file": "index.html",
+     "lines": [
+      {
+       "kind": "ctx",
+       "t": "  <h1>Carnet de chantier</h1>"
+      },
+      {
+       "kind": "del",
+       "t": "  <p>Tes chantiers, dans ta poche.</p>"
+      },
+      {
+       "kind": "ctx",
+       "t": "  <a href=\"mailto:moi@exemple.fr\">Contact</a>"
+      },
+      {
+       "kind": "add",
+       "t": "  <p>Téléphone : 01 23 45 67 89</p>"
+      }
+     ],
+     "note": "Ta demande était : « Ajoute un numéro de téléphone sous le bouton Contact. » Regarde bien chaque ligne, puis réponds à la question."
+    },
+    {
+     "type": "exercise",
+     "ex": {
+      "kind": "qcm",
+      "q": "Que fais-tu de cette pull request ?",
+      "options": [
+       {
+        "t": "Je ne fusionne pas : une phrase que je n'ai pas demandé de retirer a disparu",
+        "ok": true,
+        "why": "Bien vu. Le numéro est ajouté (ligne verte), mais la phrase de présentation est retirée (ligne rouge) sans que tu l'aies demandé. Tu demandes à Claude Code de la remettre, puis tu relis de nouveau."
+       },
+       {
+        "t": "Je fusionne : le numéro de téléphone est bien ajouté",
+        "ok": false,
+        "why": "Le numéro est là, oui. Mais regarde la ligne rouge : la phrase de présentation a disparu, et tu ne l'avais pas demandé."
+       },
+       {
+        "t": "Je supprime le dépôt et je recommence",
+        "ok": false,
+        "why": "Surtout pas : rien n'est encore entré dans main. Il suffit de ne pas fusionner et de demander une correction."
+       }
+      ]
+     }
+    },
+    {
+     "type": "procedure",
+     "id": "c01-ouvrir-pr",
+     "title": "Ouvrir la pull request de ta branche",
+     "intro": "Dans Safari, sur le dépôt de ton produit. Ta branche essai-readme contient ton commit du protocole 3.",
+     "steps": [
+      {
+       "do": "Ouvre ton dépôt sur **github.com**. Si le bandeau jaune **Compare & pull request** est affiché, touche-le.",
+       "see": "Le formulaire **Open a pull request** (ouvrir une pull request).",
+       "help": "Pas de bandeau ? Touche l'onglet **Pull requests**, puis **New pull request**, et choisis **essai-readme** dans le menu **compare**. Ou écris cette adresse dans Safari : `github.com/ton-compte/ton-depot/compare/main...essai-readme`."
+      },
+      {
+       "do": "Vérifie la ligne du haut : **base: main** et **compare: essai-readme**.",
+       "see": "Ta branche va bien vers main. La mention **Able to merge** indique que la fusion est possible."
+      },
+      {
+       "do": "Écris un titre clair, par exemple « Présente le produit dans le README », et une phrase de description qui dit pourquoi.",
+       "help": "Le titre et la description servent à celui qui relit. Ici, c'est toi : écris-les pour le toi de dans six mois."
+      },
+      {
+       "do": "Touche **Create pull request**.",
+       "see": "Ta pull request, avec le badge vert **Open** (ouverte)."
+      }
+     ]
+    },
+    {
+     "type": "procedure",
+     "id": "c01-relire-fusionner",
+     "title": "Relire, puis fusionner",
+     "steps": [
+      {
+       "do": "Dans ta pull request, ouvre l'onglet **Files changed**.",
+       "see": "Le diff du README : ta phrase, en vert.",
+       "help": "Sur iPhone, les onglets défilent de gauche à droite : fais glisser la rangée d'onglets avec le doigt."
+      },
+      {
+       "do": "Pose-toi les quatre questions de la relecture.",
+       "see": "Un seul fichier modifié, et aucune ligne rouge inattendue."
+      },
+      {
+       "do": "Reviens à l'onglet **Conversation**, descends, puis touche **Merge pull request** et **Confirm merge**.",
+       "see": "Le badge violet **Merged** (fusionnée).",
+       "help": "Bouton grisé ? Patiente quelques secondes et recharge la page : GitHub vérifie que la fusion est possible."
+      },
+      {
+       "do": "Touche **Delete branch** (supprimer la branche).",
+       "see": "Un message confirme que la branche est supprimée.",
+       "help": "Aucun risque : ses commits sont maintenant dans main. C'est la dernière étape du flux de GitHub, et un bouton **Restore branch** permet de la rétablir."
+      },
+      {
+       "do": "Ouvre l'historique de main, avec l'horloge, comme au protocole 2.",
+       "see": "Deux nouveaux commits : le tien, et le commit de fusion, dont le message commence par **Merge pull request**."
+      }
+     ]
+    },
+    {
+     "type": "mission",
+     "title": "Un changement relu de bout en bout",
+     "goal": "Cette fois, c'est [[claude-code]] qui travaille sur une [[branche]]. Toi, tu relis, puis tu fusionnes.",
+     "prompt": "Sur une nouvelle branche, ajoute en bas de la page d'accueil (index.html) de mon produit {produit} une section « Dernières nouveautés », avec une seule ligne : « Version 0.1 : chaque version du projet est désormais gardée. »\n\nContraintes : ne modifie aucun autre texte de la page, garde le style existant, et vérifie que la page reste lisible sur un écran d'iPhone. Fais un seul commit, avec un message en français qui dit ce qui change et pourquoi.\n\nQuand c'est fini : crée une pull request vers main, sans la fusionner. Explique-moi ensuite en trois phrases simples ce que tu as modifié, et signale-moi les risques éventuels.",
+     "verify": [
+      "La pull request vise bien main (**base: main**)",
+      "Dans **Files changed**, seul index.html est modifié",
+      "Aucune ligne rouge que tu n'as pas demandée",
+      "Le [[message-de-commit]] dit ce qui change, et pourquoi",
+      "Tu as fusionné toi-même, après ta [[relecture]]"
+     ]
+    },
+    {
+     "type": "callout",
+     "tone": "info",
+     "md": "**Le conseil de la documentation de Claude Code :** relis la pull request créée par Claude avant de l'accepter, et demande-lui de mettre en évidence les risques ou les points d'attention. C'est exactement ce que fait la dernière phrase de ton ordre de mission."
+    },
+    {
+     "type": "consigne",
+     "id": "c01-aide-relecture",
+     "situation": "Claude Code vient de terminer un changement et te propose une pull request qui modifie 6 fichiers. Tu ne comprends pas tout ce que tu vois dans **Files changed**. Rédige la consigne qui lui demande de t'aider à relire avant de fusionner.",
+     "expected": [
+      "Dire quelle pull request ou quelle branche relire.",
+      "Demander un résumé fichier par fichier, en mots simples.",
+      "Demander les risques : ce qui pourrait casser.",
+      "Demander comment vérifier le résultat toi-même, sur ton iPhone.",
+      "Interdire de fusionner sans ton accord."
+     ]
+    },
+    {
+     "type": "callout",
+     "tone": "info",
+     "md": "**Étude de cas : FORMA-7 et FORMA-8.** FORMA-7 : 6 commits directement sur main, aucune [[pull-request]], aucune [[relecture]]. FORMA-8 : chaque lot de travail arrive par une pull request, que tu fusionnes toi-même. Et même ainsi, l'erreur reste possible : une pull request de FORMA-8 a été fusionnée avant d'être complète, et il a fallu en ouvrir une autre pour terminer. La leçon : on fusionne quand le travail est annoncé comme prêt, pas avant."
+    },
+    {
+     "type": "exercise",
+     "ex": {
+      "kind": "order",
+      "q": "Remets dans l'ordre le flux de GitHub, du début à la fin.",
+      "items": [
+       "Créer une branche",
+       "Faire des changements et des commits",
+       "Ouvrir une pull request",
+       "Relire et répondre aux remarques",
+       "Fusionner la pull request",
+       "Supprimer la branche"
+      ],
+      "why": "Ce sont les six étapes du « flux de GitHub », la méthode de travail recommandée par GitHub. Elle tient en une phrase : une [[branche]], des commits, une [[pull-request]], une [[relecture]], une [[fusion]]."
+     }
+    },
+    {
+     "type": "exercise",
+     "ex": {
+      "kind": "feynman",
+      "q": "Explique avec tes mots pourquoi FORMA-8 passe par des [[pull-request|pull requests]], alors que FORMA-7 envoyait tout directement sur main.",
+      "model": "Sur FORMA-7, chaque commit arrivait directement sur main, donc en ligne, sans que personne ne le relise : un défaut pouvait être publié sans être vu. Sur FORMA-8, le travail se fait sur une branche. La pull request me montre ce qui change avant que cela n'entre dans main : je relis les fichiers modifiés, et c'est moi qui décide de fusionner. Si quelque chose ne va pas, je ne fusionne pas, et main reste intacte.",
+      "criteria": [
+       "Sur main, un changement part en ligne tout de suite",
+       "La branche permet de travailler à côté, sans risque",
+       "La pull request montre ce qui change avant la fusion",
+       "C'est moi qui relis et qui décide de fusionner"
+      ]
+     }
+    },
+    {
+     "type": "source",
+     "title": "Requêtes de tirage : à propos des pull requests (documentation GitHub, en français)",
+     "url": "https://docs.github.com/fr/pull-requests/reference/pull-requests",
+     "checked": "2026-11-14",
+     "note": "La traduction officielle écrit parfois « demande de tirage » ou « demande d'extraction » : c'est la pull request."
+    },
+    {
+     "type": "source",
+     "title": "Création d'une pull request (documentation GitHub, en français)",
+     "url": "https://docs.github.com/fr/pull-requests/how-tos/create-pull-requests/creating-a-pull-request",
+     "checked": "2026-11-14"
+    },
+    {
+     "type": "source",
+     "title": "Fusion d'une pull request (documentation GitHub, en français)",
+     "url": "https://docs.github.com/fr/pull-requests/how-tos/merge-and-close-pull-requests/merging-a-pull-request",
+     "checked": "2026-11-14"
+    },
+    {
+     "type": "source",
+     "title": "Flux de travail courants (documentation officielle de Claude Code, en français)",
+     "url": "https://code.claude.com/docs/fr/common-workflows",
+     "checked": "2026-11-14",
+     "note": "Section « Créer des pull requests » : relire la pull request et demander les risques."
+    },
+    {
+     "type": "recap",
+     "points": [
+      "La [[relecture]] vient avant la [[fusion]] : quatre questions suffisent.",
+      "L'onglet **Files changed** montre tout ce qui change : méfie-toi des lignes rouges inattendues.",
+      "Une [[branche]], des commits, une [[pull-request]], une relecture, une fusion : c'est le flux de GitHub."
+     ]
+    }
+   ]
+  },
+  {
+   "id": "p5",
+   "title": "Revenir en arrière",
+   "kicker": "Une erreur fusionnée n'est pas une catastrophe : c'est un commit de plus.",
+   "introduces": [
+    "annulation",
+    "conflit"
+   ],
+   "uses": [
+    "fusion",
+    "pull-request",
+    "commit",
+    "branche",
+    "branche-principale",
+    "historique",
+    "relecture",
+    "git",
+    "claude-code",
+    "html"
+   ],
+   "blocks": [
+    {
+     "type": "callout",
+     "tone": "ora",
+     "md": "Un jour, tu fusionneras une erreur. Cela arrive à tout le monde, experts compris. Ce qui distingue un expert, c'est qu'il sait revenir en arrière en deux minutes, calmement, sans rien perdre. C'est le dernier secret de l'Archiviste."
+    },
+    {
+     "type": "definition",
+     "notion": "annulation"
+    },
+    {
+     "type": "analogy",
+     "title": "Le registre où l'on n'efface rien",
+     "art": "correction",
+     "md": "Dans un registre tenu à l'encre, on ne gomme jamais une ligne fausse : on écrit, en dessous, une ligne qui la corrige. Une [[annulation]] fait pareil : elle ajoute un [[commit]] qui dit le contraire du précédent. L'[[historique]] garde l'erreur et sa correction."
+    },
+    {
+     "type": "interactive",
+     "widget": "GitBranches",
+     "caption": "Le simulateur est maintenant complet, avec le bouton « Revenir en arrière ». Fusionne une branche, puis annule : compte les ronds, aucun ne disparaît. Trois défis."
+    },
+    {
+     "type": "text",
+     "md": "Sur GitHub, l'[[annulation]] d'une [[pull-request]] fusionnée tient en un bouton : **Revert**. Il ne modifie pas main tout de suite : il prépare une **nouvelle pull request**, qui fait l'inverse de la première. Tu la relis, tu la fusionnes, et main retrouve son état d'avant."
+    },
+    {
+     "type": "procedure",
+     "id": "c01-annuler-fusion",
+     "title": "Exercice réel : fusionner une erreur, puis l'annuler",
+     "intro": "Tu vas casser ton titre exprès, puis le réparer. Compte dix minutes. Pendant quelques minutes, ta page en ligne affichera un titre faux : c'est voulu, et c'est le meilleur moyen de ne plus jamais avoir peur d'une erreur.",
+     "steps": [
+      {
+       "do": "Dans ton dépôt, crée une branche `erreur-volontaire` : bouton **main**, champ **Find or create a branch…**, puis **Create branch**.",
+       "see": "Le bouton de branche affiche **erreur-volontaire**."
+      },
+      {
+       "do": "Sur cette branche, ouvre **index.html**, touche le **crayon**, et remplace le texte de ton grand titre par `TITRE CASSÉ`. Puis **Commit changes...**, message « Essai : casse le titre exprès », et **Commit changes**.",
+       "see": "Le fichier modifié, sur la branche erreur-volontaire.",
+       "help": "Le grand titre est le texte placé entre `<h1>` et `</h1>`. Ne change que le texte, pas ces deux repères. Pas de crayon visible ? Adresse directe : `github.com/ton-compte/ton-depot/edit/erreur-volontaire/index.html`."
+      },
+      {
+       "do": "Ouvre la pull request (**Compare & pull request**, puis **Create pull request**), et fusionne-la : **Merge pull request**, **Confirm merge**.",
+       "see": "Le badge violet **Merged**. Dans quelques minutes, ta page en ligne affichera TITRE CASSÉ."
+      },
+      {
+       "do": "Sur la page de cette pull request fusionnée, descends et touche **Revert** (annuler).",
+       "see": "Une nouvelle pull request, déjà remplie, dont le titre commence par **Revert**.",
+       "help": "Le bouton Revert se trouve vers le bas de la pull request, près du message de fusion. Introuvable ? Recharge la page et vérifie le badge **Merged**."
+      },
+      {
+       "do": "Touche **Create pull request**, puis ouvre **Files changed**.",
+       "see": "Le diff inverse : TITRE CASSÉ en rouge, ton vrai titre en vert.",
+       "help": "Si la pull request d'annulation est déjà créée, passe directement à **Files changed**."
+      },
+      {
+       "do": "Fusionne cette pull request d'annulation : **Merge pull request**, **Confirm merge**.",
+       "see": "**Merged**. Après quelques minutes, ta page en ligne retrouve son vrai titre."
+      },
+      {
+       "do": "Ouvre l'historique de main, avec l'horloge.",
+       "see": "Toute l'histoire y est : le commit qui casse, sa fusion, puis le **Revert**. Rien n'a été effacé."
+      }
+     ]
+    },
+    {
+     "type": "definition",
+     "notion": "conflit"
+    },
+    {
+     "type": "text",
+     "md": "La plupart du temps, [[git]] fusionne tout seul : si deux [[branche|branches]] ont modifié des lignes différentes, ou des fichiers différents, il réunit les deux sans rien demander. Un [[conflit]] n'apparaît que lorsque les deux changements se marchent dessus : la **même ligne** du **même fichier**, ou un fichier modifié d'un côté et supprimé de l'autre."
+    },
+    {
+     "type": "interactive",
+     "widget": "ConflictLab",
+     "caption": "Un vrai conflit, en miniature. Lis les trois marqueurs, choisis le contenu final, puis valide avec les mêmes boutons que sur GitHub."
+    },
+    {
+     "type": "text",
+     "md": "Sur GitHub, une [[pull-request]] en conflit affiche un bouton **Resolve conflicts** (résoudre les conflits). Tu modifies le fichier comme dans le simulateur, puis **Mark as resolved** et **Commit merge**. Cet éditeur ne traite que les conflits simples, sur une même ligne.\n\nPour les autres, ou si tu hésites, confie-le à [[claude-code]] : rouvre la séance qui a créé la pull request et écris, par exemple : « La pull request a un conflit avec main. Résous-le en gardant mon titre court, explique-moi ton choix, et ne fusionne pas. »"
+    },
+    {
+     "type": "exercise",
+     "ex": {
+      "kind": "truefalse",
+      "q": "Vrai ou faux ?",
+      "items": [
+       {
+        "s": "Annuler une fusion efface les commits fautifs de l'historique.",
+        "ok": false,
+        "why": "Non : l'[[annulation]] ajoute un commit qui inverse le changement. L'erreur et sa correction restent visibles."
+       },
+       {
+        "s": "Sur GitHub, **Revert** crée une nouvelle pull request, que tu relis puis fusionnes.",
+        "ok": true,
+        "why": "Oui : même pour revenir en arrière, on passe par une [[relecture]]."
+       },
+       {
+        "s": "Un [[conflit]] veut dire que le dépôt est cassé.",
+        "ok": false,
+        "why": "Non : c'est une question que Git te pose. Tant qu'elle reste sans réponse, la [[fusion]] attend, et main ne bouge pas."
+       },
+       {
+        "s": "Un conflit apparaît quand deux branches changent la même ligne du même fichier.",
+        "ok": true,
+        "why": "Oui : c'est le cas le plus courant. Git ne peut pas deviner quelle version garder."
+       }
+      ]
+     }
+    },
+    {
+     "type": "exercise",
+     "ex": {
+      "kind": "qcm",
+      "q": "Tu viens de fusionner une pull request, et ta page en ligne est cassée. Quel est le geste le plus sûr ?",
+      "options": [
+       {
+        "t": "Revert sur la pull request fusionnée, relire, puis fusionner l'annulation",
+        "ok": true,
+        "why": "Oui : main retrouve son état d'avant en deux minutes, et tu peux ensuite chercher la cause tranquillement, sur une [[branche]]."
+       },
+       {
+        "t": "Corriger vite, directement sur main, sans relire",
+        "ok": false,
+        "why": "Dans l'urgence, on ajoute souvent une seconde erreur à la première. D'abord revenir à un état sain, ensuite corriger."
+       },
+       {
+        "t": "Supprimer le dépôt et le recréer",
+        "ok": false,
+        "why": "Tu perdrais tout ton [[historique]], alors qu'une [[annulation]] suffit."
+       }
+      ]
+     }
+    },
+    {
+     "type": "exercise",
+     "ex": {
+      "kind": "cloze",
+      "q": "Complète la phrase.",
+      "text": "Pour résoudre un {{conflit}}, je choisis le contenu final, je supprime les trois {{marqueurs}}, puis j'enregistre ma décision par un {{commit}}.",
+      "distractors": [
+       "serveur",
+       "prompt"
+      ],
+      "why": "Résoudre un [[conflit]], c'est trancher, nettoyer, puis enregistrer : trois gestes, que tu as faits dans le simulateur."
+     }
+    },
+    {
+     "type": "callout",
+     "tone": "volatile",
+     "md": "Les menus de GitHub s'affichent en anglais et changent parfois de place. Les libellés en gras ont été relevés le 14 novembre 2026, dans la documentation de GitHub et sur github.com affiché à la taille d'un iPhone. Si un bouton a bougé, cherche le mot le plus proche, ou utilise **Demander à ORA** (en haut de l'écran)."
+    },
+    {
+     "type": "source",
+     "title": "Réinitialisation d'une pull request : le bouton Revert (documentation GitHub, en français)",
+     "url": "https://docs.github.com/fr/pull-requests/how-tos/merge-and-close-pull-requests/reverting-a-pull-request",
+     "checked": "2026-11-14",
+     "note": "L'annulation crée une nouvelle pull request, qui inverse le commit de fusion d'origine."
+    },
+    {
+     "type": "source",
+     "title": "Conflits de fusion (documentation GitHub, en français)",
+     "url": "https://docs.github.com/fr/pull-requests/reference/merge-conflicts",
+     "checked": "2026-11-14",
+     "note": "Quand un conflit apparaît, et pourquoi il bloque la fusion."
+    },
+    {
+     "type": "source",
+     "title": "Résolution d'un conflit de fusion sur GitHub (documentation GitHub, en français)",
+     "url": "https://docs.github.com/fr/pull-requests/how-tos/merge-and-close-pull-requests/resolving-a-merge-conflict-on-github",
+     "checked": "2026-11-14",
+     "note": "Les trois marqueurs, puis « Mark as resolved » et « Commit merge »."
+    },
+    {
+     "type": "source",
+     "title": "Utiliser Claude Code dans le cloud (documentation officielle, en français)",
+     "url": "https://code.claude.com/docs/fr/claude-code-on-the-web",
+     "checked": "2026-11-14",
+     "note": "Pour résoudre un conflit, rouvrir la séance et le demander à Claude."
+    },
+    {
+     "type": "recap",
+     "points": [
+      "Une [[annulation]] ajoute un commit qui inverse le précédent : rien n'est effacé.",
+      "Sur GitHub : **Revert**, relire, fusionner.",
+      "Un [[conflit]] est une question de Git : choisir, supprimer les marqueurs, enregistrer."
+     ]
+    }
+   ]
   }
+ ],
+ "incident": {
+  "title": "Alerte aux archives",
+  "brief": "Trois alertes arrivent en même temps sur le dépôt de ton produit. L'Archiviste te regarde faire : trouve la bonne réponse avant de griller tes trois fusibles.",
+  "scenarios": [
+   {
+    "alert": "Tu as fusionné la pull request « Nouveau bouton ». Dix minutes plus tard, un ami t'écrit : le bouton Contact a disparu de ta page.",
+    "q": "Que fais-tu en premier ?",
+    "options": [
+     {
+      "t": "Revert sur la pull request fusionnée : une nouvelle pull request annule le changement",
+      "ok": true,
+      "why": "Oui : une [[annulation]], relue puis fusionnée, et main retrouve son état d'avant. Tu chercheras la cause ensuite, sur une [[branche]]."
+     },
+     {
+      "t": "Je supprime la branche main",
+      "ok": false,
+      "why": "Surtout pas : main est ta [[branche-principale]], celle qui est publiée. Et une [[annulation]] suffit."
+     },
+     {
+      "t": "J'attends : la page va se réparer toute seule",
+      "ok": false,
+      "why": "La page en ligne est la copie de main. Tant que main contient l'erreur, la page aussi."
+     }
+    ]
+   },
+   {
+    "alert": "Sur ta pull request : « This branch has conflicts that must be resolved ». Le bouton Merge pull request est grisé.",
+    "q": "Que s'est-il passé ?",
+    "options": [
+     {
+      "t": "La même ligne a été changée sur main et sur ta branche : Git te demande de choisir",
+      "ok": true,
+      "why": "C'est un [[conflit]]. Touche **Resolve conflicts**, choisis le contenu final, supprime les marqueurs, ou confie-le à [[claude-code]]."
+     },
+     {
+      "t": "GitHub est en panne",
+      "ok": false,
+      "why": "Non : le message est précis. Il dit que ta [[branche]] et main se contredisent quelque part."
+     },
+     {
+      "t": "Ton dépôt est trop plein",
+      "ok": false,
+      "why": "Aucun rapport : le message parle d'un [[conflit]] entre deux versions d'un même passage."
+     }
+    ]
+   },
+   {
+    "alert": "Dans ton historique, trois commits de suite s'appellent « modif », « modif 2 » et « ok ». L'un d'eux a cassé le pied de page. Lequel ? Impossible à dire sans tous les ouvrir.",
+    "q": "Quelle habitude t'aurait évité cette perte de temps ?",
+    "options": [
+     {
+      "t": "Un message par commit, qui dit ce qui change et pourquoi",
+      "ok": true,
+      "why": "Oui : avec un bon [[message-de-commit]], tu aurais lu « Refait le pied de page » et trouvé tout de suite. Tu peux l'exiger de [[claude-code]] dans chaque ordre de mission."
+     },
+     {
+      "t": "Faire un seul très gros commit par mois",
+      "ok": false,
+      "why": "Au contraire : plus un [[commit]] est gros, plus il est difficile d'y trouver l'erreur, et de revenir dessus."
+     },
+     {
+      "t": "Ne jamais ouvrir l'historique",
+      "ok": false,
+      "why": "L'[[historique]] est ta mémoire : c'est lui qui te permet de trouver quand un défaut est arrivé."
+     }
+    ]
+   }
+  ]
+ },
+ "delivery": {
+  "title": "Un historique propre, par pull requests",
+  "goal": "Ton produit garde la trace de chaque version, et ses changements passent par des pull requests relues : c'est la version 0.1.",
+  "steps": [
+   "Termine les procédures des protocoles 3, 4 et 5, et l'ordre de mission du protocole 4.",
+   "Reviens ici et touche **Vérifier ma livraison**."
+  ],
+  "checks": [
+   {
+    "id": "historique",
+    "kind": "commits",
+    "label": "Ton dépôt compte au moins **5 commits**",
+    "min": 5
+   },
+   {
+    "id": "pr-fusionnee",
+    "kind": "pullsMerged",
+    "label": "Au moins **une pull request fusionnée**",
+    "min": 1
+   },
+   {
+    "id": "readme",
+    "kind": "file",
+    "label": "Le fichier **README.md** présente ton produit",
+    "path": "README.md"
+   },
+   {
+    "id": "en-ligne",
+    "kind": "pages",
+    "label": "Ta page répond toujours à son adresse publique"
+   }
+  ]
+ },
+ "teamFile": {
+  "label": "L'historique des versions",
+  "path": "commits",
+  "role": "Garde la mémoire de chaque version et permet de revenir en arrière."
+ }
 }

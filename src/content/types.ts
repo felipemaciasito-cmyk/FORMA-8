@@ -39,13 +39,16 @@ export type WidgetId =
   | "SkillToolbox"
   | "McpPlugs"
   | "AgentCycle"
-  | "ProductLab";
+  | "ProductLab"
+  | "TimeMachine"
+  | "ConflictLab";
 
 export type Block =
   | { type: "text"; md: string }
   | { type: "definition"; notion: string }
   | { type: "analogy"; title: string; md: string; art?: string }
-  | { type: "interactive"; widget: WidgetId; caption?: string }
+  /** Simulateur. « mode » (optionnel) limite le simulateur aux gestes déjà appris (ex. GitBranches : « commits », « branches »). */
+  | { type: "interactive"; widget: WidgetId; caption?: string; mode?: string }
   | { type: "example"; title: string; before?: { label: string; md: string }; after: { label: string; md: string }; note?: string }
   | { type: "callout"; tone: "info" | "warn" | "volatile" | "ora"; md: string }
   | { type: "exercise"; ex: Exercise }

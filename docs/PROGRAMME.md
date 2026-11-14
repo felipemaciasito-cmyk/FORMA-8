@@ -1,6 +1,7 @@
 # FORMA-8 · Programme détaillé des 11 caissons
 
-> **Statut : proposition soumise à validation (14/11/2026).** Le contenu ne sera écrit qu'après accord.
+> **Statut : plan validé par le propriétaire le 14/11/2026.** Le contenu s'écrit caisson par caisson
+> (caissons 00 et 01 écrits ; voir « Ajustements faits pendant l'écriture »).
 > Complète `docs/CONCEPTION.md` (section 4, parcours).
 
 ## Principes communs
@@ -55,16 +56,19 @@ Légende des livraisons : **[fichier]** = fichier présent dans le dépôt du pr
 
 | Protocole | Notions introduites | Activités |
 |---|---|---|
-| 1. Pourquoi garder les versions | `version`, `git`, `historique` | Analogie des photos d'un chantier |
-| 2. Le commit | `commit`, `message-de-commit` | Simulateur « branches », lecture d'un vrai commit de FORMA-7 |
-| 3. Les branches | `branche`, `branche-principale` | Simulateur « branches » |
-| 4. La pull request en détail | `fusion`, `relecture` (la notion `pull-request` est vue simplement au caisson 00) | Ordre de mission : changement sur une branche, pull request, relecture et fusion depuis Safari |
-| 5. Revenir en arrière | `annulation`, `conflit` | Panne simulée : un conflit, une fusion à annuler |
+| 1. Pourquoi garder les versions | `version`, `git`, `historique` | Analogie des photos d'un chantier ; simulateur « machine à remonter les versions » |
+| 2. Le commit | `commit`, `message-de-commit` | Simulateur « branches » (mode commits), lecture d'un vrai commit de FORMA-7, procédure « lire l'historique de ton dépôt » |
+| 3. Les branches | `branche`, `branche-principale` | Simulateur « branches » (mode branches), procédure « ta première branche et ton premier commit à la main » |
+| 4. La pull request en détail | `fusion`, `relecture` (la notion `pull-request` est vue simplement au caisson 00) | Procédures « ouvrir la pull request » et « relire puis fusionner » ; ordre de mission : changement sur une branche, pull request, relecture et fusion depuis Safari ; atelier des consignes |
+| 5. Revenir en arrière | `annulation`, `conflit` | Simulateur « branches » complet, exercice réel « fusionner une erreur puis l'annuler » (Revert), simulateur « atelier des conflits » |
 
 - **Panne** : « J'ai fusionné un bug » (annuler), « Conflit de fusion », « Message de commit illisible ».
 - **Livraison v0.1** : 5 [commits] · 1 [PR] · `README.md` [fichier] · page [en ligne].
 - **Atelier** : la situation « Faire relire avant de fusionner » s'ouvre.
-- **Sources** : GitHub Docs « Flux GitHub », « À propos des pull requests » ; Claude Code « Flux de travail courants ».
+- **Sources** (ouvertes et vérifiées le 14/11/2026, liste et adresses dans `docs/TRANSFERT.md`, section 3.10) :
+  GitHub Docs en français « À propos de Git », « flux de GitHub », commits, branches, modification de fichiers,
+  création et fusion d'une pull request, Revert, conflits de fusion ; Claude Code « Flux de travail courants » et
+  « Utiliser Claude Code dans le cloud ».
 - **Cas d'étude** : les 6 commits de FORMA-7, tous envoyés directement sur `main`. Pourquoi FORMA-8 passe par des pull requests.
 
 ## CAISSON 02 · Le Règlement de bord · L'environnement de ton équipe (Claude Code) · v0.2
@@ -217,12 +221,23 @@ Légende des livraisons : **[fichier]** = fichier présent dans le dépôt du pr
 - **Caisson 00** (écrit le 14/11/2026) : la notion `pull-request` y est introduite dans une version simple, car
   la première mise en ligne passe par la fusion du travail de Claude Code. Le caisson 01 l'approfondit.
 - **Illustrations** : celles de FORMA-7 portent des textes de ses leçons ; FORMA-8 a ses propres illustrations.
+- **Caisson 01** (écrit le 14/11/2026) :
+  - deux simulateurs ajoutés au plan, écrits à neuf : la « machine à remonter les versions » (protocole 1) et
+    l'« atelier des conflits » (protocole 5, à la place de la « panne simulée » prévue) ;
+  - le simulateur « branches » a trois niveaux (commits, puis branches, puis complet), pour ne jamais montrer un
+    geste avant sa notion, et propose de petits défis ;
+  - le joueur fait lui-même un commit sur GitHub (protocole 3) et annule une vraie fusion (protocole 5), en plus de
+    l'ordre de mission confié à Claude Code (protocole 4) ;
+  - la documentation de GitHub en français traduit « commit » et « pull request » de plusieurs façons
+    (« validation », « engagement », « demande de tirage », « demande d'extraction ») : l'appli garde les mots
+    anglais, ceux que le joueur voit sur github.com, et signale ces traductions dans les sources.
 
 ## Volume et rythme
 
 - **Environ 60 protocoles** et **environ 140 notions**, toutes rédigées à neuf.
-- **Simulateurs** : les 5 du lot 2, plus 4 nouveaux à écrire avec le contenu (ce que Claude voit, boîte à outils
-  de l'équipe, prises MCP, boucle de l'agent). Aucun simulateur de FORMA-7 n'est utilisé.
+- **Simulateurs** : 12 sont écrits (les 10 des lots 2 et 3, plus la machine à remonter les versions et l'atelier
+  des conflits du caisson 01). Reste à écrire : la Forge de Skills du caisson 02. Aucun simulateur de FORMA-7
+  n'est utilisé.
 - À raison d'un à deux quarts par protocole, plus les livraisons : **environ 6 à 10 mois** à 15-30 minutes par jour.
   C'est une estimation, qui affine celle du document de conception.
 

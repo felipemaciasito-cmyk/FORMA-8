@@ -48,8 +48,8 @@
 - Produit fil rouge : choisi dans l'appli, grâce à l'atelier guidé du caisson 00. Pistes : appli grand public,
   outil pour les pros, appli avec IA intégrée.
 - Dépôt : `felipemaciasito-cmyk/FORMA-8` (public, vérifié).
-- En ligne : **https://felipemaciasito-cmyk.github.io/FORMA-8/**. Le caisson 00 est jouable ; les caissons 01 à 10
-  sont affichés « en préparation ».
+- En ligne : **https://felipemaciasito-cmyk.github.io/FORMA-8/**. Le caisson 00 est jouable ; le caisson 01 le sera
+  dès la fusion de sa PR ; les caissons 02 à 10 sont affichés « en préparation ».
 - Volume prévu : environ 60 protocoles et 140 notions, soit environ 6 à 10 mois à 15-30 min par jour (estimation).
 
 ---
@@ -120,7 +120,8 @@ npm run validate && npm run check:emoji && npm run check:parity && npm run typec
 ## 3. État actuel et éléments validés
 
 ### 3.1 Git, PR et mise en ligne
-- `origin/main` = `9ac4f20` (« Merge pull request #6 »). Les commits avant lui :
+- `origin/main` = `79c1061` (« Merge pull request #7 », le document de transfert), vérifié le 14/11/2026.
+  Juste avant : `9ac4f20` (« Merge pull request #6 »). Les commits avant lui :
   - `e12fc8c` : contenu du caisson 00 et banc d'essai ;
   - `c882962` : fusion de la PR #5 ;
   - `f14df24` et `58e0879` : outils ;
@@ -131,11 +132,13 @@ npm run validate && npm run check:emoji && npm run check:parity && npm run typec
   - #2 et #3 : lots 2 et 3, fusionnés par erreur dans des branches intermédiaires ;
   - #4 : lots 2 et 3 vers `main`, fermée automatiquement ;
   - #5 : outils d'apprentissage ;
-  - #6 : contenu du caisson 00.
-- La PR suivante ajoute ce document et un renvoi dans `CLAUDE.md`, depuis la branche `claude/forma8-transfert`.
-  Une fois fusionnée, `main` sera un peu plus récent que `9ac4f20`.
+  - #6 : contenu du caisson 00 ;
+  - #7 : ce document de transfert.
+- **PR du caisson 01** : ouverte depuis la branche `claude/charming-darwin-rxq6b5` (nom imposé par l'environnement de
+  la session), vers `main`. Tant qu'elle n'est pas fusionnée, `main` ne contient pas le caisson 01.
 - Branches distantes encore présentes, toutes fusionnées : `claude/forma8-c00`, `claude/forma8-lot2-mecaniques`,
-  `claude/forma8-programme`, `claude/new-session-wuj1q9`. **Ne pas les supprimer sans accord.**
+  `claude/forma8-programme`, `claude/new-session-wuj1q9`, `claude/forma8-transfert`.
+  **Ne pas les supprimer sans accord.**
 - Workflows :
   - `.github/workflows/ci.yml` (« Vérifications FORMA-8 », sur chaque PR, Node 22) : récupère FORMA-7 dans `forma-7`,
     puis lance toutes les vérifications et les tests de bout en bout ;
@@ -258,12 +261,19 @@ npm run validate && npm run check:emoji && npm run check:parity && npm run typec
   - `consigne{id,situation,expected}`, noté par Claude ;
   - `bugreport{id,symptom,context,expected}`, noté par Claude ;
   - `diff{title,file,lines[{kind:add|del|ctx,t}],note}` : lecture guidée d'une modification ;
+  - `interactive{widget,caption?,mode?}` : le champ `mode` (ajouté au caisson 01) limite un simulateur aux gestes
+    déjà appris ; le validateur refuse un simulateur ou un mode inconnu ;
   - `procedure{id,title,intro?,steps[{do,see?,help?}]}` : pas à pas avec cases persistantes `proc:{id}:{i}` et une aide
     « Je suis bloqué » ;
   - `source{title,url,checked,note?}` : source datée.
 - Les blocs de leçon hérités de la mécanique (texte, analogie illustrée, exercice, simulateur) sont décrits dans `types.ts`.
 - Simulateurs (`src/components/widgets/`, tous écrits à neuf), avec leur usage prévu :
-  - GitBranches : c01 ;
+  - GitBranches : c01, protocoles 2, 3 et 5. Trois niveaux : `mode: "commits"` (enregistrer et relire),
+    `mode: "branches"` (plus branche et fusion), sans mode (plus « Revenir en arrière »). Défis cochés
+    automatiquement ; un rond se touche pour relire son message ;
+  - TimeMachine (« machine à remonter les versions ») : c01, protocole 1. Restaurer une version en ajoute une ;
+  - ConflictLab (« atelier des conflits ») : c01, protocole 5. Lire les 3 marqueurs, choisir, « Mark as resolved »,
+    « Commit merge » ;
   - RequestTrip : c00 et c07 ;
   - PipelineLights : c05 ;
   - TokenBuilder : c02, protocole 6 ;
@@ -276,7 +286,7 @@ npm run validate && npm run check:emoji && npm run check:parity && npm run typec
     et son brouillon est sous `forma8:brouillon:laboratoire-produit`.
 - Les 8 simulateurs de FORMA-7 et son SkillWorkshop ont été retirés.
 - Illustrations FORMA-8 (`Illustrations.tsx`, identifiants dans `illustration-ids.json`) : web-magasin, trois-couches,
-  chef-equipe, serrure-cle, vitrine.
+  chef-equipe, serrure-cle, vitrine ; ajoutées au caisson 01 : photos-chantier, voie-essai, relecture, correction.
 - Atelier des consignes (`src/content/atelier.ts`), 6 situations :
   - contact, texte-deborde, a-propos ;
   - relecture (après c01), regles (après c02), mise-en-ligne-auto (après c06).
@@ -298,7 +308,7 @@ npm run validate && npm run check:emoji && npm run check:parity && npm run typec
 - Livraison v0.0 « Ta page de présentation en ligne » : `index.html` présent (fichier), page en ligne, et une
   case à cocher (« J'ai ouvert ma page sur mon iPhone »).
 - Fiche d'équipe : `index.html`.
-- `src/content/glossary.json` contient **23 notions, toutes du caisson 00**.
+- `src/content/glossary.json` contient **34 notions** : 23 du caisson 00 et 11 du caisson 01.
 - Sources du caisson 00, vérifiées le 14/11/2026 :
   - MDN « Comment fonctionne le Web » :
     https://developer.mozilla.org/fr/docs/Learn_web_development/Getting_started/Web_standards/How_the_web_works
@@ -312,7 +322,52 @@ npm run validate && npm run check:emoji && npm run check:parity && npm run typec
   - GitHub « Démarrage rapide pour GitHub Pages » : https://docs.github.com/fr/pages/quickstart
   - « Vibe coding », mot de l'année 2025 du dictionnaire Collins (AFP, via Dawn) : https://www.dawn.com/news/1953511
 
-### 3.11 Les 11 caissons (`c01.json` à `c10.json` : squelettes sans protocole)
+### 3.10 bis Contenu : le caisson 01 est complet (`src/content/caissons/c01.json`)
+- **L'Archiviste · « Garder chaque version » · v0.1** (teinte 150). Écrit le 14/11/2026.
+- Les 5 protocoles et leurs notions :
+  - p1 « Pourquoi garder les versions » : version, git, historique. Simulateur TimeMachine.
+  - p2 « Le commit » : commit, message-de-commit. GitBranches (mode commits), lecture d'un vrai commit de FORMA-7
+    (`4c83563`, extrait du README), étude de cas des 6 commits, procédure `c01-lire-historique` (5 étapes).
+  - p3 « Les branches » : branche, branche-principale. GitBranches (mode branches), procédure `c01-creer-branche`
+    (7 étapes : branche `essai-readme`, modification du README, commit à la main).
+  - p4 « La pull request en détail » : fusion, relecture. Procédures `c01-ouvrir-pr` (4 étapes) et
+    `c01-relire-fusionner` (5 étapes), lecture d'une pull request piégée (bloc `diff`), ordre de mission
+    « Un changement relu de bout en bout », consigne `c01-aide-relecture`.
+  - p5 « Revenir en arrière » : annulation, conflit. GitBranches complet, procédure `c01-annuler-fusion`
+    (7 étapes : casser le titre exprès, fusionner, Revert, fusionner l'annulation), ConflictLab.
+- Notions surveillées par le validateur (mot interdit avant sa définition) : « Git », « commit », « conflit ».
+  « branche », « fusion », « version » et « historique » ne peuvent pas l'être : le caisson 00 les emploie déjà
+  comme des mots courants.
+- Panne « Alerte aux archives » : 3 scénarios (bug fusionné, conflit, messages illisibles).
+- Livraison v0.1 « Un historique propre, par pull requests » : `commits` min 5, `pullsMerged` min 1, fichier
+  `README.md`, `pages`.
+- Études de cas (faits vérifiés dans le dépôt cloné de FORMA-7, heures UTC) : les 6 commits (13/11 06:45, 07:26,
+  07:32, 20:51 ; 14/11 01:43, 02:17 ; 66, 4, 1, 9, 40 et 6 fichiers), tous directement sur `main` ; et la PR de
+  FORMA-8 fusionnée trop tôt.
+- Sources du caisson 01, toutes ouvertes le 14/11/2026. GitHub a réorganisé sa documentation : les anciennes
+  adresses redirigent vers celles-ci.
+  - À propos de Git : https://docs.github.com/fr/get-started/using-git/about-git
+  - flux de GitHub : https://docs.github.com/fr/get-started/using-github/github-flow
+  - Engagements (à propos des commits) : https://docs.github.com/fr/pull-requests/reference/commits
+  - Gestion des branches au sein de votre référentiel :
+    https://docs.github.com/fr/pull-requests/how-tos/commit-changes/managing-branches-within-your-repository
+  - Modification de fichiers : https://docs.github.com/fr/repositories/working-with-files/managing-files/editing-files
+  - Requêtes de tirage (à propos des pull requests) : https://docs.github.com/fr/pull-requests/reference/pull-requests
+  - Création d'une pull request :
+    https://docs.github.com/fr/pull-requests/how-tos/create-pull-requests/creating-a-pull-request
+  - Fusion d'une pull request :
+    https://docs.github.com/fr/pull-requests/how-tos/merge-and-close-pull-requests/merging-a-pull-request
+  - Réinitialisation d'une pull request (Revert) :
+    https://docs.github.com/fr/pull-requests/how-tos/merge-and-close-pull-requests/reverting-a-pull-request
+  - Conflits de fusion : https://docs.github.com/fr/pull-requests/reference/merge-conflicts
+  - Résolution d'un conflit de fusion sur GitHub :
+    https://docs.github.com/fr/pull-requests/how-tos/merge-and-close-pull-requests/resolving-a-merge-conflict-on-github
+  - Claude Code, Flux de travail courants : https://code.claude.com/docs/fr/common-workflows
+  - Claude Code, Utiliser Claude Code dans le cloud : https://code.claude.com/docs/fr/claude-code-on-the-web
+- Libellés des boutons : github.com s'affiche en anglais. Les libellés viennent de la version anglaise des mêmes
+  pages et de captures de github.com à la taille d'un iPhone, **sans être connecté** (voir les limites en 3.14).
+
+### 3.11 Les 11 caissons (`c02.json` à `c10.json` : squelettes sans protocole)
 
 | Id | Membre | Nom | Version | Teinte | Fichier de l'équipe |
 |---|---|---|---|---|---|
@@ -342,7 +397,7 @@ Le plan détaillé de chaque caisson (protocoles, notions, simulateurs, pannes, 
   - les analogies, dont l'illustration doit être dans `illustration-ids.json` ;
   - les livraisons et `teamFile`.
   - Un caisson vide déclenche un simple avertissement « en préparation ».
-- Tests unitaires : 30 tests, répartis dans `merge.test.mjs`, `garde-fous.test.mjs`, `livraisons.test.mjs` (fetch simulé)
+- Tests unitaires : 31 tests, répartis dans `merge.test.mjs`, `garde-fous.test.mjs`, `livraisons.test.mjs` (fetch simulé)
   et `validateur.test.mjs`. Ce que vérifie `garde-fous.test.mjs` :
   - aucune écriture sous `forma7:` ;
   - `progress.json` jamais touché ;
@@ -350,12 +405,16 @@ Le plan détaillé de chaque caisson (protocoles, notions, simulateurs, pannes, 
   - substitutions de parité documentées ;
   - aucun simulateur de FORMA-7 ;
   - aucun usage de `Art`.
-- Tests de bout en bout : 8 tests, sur un écran d'iPhone 13 (`playwright.config.ts`, adresse
+- Tests de bout en bout : 9 tests, sur un écran d'iPhone 13 (`playwright.config.ts`, adresse
   `http://localhost:4173/FORMA-8/`, `vite preview`, trace désactivée) :
   - `socle.spec.ts` ;
   - `mecaniques.spec.ts` ;
   - `caisson00.spec.ts` : banc complet, environ 1,3 min, GitHub simulé ;
-  - `helpers.ts` contient `boot()`.
+  - `caisson01.spec.ts` : banc complet, environ 1,4 min. Il part d'un caisson 00 déjà réveillé (progression déposée
+    dans `forma8:progress-secours`, que l'appli fusionne au démarrage), joue les 5 protocoles, les 3 simulateurs
+    dans tous leurs modes, une procédure, l'ordre de mission, la panne, la livraison, l'atelier et la maintenance ;
+  - `helpers.ts` contient `boot()` et les outils communs aux bancs : `solve()`, `playStep(page, caisson, protocole,
+    numéro, onBlock?)`, `playMaintenance()`. **Modèle pour le caisson 02 : `caisson01.spec.ts`.**
 
 ### 3.13 Tarifs et coûts (vérifiés le 14/11/2026, à revérifier)
 - Tarifs de l'API, en dollars par million de tokens (envoyés / reçus) :
@@ -368,12 +427,19 @@ Le plan détaillé de chaque caisson (protocoles, notions, simulateurs, pannes, 
   14/11/2026, qui peut avoir évolué.
 
 ### 3.14 Petites dettes et incertitudes connues
-- `docs/PROGRAMME.md` contient deux lignes périmées, à corriger dans la prochaine PR :
-  - la ligne 3 dit encore « proposition soumise à validation », alors que le plan est validé ;
-  - la section « Volume et rythme » parle de « 4 nouveaux simulateurs à écrire », alors qu'ils sont déjà faits.
 - Le badge « skill » (« Forgeron de Skills ») ne peut pas encore être obtenu : il attend la Forge de Skills du caisson 02.
-- **Dès qu'on ajoute des notions, `caisson00.spec.ts` cassera.** Il attend « 23 / 23 notions collectées », et le
-  dénominateur est le total du glossaire : il faudra passer à « 23 / 34 » après le caisson 01.
+- **Dès qu'on ajoute des notions, `caisson00.spec.ts` cassera.** Il attend « 23 / 34 notions collectées », et le
+  dénominateur est le total du glossaire : à mettre à jour après chaque caisson. `caisson01.spec.ts`, lui, lit le
+  total dans le glossaire, mais suppose que toutes les notions sont collectées : à adapter aussi au caisson 02.
+- **Libellés de GitHub non vérifiés en étant connecté** (impossible depuis la session, qui n'a pas de compte GitHub
+  dans un navigateur). Vérifiés sans connexion, sur un écran d'iPhone : l'horloge de l'historique, la page
+  « Commits », le détail d'un commit, les onglets d'une pull request, le menu « Switch branches/tags ». Tirés de la
+  documentation seulement : « Find or create a branch… », « Create branch », « Commit changes... », « Compare & pull
+  request », « Create pull request », « Merge pull request », « Confirm merge », « Revert », « Resolve conflicts »,
+  « Mark as resolved », « Commit merge ». De mémoire, à confirmer par le propriétaire en jouant : « Commit directly
+  to the … branch », « Able to merge », « Delete branch », « Restore branch », « This branch has conflicts that must
+  be resolved », l'emplacement du crayon sur iPhone (une adresse directe `…/edit/branche/fichier` est donnée en
+  secours). Corriger le caisson 01 si le propriétaire signale un écart.
 - Incertitudes à vérifier :
   - l'affichage exact de claude.ai/code et de github.com dans Safari mobile (libellés des boutons) ;
   - si on peut modifier après coup la liste des dépôts d'un jeton « fine-grained » ;
@@ -429,56 +495,48 @@ Le plan détaillé de chaque caisson (protocoles, notions, simulateurs, pannes, 
 
 ## 5. Prochaine action immédiate
 
-### 5.1 Au démarrage de la nouvelle session (avant toute écriture)
+### 5.1 Au démarrage de chaque nouvelle session (avant toute écriture)
 1. Lire `CLAUDE.md`, ce document, `docs/CONCEPTION.md` et `docs/PROGRAMME.md`.
-2. `git fetch origin`. Vérifier que `origin/main` contient `9ac4f20` et la fusion de la PR de ce document ;
-   si quelque chose d'autre a changé, le dire au propriétaire.
+2. `git fetch origin`. Vérifier que `origin/main` contient `79c1061` et, si elle a été fusionnée, la PR du
+   caisson 01 ; si quelque chose d'autre a changé, le dire au propriétaire.
 3. Attacher `felipemaciasito-cmyk/forma-7` (public, lecture seule) et le cloner **à côté** de FORMA-8, sous le nom
-   `forma-7`, pour `check:parity`. FORMA-7-data n'est pas nécessaire pour le caisson 01.
+   `forma-7`, pour `check:parity`. Le cloner en entier (sans `--depth`) si l'historique sert d'étude de cas.
 4. `npm ci`, puis lancer la commande complète de vérification. Annoncer le résultat au propriétaire :
    l'état de départ doit être entièrement vert.
-5. Attendre le **feu vert explicite** du propriétaire pour le caisson 01. Le lui demander en QCM s'il ne l'a pas déjà donné.
+5. Attendre le **feu vert explicite** du propriétaire pour le caisson suivant. Le lui demander en QCM s'il ne l'a pas déjà donné.
 
-### 5.2 Caisson 01 · L'Archiviste · « Garder chaque version » · v0.1 (après le feu vert)
-- **Branche** : une nouvelle branche depuis `origin/main` (par exemple `claude/forma8-c01`, ou celle qu'impose l'environnement).
-- **Glossaire** : ajouter 11 notions, chacune avec 3 niveaux, une analogie (illustration FORMA-8), un exemple et des
-  prérequis : `version`, `git`, `historique`, `commit`, `message-de-commit`, `branche`, `branche-principale`, `fusion`,
-  `relecture`, `annulation`, `conflit`. La notion `pull-request` existe déjà (version simple du caisson 00).
-- **Protocoles** (d'après `docs/PROGRAMME.md`) :
-  1. Pourquoi garder les versions : `version`, `git`, `historique`. Analogie des photos d'un chantier.
-  2. Le commit : `commit`, `message-de-commit`. Simulateur GitBranches, plus la lecture guidée (bloc `diff`) d'un vrai
-     commit de FORMA-7, en étude de cas.
-  3. Les branches : `branche`, `branche-principale`. Simulateur GitBranches.
-  4. La pull request en détail : `fusion`, `relecture`. Ordre de mission : un changement sur une branche, une PR,
-     une relecture et une fusion, le tout depuis Safari (procédures pas à pas).
-  5. Revenir en arrière : `annulation`, `conflit`. Exercice sur un conflit et sur une fusion à annuler.
-- **Étude de cas** : les 6 commits de FORMA-7, tous envoyés sur `main`, et pourquoi FORMA-8 passe par des PR.
-- **Panne**, 3 scénarios : « J'ai fusionné un bug » (annuler), « Conflit de fusion », « Message de commit illisible ».
-- **Livraison v0.1**, avec les vérifications existantes :
-  - `commits` minimum 5 ;
-  - `pullsMerged` minimum 1 ;
-  - fichier `README.md` ;
-  - `pages`.
-  - L'atelier « relecture » s'ouvre déjà automatiquement après c01.
-- **Sources** : uniquement officielles et en français, chacune ouverte et datée au moment de l'écriture.
-  - GitHub Docs « Flux GitHub » ;
-  - GitHub Docs « À propos des pull requests » ;
-  - Claude Code « Flux de travail courants ».
-  - **Leurs URL exactes restent à trouver et à vérifier : ne pas les deviner.**
-  - Vérifier aussi les libellés de github.com dans Safari sur iPhone (créer une branche, ouvrir et fusionner une PR, Revert).
-- **Banc d'essai** : `tests/e2e/caisson01.spec.ts`, sur le modèle de `caisson00.spec.ts`.
-  - Il joue tous les protocoles et exercices, les simulateurs, les procédures, la panne et la maintenance.
-  - Il simule GitHub : `commits` (au moins 5), `pulls?state=closed` avec une PR fusionnée, `contents/README.md`, la page en ligne.
-  - Mettre aussi à jour `caisson00.spec.ts` (« 23 / 34 notions collectées »).
-- **Petites corrections à joindre** : les deux lignes périmées de `docs/PROGRAMME.md` (voir 3.14).
-- **Ce document** : le mettre à jour (sections 3 et 5) dans la même PR.
-- Ensuite : lancer la commande complète (tout vert), committer en français, pousser, ouvrir **une PR vers `main`**,
-  l'annoncer au propriétaire (« ne fusionne qu'après mon annonce »), proposer de la surveiller.
+### 5.2 Caisson 01 : fait. Prochaine étape : caisson 02 · Le Règlement de bord · v0.2 (après le feu vert)
+- **Avant tout** : vérifier que la PR du caisson 01 a été fusionnée par le propriétaire. Sinon, le lui rappeler, et
+  ne pas empiler une nouvelle PR dessus.
+- **Branche** : une nouvelle branche depuis `origin/main` (ou celle qu'impose l'environnement).
+- **Plan** : `docs/PROGRAMME.md`, caisson 02. 6 protocoles, environ 20 notions (`session`, `environnement-cloud`,
+  `terminal`, `commande`, `token`, `contexte`, `fenetre-contexte`, `compaction`, `claude-md`, `memoire-projet`,
+  `permission`, `mode-permission`, `mode-plan`, `markdown`, `skill`, `mcp`, `connecteur`, `plugin`, `jeton-acces`,
+  `moindre-privilege`).
+- **Simulateurs déjà faits** : ContextView (p2), SkillToolbox et McpPlugs (p5), TokenBuilder (p6). **À écrire** : la
+  Forge de Skills, d'après la documentation officielle d'Anthropic sur les Skills, en français (URL à trouver et à
+  vérifier ; elle rendra le badge « skill » obtenable).
+- **Méthode qui a marché au caisson 01**, à reprendre :
+  - ouvrir chaque source avec `curl -L` pour relever l'adresse finale et le titre exact, puis lire le texte ;
+  - relever les libellés anglais dans la version `/en/` des pages de GitHub, et capturer github.com et
+    claude.ai/code à la taille d'un iPhone (Playwright, `devices['iPhone 13']`) quand la page est publique ;
+  - donner un mode aux simulateurs pour ne jamais montrer un geste avant sa notion ;
+  - ajouter les mots techniques nouveaux au champ `watch` des notions, quand le caisson précédent ne les emploie pas ;
+  - regarder chaque nouvel écran en capture avant de lancer la commande complète.
+- **Livraison v0.2** : `CLAUDE.md`, `.claude/settings.json`, un Skill dans `.claude/skills`, et la case
+  « Synchronisation FORMA-8 activée ». Le protocole 6 crée le vrai jeton « fine-grained » : vérifier d'abord si l'on
+  peut modifier après coup la liste des dépôts d'un jeton (incertitude de 3.14).
+- **Banc d'essai** : `tests/e2e/caisson02.spec.ts`, sur le modèle de `caisson01.spec.ts` (progression des caissons 00
+  et 01 déposée au démarrage). Mettre à jour le compteur de notions de `caisson00.spec.ts` et de `caisson01.spec.ts`.
+- **Ce document** : le mettre à jour dans la même PR.
+- Ensuite : commande complète (tout vert), commit en français, envoi, **une PR vers `main`**, annonce au
+  propriétaire (« ne fusionne qu'après mon annonce »), proposition de la surveiller.
 - Aucun changement visuel sans validation préalable. Nouveaux glyphes ou illustrations : ajout seulement, dans le même style.
 
 ### 5.3 À faire côté propriétaire (sans urgence, à lui rappeler)
-- **Jouer au caisson 00** sur https://felipemaciasito-cmyk.github.io/FORMA-8/, dans Safari ou depuis l'écran d'accueil.
-  Le stockage de l'écran d'accueil est séparé de celui de Safari.
+- **Jouer aux caissons 00 et 01** sur https://felipemaciasito-cmyk.github.io/FORMA-8/, dans Safari ou depuis l'écran
+  d'accueil. Le stockage de l'écran d'accueil est séparé de celui de Safari. En jouant le caisson 01, **noter tout
+  libellé de GitHub qui ne correspond pas** à ce que dit l'appli (voir 3.14) et le signaler.
 - **Créer la clé API Claude** :
   - dans la Console Claude, avec un espace de travail dédié et un plafond de dépense mensuel ;
   - acheter des crédits (montant minimum à vérifier) ;
@@ -488,9 +546,6 @@ Le plan détaillé de chaque caisson (protocoles, notions, simulateurs, pannes, 
   Il n'est pas obligatoire pour vérifier un dépôt public.
 
 ### 5.4 Ensuite
-- Caissons 02 à 10, dans l'ordre de `docs/PROGRAMME.md`, une PR par caisson.
-- Caisson 02 : utiliser les simulateurs ContextView, SkillToolbox, McpPlugs et TokenBuilder (déjà faits). Écrire une
-  nouvelle **Forge de Skills** d'après la documentation officielle d'Anthropic sur les Skills, en français (URL à
-  vérifier ; elle rendra le badge « skill » obtenable).
+- Caissons 03 à 10, dans l'ordre de `docs/PROGRAMME.md`, une PR par caisson.
 - Caisson 07 : choisir le service de données et de comptes à partir de sources vérifiées à ce moment-là.
 - Caissons 06, 07, 08 et 10 : vérifier et dater les tarifs et les offres cités au moment de l'écriture.

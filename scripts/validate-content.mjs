@@ -19,6 +19,7 @@
 //     et une teinte ; un caisson sans protocole est signalé « en préparation ».
 //  9. Blocs propres à FORMA-8 (ordre de mission, consigne, rapport de bug,
 //     lecture de modification, source datée) et livraisons bien formés.
+//     Un simulateur doit exister, et son mode éventuel être reconnu.
 //  8. Zéro emoji : aucun emoji ni symbole décoratif dans le glossaire et les
 //     caissons ; le champ « icon » d'une notion est un identifiant de
 //     src/content/icon-ids.json.
@@ -170,8 +171,16 @@ function checkExercise(ex, where) {
 const blockIds = new Set();
 const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/;
 const ILLUSTRATIONS = new Set(Object.keys(readJSON(join(contentDir, "illustration-ids.json"))));
+// Simulateurs existants (un fichier par simulateur) et modes reconnus. Un mode mal écrit
+// afficherait le simulateur complet, donc des gestes pas encore appris : on le refuse.
+const WIDGETS = new Set(readdirSync(join(root, "src", "components", "widgets")).filter((f) => f.endsWith(".tsx")).map((f) => f.replace(/\.tsx$/, "")));
+const WIDGET_MODES = { GitBranches: ["commits", "branches"] };
 function checkMechanicBlock(b, where) {
   switch (b.type) {
+    case "interactive":
+      if (!WIDGETS.has(b.widget)) err(where, `simulateur inconnu « ${b.widget} » : aucun fichier src/components/widgets/${b.widget}.tsx`);
+      else if (b.mode !== undefined && !(WIDGET_MODES[b.widget] ?? []).includes(b.mode)) err(where, `simulateur ${b.widget} : mode inconnu « ${b.mode} »${WIDGET_MODES[b.widget] ? ` (modes possibles : ${WIDGET_MODES[b.widget].join(", ")})` : " (ce simulateur n'a pas de mode)"}`);
+      break;
     case "analogy":
       // Seules les illustrations dessinées pour FORMA-8 sont permises (aucun contenu de FORMA-7).
       if (b.art && !ILLUSTRATIONS.has(b.art)) err(where, `illustration inconnue « ${b.art} » : choisis-en une dans src/content/illustration-ids.json`);

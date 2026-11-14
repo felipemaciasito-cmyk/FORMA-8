@@ -397,5 +397,187 @@
   "prereq": [
    "site-web"
   ]
+ },
+ {
+  "id": "version",
+  "term": "Version",
+  "icon": "doc-copy",
+  "def": {
+   "simple": "L'état de ton projet à un moment précis, que l'on garde pour pouvoir y revenir.",
+   "standard": "Une version est l'état complet des [[fichier|fichiers]] d'un projet à un instant donné. Garder chaque version permet de comparer deux états, de savoir ce qui a changé, et de revenir à un état qui marchait.",
+   "expert": "Un état identifié et reproductible du projet. On distingue les versions internes, gardées à chaque changement, et les versions publiées, numérotées pour les utilisateurs (v0.1, v0.2, puis v1.0 au lancement)."
+  },
+  "analogy": "Comme les photos d'un chantier prises à chaque étape : on peut toujours regarder à quoi il ressemblait la semaine dernière.",
+  "example": "Ta page de présentation en ligne est la version 0.0 de ton produit. À la fin de ce caisson, tu publieras la version 0.1.",
+  "prereq": [
+   "fichier"
+  ]
+ },
+ {
+  "id": "git",
+  "term": "Git",
+  "icon": "books",
+  "def": {
+   "simple": "L'outil qui garde toutes les versions de ton projet, sans jamais en oublier une.",
+   "standard": "Git est un logiciel de gestion de versions : il enregistre chaque [[version]] d'un projet, avec la date, l'auteur et la raison du changement. C'est l'outil le plus utilisé au monde pour cela, et [[github]] est construit autour de lui.",
+   "expert": "Un système de gestion de versions distribué : chaque copie du projet contient l'intégralité des versions, et aucune connexion permanente à un serveur central n'est nécessaire. GitHub héberge des [[depot|dépôts]] Git et y ajoute la collaboration."
+  },
+  "analogy": "Comme l'archiviste d'un chantier : il range chaque photo dans l'ordre, avec la date et le nom de celui qui l'a prise.",
+  "example": "Quand Claude Code a enregistré ta page de présentation au caisson 00, c'est Git qui a gardé cette version dans ton dépôt.",
+  "prereq": [
+   "version",
+   "depot"
+  ],
+  "watch": [
+   "Git"
+  ]
+ },
+ {
+  "id": "historique",
+  "term": "Historique",
+  "icon": "clock",
+  "def": {
+   "simple": "La liste de toutes les versions de ton projet, de la première à la dernière.",
+   "standard": "L'historique est la suite datée de toutes les [[version|versions]] gardées par [[git]]. Pour chaque changement, il dit quoi, qui, quand et pourquoi.",
+   "expert": "Le graphe des versions enregistrées dans le [[depot]]. Il se lit du plus récent au plus ancien, et rien n'en est retiré dans un usage normal : même une annulation s'y ajoute comme un changement de plus."
+  },
+  "analogy": "Comme l'album complet du chantier, page après page : la mémoire du projet.",
+  "example": "L'historique de FORMA-7 compte 6 entrées, du 13 au 14 novembre 2026. On y lit exactement quand la synchronisation entre appareils est arrivée.",
+  "prereq": [
+   "git"
+  ]
+ },
+ {
+  "id": "commit",
+  "term": "Commit",
+  "icon": "frame",
+  "def": {
+   "simple": "Une photo de ton projet à un instant précis, gardée pour toujours avec une légende.",
+   "standard": "Un commit est une [[version]] enregistrée par [[git]] : il contient les changements faits depuis le commit précédent, leur auteur, leur date, et un message qui les décrit. Mis bout à bout, les commits forment l'[[historique]].",
+   "expert": "Un instantané du projet, identifié par un code unique (son « SHA ») et relié au commit qui le précède. Dans l'idéal, un commit contient un seul changement, complet : on peut alors l'annuler sans toucher au reste."
+  },
+  "analogy": "Comme une photo du chantier avec sa légende au dos : ce qui a été fait, par qui, quel jour.",
+  "example": "Le troisième commit de FORMA-7 modifie un seul fichier : 4 lignes retirées, 4 lignes ajoutées.",
+  "prereq": [
+   "historique"
+  ],
+  "watch": [
+   "commit",
+   "commits"
+  ]
+ },
+ {
+  "id": "message-de-commit",
+  "term": "Message de commit",
+  "icon": "chat-lines",
+  "def": {
+   "simple": "La courte phrase qui dit ce qu'un commit change.",
+   "standard": "Le message de commit décrit le changement enregistré par un [[commit]] : ce qui change et, si possible, pourquoi. C'est lui que tu liras plus tard dans l'[[historique]] pour retrouver un changement.",
+   "expert": "Une première ligne courte qui résume le changement, suivie au besoin d'un paragraphe d'explication. Un bon message se comprend sans ouvrir le code : il sert à chercher, à relire et à annuler au bon endroit."
+  },
+  "analogy": "Comme la légende écrite au dos d'une photo : sans elle, dans un an, plus personne ne saura ce qu'elle montre.",
+  "example": "« Corrige le bouton Contact : il n'ouvrait pas le mail » est un bon message. « Modifs » ne dit rien.",
+  "prereq": [
+   "commit"
+  ]
+ },
+ {
+  "id": "branche",
+  "term": "Branche",
+  "icon": "branch",
+  "def": {
+   "simple": "Une copie de travail de ton projet, à côté de la version en service, pour essayer sans rien casser.",
+   "standard": "Une branche est une ligne de [[commit|commits]] séparée. Les changements que tu y fais ne touchent pas le reste du projet tant que tu ne décides pas de les y intégrer.",
+   "expert": "Une étiquette mobile posée sur un commit : elle avance à chaque nouveau commit fait sur cette ligne. Créer une branche ne copie aucun fichier : c'est instantané, et l'on peut en avoir autant que de travaux en cours."
+  },
+  "analogy": "Comme une voie d'essai à côté de la voie principale : le train peut y manœuvrer sans gêner la circulation.",
+  "example": "Claude Code travaille toujours sur une branche à lui. Dans le dépôt de FORMA-8, l'une d'elles s'appelle « claude/forma8-c00 ».",
+  "prereq": [
+   "commit"
+  ]
+ },
+ {
+  "id": "branche-principale",
+  "term": "Branche principale",
+  "icon": "shield",
+  "def": {
+   "simple": "La version de référence de ton projet : celle qui marche, et celle qui est publiée. Elle s'appelle « main ».",
+   "standard": "La branche principale est la [[branche]] de référence d'un [[depot]]. Sur GitHub, elle s'appelle presque toujours main. C'est elle que [[github-pages]] publie : tout ce qui y arrive finit en ligne.",
+   "expert": "La branche par défaut du dépôt : celle que l'on voit en ouvrant le dépôt, et celle vers laquelle les [[pull-request|pull requests]] sont proposées. On évite d'y travailler directement : les changements y entrent après relecture."
+  },
+  "analogy": "Comme la voie principale d'une gare : les trains de voyageurs y passent, on n'y fait donc pas d'essais.",
+  "example": "Ta page en ligne est la copie exacte de la branche main de ton dépôt.",
+  "prereq": [
+   "branche",
+   "github-pages"
+  ]
+ },
+ {
+  "id": "fusion",
+  "term": "Fusion",
+  "icon": "connector",
+  "def": {
+   "simple": "Le moment où les changements d'une branche rejoignent la version principale.",
+   "standard": "Fusionner, c'est intégrer les [[commit|commits]] d'une [[branche]] dans une autre, le plus souvent dans la [[branche-principale]]. Sur GitHub, on fusionne en acceptant une [[pull-request]] (bouton **Merge pull request**).",
+   "expert": "Git réunit les deux lignes de commits et enregistre un commit de fusion, qui a deux parents. Si les deux branches ont modifié des endroits différents, tout se fait seul ; sinon, Git demande de trancher."
+  },
+  "analogy": "Comme l'aiguillage qui ramène la voie d'essai sur la voie principale : le travail fait à côté entre en service.",
+  "example": "Au caisson 00, tu as fusionné la pull request de Claude Code : sa page est entrée dans main, puis en ligne.",
+  "prereq": [
+   "branche-principale",
+   "pull-request"
+  ]
+ },
+ {
+  "id": "relecture",
+  "term": "Relecture",
+  "icon": "eye",
+  "def": {
+   "simple": "Regarder ce qui change avant de l'accepter.",
+   "standard": "La relecture consiste à examiner les changements d'une [[pull-request]] avant la [[fusion]] : quels fichiers sont touchés, ce qui est ajouté, ce qui est retiré. C'est ton contrôle sur le travail de ton équipe.",
+   "expert": "L'examen du diff et des [[commit|commits]] d'une pull request, avec des commentaires si besoin. Certaines équipes exigent une relecture favorable avant toute fusion. Avec des agents, c'est l'endroit où l'humain garde la main."
+  },
+  "analogy": "Comme le contrôle avant la mise en service : on vérifie le travail avant de laisser passer les voyageurs.",
+  "example": "Avant de fusionner, tu ouvres l'onglet « Files changed » et tu vérifies qu'aucune ligne rouge inattendue ne s'y trouve.",
+  "prereq": [
+   "pull-request",
+   "fusion"
+  ]
+ },
+ {
+  "id": "annulation",
+  "term": "Annulation",
+  "icon": "refresh",
+  "def": {
+   "simple": "Défaire un changement sans rien effacer : on ajoute un changement qui dit le contraire.",
+   "standard": "Annuler (« revert » en anglais), c'est créer un nouveau [[commit]] qui inverse un changement précédent. L'[[historique]] garde tout : l'erreur, puis sa correction.",
+   "expert": "Sur GitHub, le bouton **Revert** d'une [[pull-request]] fusionnée crée une nouvelle pull request, qui inverse le commit de [[fusion]] d'origine. Elle se relit et se fusionne comme les autres."
+  },
+  "analogy": "Comme dans un registre tenu à l'encre : on ne gomme pas une ligne fausse, on écrit en dessous une ligne qui la corrige.",
+  "example": "Tu fusionnes un changement qui casse ton titre. Un toucher sur Revert, une relecture, une fusion : le titre est revenu, et l'historique raconte toute l'histoire.",
+  "prereq": [
+   "commit",
+   "fusion"
+  ]
+ },
+ {
+  "id": "conflit",
+  "term": "Conflit de fusion",
+  "icon": "warn",
+  "def": {
+   "simple": "Deux changements différents au même endroit : Git ne sait pas lequel garder, et te demande de choisir.",
+   "standard": "Un conflit de fusion apparaît quand deux [[branche|branches]] ont modifié la même ligne du même [[fichier]], ou quand l'une modifie un fichier que l'autre supprime. La [[fusion]] est bloquée jusqu'à ce que quelqu'un choisisse le contenu final.",
+   "expert": "Git écrit les deux versions dans le fichier, entre trois marqueurs (<<<<<<<, =======, >>>>>>>). Résoudre, c'est écrire le contenu final, supprimer les marqueurs, puis enregistrer ce choix par un [[commit]]. GitHub permet de résoudre les conflits simples dans le navigateur."
+  },
+  "analogy": "Comme deux personnes qui corrigent la même phrase d'un document, chacune à sa façon : il faut quelqu'un pour trancher.",
+  "example": "Tu raccourcis le titre sur ta branche pendant que Claude Code le complète sur main : au moment de fusionner, Git te demande lequel garder.",
+  "prereq": [
+   "fusion",
+   "fichier"
+  ],
+  "watch": [
+   "conflit",
+   "conflits"
+  ]
  }
 ]

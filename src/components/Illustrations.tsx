@@ -56,6 +56,56 @@ export function Illustration({ name }: { name?: string }) {
         <rect x="222" y="50" width="48" height="16" rx="8" fill={C.l} opacity=".9" /><text x="246" y="61" textAnchor="middle" fill="#04060c" style={{ font: "700 9px var(--mono)" }}>EN LIGNE</text>
         {label(160, 114, "TA PAGE, VISIBLE PAR TOUS")}
       </svg>);
+    case "photos-chantier": return (
+      <svg {...common}>
+        <path d="M30 96h260" stroke={C.m} strokeWidth="3" strokeLinecap="round" />
+        {[0, 1, 2, 3].map((i) => (
+          <g key={i} transform={`translate(${28 + i * 70} 16)`}>
+            <rect x="0" y="0" width="56" height="62" rx="5" fill={C.d} stroke={i === 3 ? C.l : C.c} strokeWidth="2" />
+            <rect x="6" y="6" width="44" height="38" rx="2" fill="#0b1222" />
+            <path d="M12 40h32" stroke={C.t} strokeWidth="2" />
+            {i >= 1 && <path d="M16 40V26h24v14" fill="none" stroke={C.a} strokeWidth="2" />}
+            {i >= 2 && <path d="M13 27l15-11 15 11" fill="none" stroke={C.a} strokeWidth="2" strokeLinejoin="round" />}
+            {i >= 3 && <rect x="24" y="31" width="8" height="9" rx="1" fill={C.l} style={{ animation: "blink 1.6s steps(1) infinite" }} />}
+            <rect x="8" y="50" width="28" height="5" rx="2" fill={C.m} />
+            <circle cx="28" cy="80" r="5" fill={i === 3 ? C.l : C.c} />
+          </g>
+        ))}
+        {label(56, 114, "LUNDI", C.c)}{label(126, 114, "MARDI", C.c)}{label(196, 114, "JEUDI", C.c)}{label(266, 114, "AUJOURD'HUI", C.l)}
+      </svg>);
+    case "voie-essai": return (
+      <svg {...common}>
+        <path d="M24 44h272" stroke={C.c} strokeWidth="3" strokeLinecap="round" />
+        <path d="M96 44C122 44 118 86 144 86h44c26 0 22-42 48-42" fill="none" stroke={C.v} strokeWidth="3" strokeLinecap="round" />
+        {[40, 96].map((x) => <circle key={x} cx={x} cy="44" r="7" fill="#0b1222" stroke={C.c} strokeWidth="2.6" />)}
+        {[144, 188].map((x) => <circle key={x} cx={x} cy="86" r="7" fill="#0b1222" stroke={C.v} strokeWidth="2.6" />)}
+        <circle cx="236" cy="44" r="9" fill="#0b1222" stroke={C.l} strokeWidth="2.6" /><circle cx="236" cy="44" r="3" fill={C.l} />
+        <circle cx="282" cy="44" r="7" fill="#0b1222" stroke={C.c} strokeWidth="2.6" />
+        <circle r="4" fill={C.v} style={{ animation: "none" }}><animateMotion dur="3.2s" repeatCount="indefinite" path="M96 44C122 44 118 86 144 86h44c26 0 22-42 48-42" /></circle>
+        {label(160, 24, "MAIN : LA VERSION PRINCIPALE", C.c)}{label(166, 110, "UNE BRANCHE : TON ESSAI", C.v)}
+      </svg>);
+    case "relecture": return (
+      <svg {...common}>
+        <rect x="26" y="16" width="78" height="74" rx="6" fill={C.d} stroke={C.c} strokeWidth="2" />
+        <rect x="34" y="26" width="62" height="7" rx="2" fill={C.m} /><rect x="34" y="38" width="62" height="7" rx="2" fill={C.r} opacity=".55" />
+        <rect x="34" y="50" width="62" height="7" rx="2" fill={C.l} opacity=".6" /><rect x="34" y="62" width="62" height="7" rx="2" fill={C.l} opacity=".6" /><rect x="34" y="74" width="40" height="7" rx="2" fill={C.m} />
+        <path d="M114 54h22" stroke={C.t} strokeWidth="2" strokeDasharray="4 4" />
+        <path d="M146 54c10-16 38-16 48 0c-10 16-38 16-48 0Z" fill={C.d} stroke={C.a} strokeWidth="2.5" /><circle cx="170" cy="54" r="7" fill={C.a} style={{ animation: "blink 2.4s steps(1) infinite" }} />
+        <path d="M204 54h22" stroke={C.t} strokeWidth="2" strokeDasharray="4 4" />
+        <circle cx="262" cy="54" r="24" fill={C.d} stroke={C.l} strokeWidth="2.5" /><path d="M250 54l9 9 16-18" fill="none" stroke={C.l} strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" />
+        {label(65, 108, "LE CHANGEMENT", C.c)}{label(170, 108, "TA RELECTURE", C.a)}{label(262, 108, "LA FUSION", C.l)}
+      </svg>);
+    case "correction": return (
+      <svg {...common}>
+        <rect x="60" y="10" width="200" height="86" rx="8" fill={C.d} stroke={C.m} strokeWidth="2" />
+        <path d="M60 32h200M60 54h200M60 76h200" stroke={C.m} strokeWidth="1" />
+        <circle cx="78" cy="21" r="5" fill={C.c} /><rect x="92" y="17" width="110" height="8" rx="3" fill={C.c} opacity=".7" />
+        <circle cx="78" cy="43" r="5" fill={C.c} /><rect x="92" y="39" width="84" height="8" rx="3" fill={C.c} opacity=".7" />
+        <circle cx="78" cy="65" r="5" fill={C.r} /><rect x="92" y="61" width="124" height="8" rx="3" fill={C.r} opacity=".65" />
+        <circle cx="78" cy="86" r="5" fill={C.l} /><rect x="92" y="82" width="96" height="8" rx="3" fill={C.l} opacity=".8" />
+        <path d="M236 82c14-2 14-20 0-18" fill="none" stroke={C.l} strokeWidth="2.5" strokeLinecap="round" /><path d="M241 59l-6 5 7 4" fill="none" stroke={C.l} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+        {label(160, 113, "ON N'EFFACE RIEN : ON AJOUTE UNE CORRECTION")}
+      </svg>);
     default: return null;
   }
 }
