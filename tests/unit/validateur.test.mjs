@@ -14,6 +14,7 @@ function validate(caisson, glossary = []) {
   mkdirSync(join(dir, "caissons"));
   writeFileSync(join(dir, "glossary.json"), JSON.stringify(glossary));
   copyFileSync(join(root, "src", "content", "icon-ids.json"), join(dir, "icon-ids.json"));
+  copyFileSync(join(root, "src", "content", "illustration-ids.json"), join(dir, "illustration-ids.json"));
   writeFileSync(join(dir, "caissons", "c00.json"), JSON.stringify(caisson));
   const r = spawnSync(process.execPath, [join(root, "scripts", "validate-content.mjs")], { env: { ...process.env, FORMA8_CONTENT_DIR: dir }, encoding: "utf8" });
   return { code: r.status, out: r.stdout + r.stderr };

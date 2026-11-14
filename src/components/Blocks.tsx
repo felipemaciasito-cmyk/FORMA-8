@@ -2,7 +2,7 @@ import { motion } from "motion/react";
 import { lazy, Suspense } from "react";
 import type { Block, WidgetId } from "../content/types";
 import { RichText } from "../lib/richtext";
-import { Art } from "./Art";
+import { Illustration } from "./Illustrations";
 import { Icon, type IconId } from "./Icon";
 import { ExerciseView } from "./Exercises";
 import { BugReportBlock, ConsigneBlock, DiffBlock, MissionBlock, ProcedureBlock, SourceBlock } from "./Mechanics";
@@ -37,7 +37,7 @@ export function BlockView({ block, exKey, solvedBefore, onSolved }: { block: Blo
       return (
         <div className="panel" style={{ background: "rgba(167,139,250,.07)", borderColor: "rgba(167,139,250,.3)" }}>
           <div className="panel-title" style={{ color: "var(--violet)" }}><Icon name="frame" size={16} /> Analogie</div>
-          {block.art && <div style={{ margin: "-4px 0 8px" }}><Art name={block.art} /></div>}
+          {block.art && <div style={{ margin: "-4px 0 8px" }}><Illustration name={block.art} /></div>}
           <div className="h3">{block.title}</div>
           <RichText md={block.md} />
         </div>

@@ -169,8 +169,13 @@ function checkExercise(ex, where) {
 // ---------- 9. Blocs et livraisons propres à FORMA-8 ----------
 const blockIds = new Set();
 const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/;
+const ILLUSTRATIONS = new Set(Object.keys(readJSON(join(contentDir, "illustration-ids.json"))));
 function checkMechanicBlock(b, where) {
   switch (b.type) {
+    case "analogy":
+      // Seules les illustrations dessinées pour FORMA-8 sont permises (aucun contenu de FORMA-7).
+      if (b.art && !ILLUSTRATIONS.has(b.art)) err(where, `illustration inconnue « ${b.art} » : choisis-en une dans src/content/illustration-ids.json`);
+      break;
     case "mission":
       if (!b.title || !b.goal || !b.prompt) err(where, "ordre de mission : titre, objectif et texte requis");
       if (!Array.isArray(b.verify)) err(where, "ordre de mission : liste « verify » requise (peut être vide)");

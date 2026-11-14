@@ -1,7 +1,7 @@
 import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { notion, room as getRoom, stepKey } from "../content";
-import type { Room } from "../content/types";
+import type { Block, Room } from "../content/types";
 import { addEnergy, checkBadges, fx, learnNotions, REWARD } from "../lib/game";
 import { roomComplete, roomPower, roomReady, roomStepsDone, roomUnlocked, stepUnlocked } from "../lib/progress";
 import { go } from "../lib/router";
@@ -12,7 +12,8 @@ import { BlockView } from "./Blocks";
 import { TopBar } from "./Chrome";
 import { NotionChip } from "./Emblems";
 import { Icon } from "./Icon";
-import { DeliveryCard } from "./Mechanics";
+import { AskOra, DeliveryCard } from "./Mechanics";
+import { plain } from "../lib/richtext";
 import { OraSays } from "./Ora";
 
 // ======================= Caisson (un niveau, un membre de l'équipe) =======================
@@ -133,6 +134,19 @@ function ProjectCard({ r }: { r: Room }) {
 }
 
 // ======================= Protocole de réveil (leçon) =======================
+/** Texte brut d'un protocole, transmis à ORA pour qu'elle réponde dans le contexte de la leçon. */
+function lessonText(step: { title: string; kicker: string; blocks: Block[] }) {
+  const out = [step.title, step.kicker];
+  for (const b of step.blocks) {
+    if (b.type === "text" || b.type === "callout") out.push(plain(b.md));
+    else if (b.type === "definition") { const n = notion(b.notion); if (n) out.push(`${n.term} : ${plain(n.def.simple)}`); }
+    else if (b.type === "analogy") out.push(`${b.title} : ${plain(b.md)}`);
+    else if (b.type === "recap") out.push(...b.points.map(plain));
+    else if (b.type === "procedure") out.push(b.title, ...b.steps.map((x) => plain(x.do)));
+    else if (b.type === "mission") out.push(b.title, b.goal);
+  }
+  return out.join("\n");
+}
 export function StepView({ roomId, stepId }: { roomId: string; stepId: string }) {
   const r = getRoom(roomId);
   const p = useProgress();
@@ -206,7 +220,8 @@ export function StepView({ roomId, stepId }: { roomId: string; stepId: string })
   const next = r.steps[idx + 1];
   return (
     <div className="wrap" style={{ ["--hue" as string]: r.hue }}>
-      <TopBar title={step.title} kicker={`${r.code} · Protocole ${String(idx + 1).padStart(2, "0")}`} onBack={() => go(`caisson/${r.id}`)} />
+      <TopBar title={step.title} kicker={`${r.code} · Protocole ${String(idx + 1).padStart(2, "0")}`} onBack={() => go(`caisson/${r.id}`)}
+        right={<AskOra lesson={lessonText(step)} known={[...Object.keys(p.notions), ...step.introduces].map((id) => notion(id)?.term ?? id)} />} />
       <div className="progress" style={{ marginBottom: 18 }}><motion.i animate={{ width: `${pct}%` }} /></div>
       <div className="muted" style={{ fontSize: 17, marginBottom: 18, fontStyle: "italic" }}>{step.kicker}</div>
       <div className="stack" style={{ gap: 14 }}>
