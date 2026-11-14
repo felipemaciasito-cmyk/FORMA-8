@@ -9,7 +9,7 @@
     "check:emoji": "node scripts/check-no-emoji.mjs",
     "check:parity": "node scripts/check-design-parity.mjs",
     "typecheck": "tsc --noEmit -p tsconfig.json",
-    "test": "node --test tests/unit/",
+    "test": "node --test tests/unit/*.test.mjs",
     "test:e2e": "playwright test",
     "build": "node scripts/validate-content.mjs && node scripts/check-no-emoji.mjs && vite build",
     "preview": "vite preview"
