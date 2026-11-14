@@ -1,4 +1,4 @@
-import type { Counters, NotionState, Progress, SavedSkill } from "./store";
+import type { CheckState, Counters, NotionState, ProductInfo, Progress, SavedSkill } from "./store";
 
 // ---------------------------------------------------------------
 // Fusion de deux progressions (cet appareil + un autre appareil).
@@ -9,7 +9,9 @@ import type { Counters, NotionState, Progress, SavedSkill } from "./store";
 //    on garde le maximum de chaque appareil, et le total est la somme.
 //  - Ensembles (protocoles, badges, pannes, jours) : union.
 //  - Position dans les leçons en cours : la plus avancée des deux.
-//  - Éléments modifiables (notions, cases cochées, Skills, prénom) : le plus récent gagne.
+//  - Éléments modifiables (notions, cases cochées, Skills, prénom, produit) : le plus récent gagne.
+//  - Livraisons : union ; un contrôle vérifié sur GitHub l'emporte sur un contrôle coché à la main.
+//  - Notes des consignes et des rapports de bug : la meilleure.
 // ---------------------------------------------------------------
 
 const minStr = (a?: string, b?: string) => (!a ? b : !b ? a : a < b ? a : b);
@@ -55,6 +57,15 @@ function mergeSkills(a: Progress, b: Progress): { skills: SavedSkill[]; deletedS
   return { skills, deletedSkills: deleted };
 }
 
+function betterCheck(x: CheckState, y: CheckState): CheckState {
+  if (x.state !== y.state) return x.state === "verified" ? x : y;
+  return x.at <= y.at ? x : y;
+}
+
+function newerProduct(x: ProductInfo, y: ProductInfo): ProductInfo {
+  return (x.at ?? "") >= (y.at ?? "") ? x : y;
+}
+
 export function mergeProgress(a: Progress, b: Progress): Progress {
   if (a.epoch !== b.epoch) return withTotals(structuredClone(a.epoch > b.epoch ? a : b));
 
@@ -95,6 +106,11 @@ export function mergeProgress(a: Progress, b: Progress): Progress {
     orientationSeen: [...new Set([...a.orientationSeen, ...b.orientationSeen])],
     checks,
     checksAt,
+    product: newerProduct(a.product, b.product),
+    deliveryChecks: unionWith(a.deliveryChecks ?? {}, b.deliveryChecks ?? {}, betterCheck),
+    deliveries: unionWith(a.deliveries ?? {}, b.deliveries ?? {}, (x, y) => minStr(x, y)!),
+    consignes: unionWith(a.consignes ?? {}, b.consignes ?? {}, (x, y) => Math.max(x, y)),
+    reports: unionWith(a.reports ?? {}, b.reports ?? {}, (x, y) => Math.max(x, y)),
   };
   return withTotals(merged);
 }

@@ -124,6 +124,16 @@
     "receipt": "devis, reçu",
     "hdd": "disque dur (sauvegarde)",
     "phone": "téléphone",
-    "generic": "glyphe générique (icône inconnue)"
+    "generic": "glyphe générique (icône inconnue)",
+    "rocket": "fusée (livraison, lancement)",
+    "search": "loupe (enquête, diagnostic)",
+    "branch": "branche de versions (Git)",
+    "bug": "insecte stylisé (bug, panne de code)",
+    "server": "serveur (machine qui répond aux demandes)",
+    "globe": "globe (le web, la mise en ligne)",
+    "coins": "pièces empilées (coûts, budget)",
+    "code": "chevrons de code",
+    "team": "trois silhouettes (l'équipe)",
+    "capsule": "capsule de réveil (caisson)"
   }
 }

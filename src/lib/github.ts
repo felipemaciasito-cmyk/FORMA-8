@@ -1,3 +1,4 @@
+import { apiHeaders, ghError, repoUrl } from "./gh-core";
 import { getState } from "./store";
 
 // ---------------------------------------------------------------
@@ -6,19 +7,10 @@ import { getState } from "./store";
 // la vérification des livraisons.
 // ---------------------------------------------------------------
 
+export { repoUrl, ghError } from "./gh-core";
+
 export function ghHeaders(accept = "application/vnd.github+json"): Record<string, string> {
-  return { Authorization: `Bearer ${getState().settings.ghToken}`, Accept: accept, "X-GitHub-Api-Version": "2022-11-28" };
-}
-
-export function repoUrl(owner: string, repo: string, path = "") {
-  return `https://api.github.com/repos/${encodeURIComponent(owner)}/${encodeURIComponent(repo)}${path ? `/${path}` : ""}`;
-}
-
-export function ghError(status: number) {
-  if (status === 401) return "Jeton refusé (401) : il est invalide ou expiré.";
-  if (status === 403) return "Accès refusé (403) : vérifie les droits du jeton sur ce dépôt.";
-  if (status === 404) return "Dépôt ou fichier introuvable (404) : vérifie le compte, le dépôt, et que le jeton y a accès.";
-  return `Erreur GitHub ${status}.`;
+  return apiHeaders(getState().settings.ghToken, accept);
 }
 
 /** Test de connexion pour l'écran Réglages : le jeton voit-il le dépôt de données ? */

@@ -24,6 +24,10 @@ export interface SavedSkill {
   finalized?: boolean;
 }
 export interface Counters { energy: number; answers: number; correct: number; reviews: number }
+/** Résultat d'un contrôle de livraison : vérifié sur GitHub, ou déclaré à la main. */
+export interface CheckState { state: "verified" | "manual"; at: string }
+/** Le produit fil rouge du joueur : son idée et son dépôt GitHub. */
+export interface ProductInfo { name: string; pitch: string; owner: string; repo: string; at?: string }
 
 export interface Progress {
   version: 1;
@@ -53,6 +57,16 @@ export interface Progress {
   orientationSeen: string[];
   checks: Record<string, boolean>;
   checksAt: Record<string, string>;
+  /** Produit fil rouge (choisi au caisson 00). */
+  product: ProductInfo;
+  /** Contrôles de livraison ("c01:depot" -> état). */
+  deliveryChecks: Record<string, CheckState>;
+  /** Livraisons validées (caisson -> date). */
+  deliveries: Record<string, string>;
+  /** Meilleure note de chaque consigne rédigée (atelier des consignes). */
+  consignes: Record<string, number>;
+  /** Meilleure note de chaque rapport de bug (pannes à diagnostiquer). */
+  reports: Record<string, number>;
 }
 
 export interface Settings {
@@ -88,6 +102,11 @@ export const DEFAULT_PROGRESS: Progress = {
   orientationSeen: [],
   checks: {},
   checksAt: {},
+  product: { name: "", pitch: "", owner: "felipemaciasito-cmyk", repo: "" },
+  deliveryChecks: {},
+  deliveries: {},
+  consignes: {},
+  reports: {},
 };
 
 export const DEFAULT_SETTINGS: Settings = {
@@ -135,6 +154,11 @@ export function normalizeProgress(raw: Partial<Progress> | undefined, deviceId: 
     checks: { ...(raw?.checks ?? {}) },
     checksAt: { ...(raw?.checksAt ?? {}) },
     skills: [...(raw?.skills ?? [])],
+    product: { ...DEFAULT_PROGRESS.product, ...(raw?.product ?? {}) },
+    deliveryChecks: { ...(raw?.deliveryChecks ?? {}) },
+    deliveries: { ...(raw?.deliveries ?? {}) },
+    consignes: { ...(raw?.consignes ?? {}) },
+    reports: { ...(raw?.reports ?? {}) },
   } as Progress;
   if (!Object.keys(p.counters).length && (p.energy || p.stats.answers || p.stats.reviews)) {
     // Ancienne progression : tout est attribué à cet appareil.
@@ -169,6 +193,8 @@ function stamp(before: Progress, after: Progress) {
     if (!o || o.box !== n.box || o.due !== n.due || o.seenAt !== n.seenAt) n.at = t;
   }
   for (const [k, v] of Object.entries(after.checks)) if (before.checks[k] !== v) after.checksAt[k] = t;
+  const pa = after.product, pb = before.product;
+  if (pa.name !== pb.name || pa.pitch !== pb.pitch || pa.owner !== pb.owner || pa.repo !== pb.repo) pa.at = t;
 }
 
 export function updateProgress(fn: (p: Progress) => Progress | void) {

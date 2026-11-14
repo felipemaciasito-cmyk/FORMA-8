@@ -117,3 +117,71 @@ export async function testSkill(skillMd: string, input: string): Promise<SkillTe
   })) as { followed: boolean; notes: string[] };
   return { output, ...verdict };
 }
+
+// ---------------- Mécaniques de FORMA-8 ----------------
+
+export interface ConsigneGrade {
+  score: number;
+  verdict: "excellente" | "solide" | "à reprendre";
+  criteria: { name: string; ok: boolean; comment: string }[];
+  improved: string;
+  tip: string;
+}
+
+/** Atelier des consignes : note un ordre de mission destiné à Claude Code. */
+export async function gradeConsigne(situation: string, expected: string[], consigne: string): Promise<ConsigneGrade> {
+  const schema = {
+    type: "object", additionalProperties: false,
+    required: ["score", "verdict", "criteria", "improved", "tip"],
+    properties: {
+      score: { type: "integer", description: "Note de 0 à 100" },
+      verdict: { type: "string", enum: ["excellente", "solide", "à reprendre"] },
+      criteria: {
+        type: "array",
+        items: {
+          type: "object", additionalProperties: false, required: ["name", "ok", "comment"],
+          properties: { name: { type: "string" }, ok: { type: "boolean" }, comment: { type: "string" } },
+        },
+      },
+      improved: { type: "string", description: "Version améliorée de la consigne, prête à copier" },
+      tip: { type: "string" },
+    },
+  };
+  const text = await ask({
+    system: "Tu es un chef de projet expérimenté qui forme un débutant à piloter Claude Code, un agent qui écrit du code à sa place. Tu évalues une consigne (un ordre de mission) qu'il va donner à l'agent. Tu réponds en français, en tutoyant, avec des mots simples. Tu es exigeant mais bienveillant.",
+    user: `Situation : ${situation}\n\nCe qu'une bonne consigne doit contenir ici :\n${expected.map((c) => `- ${c}`).join("\n")}\n\nConsigne rédigée par l'apprenant :\n"""${consigne}"""\n\nÉvalue selon ces 5 critères, dans cet ordre, en une phrase courte chacun : Contexte (l'agent sait-il où il est et pourquoi ?), Objectif (le résultat attendu est-il clair ?), Critères de réussite (comment saura-t-on que c'est fini et réussi ?), Contraintes (ce qu'il ne faut pas faire ou pas toucher), Vérification (l'agent doit-il tester, montrer une preuve ?). Tiens compte aussi des points attendus. improved : réécris la consigne en mieux, 120 mots maximum. tip : un conseil court.`,
+    schema,
+    maxTokens: 3000,
+  });
+  return JSON.parse(text) as ConsigneGrade;
+}
+
+export interface BugReportGrade {
+  score: number;
+  verdict: "précis" | "presque" | "trop vague";
+  strengths: string[];
+  missing: string[];
+  tip: string;
+}
+
+/** Pannes à diagnostiquer : note un rapport de bug. */
+export async function gradeBugReport(symptom: string, context: string, expected: string[], report: string): Promise<BugReportGrade> {
+  const schema = {
+    type: "object", additionalProperties: false,
+    required: ["score", "verdict", "strengths", "missing", "tip"],
+    properties: {
+      score: { type: "integer", description: "Note de 0 à 100" },
+      verdict: { type: "string", enum: ["précis", "presque", "trop vague"] },
+      strengths: { type: "array", items: { type: "string" } },
+      missing: { type: "array", items: { type: "string" } },
+      tip: { type: "string" },
+    },
+  };
+  const text = await ask({
+    system: "Tu es un développeur senior qui apprend à un débutant à signaler un bug à un agent de code (Claude Code). Un bon rapport permet de reproduire le problème sans poser de question. Tu réponds en français, en tutoyant, avec des mots simples.",
+    user: `Symptôme observé : ${symptom}\nContexte : ${context}\n\nUn bon rapport doit contenir ici :\n${expected.map((c) => `- ${c}`).join("\n")}\n\nRapport de l'apprenant :\n"""${report}"""\n\nÉvalue : étapes pour reproduire, résultat attendu, résultat obtenu, environnement (appareil, navigateur), indices (message d'erreur, capture), et une demande claire (chercher la cause avant de corriger). strengths : 1 à 3 points forts. missing : 0 à 4 éléments manquants. tip : un conseil court.`,
+    schema,
+    maxTokens: 2000,
+  });
+  return JSON.parse(text) as BugReportGrade;
+}
