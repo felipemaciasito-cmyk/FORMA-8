@@ -10,15 +10,6 @@ import { OraSays } from "./Ora";
 import { TermCard } from "./TermSheet";
 
 const Widgets = {
-  NextWord: lazy(() => import("./widgets/NextWord")),
-  CoreCompare: lazy(() => import("./widgets/CoreCompare")),
-  ContextRam: lazy(() => import("./widgets/ContextRam")),
-  PromptLab: lazy(() => import("./widgets/PromptLab")),
-  ProjectSim: lazy(() => import("./widgets/ProjectSim")),
-  SkillAnatomy: lazy(() => import("./widgets/SkillAnatomy")),
-  PatchBay: lazy(() => import("./widgets/PatchBay")),
-  AgentLoop: lazy(() => import("./widgets/AgentLoop")),
-  SkillWorkshop: lazy(() => import("./SkillWorkshop")),
   GitBranches: lazy(() => import("./widgets/GitBranches")),
   RequestTrip: lazy(() => import("./widgets/RequestTrip")),
   PipelineLights: lazy(() => import("./widgets/PipelineLights")),

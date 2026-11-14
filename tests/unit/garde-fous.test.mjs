@@ -57,3 +57,11 @@ test("chaque substitution de parité visuelle est documentée", () => {
     for (const s of subs) assert.ok(s.from && s.to && s.raison, `${file} : substitution incomplète`);
   }
 });
+
+test("aucun simulateur ni modèle de contenu de FORMA-7 n'est repris", () => {
+  const forma7Widgets = ["NextWord", "CoreCompare", "ContextRam", "PromptLab", "ProjectSim", "SkillAnatomy", "PatchBay", "AgentLoop", "SkillWorkshop"];
+  for (const p of src) {
+    const t = readFileSync(p, "utf8");
+    for (const w of forma7Widgets) assert.doesNotMatch(t, new RegExp(`\\b${w}\\b`), `${p} fait encore référence à ${w} (FORMA-7)`);
+  }
+});

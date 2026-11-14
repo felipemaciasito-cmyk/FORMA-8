@@ -12,8 +12,8 @@ test("atelier des consignes : situations ouvertes et clé API demandée", async 
   await expect(page.getByText(/autres situations s'ouvriront/)).toBeVisible();
   await page.getByPlaceholder("Ta consigne…").fill("Ajoute un bouton Nous contacter en bas de la page d'accueil, même style que les autres.");
   await expect(page.getByText("Clé API nécessaire")).toBeVisible();
-  await page.getByRole("button", { name: "Skills" }).click();
-  await expect(page.getByText("Forge de Skills")).toBeVisible();
+  // Aucun contenu de FORMA-7 : ni sa forge de Skills, ni ses simulateurs.
+  await expect(page.getByText("Forge de Skills")).toHaveCount(0);
 });
 
 test("l'équipe : fiches, produit enregistré et adresse publique", async ({ page }) => {
