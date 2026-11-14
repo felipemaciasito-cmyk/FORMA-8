@@ -1,0 +1,14 @@
+{
+  "id": "c06",
+  "index": 6,
+  "code": "CAISSON 06",
+  "member": "Le Messager",
+  "name": "La mise en ligne",
+  "version": "v0.6",
+  "tagline": "Mettre ton produit entre les mains de ses premiers vrais utilisateurs.",
+  "hue": 175,
+  "requires": [
+    "c05"
+  ],
+  "steps": []
+}

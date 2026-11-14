@@ -1,0 +1,14 @@
+{
+  "id": "c08",
+  "index": 8,
+  "code": "CAISSON 08",
+  "member": "La Sentinelle",
+  "name": "Sécurité et coûts",
+  "version": "v0.8",
+  "tagline": "Protéger tes utilisateurs, tes secrets et ton budget.",
+  "hue": 350,
+  "requires": [
+    "c07"
+  ],
+  "steps": []
+}

@@ -1,0 +1,14 @@
+{
+  "id": "c10",
+  "index": 10,
+  "code": "CAISSON 10",
+  "member": "Le Lancement",
+  "name": "Produit et métier",
+  "version": "v1.0",
+  "tagline": "Lancer la version 1.0 de ton produit, et en faire un métier.",
+  "hue": 320,
+  "requires": [
+    "c09"
+  ],
+  "steps": []
+}

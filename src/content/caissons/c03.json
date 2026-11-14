@@ -1,0 +1,14 @@
+{
+  "id": "c03",
+  "index": 3,
+  "code": "CAISSON 03",
+  "member": "Le Scribe",
+  "name": "Décrire et découper",
+  "version": "v0.3",
+  "tagline": "Décrire précisément ce que tu veux, puis le découper en tâches réalisables.",
+  "hue": 260,
+  "requires": [
+    "c02"
+  ],
+  "steps": []
+}

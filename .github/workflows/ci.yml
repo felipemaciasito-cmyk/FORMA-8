@@ -1,0 +1,41 @@
+name: Vérifications FORMA-8
+
+# Lancé sur chaque pull request : rien n'est fusionné sur main sans ces vérifications.
+on:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verifier:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      # FORMA-7 (dépôt public) sert de référence pour la parité visuelle.
+      - uses: actions/checkout@v7
+        with:
+          repository: felipemaciasito-cmyk/FORMA-7
+          path: forma-7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Zéro zone de flou
+        run: npm run validate
+      - name: Zéro emoji
+        run: npm run check:emoji
+      - name: Parité visuelle avec FORMA-7
+        run: node scripts/check-design-parity.mjs --require --forma7 forma-7
+      - name: Vérification des types
+        run: npm run typecheck
+      - name: Tests unitaires
+        run: npm test
+      - name: Build
+        run: npm run build
+      - name: Navigateur pour les tests de bout en bout
+        run: npx playwright install --with-deps chromium
+      - name: Tests de bout en bout
+        run: npx playwright test --trace off

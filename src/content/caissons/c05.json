@@ -1,0 +1,14 @@
+{
+  "id": "c05",
+  "index": 5,
+  "code": "CAISSON 05",
+  "member": "L'Inspecteur",
+  "name": "Qualité et vérifications",
+  "version": "v0.5",
+  "tagline": "Vérifier automatiquement que rien ne casse, avant chaque mise en ligne.",
+  "hue": 120,
+  "requires": [
+    "c04"
+  ],
+  "steps": []
+}

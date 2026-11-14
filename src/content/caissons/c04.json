@@ -1,0 +1,14 @@
+{
+  "id": "c04",
+  "index": 4,
+  "code": "CAISSON 04",
+  "member": "La Boucle",
+  "name": "Demander, relire, corriger",
+  "version": "v0.4",
+  "tagline": "Faire avancer ton produit pas à pas, et retrouver la cause d'un problème.",
+  "hue": 30,
+  "requires": [
+    "c03"
+  ],
+  "steps": []
+}
