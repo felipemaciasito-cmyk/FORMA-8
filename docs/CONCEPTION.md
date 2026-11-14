@@ -62,8 +62,11 @@ Profil de **pilote débutant** : sait mener un projet de bout en bout avec Claud
 | Programme source | Parcours sur mesure, construit sur la documentation officielle de Claude Code **en français**. Les programmes des cours Anthropic Academy (Claude Code 101, Claude Code in Action) servent de liste de contrôle : chaque sujet est couvert en français, réécrit (jamais traduit mot pour mot), source citée. |
 | Autonomie | FORMA-8 enseigne elle-même toutes les notions qu'elle utilise, y compris celles de FORMA-7 (fiches réutilisées et adaptées). |
 | Lien avec FORMA-7 | Clin d'œil seulement : si une progression FORMA-7 est trouvée, reprise du prénom et affichage des badges FORMA-7 en souvenir, sans effet sur l'apprentissage. Lecture seule, jamais d'écriture. |
-| Univers | **L'Équipage** : le datacenter rallumé réveille des automates ; chacun incarne un vrai outil de Claude Code ; le joueur passe d'apprenti à chef d'orchestre d'agents. |
-| Nom | « FORMA-8 · Réveille l'équipe » (orthographe à confirmer : « équipe » ou « équipage »). |
+| Univers | **L'Équipe** : le datacenter rallumé réveille des automates ; chacun incarne un vrai outil de Claude Code ; le joueur passe d'apprenti à chef d'orchestre d'agents. Dans l'appli, on parle toujours d'« équipe », jamais d'« équipage ». |
+| Nom | « FORMA-8 · Réveille l'équipe » (confirmé). |
+| Vérification des livrables | Automatique, par l'API GitHub, avec un jeton en lecture limité aux dépôts concernés ; liste à cocher en secours si la vérification est impossible. |
+| Nouvelles mécaniques | Atelier des consignes, pannes à diagnostiquer, livraisons vérifiées ; plus les fiches de l'équipe, les simulateurs et le portfolio. La revue de code n'a pas de mécanique dédiée mais reste une notion du niveau 5. |
+| Claude intégré | **Indispensable** : l'appli utilise l'API Claude (clé fournie par le joueur, facturée à l'usage, séparément de l'abonnement). |
 | Projets | Un **produit fil rouge**, du niveau 0 au niveau 10, choisi dans l'appli grâce à un atelier guidé au niveau 0. |
 | Premiers vrais utilisateurs | Au **niveau 6** : produit fonctionnel, testé, publié, sans comptes ni données personnelles. |
 | Missions du jour | **Aucune** : pas de lecture de mails. FORMA-7-data ne sert qu'à la synchronisation. |
@@ -73,9 +76,9 @@ Profil de **pilote débutant** : sait mener un projet de bout en bout avec Claud
 
 ## 4. Parcours (proposition à détailler)
 
-Un membre d'équipage se réveille à chaque niveau ; le produit passe à la version suivante (v0.0 à v1.0).
+Un membre de l'équipe se réveille à chaque niveau ; le produit passe à la version suivante (v0.0 à v1.0).
 
-| Niveau | Membre d'équipage | Ce qu'on apprend | Livrable publié |
+| Niveau | Membre de l'équipe | Ce qu'on apprend | Livrable publié |
 |---|---|---|---|
 | 0 | Réveil (ORA) | Bases du logiciel sans coder : fichiers, navigateur, serveur, HTML, CSS, JavaScript ; lire une modification simple ; choisir son produit | Page de présentation du produit |
 | 1 | L'Archiviste | Git et GitHub : commit, branche, push, pull request, fusion, retour arrière | La page évolue par des pull requests relues et fusionnées |
@@ -94,7 +97,55 @@ Un membre d'équipage se réveille à chaque niveau ; le produit passe à la ver
 
 ## 5. Game design
 
-À rédiger : mécaniques reprises de FORMA-7 et nouvelles mécaniques propres au code.
+### Vocabulaire
+
+On parle d'**équipe**, jamais d'« équipage ». Les membres de l'équipe sont des automates endormis dans des
+**caissons** (un caisson par niveau) ; chacun incarne un vrai outil de Claude Code. Les leçons sont des
+**protocoles de réveil**. ORA reste le guide : c'est elle qui réveille l'équipe et confie le commandement
+au joueur.
+
+### Mécaniques reprises de FORMA-7
+
+| FORMA-7 | FORMA-8 |
+|---|---|
+| Salles et baies | Caissons (niveaux) et protocoles de réveil (leçons) |
+| Énergie en kW, 8 grades d'accréditation | Même énergie ; grades : Recrue, Apprenti, Opérateur, Pilote, Chef d'atelier, Chef d'équipe, Commandant, Chef d'orchestre (noms ajustables) |
+| Incidents à 3 fusibles | Pannes : page blanche, déploiement en échec, secret exposé, etc. |
+| Maintenance (Leitner, 5 boîtes), Uptime, badges octogonaux, fiches de notions à 3 niveaux, exercices, reprise des leçons | Identiques |
+| ORA | Identique |
+
+### Nouvelles mécaniques retenues
+
+1. **Atelier des consignes** : l'appli aide à rédiger l'ordre de mission à coller dans Claude Code et le
+   fait noter par Claude (contexte, objectif, critères de réussite, contraintes, vérification). Une
+   meilleure consigne fait progresser l'équipe plus vite.
+2. **Pannes à diagnostiquer** : un dépôt d'entraînement contient des bugs plantés exprès ; le joueur fait
+   le diagnostic, rédige le rapport de bug et pilote la correction.
+3. **Livraisons vérifiées** : l'appli vérifie les livrables sur GitHub (page en ligne, pull request
+   fusionnée, tests réussis). Preuves réelles ; liste à cocher en secours.
+
+Prévus dans tous les cas :
+
+- **Fiches de l'équipe** : chaque membre est relié à un vrai fichier du produit (`CLAUDE.md`, Skills,
+  réglages, tests, workflows…).
+- **Simulateurs** : branches Git animées, trajet d'une requête entre navigateur et serveur, chaîne de
+  tests et de mise en ligne avec voyants, constructeur de jeton, calculateur de coûts.
+- **Portfolio** : construit automatiquement à partir des livraisons vérifiées.
+
+### Séance type : le « quart » (15 à 30 minutes)
+
+1. Une notion.
+2. Un exercice.
+3. Un ordre de mission envoyé à Claude Code, qui travaille pendant l'absence du joueur.
+4. Au quart suivant, la vérification de la livraison.
+
+### Claude intégré (indispensable)
+
+L'appli appelle l'API Claude avec la clé du joueur, stockée sur l'appareil et jamais dans le code :
+correction des réponses libres, notation des consignes, réexplication d'une notion, accompagnement dans le
+diagnostic des pannes. La création de la clé, son plafond de dépense et sa protection font l'objet d'un
+protocole guidé dès le démarrage, avec les notions nécessaires définies avant (« zéro zone de flou »).
+Modèles, tarifs et coût mensuel estimé : à établir dans le plan technique, à partir de sources vérifiées.
 
 ## 6. Plan technique
 
