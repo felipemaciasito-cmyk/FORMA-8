@@ -1,0 +1,117 @@
+{
+  "_lisez-moi": "Contrôle de parité visuelle avec FORMA-7 (scripts/check-design-parity.mjs). Chaque fichier « exact » doit être identique à celui de FORMA-7, après application des SEULES substitutions listées ici, validées par le propriétaire le 14/11/2026. Toute nouvelle substitution doit être validée explicitement avant d'être ajoutée.",
+  "rootVariables": "src/styles/app.css",
+  "exact": [
+    "src/styles/app.css",
+    "src/components/Icon.tsx",
+    "src/components/Emblems.tsx",
+    "src/components/Chrome.tsx",
+    "src/components/Ora.tsx",
+    "src/components/Art.tsx",
+    "src/components/Boot.tsx",
+    "src/components/TermSheet.tsx",
+    "src/components/Exercises.tsx",
+    "src/lib/sound.ts",
+    "src/lib/motion.ts",
+    "scripts/gen-icons.mjs",
+    "index.html",
+    "vite.config.ts",
+    "public/icons/icon.svg"
+  ],
+  "enrichOnly": [
+    "src/components/glyphs.ts",
+    "src/content/icon-ids.json"
+  ],
+  "substitutions": {
+    "src/components/Boot.tsx": [
+      {
+        "from": "  \"FORMA-7 · BIOS v7.0.26\",\n  \"Contrôle mémoire ............ OK\",\n  \"Réseau de secours ........... OK\",\n  \"Salles détectées ............ 7 + 1\",\n  \"Alimentation principale ..... 0 %\",\n  \"[ALERTE] Datacenter hors tension.\",",
+        "to": "  \"FORMA-8 · BIOS v8.0.26\",\n  \"Contrôle mémoire ............ OK\",\n  \"Datacenter FORMA-7 .......... EN LIGNE\",\n  \"Caissons détectés ........... 11\",\n  \"Équipe réveillée ............ 0 %\",\n  \"[ALERTE] Équipe en sommeil.\",",
+        "raison": "Lignes du BIOS réécrites pour FORMA-8 (substitution validée le 14/11/2026)."
+      },
+      {
+        "from": "[\"FORMA-7 · reprise de session\", `Alimentation principale ..... ${power} %`,",
+        "to": "[\"FORMA-8 · reprise de session\", `Équipe réveillée ............ ${power} %`,",
+        "raison": "Écran de reprise de session de FORMA-8."
+      },
+      {
+        "from": "<OraSays md={\"Bonjour. Je suis **ORA**, Opérateur de Relance Automatique.\\n\\nLe datacenter **FORMA-7** est éteint : 7 salles, une par jour de ta formation, plus une salle bonus. Pour les rallumer, il faudra comprendre chaque machine. Je t'accompagnerai.\\n\\nComment dois-je t'appeler ?\"} />",
+        "to": "<OraSays md={\"Bonjour. Je suis **ORA**, Opérateur de Relance Automatique.\\n\\nLe datacenter est rallumé. Dans sa réserve dorment **11 membres d'équipe** : chacun maîtrise une partie du métier de créateur d'applications. Réveille-les un par un, et ensemble vous construirez **ton propre produit**, jusqu'à son lancement. Je t'accompagnerai.\\n\\nComment dois-je t'appeler ?\"} />",
+        "raison": "Texte d'accueil d'ORA réécrit pour FORMA-8."
+      },
+      {
+        "from": "md={`Parfait${progress.name ? `, ${progress.name}` : \"\"}. Abaisse le **levier principal** pour envoyer le courant.`}",
+        "to": "md={`Parfait${progress.name ? `, ${progress.name}` : \"\"}. Abaisse le **levier principal** pour envoyer le courant dans la réserve.`}",
+        "raison": "Phrase d'ORA avant le levier."
+      }
+    ],
+    "src/components/Exercises.tsx": [
+      {
+        "from": "const draftKey = (exKey: string) => `forma7:brouillon:${exKey}`;",
+        "to": "const draftKey = (exKey: string) => `forma8:brouillon:${exKey}`;",
+        "raison": "Ne jamais écrire dans les données de FORMA-7."
+      }
+    ],
+    "index.html": [
+      {
+        "from": "<meta name=\"description\" content=\"FORMA-7 : ton aventure d'apprentissage de l'IA. Rallume le datacenter, salle après salle.\" />",
+        "to": "<meta name=\"description\" content=\"FORMA-8 : apprends à créer tes applications avec l'IA. Réveille l'équipe, caisson après caisson.\" />",
+        "raison": "Description de l'appli."
+      },
+      {
+        "from": "<meta name=\"apple-mobile-web-app-title\" content=\"FORMA-7\" />",
+        "to": "<meta name=\"apple-mobile-web-app-title\" content=\"FORMA-8\" />",
+        "raison": "Nom sur l'écran d'accueil."
+      },
+      {
+        "from": "<title>FORMA-7</title>",
+        "to": "<title>FORMA-8</title>",
+        "raison": "Titre de l'appli."
+      }
+    ],
+    "vite.config.ts": [
+      {
+        "from": "// Le site est publié sur https://<compte>.github.io/FORMA-7/ : toutes les URL sont relatives à /FORMA-7/.",
+        "to": "// Le site est publié sur https://<compte>.github.io/FORMA-8/ : toutes les URL sont relatives à /FORMA-8/.",
+        "raison": "Commentaire."
+      },
+      {
+        "from": "base: \"/FORMA-7/\",",
+        "to": "base: \"/FORMA-8/\",",
+        "raison": "Adresse de l'appli."
+      },
+      {
+        "from": "name: \"FORMA-7 · Rallume le datacenter\",",
+        "to": "name: \"FORMA-8 · Réveille l'équipe\",",
+        "raison": "Nom de l'appli."
+      },
+      {
+        "from": "short_name: \"FORMA-7\",",
+        "to": "short_name: \"FORMA-8\",",
+        "raison": "Nom court."
+      },
+      {
+        "from": "description: \"Ton aventure d'apprentissage de l'IA : 7 salles à rallumer.\",",
+        "to": "description: \"Apprends à créer tes applications avec l'IA : 11 membres d'équipe à réveiller.\",",
+        "raison": "Description de l'appli."
+      }
+    ],
+    "public/icons/icon.svg": [
+      {
+        "from": "transform=\"skewY(-26.5) translate(0 160)\">7</text>",
+        "to": "transform=\"skewY(-26.5) translate(0 160)\">8</text>",
+        "raison": "Chiffre de l'icône : identité de l'appli (à valider dans la pull request du socle)."
+      }
+    ]
+  },
+  "required": {
+    "index.html": [
+      "<meta name=\"theme-color\" content=\"#04060c\" />",
+      "<meta name=\"apple-mobile-web-app-status-bar-style\" content=\"black-translucent\" />"
+    ],
+    "vite.config.ts": [
+      "background_color: \"#04060c\",",
+      "theme_color: \"#04060c\","
+    ]
+  }
+}
