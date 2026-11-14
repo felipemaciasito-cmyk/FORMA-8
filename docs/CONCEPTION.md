@@ -177,7 +177,8 @@ FORMA-7 sert de base. Seul ajout : `@playwright/test` en dépendance de dévelop
 - PWA : `theme-color` `#04060c`, barre d'état `black-translucent`, icônes générées par
   `scripts/gen-icons.mjs` ; réglages son et animations (complètes ou réduites).
 
-**Substitutions indispensables, soumises à validation** (textes et clés, aucun changement visuel) :
+**Substitutions indispensables, validées par le propriétaire le 14/11/2026** (textes et clés, aucun
+changement visuel ; aucune autre retouche n'est autorisée) :
 
 | Fichier | Substitution | Raison |
 |---|---|---|
@@ -260,8 +261,8 @@ publique (passage obligé par un serveur).
   `forma7:`) et tests de la fusion et du validateur.
 - Intégration continue sur chaque pull request : validation du contenu, zéro emoji, parité visuelle,
   vérification des types, build, tests. Déploiement sur GitHub Pages à chaque fusion sur `main`.
-- Réglage manuel à faire par le propriétaire : Settings › Pages › Source : GitHub Actions (le dépôt doit être
-  public pour GitHub Pages gratuit : à vérifier).
+- Réglage manuel à faire par le propriétaire : Settings › Pages › Source : GitHub Actions. Le dépôt est
+  public (vérifié le 14/11/2026), condition de GitHub Pages gratuit.
 
 ## 7. Plan de construction
 
