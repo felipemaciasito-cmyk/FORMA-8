@@ -15,7 +15,7 @@ import { IncidentView, RoomView, StepView } from "./components/RoomView";
 import { SettingsView } from "./components/SettingsView";
 import { IconLibraryView } from "./components/IconLibrary";
 import { TermSheetHost } from "./components/TermSheet";
-import { AtelierView, BaseView, MaintenanceView } from "./components/Views";
+import { AtelierView, BaseView, MaintenanceView, TeamView } from "./components/Views";
 
 // Le libellé par défaut d'un [[terme]] est le nom de la notion, sans la parenthèse.
 setLabelResolver((id) => (notion(id)?.term ?? id).replace(/\s*\(.+\)$/, "").replace(/^./, (c) => c.toLowerCase()));
@@ -39,7 +39,7 @@ export function App() {
 
   if (!ready) return <div className="app-bg" />;
 
-  // Routes : #/caisson/c01, #/caisson/c01/p2 (protocole de réveil), #/panne/c01, #/base, #/maintenance, #/atelier, #/reglages.
+  // Routes : #/caisson/c01, #/caisson/c01/p2 (protocole de réveil), #/panne/c01, #/equipe, #/base, #/maintenance, #/atelier, #/reglages.
   const [a, b, c] = route;
   const tab = a === "base" ? "base" : a === "maintenance" ? "maintenance" : a === "atelier" ? "atelier" : a === "reglages" || a === "icones" ? "reglages" : "";
   let screen: React.ReactNode;
@@ -52,6 +52,7 @@ export function App() {
   else if (a === "atelier") screen = <AtelierView />;
   else if (a === "reglages") screen = <SettingsView />;
   else if (a === "icones") screen = <IconLibraryView />;
+  else if (a === "equipe") screen = <TeamView />;
   else screen = <MapView />;
 
   return (

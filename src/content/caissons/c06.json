@@ -10,5 +10,10 @@
   "requires": [
     "c05"
   ],
-  "steps": []
+  "steps": [],
+  "teamFile": {
+    "label": "Le robot de mise en ligne (.github/workflows)",
+    "path": ".github/workflows",
+    "role": "Publie chaque nouvelle version, seulement si tout est vert."
+  }
 }

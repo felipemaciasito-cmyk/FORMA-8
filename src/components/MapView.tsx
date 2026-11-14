@@ -41,6 +41,9 @@ export function MapView() {
           <div className="h2" style={{ margin: "2px 0 4px", fontSize: 19, whiteSpace: "nowrap" }}>Équipe réveillée {power}&nbsp;%</div>
           <div className="small muted">{awake} / {ROOMS.length} membres de l'équipe réveillés</div>
         </div>
+        <button className="icon-btn" style={{ alignSelf: "flex-start" }} onClick={() => { sfx("tap"); go("equipe"); }} aria-label="Ton équipe">
+          <Icon name="team" size={20} />
+        </button>
       </div>
 
       <div style={{ margin: "16px 0" }}><OraSays compact md={greet} mood={due.size ? "alert" : "happy"} /></div>

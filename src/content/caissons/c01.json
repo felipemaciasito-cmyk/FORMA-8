@@ -10,5 +10,10 @@
   "requires": [
     "c00"
   ],
-  "steps": []
+  "steps": [],
+  "teamFile": {
+    "label": "L'historique des versions",
+    "path": "commits",
+    "role": "Garde la mémoire de chaque version et permet de revenir en arrière."
+  }
 }

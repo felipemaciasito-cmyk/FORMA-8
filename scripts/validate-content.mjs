@@ -17,6 +17,8 @@
 //  6. Les exercices sont bien formés (au moins une bonne réponse, etc.).
 //  7. Chaque caisson a un code, un membre de l'équipe, un sujet, une version
 //     et une teinte ; un caisson sans protocole est signalé « en préparation ».
+//  9. Blocs propres à FORMA-8 (ordre de mission, consigne, rapport de bug,
+//     lecture de modification, source datée) et livraisons bien formés.
 //  8. Zéro emoji : aucun emoji ni symbole décoratif dans le glossaire et les
 //     caissons ; le champ « icon » d'une notion est un identifiant de
 //     src/content/icon-ids.json.
@@ -30,7 +32,8 @@ import { codepoint, findEmoji } from "../src/lib/emoji-rules.js";
 
 const here = dirname(fileURLToPath(import.meta.url));
 const root = join(here, "..");
-const contentDir = join(root, "src", "content");
+// FORMA8_CONTENT_DIR permet aux tests de valider un contenu volontairement fautif.
+const contentDir = process.env.FORMA8_CONTENT_DIR ?? join(root, "src", "content");
 
 const errors = [];
 const warnings = [];
@@ -163,6 +166,52 @@ function checkExercise(ex, where) {
   }
 }
 
+// ---------- 9. Blocs et livraisons propres à FORMA-8 ----------
+const blockIds = new Set();
+const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/;
+function checkMechanicBlock(b, where) {
+  switch (b.type) {
+    case "mission":
+      if (!b.title || !b.goal || !b.prompt) err(where, "ordre de mission : titre, objectif et texte requis");
+      if (!Array.isArray(b.verify)) err(where, "ordre de mission : liste « verify » requise (peut être vide)");
+      break;
+    case "consigne":
+    case "bugreport":
+      if (!b.id) err(where, `${b.type} : identifiant requis`);
+      else if (blockIds.has(b.id)) err(where, `${b.type} : identifiant en double ${b.id}`);
+      else blockIds.add(b.id);
+      if (!(b.expected?.length >= 3)) err(where, `${b.type} : au moins 3 points attendus`);
+      if (b.type === "consigne" && !b.situation) err(where, "consigne : situation requise");
+      if (b.type === "bugreport" && (!b.symptom || !b.context)) err(where, "rapport de bug : symptôme et contexte requis");
+      break;
+    case "diff":
+      if (!b.file || !b.title || !(b.lines?.length)) err(where, "lecture de modification : titre, fichier et lignes requis");
+      for (const l of b.lines ?? []) if (!["add", "del", "ctx"].includes(l.kind)) err(where, `ligne de modification invalide : ${l.kind}`);
+      break;
+    case "source":
+      if (!/^https:\/\//.test(b.url ?? "")) err(where, `source : adresse invalide ${b.url}`);
+      if (!ISO_DATE.test(b.checked ?? "")) err(where, "source : date de vérification au format AAAA-MM-JJ requise");
+      break;
+  }
+}
+const CHECK_KINDS = { manual: [], file: ["path"], commits: ["min"], pullsMerged: ["min"], workflow: [], pages: [] };
+function checkDelivery(room) {
+  const d = room.delivery;
+  if (!d) return;
+  const where = `${room.id}/livraison`;
+  if (!d.title || !d.goal) err(where, "titre et objectif requis");
+  if (!(d.checks?.length)) err(where, "au moins un contrôle requis");
+  const ids = new Set();
+  for (const c of d.checks ?? []) {
+    if (!c.id || ids.has(c.id)) err(where, `contrôle sans identifiant ou en double : ${c.id}`);
+    ids.add(c.id);
+    if (!(c.kind in CHECK_KINDS)) { err(where, `type de contrôle inconnu : ${c.kind}`); continue; }
+    for (const f of CHECK_KINDS[c.kind]) if (c[f] === undefined || c[f] === "") err(where, `contrôle ${c.id} : champ ${f} requis`);
+    if (!c.label) err(where, `contrôle ${c.id} : libellé requis`);
+  }
+  if (!d.checks?.some((c) => c.kind !== "manual")) warn(where, "aucun contrôle vérifiable automatiquement");
+}
+
 // ---------- 2-5. Parcours des caissons ----------
 const known = new Set();
 const introducedWhere = new Map();
@@ -225,6 +274,7 @@ for (const room of rooms) {
     step.blocks.forEach((b, i) => {
       if (b.type === "exercise") checkExercise(b.ex, `${where} bloc ${i}`);
       if (b.type === "definition" && !byId.has(b.notion)) err(where, `définition d'une notion inconnue : ${b.notion}`);
+      checkMechanicBlock(b, `${where} bloc ${i}`);
     });
     if (!step.blocks.some((b) => b.type === "exercise")) warn(where, "protocole sans exercice de vérification");
   }
@@ -233,7 +283,13 @@ for (const room of rooms) {
     checkTexts(textsOf(room.incident), where, new Set());
     for (const s of room.incident.scenarios) checkExercise({ kind: "qcm", q: s.q, options: s.options }, where);
   }
-  if (room.project) checkTexts(textsOf(room.project), `${room.id}/livraison`, new Set());
+  if (room.project) checkTexts(textsOf(room.project), `${room.id}/projet`, new Set());
+  if (room.delivery) { checkDelivery(room); checkTexts(textsOf(room.delivery), `${room.id}/livraison`, new Set()); }
+  // La fiche de l'équipe s'affiche une fois le caisson terminé : elle peut nommer ses notions.
+  if (room.teamFile) {
+    if (!room.teamFile.label || !room.teamFile.path || !room.teamFile.role) err(rw, "fiche de l'équipe incomplète (label, path, role)");
+    checkTexts([room.teamFile.label, room.teamFile.role], `${room.id}/équipe`, new Set());
+  }
 }
 
 for (const n of glossary) if (!introducedWhere.has(n.id)) warn("glossaire", `notion jamais introduite dans un caisson : ${n.id}`);

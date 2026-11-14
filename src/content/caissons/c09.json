@@ -10,5 +10,10 @@
   "requires": [
     "c08"
   ],
-  "steps": []
+  "steps": [],
+  "teamFile": {
+    "label": "Les réglages de l'équipe (.claude)",
+    "path": ".claude",
+    "role": "Font travailler plusieurs agents en parallèle et automatisent l'entretien."
+  }
 }

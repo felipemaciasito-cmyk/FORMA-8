@@ -5,6 +5,7 @@ import { RichText } from "../lib/richtext";
 import { Art } from "./Art";
 import { Icon, type IconId } from "./Icon";
 import { ExerciseView } from "./Exercises";
+import { BugReportBlock, ConsigneBlock, DiffBlock, MissionBlock, SourceBlock } from "./Mechanics";
 import { OraSays } from "./Ora";
 import { TermCard } from "./TermSheet";
 
@@ -98,5 +99,15 @@ export function BlockView({ block, exKey, solvedBefore, onSolved }: { block: Blo
           ))}
         </motion.div>
       );
+    case "mission":
+      return <MissionBlock block={block} />;
+    case "consigne":
+      return <ConsigneBlock id={block.id} situation={block.situation} expected={block.expected} />;
+    case "bugreport":
+      return <BugReportBlock id={block.id} symptom={block.symptom} context={block.context} expected={block.expected} />;
+    case "diff":
+      return <DiffBlock block={block} />;
+    case "source":
+      return <SourceBlock block={block} />;
   }
 }

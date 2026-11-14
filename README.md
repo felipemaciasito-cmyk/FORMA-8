@@ -14,9 +14,9 @@ La conception complète est dans [`docs/CONCEPTION.md`](docs/CONCEPTION.md).
 
 ## État
 
-Socle en place : démarrage, carte des 11 caissons, réglages, stockage, synchronisation, clin d'oeil à
-FORMA-7. Les mécaniques propres au code et le contenu des niveaux arrivent dans les pull requests
-suivantes.
+Socle et mécaniques en place : démarrage, carte des 11 caissons, réglages, stockage, synchronisation,
+clin d'oeil à FORMA-7, livraisons vérifiées sur GitHub, atelier des consignes, pannes à diagnostiquer,
+fiches de l'équipe, portfolio et simulateurs. Le contenu des 11 niveaux arrive dans les pull requests suivantes.
 
 ## Développer
 

@@ -12,6 +12,7 @@ import { BlockView } from "./Blocks";
 import { TopBar } from "./Chrome";
 import { NotionChip } from "./Emblems";
 import { Icon } from "./Icon";
+import { DeliveryCard } from "./Mechanics";
 import { OraSays } from "./Ora";
 
 // ======================= Caisson (un niveau, un membre de l'équipe) =======================
@@ -77,6 +78,7 @@ export function RoomView({ id }: { id: string }) {
       )}
 
       {r.project && <ProjectCard r={r} />}
+      {r.delivery && <DeliveryCard r={r} />}
 
       <button className="btn ghost block" style={{ marginTop: 18 }} onClick={() => exportRoomFiche(r, getState().progress)}>
         <Icon name="share" size={18} /> Exporter la fiche du caisson

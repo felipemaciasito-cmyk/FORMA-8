@@ -1,15 +1,23 @@
 import { AnimatePresence, motion } from "motion/react";
 import { useMemo, useState } from "react";
-import { allNotions, notion, notionOrigin } from "../content";
+import { allNotions, notion, notionOrigin, ROOMS } from "../content";
+import { SITUATIONS } from "../content/atelier";
+import type { Room } from "../content/types";
+import { evaluateCheck, pagesUrl, type CheckResult } from "../lib/checks";
+import { deliveryState } from "../lib/delivery";
+import { roomComplete } from "../lib/progress";
+import { saveFile } from "../lib/share";
 import { addEnergy, BADGES, BOX_DAYS, checkBadges, dueNotions, fx, levelOf, LEVELS, REWARD, reviewNotion, uptime } from "../lib/game";
 import { refreshHeritage, useHeritage } from "../lib/forma7";
 import { RichText } from "../lib/richtext";
+import { back } from "../lib/router";
 import { sfx } from "../lib/sound";
-import { getState, today, useProgress } from "../lib/store";
+import { getState, today, useProgress, useSettings, type Progress } from "../lib/store";
 import { openTerm } from "../lib/termBus";
 import { BadgeEmblem, NotionChip, notionHue } from "./Emblems";
 import { TopBar } from "./Chrome";
 import { Icon } from "./Icon";
+import { ConsigneBlock, ProductForm } from "./Mechanics";
 import { OraSays } from "./Ora";
 import SkillWorkshop from "./SkillWorkshop";
 
@@ -86,7 +94,50 @@ export function BaseView({ focus }: { focus?: string }) {
           <Stat label="Révisions" value={p.stats.reviews} /><Stat label="Uptime" value={`${uptime(p.days)} j`} />
         </div>
       </div>
+      <PortfolioPanel />
       <HeritagePanel />
+    </div>
+  );
+}
+
+// ======================= Portfolio =======================
+function portfolioMarkdown(p: Progress) {
+  const pr = p.product;
+  const lines = [`# Portfolio · ${pr.name || "Mon produit"}`, ""];
+  if (pr.pitch) lines.push(pr.pitch, "");
+  if (pr.repo) lines.push(`- Produit en ligne : ${pagesUrl(pr)}`, `- Code source : https://github.com/${pr.owner}/${pr.repo}`, "");
+  lines.push("## Versions livrées", "");
+  for (const r of ROOMS) {
+    if (!p.deliveries[r.id] || !r.delivery) continue;
+    const st = deliveryState(p, r);
+    lines.push(`### ${r.version} · ${r.delivery.title}`, "", r.delivery.goal, "", `Livrée le ${new Date(p.deliveries[r.id] + "T12:00:00").toLocaleDateString("fr-FR")} · ${st.verified} contrôle(s) vérifié(s) sur GitHub sur ${st.total}.`, "");
+  }
+  lines.push("---", `Portfolio généré par FORMA-8 le ${new Date().toLocaleDateString("fr-FR")}.`);
+  return lines.join("\n");
+}
+
+function PortfolioPanel() {
+  const p = useProgress();
+  const done = ROOMS.filter((r) => r.delivery && p.deliveries[r.id]);
+  return (
+    <div className="panel" style={{ marginTop: 12 }}>
+      <div className="panel-title"><Icon name="rocket" size={16} /> Portfolio{p.product.name ? ` · ${p.product.name}` : ""}</div>
+      {done.length === 0
+        ? <div className="small muted">Chaque livraison validée s'ajoute ici : de quoi montrer ton travail à de futurs clients.</div>
+        : done.map((r) => {
+          const st = deliveryState(p, r);
+          return (
+            <div key={r.id} className="row" style={{ padding: "6px 0", borderBottom: "1px solid var(--line)" }}>
+              <span className="mono" style={{ color: `hsl(${r.hue} 100% 64%)`, width: 44 }}>{r.version}</span>
+              <span className="grow"><b>{r.delivery!.title}</b><br /><span className="small dim">{st.verified}/{st.total} vérifié{st.verified > 1 ? "s" : ""} sur GitHub</span></span>
+            </div>
+          );
+        })}
+      {p.product.repo && <div className="small dim" style={{ marginTop: 8 }}>En ligne : {pagesUrl(p.product)}</div>}
+      <button className="btn small subtle block" style={{ marginTop: 10 }} disabled={!done.length} onClick={async () => {
+        const r = await saveFile(`portfolio-${(p.product.name || "produit").toLowerCase().replace(/[^a-z0-9]+/g, "-")}.md`, portfolioMarkdown(getState().progress));
+        if (r === "copied") fx({ type: "toast", icon: "clipboard", text: "Portfolio copié", tone: "cyan" });
+      }}><Icon name="share" size={16} /> Exporter le portfolio</button>
     </div>
   );
 }
@@ -235,12 +286,101 @@ function ReviewCard({ id, pool, onDone }: { id: string; pool: string[]; onDone: 
 
 // ======================= Atelier =======================
 export function AtelierView() {
+  const p = useProgress();
+  const [tab, setTab] = useState<"consignes" | "skills">("consignes");
+  const open = SITUATIONS.filter((x) => !x.after || roomComplete(p, ROOMS.find((r) => r.id === x.after)!));
+  const locked = SITUATIONS.length - open.length;
+  const [pick, setPick] = useState(open[0]?.id ?? "");
+  const sit = open.find((x) => x.id === pick) ?? open[0];
   return (
     <div className="wrap">
-      <TopBar title="Atelier des Skills" kicker="Forge de compétences" />
-      <OraSays compact md={notionKnown("skill") ? "Ici, tu forges de **vrais** fichiers SKILL.md, prêts à installer dans ton équipe." : "L'Atelier est ouvert, mais tu comprendras tout son intérêt au **Caisson 02**. Tu peux déjà partir d'un modèle pour voir à quoi ça ressemble."} />
-      <div style={{ marginTop: 16 }}><SkillWorkshop /></div>
+      <TopBar title="Atelier" kicker={tab === "consignes" ? "Atelier des consignes" : "Forge de Skills"} />
+      <div className="row wrap-row" style={{ gap: 8, marginBottom: 14 }}>
+        <button className={`chip ${tab === "consignes" ? "on" : ""}`} onClick={() => { sfx("tap"); setTab("consignes"); }}>Consignes</button>
+        <button className={`chip ${tab === "skills" ? "on" : ""}`} onClick={() => { sfx("tap"); setTab("skills"); }}>Skills</button>
+      </div>
+      {tab === "consignes" ? (
+        <>
+          <OraSays compact md="Ici, tu t'entraînes à rédiger des **ordres de mission** pour ton équipe. Claude note chaque consigne sur cinq critères : contexte, objectif, critères de réussite, contraintes, vérification." />
+          <div className="stack" style={{ marginTop: 14 }}>
+            {open.map((x) => (
+              <button key={x.id} className={`choice ${sit?.id === x.id ? "ok" : ""}`} onClick={() => { sfx("tap"); setPick(x.id); }} style={{ alignItems: "center" }}>
+                <Icon name="pencil" size={18} />
+                <span className="grow"><b>{x.title}</b></span>
+                {p.consignes[`atelier:${x.id}`] !== undefined && <span className="pill cyan">{p.consignes[`atelier:${x.id}`]}/100</span>}
+              </button>
+            ))}
+            {locked > 0 && <div className="small dim">{locked} autre{locked > 1 ? "s" : ""} situation{locked > 1 ? "s" : ""} s'ouvrir{locked > 1 ? "ont" : "a"} en réveillant l'équipe.</div>}
+          </div>
+          {sit && <div key={sit.id} style={{ marginTop: 14 }}><ConsigneBlock id={`atelier:${sit.id}`} situation={sit.situation} expected={sit.expected} /></div>}
+        </>
+      ) : (
+        <>
+          <OraSays compact md={notionKnown("skill") ? "Ici, tu forges de **vrais** fichiers SKILL.md, prêts à installer dans ton équipe." : "La forge est ouverte, mais tu comprendras tout son intérêt au **Caisson 02**. Tu peux déjà partir d'un modèle pour voir à quoi ça ressemble."} />
+          <div style={{ marginTop: 16 }}><SkillWorkshop /></div>
+        </>
+      )}
     </div>
   );
 }
 function notionKnown(id: string) { return !!getState().progress.notions[id]; }
+
+// ======================= L'équipe : fiches reliées aux vrais fichiers du produit =======================
+export function TeamView() {
+  const p = useProgress();
+  const awake = ROOMS.filter((r) => roomComplete(p, r)).length;
+  return (
+    <div className="wrap">
+      <TopBar title="Ton équipe" kicker={`${awake} / ${ROOMS.length} membres réveillés`} onBack={() => back("")} />
+      <OraSays compact md="Chaque membre de l'équipe correspond à un **vrai fichier** de ton produit. Quand un membre est réveillé, vérifie qu'il est bien au travail dans ton dépôt." />
+      <div className="panel" style={{ marginTop: 14 }}>
+        <div className="panel-title"><Icon name="rocket" size={16} /> Ton produit</div>
+        <ProductForm />
+      </div>
+      <div className="stack" style={{ marginTop: 14 }}>
+        {ROOMS.map((r) => <TeamCard key={r.id} r={r} awake={roomComplete(p, r)} />)}
+      </div>
+    </div>
+  );
+}
+
+function TeamCard({ r, awake }: { r: Room; awake: boolean }) {
+  const p = useProgress();
+  const s = useSettings();
+  const [res, setRes] = useState<CheckResult | null>(null);
+  const [loading, setLoading] = useState(false);
+  const tf = r.teamFile;
+  const check = async () => {
+    if (!tf) return;
+    setLoading(true); sfx("relay");
+    try {
+      const deps = { fetch: (...a: Parameters<typeof fetch>) => fetch(...a), token: s.ghToken };
+      const out = tf.path === "commits"
+        ? await evaluateCheck({ id: "team", kind: "commits", label: "", min: 2 }, p.product, deps)
+        : await evaluateCheck({ id: "team", kind: "file", label: "", path: tf.path }, p.product, deps);
+      setRes(out); sfx(out.ok ? "ok" : "ko");
+    } catch { setRes({ ok: false, detail: "Pas de connexion." }); }
+    finally { setLoading(false); }
+  };
+  return (
+    <motion.div className="panel" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} style={{ marginTop: 0, opacity: awake ? 1 : 0.6, borderColor: awake ? `hsl(${r.hue} 90% 60% / .4)` : undefined }}>
+      <div className="row">
+        <span style={{ width: 44, height: 44, borderRadius: 14, display: "grid", placeItems: "center", flex: "none", background: "#0b1222", border: `1px solid ${awake ? `hsl(${r.hue} 100% 64%)` : "var(--line-strong)"}`, color: awake ? `hsl(${r.hue} 100% 64%)` : "var(--text-3)" }}>
+          <Icon name="capsule" size={24} />
+        </span>
+        <span className="grow">
+          <span className="mono" style={{ fontSize: 10.5, letterSpacing: ".1em", color: awake ? `hsl(${r.hue} 100% 64%)` : "var(--text-3)" }}>{r.code} · {awake ? "RÉVEILLÉ" : "EN SOMMEIL"}</span>
+          <b style={{ display: "block" }}>{r.member}</b>
+          <span className="small muted">{awake && tf ? tf.role : r.name}</span>
+        </span>
+      </div>
+      {awake && tf && (
+        <div style={{ marginTop: 10 }}>
+          <div className="small"><Icon name="file-lines" size={14} /> Dans ton dépôt : <b>{tf.label}</b></div>
+          <button className="btn small subtle block" style={{ marginTop: 8 }} disabled={loading || !p.product.repo} onClick={check}><Icon name="search" size={16} /> {loading ? "Vérification…" : p.product.repo ? "Vérifier dans ton dépôt" : "Indique d'abord le dépôt de ton produit"}</button>
+          {res && <div className={`feedback ${res.ok ? "ok" : "ko"}`}>{res.detail}</div>}
+        </div>
+      )}
+    </motion.div>
+  );
+}

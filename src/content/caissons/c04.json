@@ -10,5 +10,10 @@
   "requires": [
     "c03"
   ],
-  "steps": []
+  "steps": [],
+  "teamFile": {
+    "label": "Le journal des pannes (docs/JOURNAL.md)",
+    "path": "docs/JOURNAL.md",
+    "role": "Fait avancer le produit pas à pas et retrouve la cause des problèmes."
+  }
 }

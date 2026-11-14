@@ -131,12 +131,24 @@ const KEY_S = "forma8:settings";
 function emit() { listeners.forEach((l) => l()); }
 
 let saveTimer: number | undefined;
-function scheduleSave() {
+let pending = false;
+function saveNow() {
   window.clearTimeout(saveTimer);
-  saveTimer = window.setTimeout(() => {
-    set(KEY_P, state.progress).catch(() => {});
-    set(KEY_S, state.settings).catch(() => {});
-  }, 250);
+  if (!pending) return;
+  pending = false;
+  set(KEY_P, state.progress).catch(() => {});
+  set(KEY_S, state.settings).catch(() => {});
+}
+function scheduleSave() {
+  pending = true;
+  window.clearTimeout(saveTimer);
+  saveTimer = window.setTimeout(saveNow, 250);
+}
+// Enregistrement immédiat quand l'appli passe en arrière-plan, se ferme ou se recharge :
+// sans cela, une saisie faite dans le dernier quart de seconde serait perdue.
+if (typeof window !== "undefined") {
+  window.addEventListener("pagehide", saveNow);
+  document.addEventListener("visibilitychange", () => { if (document.visibilityState === "hidden") saveNow(); });
 }
 
 const nowIso = () => new Date().toISOString();

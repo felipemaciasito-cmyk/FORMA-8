@@ -1,4 +1,5 @@
 import { expect, test, type Page } from "@playwright/test";
+import { boot } from "./helpers";
 
 // Parcours du socle : démarrage, carte des caissons, onglets, stockage forma8:,
 // et clin d'oeil FORMA-7 en lecture seule.
@@ -37,18 +38,6 @@ async function seedForma7(page: Page, value: unknown) {
   }), value);
 }
 
-/** Démarrage complet : BIOS, prénom, levier. */
-async function boot(page: Page, name = "Alex") {
-  await page.goto("./");
-  await expect(page.getByText("FORMA-8 · BIOS v8.0.26")).toBeVisible();
-  await page.locator(".boot").click(); // accélère le BIOS
-  await expect(page.getByText("11 membres d'équipe")).toBeVisible({ timeout: 15_000 });
-  await page.getByLabel("Ton prénom").fill(name);
-  await page.getByRole("button", { name: "Prendre mon poste" }).click();
-  await page.getByRole("button", { name: "Abaisser le levier principal" }).click();
-  await expect(page.getByText("Réserve de FORMA-8")).toBeVisible({ timeout: 15_000 });
-}
-
 test("démarrage puis carte des 11 caissons", async ({ page }) => {
   await boot(page);
   await expect(page.getByRole("button", { name: /^CAISSON \d\d / })).toHaveCount(11);
@@ -66,7 +55,7 @@ test("navigation entre les onglets", async ({ page }) => {
   await nav.getByRole("button", { name: "Maint." }).click();
   await expect(page.getByText("Tes 5 boîtes")).toBeVisible();
   await nav.getByRole("button", { name: "Atelier" }).click();
-  await expect(page.getByText("Atelier des Skills")).toBeVisible();
+  await expect(page.getByText("Atelier des consignes", { exact: true }).first()).toBeVisible();
   await nav.getByRole("button", { name: "Réglages" }).click();
   await expect(page.getByText("Claude dans l'appli (indispensable)")).toBeVisible();
   await expect(page.getByText("progress/forma-8.json")).toBeVisible();
