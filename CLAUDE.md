@@ -7,6 +7,9 @@ Application d'apprentissage ludique (PWA) pour apprendre à créer des applicati
 Le propriétaire n'est pas développeur et travaille uniquement depuis Safari sur iPhone et iPad.
 Lui répondre en français, en le tutoyant, simplement, en signalant toute incertitude.
 
+**Reprise du travail** : lire `docs/TRANSFERT.md` au début de chaque session (état du projet, décisions,
+prochaine action), et le mettre à jour à la fin de chaque lot.
+
 ## Règles impératives
 
 1. **Zéro emoji** dans l'appli et le contenu : uniquement les icônes maison (`src/components/glyphs.ts`,
