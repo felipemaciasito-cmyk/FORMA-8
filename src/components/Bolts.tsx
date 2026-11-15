@@ -15,6 +15,10 @@
 // La toile n'existe que pendant un éclair : elle est créée au premier éclair et retirée dès que tout est éteint.
 // (Une toile plein écran laissée en permanence faisait planter Safari par moments : constaté le 15/11/2026.)
 // Avec « animations réduites », rien n'est dessiné : l'effet (la cellule qui s'allume…) arrive tout de suite.
+// Troisième version (même jour, « encore plus nombreux, avec un son de tonnerre et d'éclairs frappants ») : trois
+// canaux par petit éclair, quatre par grand éclair, un claquement à chaque impact et du tonnerre sur les grands.
+
+import { sfx } from "../lib/sound";
 
 export interface Pt { x: number; y: number }
 interface Branch { pts: Pt[]; t0: number; span: number; depth: number }
@@ -248,10 +252,13 @@ export function strike(from: Pt, to: Pt, onHit?: () => void) {
   if (reduced()) { onHit?.(); return; }
   const len = dist(from, to);
   const leader = Math.min(60, 25 + len * 0.06);
-  const ms = animate(makeBolt(from, to, 0.13, 2.2), from, to, { leader, restrikes: [45 + Math.random() * 25], width: 1.1, light: 0.04, impact: 22, decay: 50, tail: 230 }, onHit);
+  const hit = () => { sfx("crack"); onHit?.(); };
+  const ms = animate(makeBolt(from, to, 0.13, 2.8), from, to, { leader, restrikes: [45 + Math.random() * 25], width: 1.1, light: 0.05, impact: 22, decay: 50, tail: 230 }, hit);
   if (!ms) { onHit?.(); return; }
-  const to2 = near(to, 14);
-  window.setTimeout(() => animate(makeBolt(from, to2, 0.16, 1.6), from, to2, { leader: leader * 0.8, restrikes: [], width: 0.7, light: 0, impact: 10, decay: 40, tail: 160, strength: 0.65 }), 15 + Math.random() * 30);
+  for (let k = 0; k < 2; k++) {
+    const to2 = near(to, 12 + k * 8);
+    window.setTimeout(() => animate(makeBolt(from, to2, 0.16, 2), from, to2, { leader: leader * 0.8, restrikes: k ? [] : [55], width: 0.7, light: 0, impact: 10, decay: 40, tail: 160, strength: 0.6 }), 12 + k * 28 + Math.random() * 20);
+  }
 }
 
 /**
@@ -264,11 +271,11 @@ export function bigStrike(from: Pt, targets: Pt[], delay: number, onHit?: () => 
   if (charge > 0) arcs(from, 26, charge, 3, true);
   window.setTimeout(() => {
     let first = true;
-    const hitOnce = () => { if (first) { first = false; onHit?.(); } };
+    const hitOnce = () => { if (first) { first = false; sfx("thunder"); onHit?.(); } };
     const played = targets.map((to) => {
-      const ms = animate(makeBolt(from, to, 0.15, 3), from, to, { leader: BIG_LEADER, restrikes: [55, 115, 170], width: 1.8, light: 0.16, impact: 36, decay: 60, tail: 320 }, hitOnce);
-      for (let k = 0; k < 2; k++) {
-        const t2 = near(to, 26);
+      const ms = animate(makeBolt(from, to, 0.15, 3.6), from, to, { leader: BIG_LEADER, restrikes: [55, 115, 170], width: 1.8, light: 0.16, impact: 36, decay: 60, tail: 320 }, hitOnce);
+      for (let k = 0; k < 3; k++) {
+        const t2 = near(to, 22 + k * 8);
         window.setTimeout(() => animate(makeBolt(from, t2, 0.19, 2.2), from, t2, { leader: BIG_LEADER * 0.9, restrikes: [70], width: 0.9, light: 0, impact: 14, decay: 45, tail: 200, strength: 0.7 }), 10 + k * 35 + Math.random() * 25);
       }
       return ms;
