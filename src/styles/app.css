@@ -225,6 +225,8 @@ p { margin: 0 0 12px; }
 .choice.ok .key { background: var(--led); color: #002010; }
 .choice.ko { border-color: var(--red); background: var(--red-soft); }
 .choice.ko .key { background: var(--red); color: #fff; }
+/* Remise en ordre : au doigt, un appui sur une ligne la saisit (ni sélection de texte, ni loupe de Safari). */
+.order-item { -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; }
 .feedback { margin-top: 12px; padding: 12px 14px; border-radius: 12px; font-size: 15px; }
 .feedback.ok { background: var(--led-soft); border: 1px solid rgba(77, 255, 160, 0.35); }
 .feedback.ko { background: var(--red-soft); border: 1px solid rgba(255, 77, 109, 0.35); }

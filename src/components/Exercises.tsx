@@ -1,5 +1,5 @@
 import { motion, Reorder } from "motion/react";
-import { useLayoutEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import type { Exercise } from "../content/types";
 import { fx, recordAnswer, REWARD, addEnergy } from "../lib/game";
 import { RichText, inline } from "../lib/richtext";
@@ -201,6 +201,17 @@ function Order({ ex, onSolved }: ExProps & { ex: Extract<Exercise, { kind: "orde
   const [checked, setChecked] = useState<boolean[] | null>(null);
   const [attempts, setAttempts] = useState(0);
   const [done, setDone] = useState(false);
+  // Sur iPhone, l'écran du protocole défile : Safari prenait le glisser d'une ligne pour un défilement de la page et
+  // annulait le geste (remarque du propriétaire, 15/11/2026 : « au doigt ça ne fonctionne pas »). Un écouteur
+  // « touchmove » non passif bloque ce défilement quand le doigt part de la liste.
+  const list = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const el = list.current;
+    if (!el || done) return;
+    const hold = (e: TouchEvent) => { if (e.cancelable) e.preventDefault(); };
+    el.addEventListener("touchmove", hold, { passive: false });
+    return () => el.removeEventListener("touchmove", hold);
+  }, [done]);
   const move = (i: number, d: number) => {
     const j = i + d; if (j < 0 || j >= items.length) return;
     const n = [...items]; [n[i], n[j]] = [n[j], n[i]]; setItems(n); setChecked(null); sfx("tap");
@@ -215,10 +226,11 @@ function Order({ ex, onSolved }: ExProps & { ex: Extract<Exercise, { kind: "orde
     <div>
       <div className="h3" style={{ fontSize: 17 }}>{inline(ex.q)}</div>
       <div className="small muted" style={{ marginBottom: 10 }}>Fais glisser les modules, ou utilise les flèches.</div>
+      <div ref={list} className="order-list">
       <Reorder.Group axis="y" values={items} onReorder={(v) => { if (!done) { setItems(v); setChecked(null); } }} style={{ listStyle: "none", margin: 0, padding: 0 }}>
         {items.map((it, i) => (
-          <Reorder.Item key={it} value={it} dragListener={!done}
-            style={{ marginBottom: 8, touchAction: "none" }}>
+          <Reorder.Item key={it} value={it} dragListener={!done} className="order-item"
+            style={{ marginBottom: 8, touchAction: done ? "auto" : "none" }}>
             <div className={`choice ${checked ? (checked[i] ? "ok" : "ko") : done ? "ok" : ""}`} style={{ alignItems: "center", cursor: done ? "default" : "grab" }}>
               <span className="key">{i + 1}</span>
               <span className="grow">{inline(it, `r${i}`)}</span>
@@ -232,6 +244,7 @@ function Order({ ex, onSolved }: ExProps & { ex: Extract<Exercise, { kind: "orde
           </Reorder.Item>
         ))}
       </Reorder.Group>
+      </div>
       {!done && <button className="btn block" style={{ marginTop: 6 }} onClick={verify}>Vérifier l'ordre</button>}
       {checked && !done && <div className="feedback ko"><span className="tag">Séquence incorrecte</span>Les modules en rouge ne sont pas à leur place.</div>}
       {done && <div className="feedback ok"><span className="tag">Séquence validée</span><RichText md={ex.why} /></div>}
