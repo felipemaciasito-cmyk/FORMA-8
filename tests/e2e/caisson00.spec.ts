@@ -1,6 +1,6 @@
 import { readFileSync } from "node:fs";
 import { expect, test } from "@playwright/test";
-import { boot, LABEL, playMaintenance, playStep, solve, type Step } from "./helpers";
+import { boot, dismissCeremonies, LABEL, playMaintenance, playStep, solve, type Step } from "./helpers";
 
 // Banc d'essai du caisson 00 : on joue tout le caisson comme le joueur, sur un écran
 // d'iPhone. Chaque type d'exercice est résolu, les simulateurs et procédures sont
@@ -54,7 +54,8 @@ test("le caisson 00 se joue entièrement, avec chaque outil d'apprentissage", as
   }
 
   // Procédure pas à pas : cocher une étape, l'état est gardé.
-  await page.goto("./#/caisson/c00/p5");
+  // Le dernier protocole vient de se terminer : on referme sa cérémonie pour le relire.
+  await page.getByRole("button", { name: "Relire le protocole" }).click();
   const proc = page.locator(".panel", { hasText: "Créer le dépôt de ton produit" });
   await proc.getByRole("button", { name: "Marquer l'étape 1 comme faite" }).click();
   await expect(proc.getByText("Procédure · 1/6")).toBeVisible();
@@ -78,6 +79,9 @@ test("le caisson 00 se joue entièrement, avec chaque outil d'apprentissage", as
   }
   await expect(page.getByText("Panne réparée")).toBeVisible();
   await expect(page.getByText("Sans un seul fusible grillé")).toBeVisible();
+  // Le membre se réveille (scène plein écran), puis la montée de grade éventuelle.
+  await expect(page.getByRole("dialog", { name: /^Réveil :/ })).toBeVisible({ timeout: 5000 });
+  await dismissCeremonies(page);
 
   // Livraison : dépôt du produit, vérification sur GitHub (simulé), puis contrôle manuel.
   await page.goto("./#/equipe");

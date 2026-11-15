@@ -21,6 +21,11 @@ export function RewardLayer() {
   const [floats, setFloats] = useState<Float[]>([]);
   const [queue, setQueue] = useState<Ceremony[]>([]);
   const last = useRef({ x: window.innerWidth / 2, y: window.innerHeight * 0.6 });
+  const held = useRef<Ceremony[]>([]);
+  const release = () => {
+    const h = held.current; held.current = [];
+    if (h.length) setQueue((q) => [...q.filter((x, i) => i === 0 || x.type !== "levelup"), ...h]);
+  };
   const reduce = useReduceMotion();
 
   useEffect(() => {
@@ -37,11 +42,23 @@ export function RewardLayer() {
       setFloats((l) => [...l.slice(-4), f]);
       window.setTimeout(() => setFloats((l) => l.filter((x) => x.id !== id)), 1500);
     }
-    if (e.type === "levelup" || e.type === "awaken") {
-      // Le réveil passe avant la montée de grade : c'est le moment fort.
-      setQueue((q) => (e.type === "awaken" ? [e, ...q] : [...q, e]));
+    // Une montée de grade pendant une leçon ou une panne attend la fin : elle n'interrompt pas la lecture.
+    // Plusieurs grades d'un coup : une seule cérémonie, pour le plus récent.
+    if (e.type === "levelup") {
+      if (busyRoute()) held.current = [...held.current.filter((x) => x.type !== "levelup"), e];
+      else setQueue((q) => [...q.filter((x, i) => i === 0 || x.type !== "levelup"), e]);
     }
+    // Le réveil passe en premier : c'est le moment fort. Les grades retenus suivent.
+    if (e.type === "awaken") { const h = held.current; held.current = []; setQueue((q) => [e, ...q, ...h]); }
+    // Fin de protocole : sa cérémonie annonce elle-même le nouveau grade, on n'en ouvre pas une seconde.
+    if (e.type === "stepdone") held.current = held.current.filter((x) => x.type !== "levelup");
   }), []);
+
+  useEffect(() => {
+    const onHash = () => { if (!busyRoute()) release(); };
+    window.addEventListener("hashchange", onHash);
+    return () => window.removeEventListener("hashchange", onHash);
+  }, []);
 
   const current = queue[0];
   const close = () => setQueue((q) => q.slice(1));
@@ -60,12 +77,17 @@ export function RewardLayer() {
           ))}
         </AnimatePresence>
       </div>
-      <AnimatePresence>
+      <AnimatePresence mode="wait">
         {current?.type === "levelup" && <LevelUp key={`lv-${current.index}`} e={current} onClose={close} />}
         {current?.type === "awaken" && <Awakening key={`aw-${current.roomId}`} e={current} onClose={close} />}
       </AnimatePresence>
     </>
   );
+}
+
+/** Une leçon (protocole), une panne ou une maintenance est en cours : on n'interrompt pas. */
+function busyRoute() {
+  return /^#\/(caisson\/[^/]+\/[^/]+|panne\/[^/]+|maintenance)$/.test(window.location.hash);
 }
 
 // ======================= Montée de grade =======================

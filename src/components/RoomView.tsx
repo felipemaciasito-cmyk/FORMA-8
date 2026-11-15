@@ -2,7 +2,7 @@ import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { crewLines, notion, room as getRoom, stepKey } from "../content";
 import type { Block, Room } from "../content/types";
-import { addEnergy, checkBadges, fx, learnNotions, REWARD } from "../lib/game";
+import { addEnergy, checkBadges, fx, learnNotions, levelOf, REWARD } from "../lib/game";
 import { roomComplete, roomPower, roomReady, roomStepsDone, roomUnlocked, stepMinutes, stepUnlocked } from "../lib/progress";
 import { go } from "../lib/router";
 import { sfx } from "../lib/sound";
@@ -190,7 +190,8 @@ export function StepView({ roomId, stepId }: { roomId: string; stepId: string })
   const [revealed, setRevealed] = useState(() => (wasDone ? 999 : Math.max(1, resumedAt)));
   const [solvedAtOpen] = useState(() => new Set(Object.keys(getState().progress.exercises).filter((k) => k.startsWith(`${key}#`))));
   const [solved, setSolved] = useState<Record<number, boolean>>({});
-  const [finished, setFinished] = useState<null | { energy: number; before: number; after: number }>(null);
+  const [finished, setFinished] = useState<null | { energy: number; before: number; after: number; grade: ReturnType<typeof levelOf> | null }>(null);
+  const [levelAtOpen] = useState(() => levelOf(getState().progress.energy).index);
   const [cheer, setCheer] = useState(0);
   const bottom = useRef<HTMLDivElement>(null);
   const earned = useRef(0);
@@ -248,7 +249,9 @@ export function StepView({ roomId, stepId }: { roomId: string; stepId: string })
     fx({ type: "burst", color: `hsl(${r.hue} 100% 62%)` });
     checkBadges();
     const after = roomPower(getState().progress, r);
-    setFinished({ energy: earned.current, before, after });
+    const lv = levelOf(getState().progress.energy);
+    setFinished({ energy: earned.current, before, after, grade: lv.index > levelAtOpen ? lv : null });
+    fx({ type: "stepdone" });
     // Caisson sans panne : le dernier protocole réveille le membre.
     if (first && roomComplete(getState().progress, r)) window.setTimeout(() => fx({ type: "awaken", roomId: r.id }), 900);
   };
@@ -310,6 +313,17 @@ export function StepView({ roomId, stepId }: { roomId: string; stepId: string })
                     +<CountUp from={0} to={finished.energy} delay={0.9} /> kW
                   </motion.div>
                 )}
+                {finished.grade && (
+                  <motion.div initial={{ opacity: 0, scale: 0.85 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 1.1, type: "spring", stiffness: 240, damping: 16 }}
+                    className="panel" role="status" style={{ margin: "12px 0 4px", padding: 12, textAlign: "left", display: "flex", gap: 12, alignItems: "center", borderColor: "rgba(77,255,160,.55)", background: "radial-gradient(circle at 12% 50%, rgba(77,255,160,.22), rgba(12,19,34,.9) 60%)", boxShadow: "0 0 26px -8px rgba(77,255,160,.7)" }}>
+                    <span style={{ flex: "none", width: 50, height: 50, borderRadius: "50%", display: "grid", placeItems: "center", border: "3px solid var(--led)", boxShadow: "0 0 14px rgba(77,255,160,.6)", font: "700 22px var(--mono)" }}>{finished.grade.index}</span>
+                    <span>
+                      <span className="kicker" style={{ color: "var(--led)" }}>Nouvelle accréditation</span>
+                      <b style={{ display: "block", fontSize: 19 }}>{finished.grade.title}</b>
+                      <span className="small muted">{finished.grade.next ? `Prochain grade : ${finished.grade.next.title}, à ${finished.grade.next.at} kW.` : "Le plus haut grade de la réserve."}</span>
+                    </span>
+                  </motion.div>
+                )}
                 {step.introduces.length > 0 && (
                   <>
                     <div className="small muted" style={{ margin: "10px 0" }}>Modules ajoutés à ta Base de connaissances :</div>
@@ -327,6 +341,7 @@ export function StepView({ roomId, stepId }: { roomId: string; stepId: string })
                     : r.incident && !p.incidents[r.id] ? <button className="btn block danger" onClick={() => { sfx("alarm"); go(`panne/${r.id}`); }}><Icon name="siren" size={18} /> Réparer la panne</button>
                     : <button className="btn block" onClick={() => go("")}>Retour à la carte</button>}
                   <button className="btn ghost block" onClick={() => go(`caisson/${r.id}`)}>Retour au caisson</button>
+                  <button className="btn ghost small block" onClick={() => { sfx("tap"); setFinished(null); }}>Relire le protocole</button>
                 </div>
               </div>
             </motion.div>
