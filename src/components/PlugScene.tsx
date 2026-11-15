@@ -39,7 +39,7 @@ export function PlugScene({ room: r, index, cells, energy, incidentOpen, onPlugg
   const [phase, setPhase] = useState<Phase>("ready");
   const [plugged, setPlugged] = useState(index);
   const [drained, setDrained] = useState(0);
-  const [geo, setGeo] = useState<{ socks: Pt[]; batt: Pt; home: Pt; w: number; floor: number } | null>(null);
+  const [geo, setGeo] = useState<{ socks: Pt[]; batt: Pt; home: Pt; anchors: Pt[] } | null>(null);
   const [plug, setPlug] = useState<Pt | null>(null);
   const [flight, setFlight] = useState<null | { from: Pt; to: Pt }>(null);
   const drag = useRef<null | { sx: number; sy: number; px: number; py: number; moved: boolean }>(null);
@@ -50,14 +50,20 @@ export function PlugScene({ room: r, index, cells, energy, incidentOpen, onPlugg
     if (!b || !bt) return;
     const socks = sockRefs.current.map((s) => { const q = s?.getBoundingClientRect(); return q ? { x: q.left - b.left + q.width / 2, y: q.top - b.top + q.height / 2 } : { x: 0, y: 0 }; });
     const batt = { x: bt.left - b.left + bt.width / 2, y: bt.top - b.top - 2 };
-    const floor = Math.max(...socks.map((s) => s.y)) + 44; // sous le socle, sans cacher les étiquettes
-    setGeo({ socks, batt, home: { x: batt.x + Math.min(70, bt.width / 3), y: batt.y - 36 }, w: b.width, floor });
+    // L'autre bout de chaque câble entre dans le socle de la capsule, sous le membre.
+    const c = capRef.current?.getBoundingClientRect();
+    const anchors = socks.map((_, i) => c
+      ? { x: c.left - b.left + c.width * (0.3 + 0.4 * (socks.length > 1 ? i / (socks.length - 1) : 0.5)), y: c.top - b.top + c.height * 0.9 }
+      : { x: 0, y: 0 });
+    setGeo({ socks, batt, home: { x: batt.x + Math.min(70, bt.width / 3), y: batt.y - 36 }, anchors });
   }, []);
-  useLayoutEffect(() => { measure(); }, [measure]);
+  // Les textes changent de hauteur au fil de la scène : on remesure, pour que les câbles suivent les prises.
+  useLayoutEffect(() => { measure(); }, [measure, phase, plugged]);
   useEffect(() => { window.addEventListener("resize", measure); return () => window.removeEventListener("resize", measure); }, [measure]);
   useEffect(() => { if (geo && !plug && phase === "ready") setPlug(geo.home); }, [geo, plug, phase]);
 
-  const lux = (plugged / total) * 0.8;
+  // La capsule s'illumine un peu plus à chaque câble branché (sans jamais atteindre le plein : c'est le réveil).
+  const lux = 0.1 + 0.75 * (plugged / total);
   const target = geo?.socks[index];
 
   const connect = () => {
@@ -125,7 +131,7 @@ export function PlugScene({ room: r, index, cells, energy, incidentOpen, onPlugg
   // celui de la batterie suit la prise.
   const cable = (a: Pt, b: Pt, sag: number) => { const my = Math.max(a.y, b.y) + sag; return `M${a.x} ${a.y} C ${a.x} ${my}, ${b.x} ${my}, ${b.x} ${b.y}`; };
   const pastCls = phase === "fault" ? "cut" : "live";
-  const doneCount = phase === "fault" || phase === "done" ? plugged : Math.min(plugged, index);
+  const doneCount = plugged;
 
   return (
     <div ref={box} className="plug-scene">
@@ -138,9 +144,10 @@ export function PlugScene({ room: r, index, cells, energy, incidentOpen, onPlugg
           : phase === "done" ? (plugged >= total ? "" : `Encore ${total - plugged} protocole${total - plugged > 1 ? "s" : ""} pour le réveiller.`)
           : "Fais glisser la prise jusqu'à la prise libre, ou touche-la."}
       </div>
-      <div ref={capRef} style={{ marginTop: 6 }}>
-        <ChargedCapsule id={r.id} state="asleep" lux={phase === "fault" ? 0.55 : lux} size={124} />
-      </div>
+      <motion.div ref={capRef} key={`cap-${plugged}`} style={{ marginTop: 6, marginBottom: 34 }}
+        initial={plugged > index ? { scale: 1.08, filter: "brightness(1.8)" } : false} animate={{ scale: 1, filter: "brightness(1)" }} transition={{ duration: 0.7, ease: "easeOut" }}>
+        <ChargedCapsule id={r.id} state="asleep" lux={phase === "fault" ? 0.4 : lux} size={124} />
+      </motion.div>
       <div className="socle" aria-label={`Capsule : ${plugged} câble${plugged > 1 ? "s" : ""} branché${plugged > 1 ? "s" : ""} sur ${total}`}>
         {r.steps.map((s, i) => (
           <span key={s.id} ref={(el) => { sockRefs.current[i] = el; }} className={`sock ${i < plugged ? (phase === "fault" ? "on dead" : "on") : ""} ${i === index && phase === "ready" ? "free" : ""}`}>
@@ -158,8 +165,9 @@ export function PlugScene({ room: r, index, cells, energy, incidentOpen, onPlugg
       {geo && (
         <svg className="cables" aria-hidden="true">
           {geo.socks.slice(0, doneCount).map((s, i) => {
-            const side = (i < total / 2 ? -1 : 1), end = { x: side < 0 ? -24 : geo.w + 24, y: geo.floor + Math.abs(i - (total - 1) / 2) * 7 };
-            const d = `M${s.x} ${s.y + 8} C ${s.x} ${end.y + 4}, ${s.x + side * 30} ${end.y}, ${end.x} ${end.y}`;
+            // de la prise jusqu'au socle de la capsule
+            const a = geo.anchors[i], top = s.y - 16;
+            const d = `M${s.x} ${top} C ${s.x} ${top - 22}, ${a.x} ${a.y + 22}, ${a.x} ${a.y}`;
             return <g key={i} className={pastCls}><path className="glow" d={d} /><path className="sheath" d={d} /><path className="core" d={d} /></g>;
           })}
           {plug && (() => {

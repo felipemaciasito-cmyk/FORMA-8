@@ -387,11 +387,11 @@ export function ChargedCapsule({ id, state, lux, size = 132, mood }: { id: strin
     <div style={{ position: "relative", width: size, height: size * 1.2 }}>
       <div aria-hidden="true" style={{ position: "absolute", left: -size * 0.25, right: -size * 0.25, bottom: -size * 0.06, height: size * 0.4, borderRadius: "50%",
         background: "radial-gradient(ellipse, rgba(59,232,255,.55), transparent 70%)", opacity: x, transition: "opacity .8s" }} />
-      <div style={{ filter: `brightness(${(0.45 + 0.85 * x).toFixed(2)}) saturate(${(0.6 + 0.6 * x).toFixed(2)})`, transition: "filter .8s" }}>
+      <div style={{ filter: `brightness(${(0.3 + 1.1 * x).toFixed(2)}) saturate(${(0.5 + 0.7 * x).toFixed(2)}) drop-shadow(0 0 ${(4 + 22 * x).toFixed(0)}px rgba(59,232,255,${(0.1 + 0.6 * x).toFixed(2)}))`, transition: "filter .8s" }}>
         <CrewCapsule id={id} state={state} power={Math.round(x * 100)} size={size} mood={mood} />
       </div>
       <div aria-hidden="true" style={{ position: "absolute", left: "22%", right: "22%", top: "26%", bottom: "14%", borderRadius: "40% 40% 8px 8px", pointerEvents: "none", mixBlendMode: "screen",
-        background: "radial-gradient(ellipse at 50% 35%, rgba(240,253,255,.95), rgba(59,232,255,.5) 45%, transparent 75%)", opacity: state === "awake" ? 0.25 : 0.7 * x, transition: "opacity .8s" }} />
+        background: "radial-gradient(ellipse at 50% 35%, rgba(240,253,255,.95), rgba(59,232,255,.5) 45%, transparent 75%)", opacity: state === "awake" ? 0.25 : 0.85 * x, transition: "opacity .8s" }} />
     </div>
   );
 }
