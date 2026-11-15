@@ -6,7 +6,11 @@ import type { IconId } from "../components/glyphs";
 export type FxEvent =
   | { type: "toast"; icon: IconId; text: string; tone?: "led" | "cyan" | "amber" | "red"; badge?: string }
   | { type: "burst"; x?: number; y?: number; color?: string }
-  | { type: "badge"; id: string };
+  | { type: "badge"; id: string }
+  // Propres à FORMA-8 : affichés par src/components/Rewards.tsx.
+  | { type: "gain"; amount: number; x?: number; y?: number }
+  | { type: "levelup"; index: number; title: string; next?: { title: string; at: number } }
+  | { type: "awaken"; roomId: string; replay?: boolean };
 const fxListeners = new Set<(e: FxEvent) => void>();
 export function onFx(l: (e: FxEvent) => void) { fxListeners.add(l); return () => { fxListeners.delete(l); }; }
 export function fx(e: FxEvent) { fxListeners.forEach((l) => l(e)); }
@@ -53,11 +57,13 @@ export function addEnergy(amount: number, label?: string) {
     markActiveDay(p);
   });
   const after = levelOf(getState().progress.energy);
+  fx({ type: "gain", amount });
   if (label) fx({ type: "toast", icon: "bolt", text: `+${amount} kW · ${label}`, tone: "cyan" });
   if (after.index > before) {
     sfx("levelup");
     fx({ type: "toast", icon: "shield", text: `Accréditation : ${after.title}`, tone: "led" });
     fx({ type: "burst", color: "#4dffa0" });
+    fx({ type: "levelup", index: after.index, title: after.title, next: after.next });
   }
   checkBadges();
 }

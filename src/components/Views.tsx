@@ -1,21 +1,22 @@
 import { AnimatePresence, motion } from "motion/react";
 import { useMemo, useState } from "react";
-import { allNotions, notion, notionOrigin, ROOMS } from "../content";
+import { allNotions, crewLines, notion, notionOrigin, ROOMS } from "../content";
 import { SITUATIONS } from "../content/atelier";
 import type { Room } from "../content/types";
 import { evaluateCheck, pagesUrl, type CheckResult } from "../lib/checks";
 import { deliveryState } from "../lib/delivery";
-import { roomComplete } from "../lib/progress";
+import { roomComplete, roomPower, roomUnlocked } from "../lib/progress";
 import { saveFile } from "../lib/share";
 import { addEnergy, BADGES, BOX_DAYS, checkBadges, dueNotions, fx, levelOf, LEVELS, REWARD, reviewNotion, uptime } from "../lib/game";
 import { refreshHeritage, useHeritage } from "../lib/forma7";
 import { RichText } from "../lib/richtext";
-import { back } from "../lib/router";
+import { back, go } from "../lib/router";
 import { sfx } from "../lib/sound";
 import { getState, today, useProgress, useSettings, type Progress } from "../lib/store";
 import { openTerm } from "../lib/termBus";
 import { BadgeEmblem, NotionChip, notionHue } from "./Emblems";
-import { TopBar } from "./Chrome";
+import { Sheet, TopBar } from "./Chrome";
+import { CrewCapsule, CrewFigure, crewState, MemberSays } from "./Crew";
 import { Icon } from "./Icon";
 import { ConsigneBlock, ProductForm } from "./Mechanics";
 import { OraSays } from "./Ora";
@@ -313,16 +314,61 @@ export function AtelierView() {
 export function TeamView() {
   const p = useProgress();
   const awake = ROOMS.filter((r) => roomComplete(p, r)).length;
+  const [sel, setSel] = useState<string | null>(null);
+  const selected = ROOMS.find((r) => r.id === sel);
   return (
     <div className="wrap">
       <TopBar title="Ton équipe" kicker={`${awake} / ${ROOMS.length} membres réveillés`} onBack={() => back("")} />
-      <OraSays compact md="Chaque membre de l'équipe correspond à un **vrai fichier** de ton produit. Quand un membre est réveillé, vérifie qu'il est bien au travail dans ton dépôt." />
+      <OraSays compact md="Chaque membre de l'équipe correspond à un **vrai fichier** de ton produit. Touche un membre pour voir sa fiche ; une fois réveillé, vérifie qu'il est bien au travail dans ton dépôt." />
+      <div className="panel-title" style={{ marginTop: 18 }}><Icon name="team" size={16} /> Les {ROOMS.length} membres</div>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 8 }}>
+        {ROOMS.map((r, i) => {
+          const done = roomComplete(p, r);
+          const unlocked = roomUnlocked(p, r);
+          const c = `hsl(${r.hue} 100% 64%)`;
+          return (
+            <motion.button key={r.id} type="button" onClick={() => { sfx("open"); setSel(r.id); }} aria-label={`${r.member}, ${done ? "réveillé" : "en sommeil"}`}
+              initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: Math.min(i, 11) * 0.04 }} whileTap={{ scale: 0.95 }}
+              className="panel" style={{ marginTop: 0, padding: "8px 6px 10px", textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center",
+                borderColor: done ? `hsl(${r.hue} 90% 60% / .5)` : undefined, background: done ? `radial-gradient(circle at 50% 30%, hsl(${r.hue} 90% 50% / .22), rgba(12,19,34,.9) 70%)` : undefined }}>
+              <CrewFigure id={r.id} state={crewState(unlocked, done)} size={74} />
+              <span className="mono" style={{ fontSize: 9.5, letterSpacing: ".1em", color: done ? c : "var(--text-3)", marginTop: 2 }}>{done ? "RÉVEILLÉ" : "EN SOMMEIL"}</span>
+              <span style={{ fontWeight: 700, fontSize: 12.5, lineHeight: 1.2, color: unlocked ? "var(--text)" : "var(--text-3)" }}>{r.member}</span>
+            </motion.button>
+          );
+        })}
+      </div>
       <div className="panel" style={{ marginTop: 14 }}>
         <div className="panel-title"><Icon name="rocket" size={16} /> Ton produit</div>
         <ProductForm />
       </div>
-      <div className="stack" style={{ marginTop: 14 }}>
-        {ROOMS.map((r) => <TeamCard key={r.id} r={r} awake={roomComplete(p, r)} />)}
+      <Sheet open={!!selected} onClose={() => setSel(null)} label={selected ? `Fiche : ${selected.member}` : "Fiche"}>
+        {selected && <MemberSheet r={selected} />}
+      </Sheet>
+    </div>
+  );
+}
+
+function MemberSheet({ r }: { r: Room }) {
+  const p = useProgress();
+  const done = roomComplete(p, r);
+  const unlocked = roomUnlocked(p, r);
+  const lines = crewLines(r.id);
+  return (
+    <div>
+      <div className="row" style={{ alignItems: "center", gap: 12 }}>
+        <div style={{ flex: "none" }}><CrewCapsule id={r.id} state={crewState(unlocked, done)} power={roomPower(p, r)} size={116} /></div>
+        <div className="grow" style={{ minWidth: 0 }}>
+          <div className="mono" style={{ fontSize: 10.5, letterSpacing: ".12em", color: `hsl(${r.hue} 100% 64%)` }}>{r.code} · {r.version}</div>
+          <div className="h2" style={{ margin: "2px 0 4px" }}>{r.member}</div>
+          <div className="small muted">{lines?.role}</div>
+        </div>
+      </div>
+      {lines && <MemberSays member={r.member} hue={r.hue} md={done ? lines.reveil : lines.dort} asleep={!done} />}
+      <div style={{ marginTop: 12 }}><TeamCard r={r} awake={done} /></div>
+      <div className="stack" style={{ marginTop: 12 }}>
+        {done && <button className="btn block" onClick={() => { sfx("power"); fx({ type: "awaken", roomId: r.id, replay: true }); }}><Icon name="play" size={18} /> Revoir son réveil</button>}
+        {unlocked && <button className="btn ghost block" onClick={() => { sfx("open"); go(`caisson/${r.id}`); }}><Icon name="capsule" size={18} /> Aller à son caisson</button>}
       </div>
     </div>
   );
@@ -347,17 +393,8 @@ function TeamCard({ r, awake }: { r: Room; awake: boolean }) {
     finally { setLoading(false); }
   };
   return (
-    <motion.div className="panel" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} style={{ marginTop: 0, opacity: awake ? 1 : 0.6, borderColor: awake ? `hsl(${r.hue} 90% 60% / .4)` : undefined }}>
-      <div className="row">
-        <span style={{ width: 44, height: 44, borderRadius: 14, display: "grid", placeItems: "center", flex: "none", background: "#0b1222", border: `1px solid ${awake ? `hsl(${r.hue} 100% 64%)` : "var(--line-strong)"}`, color: awake ? `hsl(${r.hue} 100% 64%)` : "var(--text-3)" }}>
-          <Icon name="capsule" size={24} />
-        </span>
-        <span className="grow">
-          <span className="mono" style={{ fontSize: 10.5, letterSpacing: ".1em", color: awake ? `hsl(${r.hue} 100% 64%)` : "var(--text-3)" }}>{r.code} · {awake ? "RÉVEILLÉ" : "EN SOMMEIL"}</span>
-          <b style={{ display: "block" }}>{r.member}</b>
-          <span className="small muted">{awake && tf ? tf.role : r.name}</span>
-        </span>
-      </div>
+    <motion.div className="panel" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} style={{ marginTop: 0, borderColor: awake ? `hsl(${r.hue} 90% 60% / .4)` : undefined }}>
+      <div className="small muted">{awake && tf ? "Son fichier dans ton produit :" : `Se réveille au ${r.code}, avec la version ${r.version} de ton produit.`}</div>
       {awake && tf && (
         <div style={{ marginTop: 10 }}>
           <div className="small"><Icon name="file-lines" size={14} /> Dans ton dépôt : <b>{tf.label}</b></div>

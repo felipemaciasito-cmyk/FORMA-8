@@ -1,9 +1,9 @@
 import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { notion, room as getRoom, stepKey } from "../content";
+import { crewLines, notion, room as getRoom, stepKey } from "../content";
 import type { Block, Room } from "../content/types";
 import { addEnergy, checkBadges, fx, learnNotions, REWARD } from "../lib/game";
-import { roomComplete, roomPower, roomReady, roomStepsDone, roomUnlocked, stepUnlocked } from "../lib/progress";
+import { roomComplete, roomPower, roomReady, roomStepsDone, roomUnlocked, stepMinutes, stepUnlocked } from "../lib/progress";
 import { go } from "../lib/router";
 import { sfx } from "../lib/sound";
 import { getState, today, updateProgress, useProgress } from "../lib/store";
@@ -15,6 +15,7 @@ import { Icon } from "./Icon";
 import { AskOra, DeliveryCard } from "./Mechanics";
 import { plain } from "../lib/richtext";
 import { OraSays } from "./Ora";
+import { CrewCapsule, CrewFigure, MemberSays } from "./Crew";
 
 // ======================= Caisson (un niveau, un membre de l'équipe) =======================
 export function RoomView({ id }: { id: string }) {
@@ -28,37 +29,43 @@ export function RoomView({ id }: { id: string }) {
   return (
     <div className="wrap" style={{ ["--hue" as string]: r.hue }}>
       <TopBar title={r.member} kicker={`${r.code} · ${r.name} · ${r.version}`} onBack={() => go("")} />
-      <motion.div className="panel glow" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
-        style={{ background: `linear-gradient(150deg, hsl(${r.hue} 80% 50% / .16), rgba(12,19,34,.9) 55%)`, borderColor: `hsl(${r.hue} 90% 60% / .35)` }}>
-        <div style={{ fontSize: 17, marginBottom: 12 }}>{r.tagline}</div>
-        <div className="row"><span className="mono small grow">RÉVEIL DU MEMBRE</span><span className="mono" style={{ color: "var(--accent)" }}>{power} %</span></div>
-        <div className="progress" style={{ marginTop: 6, height: 8 }}><motion.i initial={{ width: 0 }} animate={{ width: `${power}%` }} transition={{ duration: 0.9 }} /></div>
-      </motion.div>
+      <CaissonHero r={r} power={power} stepsDone={done} awake={roomComplete(p, r)} />
 
       <div className="panel-title" style={{ marginTop: 20 }}>Protocoles de réveil</div>
       {!roomReady(r) && <OraSays md={`Les protocoles de réveil de **${r.member}** sont en préparation. Ils arriveront avec une prochaine version de l'appli.`} />}
-      <div className="stack">
+      <ol className="quest" style={{ listStyle: "none", padding: 0, margin: 0, position: "relative" }}>
+        {r.steps.length > 1 && (
+          <span aria-hidden="true" style={{ position: "absolute", left: 21, top: 30, bottom: 30, width: 2, borderRadius: 2, background: "rgba(125,200,255,.12)" }}>
+            <motion.span initial={{ height: 0 }} animate={{ height: `${Math.min(100, (done / Math.max(1, r.steps.length - 1)) * 100)}%` }} transition={{ duration: 0.9, ease: "easeOut" }}
+              style={{ display: "block", width: "100%", background: "var(--led)", boxShadow: "0 0 8px var(--led)", borderRadius: 2 }} />
+          </span>
+        )}
         {r.steps.map((s, i) => {
           const sdone = !!p.steps[stepKey(r.id, s.id)];
           const open = stepUnlocked(p, r, i);
           const at = !sdone && open ? Math.min(s.blocks.length, p.lessons?.[stepKey(r.id, s.id)] ?? 0) : 0;
+          const current = open && !sdone;
           return (
-            <motion.button key={s.id} className="choice" whileTap={{ scale: open ? 0.98 : 1 }} initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.06 }}
-              onClick={() => { if (open) { sfx("open"); go(`caisson/${r.id}/${s.id}`); } else { sfx("ko"); fx({ type: "toast", icon: "lock", text: "Termine d'abord le protocole précédent", tone: "red" }); } }}
-              style={{ alignItems: "center", opacity: open ? 1 : 0.5, borderColor: sdone ? "rgba(77,255,160,.4)" : open && !sdone ? "var(--accent)" : undefined }}>
-              <RackIcon state={sdone ? "done" : open ? "open" : "locked"} hue={r.hue} />
-              <span className="grow">
-                <span className="mono" style={{ fontSize: 10.5, color: "var(--text-3)", letterSpacing: ".1em" }}>PROTOCOLE {String(i + 1).padStart(2, "0")}</span>
-                <span style={{ display: "block", fontWeight: 700 }}>{s.title}</span>
-                <span className="small muted">{s.introduces.length ? s.introduces.map((n) => notion(n)?.term.replace(/ \(.+\)$/, "")).join(" · ") : s.kicker}</span>
-              </span>
-              {sdone ? <span className="pill led">OK</span>
-                : at > 1 ? <span className="pill cyan" aria-label={`Protocole en cours, ${Math.round((at / s.blocks.length) * 100)} pour cent`}>En cours · {Math.round((at / s.blocks.length) * 100)} %</span>
-                : open ? <Icon name="play" size={16} /> : <Icon name="lock" size={16} />}
-            </motion.button>
+            <motion.li key={s.id} initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.06 }}
+              style={{ display: "flex", gap: 10, alignItems: "center", marginTop: i ? 10 : 0, position: "relative" }}>
+              <QuestNode state={sdone ? "done" : current ? "open" : "locked"} hue={r.hue} n={i + 1} />
+              <motion.button className="choice" whileTap={{ scale: open ? 0.98 : 1 }}
+                onClick={() => { if (open) { sfx("open"); go(`caisson/${r.id}/${s.id}`); } else { sfx("ko"); fx({ type: "toast", icon: "lock", text: "Termine d'abord le protocole précédent", tone: "red" }); } }}
+                style={{ flex: 1, minWidth: 0, margin: 0, alignItems: "center", opacity: open ? 1 : 0.5, borderColor: sdone ? "rgba(77,255,160,.4)" : current ? "var(--accent)" : undefined,
+                  boxShadow: current ? "0 0 22px -6px var(--accent)" : undefined }}>
+                <span className="grow" style={{ minWidth: 0 }}>
+                  <span className="mono" style={{ fontSize: 10.5, color: "var(--text-3)", letterSpacing: ".1em" }}>PROTOCOLE {String(i + 1).padStart(2, "0")} · {stepMinutes(s)} MIN · +{REWARD.step} KW</span>
+                  <span style={{ display: "block", fontWeight: 700 }}>{s.title}</span>
+                  <span className="small muted">{s.introduces.length ? s.introduces.map((n) => notion(n)?.term.replace(/ \(.+\)$/, "")).join(" · ") : s.kicker}</span>
+                </span>
+                {sdone ? <span className="pill led">OK</span>
+                  : at > 1 ? <span className="pill cyan" aria-label={`Protocole en cours, ${Math.round((at / s.blocks.length) * 100)} pour cent`}>En cours · {Math.round((at / s.blocks.length) * 100)} %</span>
+                  : open ? <Icon name="play" size={16} /> : <Icon name="lock" size={16} />}
+              </motion.button>
+            </motion.li>
           );
         })}
-      </div>
+      </ol>
 
       {r.incident && (
         <motion.button className="panel" whileTap={{ scale: stepsAll ? 0.98 : 1 }} onClick={() => { if (stepsAll) { sfx("alarm"); go(`panne/${r.id}`); } else { sfx("ko"); } }}
@@ -89,16 +96,39 @@ export function RoomView({ id }: { id: string }) {
   );
 }
 
-function RackIcon({ state, hue }: { state: "done" | "open" | "locked"; hue: number }) {
-  const c = state === "done" ? "#4dffa0" : state === "open" ? `hsl(${hue} 100% 62%)` : "#2a3550";
+/** Le membre dans sa capsule, ce qu'il dit selon son état, et la jauge de son réveil. */
+function CaissonHero({ r, power, stepsDone, awake }: { r: Room; power: number; stepsDone: number; awake: boolean }) {
+  const lines = crewLines(r.id);
+  const say = awake ? lines?.reveil : stepsDone > 0 ? lines?.demi : lines?.dort;
   return (
-    <svg width="34" height="40" viewBox="0 0 34 40" aria-hidden="true">
-      <rect x="2" y="2" width="30" height="36" rx="5" fill="#0b1222" stroke={c} strokeOpacity=".6" />
-      {[0, 1, 2, 3].map((k) => (
-        <g key={k}><rect x="7" y={8 + k * 7} width="20" height="4" rx="1.5" fill="#152038" />
-          <rect x="22" y={9 + k * 7} width="3" height="2" fill={c} style={state !== "locked" ? { animation: `blink ${0.6 + k * 0.4}s steps(1) infinite` } : undefined} /></g>
-      ))}
-    </svg>
+    <motion.div className="panel glow" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
+      style={{ padding: "14px 14px 16px", background: `radial-gradient(circle at 22% 30%, hsl(${r.hue} 90% 50% / .22), rgba(12,19,34,.92) 62%)`, borderColor: `hsl(${r.hue} 90% 60% / .35)` }}>
+      <div className="row" style={{ alignItems: "center", gap: 12 }}>
+        <div style={{ flex: "none", marginTop: -6 }}><CrewCapsule id={r.id} state={awake ? "awake" : "asleep"} power={power} size={128} /></div>
+        <div className="grow" style={{ minWidth: 0 }}>
+          <div className="mono" style={{ fontSize: 10.5, letterSpacing: ".12em", color: "var(--accent)" }}>{awake ? "RÉVEILLÉ" : power ? "RÉVEIL EN COURS" : "EN SOMMEIL"}</div>
+          <div style={{ fontWeight: 700, fontSize: 17, lineHeight: 1.25, margin: "2px 0 4px" }}>{r.name}</div>
+          <div className="small muted">{lines?.role ?? r.tagline}</div>
+          <div className="row" style={{ marginTop: 10 }}><span className="mono small grow">RÉVEIL DU MEMBRE</span><span className="mono" style={{ color: "var(--accent)" }}>{power} %</span></div>
+          <div className="progress" style={{ marginTop: 6, height: 8 }}><motion.i initial={{ width: 0 }} animate={{ width: `${power}%` }} transition={{ duration: 0.9 }} /></div>
+        </div>
+      </div>
+      {say && <MemberSays member={r.member} hue={r.hue} md={say} asleep={!awake} />}
+    </motion.div>
+  );
+}
+
+/** Un nœud du chemin des protocoles : terminé, ouvert (pulsation) ou verrouillé. */
+function QuestNode({ state, hue, n }: { state: "done" | "open" | "locked"; hue: number; n: number }) {
+  const c = state === "done" ? "var(--led)" : state === "open" ? `hsl(${hue} 100% 64%)` : "#2a3550";
+  return (
+    <span aria-hidden="true" style={{ position: "relative", flex: "none", width: 44, height: 44, display: "grid", placeItems: "center" }}>
+      {state === "open" && <span style={{ position: "absolute", inset: 4, borderRadius: "50%", border: `2px solid ${c}`, animation: "pulse-ring 2s infinite" }} />}
+      <span style={{ width: 34, height: 34, borderRadius: "50%", display: "grid", placeItems: "center", background: state === "done" ? "var(--led-soft)" : "#0b1222",
+        border: `2px solid ${c}`, color: c, boxShadow: state === "locked" ? "none" : `0 0 12px ${c}`, font: "700 13px var(--mono)" }}>
+        {state === "done" ? <Icon name="check" size={16} stroke={2.6} /> : state === "locked" ? <Icon name="lock" size={14} /> : n}
+      </span>
+    </span>
   );
 }
 
@@ -160,7 +190,8 @@ export function StepView({ roomId, stepId }: { roomId: string; stepId: string })
   const [revealed, setRevealed] = useState(() => (wasDone ? 999 : Math.max(1, resumedAt)));
   const [solvedAtOpen] = useState(() => new Set(Object.keys(getState().progress.exercises).filter((k) => k.startsWith(`${key}#`))));
   const [solved, setSolved] = useState<Record<number, boolean>>({});
-  const [finished, setFinished] = useState<null | { energy: number }>(null);
+  const [finished, setFinished] = useState<null | { energy: number; before: number; after: number }>(null);
+  const [cheer, setCheer] = useState(0);
   const bottom = useRef<HTMLDivElement>(null);
   const earned = useRef(0);
 
@@ -194,6 +225,7 @@ export function StepView({ roomId, stepId }: { roomId: string; stepId: string })
 
   const onSolved = (bi: number) => (attempts: number) => {
     setSolved((s) => ({ ...s, [bi]: true }));
+    setCheer((c) => c + 1);
     const exKey = `${key}#${bi}`;
     if (getState().progress.exercises[exKey] === undefined) {
       updateProgress((d) => { d.exercises[exKey] = attempts; });
@@ -204,6 +236,7 @@ export function StepView({ roomId, stepId }: { roomId: string; stepId: string })
   };
 
   const complete = () => {
+    const before = roomPower(getState().progress, r);
     const first = !getState().progress.steps[key];
     if (first) {
       updateProgress((d) => { d.steps[key] = today(); });
@@ -214,7 +247,10 @@ export function StepView({ roomId, stepId }: { roomId: string; stepId: string })
     sfx("power");
     fx({ type: "burst", color: `hsl(${r.hue} 100% 62%)` });
     checkBadges();
-    setFinished({ energy: earned.current });
+    const after = roomPower(getState().progress, r);
+    setFinished({ energy: earned.current, before, after });
+    // Caisson sans panne : le dernier protocole réveille le membre.
+    if (first && roomComplete(getState().progress, r)) window.setTimeout(() => fx({ type: "awaken", roomId: r.id }), 900);
   };
 
   const next = r.steps[idx + 1];
@@ -222,8 +258,9 @@ export function StepView({ roomId, stepId }: { roomId: string; stepId: string })
     <div className="wrap" style={{ ["--hue" as string]: r.hue }}>
       <TopBar title={step.title} kicker={`${r.code} · Protocole ${String(idx + 1).padStart(2, "0")}`} onBack={() => go(`caisson/${r.id}`)}
         right={<AskOra lesson={lessonText(step)} known={[...Object.keys(p.notions), ...step.introduces].map((id) => notion(id)?.term ?? id)} />} />
-      <div className="progress" style={{ marginBottom: 18 }}><motion.i animate={{ width: `${pct}%` }} /></div>
-      <div className="muted" style={{ fontSize: 17, marginBottom: 18, fontStyle: "italic" }}>{step.kicker}</div>
+      <StepMeter r={r} total={blocks.length} revealed={Math.min(revealed, blocks.length)} pct={pct} cheer={cheer} />
+      <div className="muted" style={{ fontSize: 17, margin: "14px 0 12px", fontStyle: "italic" }}>{step.kicker}</div>
+      {!wasDone && revealed <= 1 && <StepBriefing step={step} />}
       <div className="stack" style={{ gap: 14 }}>
         <AnimatePresence initial={false}>
           {visible.map((b, i) => (
@@ -246,30 +283,50 @@ export function StepView({ roomId, stepId }: { roomId: string; stepId: string })
         )}
         <AnimatePresence>
           {finished && (
-            <motion.div className="panel glow" initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ type: "spring", stiffness: 260, damping: 20 }}
-              style={{ textAlign: "center", borderColor: "rgba(77,255,160,.5)", background: "radial-gradient(circle at 50% 0%, rgba(77,255,160,.18), rgba(12,19,34,.95) 70%)" }}>
-              <div style={{ display: "grid", placeItems: "center", margin: "2px 0 6px" }}>
-                <span style={{ width: 64, height: 64, borderRadius: "50%", display: "grid", placeItems: "center", color: "var(--led)", background: "radial-gradient(circle, rgba(77,255,160,.28), rgba(77,255,160,.04) 70%)", border: "1px solid rgba(77,255,160,.5)", boxShadow: "0 0 28px rgba(77,255,160,.45)" }}>
-                  <Icon name="bolt" size={34} />
-                </span>
-              </div>
-              <div className="h2">Protocole {String(idx + 1).padStart(2, "0")} terminé</div>
-              {finished.energy > 0 && <div className="mono" style={{ color: "var(--cyan)", fontSize: 20, margin: "6px 0 10px" }}>+{finished.energy} kW</div>}
-              {step.introduces.length > 0 && (
-                <>
-                  <div className="small muted" style={{ marginBottom: 10 }}>Modules ajoutés à ta Base de connaissances :</div>
-                  <div className="unlock-grid">
-                    {step.introduces.map((n) => (
-                      <div key={n}><NotionChip id={n} icon={notion(n)?.icon} size={56} trace /><span>{notion(n)?.term.replace(/\s*\(.+\)$/, "")}</span></div>
-                    ))}
+            <motion.div key="fini" role="dialog" aria-modal="true" aria-label={`Protocole ${String(idx + 1).padStart(2, "0")} terminé`}
+              initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+              style={{ position: "fixed", inset: 0, zIndex: 105, overflowY: "auto", background: `radial-gradient(circle at 50% 22%, hsl(${r.hue} 90% 45% / .26), rgba(4,6,12,.96) 62%)`, backdropFilter: "blur(4px)", WebkitBackdropFilter: "blur(4px)" }}>
+              <div style={{ maxWidth: 420, margin: "0 auto", padding: "calc(var(--safe-top) + 28px) 18px calc(var(--safe-bottom) + 28px)", textAlign: "center" }}>
+                <motion.div initial={{ scale: 0.6, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ type: "spring", stiffness: 220, damping: 16 }}
+                  style={{ display: "grid", placeItems: "center" }}>
+                  <CrewFigure id={r.id} state={roomComplete(p, r) ? "awake" : "asleep"} mood="happy" size={96} label={r.member} />
+                </motion.div>
+                <div className="mono" style={{ fontSize: 11, letterSpacing: ".14em", color: "var(--accent)", marginTop: 6 }}>{r.code} · {r.member.toUpperCase()}</div>
+                <div className="h2" style={{ margin: "4px 0 2px" }}>Protocole {String(idx + 1).padStart(2, "0")} terminé</div>
+                <div className="muted">{step.title}</div>
+
+                <div className="panel" style={{ margin: "16px 0 0", padding: 14, textAlign: "left" }}>
+                  <div className="row"><span className="mono small grow">RÉVEIL DE {r.member.toUpperCase()}</span>
+                    <span className="mono" style={{ color: "var(--accent)" }}><CountUp from={finished.before} to={finished.after} delay={0.5} /> %</span></div>
+                  <div className="progress" style={{ marginTop: 8, height: 10 }}>
+                    <motion.i initial={{ width: `${finished.before}%` }} animate={{ width: `${finished.after}%` }} transition={{ delay: 0.5, duration: 1.2, ease: "easeOut" }} />
                   </div>
-                </>
-              )}
-              <div className="stack">
-                {next ? <button className="btn block" onClick={() => { setFinished(null); go(`caisson/${r.id}/${next.id}`); }}>Protocole suivant : {next.title}</button>
-                  : r.incident && !p.incidents[r.id] ? <button className="btn block danger" onClick={() => { sfx("alarm"); go(`panne/${r.id}`); }}><Icon name="siren" size={18} /> Réparer la panne</button>
-                  : <button className="btn block" onClick={() => go("")}>Retour à la carte</button>}
-                <button className="btn ghost block" onClick={() => go(`caisson/${r.id}`)}>Retour au caisson</button>
+                  <div className="small muted" style={{ marginTop: 8 }}>{finished.after >= 100 ? `${r.member} est prêt à se réveiller.` : r.incident && idx === r.steps.length - 1 ? "Dernière étape : réparer la panne." : `${r.steps.length - roomStepsDone(p, r)} protocole${r.steps.length - roomStepsDone(p, r) > 1 ? "s" : ""} avant la panne finale.`}</div>
+                </div>
+
+                {finished.energy > 0 && (
+                  <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.9 }} className="mono" style={{ color: "var(--cyan)", fontSize: 28, margin: "16px 0 4px", textShadow: "0 0 16px rgba(59,232,255,.6)" }}>
+                    +<CountUp from={0} to={finished.energy} delay={0.9} /> kW
+                  </motion.div>
+                )}
+                {step.introduces.length > 0 && (
+                  <>
+                    <div className="small muted" style={{ margin: "10px 0" }}>Modules ajoutés à ta Base de connaissances :</div>
+                    <div className="unlock-grid">
+                      {step.introduces.map((n, k) => (
+                        <motion.div key={n} initial={{ opacity: 0, y: 24, rotate: -6 }} animate={{ opacity: 1, y: 0, rotate: 0 }} transition={{ delay: 1.2 + k * 0.18, type: "spring", stiffness: 260, damping: 18 }}>
+                          <NotionChip id={n} icon={notion(n)?.icon} size={56} trace /><span>{notion(n)?.term.replace(/\s*\(.+\)$/, "")}</span>
+                        </motion.div>
+                      ))}
+                    </div>
+                  </>
+                )}
+                <div className="stack" style={{ marginTop: 16 }}>
+                  {next ? <button className="btn block" onClick={() => { setFinished(null); go(`caisson/${r.id}/${next.id}`); }}>Protocole suivant : {next.title}</button>
+                    : r.incident && !p.incidents[r.id] ? <button className="btn block danger" onClick={() => { sfx("alarm"); go(`panne/${r.id}`); }}><Icon name="siren" size={18} /> Réparer la panne</button>
+                    : <button className="btn block" onClick={() => go("")}>Retour à la carte</button>}
+                  <button className="btn ghost block" onClick={() => go(`caisson/${r.id}`)}>Retour au caisson</button>
+                </div>
               </div>
             </motion.div>
           )}
@@ -277,6 +334,81 @@ export function StepView({ roomId, stepId }: { roomId: string; stepId: string })
       </div>
     </div>
   );
+}
+
+/** Le membre veille sur le protocole ; la jauge est découpée en un segment par bloc. */
+function StepMeter({ r, total, revealed, pct, cheer }: { r: Room; total: number; revealed: number; pct: number; cheer: number }) {
+  const p = useProgress();
+  const [smile, setSmile] = useState(false);
+  useEffect(() => {
+    if (!cheer) return;
+    setSmile(true);
+    const t = window.setTimeout(() => setSmile(false), 1600);
+    return () => window.clearTimeout(t);
+  }, [cheer]);
+  const awake = roomComplete(p, r);
+  return (
+    <div className="row" style={{ gap: 10, alignItems: "center" }}>
+      <motion.span animate={smile ? { y: [0, -6, 0], rotate: [0, -6, 6, 0] } : { y: 0 }} transition={{ duration: 0.6 }}
+        style={{ flex: "none", width: 42, height: 42, borderRadius: 14, display: "grid", placeItems: "center", background: "#0b1222", border: `1px solid hsl(${r.hue} 90% 60% / .4)`, overflow: "hidden" }}>
+        <CrewFigure id={r.id} state={awake || smile ? "awake" : "asleep"} mood={smile ? "happy" : "neutral"} crop="head" size={40} label={r.member} />
+      </motion.span>
+      <div className="grow" style={{ minWidth: 0 }}>
+        <div className="row" style={{ justifyContent: "space-between" }}>
+          <span className="mono" style={{ fontSize: 10.5, letterSpacing: ".1em", color: "var(--text-3)" }}>{smile ? `${r.member.toUpperCase()} SOURIT DANS SON SOMMEIL` : `BLOC ${revealed} / ${total}`}</span>
+          <span className="mono" style={{ fontSize: 10.5, color: "var(--accent)" }}>{pct} %</span>
+        </div>
+        <div aria-hidden="true" style={{ display: "flex", gap: total > 24 ? 2 : 3, marginTop: 6 }}>
+          {Array.from({ length: total }, (_, i) => (
+            <span key={i} style={{ flex: 1, height: 6, borderRadius: 3, background: i < revealed ? "var(--accent)" : "rgba(255,255,255,.08)",
+              boxShadow: i < revealed ? "0 0 6px var(--accent)" : "none", opacity: i === revealed - 1 ? 1 : i < revealed ? 0.75 : 1,
+              animation: i === revealed - 1 && revealed < total ? "blink 1.6s steps(1) infinite" : undefined, transition: "background .3s" }} />
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/** Ce qui attend le joueur dans ce protocole : de quoi se lancer en sachant où l'on va. */
+function StepBriefing({ step }: { step: { blocks: Block[]; introduces: string[] } }) {
+  const ex = step.blocks.filter((b) => b.type === "exercise").length;
+  const sims = step.blocks.filter((b) => b.type === "interactive").length;
+  const procs = step.blocks.filter((b) => b.type === "procedure" || b.type === "mission").length;
+  const items: [string, number, string][] = [
+    ["notion", step.introduces.length, "notions"], ["exercice", ex, "vérifications"], ["simulateur", sims, "simulateurs"], ["manip", procs, "manipulations"],
+  ];
+  const maxKw = REWARD.step + ex * REWARD.exerciseFirst;
+  return (
+    <motion.div className="panel" initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} style={{ marginTop: 0, marginBottom: 6, padding: 12 }}>
+      <div className="row" style={{ justifyContent: "space-between", marginBottom: 8 }}>
+        <span className="panel-title" style={{ margin: 0 }}><Icon name="target" size={16} /> Au programme</span>
+        <span className="mono small" style={{ color: "var(--cyan)" }}>jusqu'à +{maxKw} kW</span>
+      </div>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 6, textAlign: "center" }}>
+        {items.map(([k, n, label]) => (
+          <div key={k} style={{ opacity: n ? 1 : 0.4 }}><div className="mono" style={{ fontSize: 20, color: n ? "var(--text)" : "var(--text-3)" }}>{n}</div><div style={{ fontSize: 11.5, color: "var(--text-2)", lineHeight: 1.2 }}>{label}</div></div>
+        ))}
+      </div>
+    </motion.div>
+  );
+}
+
+/** Un nombre qui défile de « from » à « to ». */
+function CountUp({ from, to, delay = 0 }: { from: number; to: number; delay?: number }) {
+  const [v, setV] = useState(from);
+  useEffect(() => {
+    let raf = 0;
+    const t0 = performance.now() + delay * 1000;
+    const tick = (t: number) => {
+      const k = Math.min(1, Math.max(0, (t - t0) / 1000));
+      setV(Math.round(from + (to - from) * (1 - Math.pow(1 - k, 3))));
+      if (k < 1) raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [from, to, delay]);
+  return <>{v}</>;
 }
 
 // ======================= Panne (défi de fin de caisson) =======================
@@ -313,6 +445,7 @@ export function IncidentView({ roomId }: { roomId: string }) {
     if (first) addEnergy(REWARD.incident, "panne résolue");
     sfx("power"); fx({ type: "burst", color: `hsl(${r.hue} 100% 62%)` }); checkBadges();
     setState("won");
+    if (first && roomComplete(getState().progress, r)) window.setTimeout(() => fx({ type: "awaken", roomId: r.id }), 1100);
   };
   const restart = () => { setI(0); setFuses(3); setPicked([]); setState("play"); sfx("power"); };
 

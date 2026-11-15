@@ -2,12 +2,13 @@ import { motion } from "motion/react";
 import { ROOMS, stepKey } from "../content";
 import type { Room } from "../content/types";
 import { dueNotions, fx } from "../lib/game";
-import { currentRoom, roomComplete, roomPower, roomReady, roomUnlocked, roomsDoneCount, totalPower } from "../lib/progress";
+import { currentRoom, roomComplete, roomPower, roomReady, roomUnlocked, roomsDoneCount, stepMinutes, totalPower } from "../lib/progress";
 import { go } from "../lib/router";
 import { sfx } from "../lib/sound";
 import { useProgress, type Progress } from "../lib/store";
 import { Icon, type IconId } from "./Icon";
 import { OraSays } from "./Ora";
+import { CrewFigure } from "./Crew";
 
 // Carte de la réserve : les 11 caissons, reliés par des câbles qui s'allument
 // quand le membre de l'équipe précédent est réveillé.
@@ -43,6 +44,8 @@ export function MapView() {
           <Icon name="team" size={20} />
         </button>
       </div>
+
+      <ProductTimeline />
 
       <div style={{ margin: "16px 0" }}><OraSays compact md={greet} mood={due.size ? "alert" : "happy"} /></div>
 
@@ -87,7 +90,7 @@ export function quartActions(p: Progress): QuartAction[] {
     const next = cur.steps.find((s) => !p.steps[stepKey(cur.id, s.id)]);
     if (next) {
       const at = Math.min(next.blocks.length, p.lessons?.[stepKey(cur.id, next.id)] ?? 0);
-      out.push({ icon: "play", label: at > 1 ? `Reprendre : ${next.title}` : `Continuer : ${next.title}`, detail: `${cur.code} · ${at > 1 ? `${Math.round((at / next.blocks.length) * 100)} % fait` : next.kicker}`, minutes: Math.max(5, Math.round(next.blocks.length * 1.5)), go: `caisson/${cur.id}/${next.id}` });
+      out.push({ icon: "play", label: at > 1 ? `Reprendre : ${next.title}` : `Continuer : ${next.title}`, detail: `${cur.code} · ${at > 1 ? `${Math.round((at / next.blocks.length) * 100)} % fait` : next.kicker}`, minutes: stepMinutes(next), go: `caisson/${cur.id}/${next.id}` });
     } else if (cur.incident && !p.incidents[cur.id]) {
       out.push({ icon: "siren", label: `Réparer la panne : ${cur.incident.title}`, detail: cur.code, minutes: 5, go: `panne/${cur.id}` });
     }
@@ -119,6 +122,50 @@ function QuartPanel() {
             <span className="mono small">{a.minutes} min</span>
           </motion.button>
         ))}
+      </div>
+    </div>
+  );
+}
+
+/** La frise de ton produit : une version par membre de l'équipe, de v0.0 à v1.0. */
+function ProductTimeline() {
+  const p = useProgress();
+  const next = ROOMS.find((r) => !p.deliveries[r.id]);
+  const delivered = ROOMS.filter((r) => p.deliveries[r.id]).length;
+  return (
+    <div className="panel" style={{ marginTop: 12, padding: "12px 14px" }}>
+      <div className="row" style={{ justifyContent: "space-between", alignItems: "baseline" }}>
+        <span style={{ minWidth: 0 }}>
+          <span className="kicker">Ton produit</span>
+          <b style={{ display: "block", fontSize: 16, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{p.product.name || "À choisir au caisson 00"}</b>
+        </span>
+        <span className="mono" style={{ fontSize: 12, color: "var(--led)", flex: "none" }}>{delivered ? ROOMS[delivered - 1].version : "v0.0"} → v1.0</span>
+      </div>
+      <div style={{ position: "relative", margin: "14px 4px 4px" }}>
+        <span aria-hidden="true" style={{ position: "absolute", left: 8, right: 8, top: 9, height: 2, background: "rgba(125,200,255,.12)" }} />
+        <motion.span aria-hidden="true" initial={{ width: 0 }} animate={{ width: `calc(${(Math.max(0, delivered - 0.5) / (ROOMS.length - 1)) * 100}% - ${delivered ? 8 : 0}px)` }} transition={{ duration: 1, ease: "easeOut" }}
+          style={{ position: "absolute", left: 8, top: 9, height: 2, background: "var(--led)", boxShadow: "0 0 8px var(--led)" }} />
+        <div style={{ position: "relative", display: "flex", justifyContent: "space-between" }}>
+          {ROOMS.map((r) => {
+            const done = !!p.deliveries[r.id];
+            const cur = next?.id === r.id;
+            const c = `hsl(${r.hue} 100% 64%)`;
+            return (
+              <button key={r.id} type="button" aria-label={`${r.version} : ${r.delivery?.title ?? r.name}${done ? " (livrée)" : cur ? " (prochaine livraison)" : ""}`}
+                onClick={() => { sfx("tap"); fx({ type: "toast", icon: done ? "check" : "rocket", text: `${r.version} · ${r.delivery?.title ?? r.name}${done ? " : livrée" : ""}`, tone: done ? "led" : "cyan" }); }}
+                style={{ position: "relative", width: 20, height: 20, padding: 0, border: 0, background: "transparent", display: "grid", placeItems: "center" }}>
+                {cur && <span style={{ position: "absolute", inset: -2, borderRadius: "50%", border: `2px solid ${c}`, animation: "pulse-ring 2s infinite" }} />}
+                <span style={{ width: done ? 14 : cur ? 12 : 8, height: done ? 14 : cur ? 12 : 8, borderRadius: "50%", background: done ? "var(--led)" : cur ? c : "#1c2a44",
+                  boxShadow: done ? "0 0 10px var(--led)" : cur ? `0 0 10px ${c}` : "none", display: "grid", placeItems: "center", color: "#00140a" }}>
+                  {done && <Icon name="check" size={10} stroke={3} />}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+      </div>
+      <div className="small muted" style={{ marginTop: 8 }}>
+        {next ? <>Prochaine livraison : <b style={{ color: "var(--text)" }}>{next.version}</b>{next.delivery ? ` · ${next.delivery.title}` : ` · avec ${next.member}`}</> : "Toutes les versions sont livrées. Ton produit est lancé."}
       </div>
     </div>
   );
@@ -177,6 +224,12 @@ function CaissonTile({ room: r, i, left, unlocked, done, current, power, hot, on
       style={{ position: "absolute", top: i * ROW, left: left ? "28%" : "72%", width: 168, marginLeft: -84, textAlign: "center" }}>
       <div style={{ position: "relative", width: 168, height: 130 }}>
         {current && <span style={{ position: "absolute", left: 34, top: 18, width: 100, height: 100, borderRadius: "50%", border: `2px solid ${accent}`, animation: "pulse-ring 2s infinite" }} />}
+        {current && (
+          <motion.span initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: [0, -4, 0] }} transition={{ y: { duration: 2.2, repeat: Infinity, ease: "easeInOut" } }}
+            className="mono" style={{ position: "absolute", left: "50%", top: -22, x: "-50%", whiteSpace: "nowrap", fontSize: 10, letterSpacing: ".12em", padding: "3px 8px", borderRadius: 999, color: "#04121c", background: accent, boxShadow: `0 0 14px ${accent}` }}>
+            PROCHAIN RÉVEIL
+          </motion.span>
+        )}
         <svg width="168" height="130" viewBox="0 0 168 130" style={{ overflow: "visible", filter: done ? `drop-shadow(0 0 16px hsl(${h} 100% 55% / .55))` : current ? `drop-shadow(0 0 10px hsl(${h} 100% 55% / .35))` : undefined }}>
           {/* dalle isométrique */}
           <polygon points="84,22 158,58 84,94 10,58" fill={top} stroke={unlocked ? accent : "rgba(255,255,255,.08)"} strokeOpacity={done ? 0.9 : 0.5} />
@@ -188,12 +241,10 @@ function CaissonTile({ room: r, i, left, unlocked, done, current, power, hot, on
           <path d="M60 60 L60 14 A24 12 0 0 1 108 14 L108 60 A24 12 0 0 1 60 60 Z" fill={done ? "#152036" : "#0b1322"} stroke={unlocked ? accent : "#1f2b40"} strokeOpacity={done ? 0.9 : 0.45} />
           <path d="M60 60 L60 14 A24 12 0 0 1 84 2 L84 72 A24 12 0 0 1 60 60 Z" fill={done ? "#1d2a44" : "#111a2c"} opacity=".7" />
           <ellipse cx="84" cy="14" rx="24" ry="12" fill={done ? `hsl(${h} 70% 42%)` : unlocked ? `hsl(${h} 45% 22%)` : "#111a2c"} stroke={unlocked ? accent : "#1f2b40"} strokeOpacity=".6" />
-          {/* hublot et silhouette du membre de l'équipe */}
-          <rect x="70" y="22" width="28" height="30" rx="10" fill="#050a14" stroke={unlocked ? accent : "#1f2b40"} strokeOpacity=".7" />
-          <g fill={done ? accent : unlocked ? `hsl(${h} 60% 40%)` : "#1f2b40"} style={done ? { filter: `drop-shadow(0 0 4px ${accent})` } : current ? { animation: "flicker 3s infinite" } : undefined}>
-            <circle cx="84" cy="32" r="5" />
-            <path d="M74 50 C74 42 79 39 84 39 C89 39 94 42 94 50 Z" />
-          </g>
+          {/* hublot : le membre de l'équipe, endormi, réveillé, ou simple silhouette tant que son caisson est verrouillé */}
+          <rect x="66" y="16" width="36" height="40" rx="12" fill="#050a14" stroke={unlocked ? accent : "#1f2b40"} strokeOpacity=".7" />
+          <CrewFigure id={r.id} state={done ? "awake" : unlocked ? "asleep" : "locked"} crop="head" x={67} y={19} width={34} height={34} />
+          {!done && <rect x="66" y="16" width="36" height="40" rx="12" fill={`hsl(${h} 60% 85%)`} opacity=".06" />}
           {/* voyants */}
           {[0, 1, 2, 3].map((l) => (
             <rect key={l} x={63} y={20 + l * 9} width="3" height="4" rx="1"

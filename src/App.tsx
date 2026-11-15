@@ -10,10 +10,12 @@ import { useProgressSync } from "./lib/sync";
 import { useHeritageLoader } from "./lib/forma7";
 import { Boot } from "./components/Boot";
 import { FxLayer, Hud, TabBar } from "./components/Chrome";
+import { RewardLayer } from "./components/Rewards";
 import { MapView } from "./components/MapView";
 import { IncidentView, RoomView, StepView } from "./components/RoomView";
 import { SettingsView } from "./components/SettingsView";
 import { IconLibraryView } from "./components/IconLibrary";
+import { CrewSheet } from "./components/CrewSheet";
 import { TermSheetHost } from "./components/TermSheet";
 import { AtelierView, BaseView, MaintenanceView, TeamView } from "./components/Views";
 
@@ -52,6 +54,7 @@ export function App() {
   else if (a === "atelier") screen = <AtelierView />;
   else if (a === "reglages") screen = <SettingsView />;
   else if (a === "icones") screen = <IconLibraryView />;
+  else if (a === "planche") screen = <CrewSheet />;
   else if (a === "equipe") screen = <TeamView />;
   else screen = <MapView />;
 
@@ -75,6 +78,7 @@ export function App() {
       )}
       <TermSheetHost />
       <FxLayer />
+      {booted && <RewardLayer />}
     </MotionConfig>
   );
 }

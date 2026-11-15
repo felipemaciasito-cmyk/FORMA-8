@@ -1,0 +1,69 @@
+{
+ "_lisez-moi": "Répliques des membres de l'équipe. « role » et « dort » s'affichent dès le début du jeu : aucun mot technique encore inconnu. « demi » s'affiche après le premier protocole du caisson, « reveil » quand le caisson est terminé. Contrôlé par scripts/validate-content.mjs.",
+ "c00": {
+  "role": "Ta guide. Elle t'apprend les bases et réveille l'équipe avec toi.",
+  "dort": "Systèmes en veille. Prête à démarrer quand tu le seras.",
+  "demi": "Mes circuits reviennent un par un. Continue : tu apprends vite.",
+  "reveil": "Pleine puissance. Les bases sont posées et ton produit a sa première page en ligne. Allons réveiller le reste de l'équipe."
+ },
+ "c01": {
+  "role": "Garde la mémoire de chaque version de ton produit, et permet de revenir en arrière.",
+  "dort": "… photo numéro un… photo numéro deux… surtout, ne rien jeter…",
+  "demi": "Je me souviens… j'avais un album de chaque étape du chantier. Encore un effort.",
+  "reveil": "Bonjour, chef. À partir d'aujourd'hui, aucune version de ton produit ne se perdra. Et si quelque chose casse, on reviendra en arrière ensemble, sans rien effacer."
+ },
+ "c02": {
+  "role": "Écrit les règles que toute l'équipe suit, à chaque séance de travail.",
+  "dort": "… article premier : on vérifie avant de livrer… article deux…",
+  "demi": "Au rapport… presque. Mes règlements se remettent en ordre.",
+  "reveil": "Au rapport. Écris tes règles une seule fois : toute l'équipe les appliquera, à chaque séance."
+ },
+ "c03": {
+  "role": "Décrit ce qu'il faut construire, avant qu'on le construise.",
+  "dort": "… il était une fois… une personne pressée… qui voulait un bouton…",
+  "demi": "Mon encre revient. Bientôt, nous écrirons ensemble ce que ton produit doit faire.",
+  "reveil": "Me voilà. Avant chaque chantier, nous écrirons noir sur blanc ce que tu veux, puis nous le découperons en petites tâches."
+ },
+ "c04": {
+  "role": "Demande, relit, corrige, et recommence jusqu'à ce que ça marche.",
+  "dort": "… encore un tour… encore un petit tour…",
+  "demi": "Je tourne de plus en plus vite. Un dernier tour de piste.",
+  "reveil": "Je tourne à plein régime. Demander, relire, corriger, recommencer : c'est comme ça qu'on avance, un tour après l'autre."
+ },
+ "c05": {
+  "role": "Vérifie que tout fonctionne, à chaque changement.",
+  "dort": "… tout est en ordre… vérifié… vérifié… vérifié…",
+  "demi": "Ma loupe se rallume. Je vois déjà plus net.",
+  "reveil": "Inspection terminée : je suis en service. Plus rien ne partira chez tes utilisateurs sans être vérifié."
+ },
+ "c06": {
+  "role": "Met ton produit en ligne, sans rien casser.",
+  "dort": "… livraison express… adresse… confirmée…",
+  "demi": "Mes ailerons frémissent. Bientôt prêt à décoller.",
+  "reveil": "Messager en ligne. Chaque nouvelle version de ton produit arrivera à bon port, et on pourra toujours revenir à la précédente."
+ },
+ "c07": {
+  "role": "Garde les données et les comptes de tes utilisateurs.",
+  "dort": "… je n'oublie rien… ni personne… ni rien…",
+  "demi": "Mes disques se remettent à tourner. Je retrouve mes souvenirs.",
+  "reveil": "Mémoire en service. Tes utilisateurs pourront revenir demain et tout retrouver, chacun avec ses propres affaires."
+ },
+ "c08": {
+  "role": "Protège tes secrets, tes utilisateurs et ton budget.",
+  "dort": "… halte… qui va là… ah, c'est toi…",
+  "demi": "Ma visière s'allume. Je reprends ma ronde.",
+  "reveil": "Sentinelle en poste. Je garde les portes : les secrets restent secrets, et les dépenses restent sous contrôle."
+ },
+ "c09": {
+  "role": "Une escouade qui travaille en même temps, et des réflexes qui veillent pour toi.",
+  "dort": "… un, deux, trois… tout le monde à son poste…",
+  "demi": "Mes petits drones se réveillent. On se met en formation.",
+  "reveil": "Escouade au complet ! Confie-nous plusieurs tâches à la fois, et nos réflexes surveilleront le reste pendant ton absence."
+ },
+ "c10": {
+  "role": "Présente ton produit au monde, et t'aide à en faire ton métier.",
+  "dort": "… compte à rebours… dix… neuf… huit…",
+  "demi": "Les moteurs chauffent. Le grand jour approche.",
+  "reveil": "Allumage ! Ton produit est prêt pour son lancement. Et toi, tu es prêt à en faire ton métier."
+ }
+}

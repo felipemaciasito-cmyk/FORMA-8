@@ -1,5 +1,5 @@
 import { ROOMS, stepKey } from "../content";
-import type { Room } from "../content/types";
+import type { Room, Step } from "../content/types";
 import type { Progress } from "./store";
 
 // Calculs dérivés de la progression : caissons débloqués, réveillés, énergie de chaque caisson.
@@ -53,4 +53,9 @@ export function roomsDoneCount(p: Progress) {
 export function totalPower(p: Progress) {
   if (!ROOMS.length) return 0;
   return Math.round(ROOMS.reduce((a, r) => a + roomPower(p, r), 0) / ROOMS.length);
+}
+
+/** Durée estimée d'un protocole, en minutes (une estimation : environ 50 secondes par bloc). */
+export function stepMinutes(s: Step) {
+  return Math.max(5, Math.round(s.blocks.length * 0.85));
 }
