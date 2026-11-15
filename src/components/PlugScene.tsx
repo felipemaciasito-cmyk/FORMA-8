@@ -56,17 +56,30 @@ function PlugSvg({ live }: { live?: boolean }) {
   );
 }
 
-/** La capsule du membre, son électrode de réception, et la centrale juste dessous. */
+/** La capsule du membre dans son cadre de visée, son électrode de réception, la centrale, puis la télémétrie. */
 function Reactor({ room: r, plugged, free, fire, ctl, onFail, onFire, recvRef, lux }: {
   room: Room; plugged: number; free: number; fire: FireState; ctl: React.RefObject<CentraleHandle | null>;
   onFail: (why: Exclude<FireState, "ok">) => void; onFire: () => void; recvRef: React.RefObject<HTMLSpanElement | null>; lux: number;
 }) {
+  const total = r.steps.length;
+  const [attempt, setAttempt] = useState(0);
+  const [fired, setFired] = useState(false);
+  const circuit = fired ? "ARC ENVOYÉ" : fire === "ok" ? "PRÊT" : fire === "fault" ? "COUPÉ · PANNE" : "INCOMPLET";
   return (
     <div className="reactor">
-      <ChargedCapsule id={r.id} state="asleep" lux={lux} size={104} />
+      <div className="cap-frame">
+        <i className="c tl" /><i className="c tr" /><i className="c bl" /><i className="c br" />
+        <ChargedCapsule id={r.id} state="asleep" lux={fired ? 1 : lux} size={78} />
+        <div className="cap-tag"><span className={`dot ${fired ? "on" : ""}`} />{r.member.toUpperCase()} · {fired ? "ARC REÇU" : "EN VEILLE"}</div>
+      </div>
       <span className="recv" ref={recvRef} aria-hidden="true" />
-      <Centrale ref={ctl} total={r.steps.length} plugged={plugged} free={free} fire={fire} memberName={r.member}
-        target={() => centerOf(recvRef.current)} onFail={onFail} onFire={onFire} />
+      <Centrale ref={ctl} total={total} plugged={plugged} free={free} fire={fire} memberName={r.member}
+        target={() => centerOf(recvRef.current)} onFail={onFail} onCharge={setAttempt} onFire={() => { setFired(true); onFire(); }} />
+      <div className="telemetry" aria-hidden="true">
+        <div><small>PRISES</small><b>{plugged} / {total}</b></div>
+        <div><small>{attempt > 0 ? "ARC" : "CHARGE"}</small><b>{Math.round((attempt > 0 ? attempt : plugged / total) * 100)} %</b></div>
+        <div className={fire === "ok" || fired ? "ok" : fire === "fault" ? "bad" : ""}><small>CIRCUIT</small><b>{circuit}</b></div>
+      </div>
     </div>
   );
 }
@@ -95,7 +108,7 @@ export function PlugScene({ room: r, index, cells, energy, incidentOpen, onPlugg
   const [drained, setDrained] = useState(0);
   const [flight, setFlight] = useState<null | { from: Pt; to: Pt }>(null);
   const [msg, setMsg] = useState("");
-  const geo = useRef<null | { seat: Pt; tail: (p: Pt) => Pt; term: Pt; home: Pt; angle: number; scale: number; floor: number }>(null);
+  const geo = useRef<null | { seat: Pt; tail: (p: Pt) => Pt; term: Pt; home: Pt; angle: number; scale: number; floor: number; reach: number }>(null);
   const pos = useRef<Pt | null>(null);
   const rope = useRef<Rope | null>(null);
   const ropeLen = useRef(110);
@@ -114,6 +127,8 @@ export function PlugScene({ room: r, index, cells, energy, incidentOpen, onPlugg
       seat: { x: sock.x + dx * 12 * k, y: sock.y + dy * 12 * k },
       tail: (p) => ({ x: p.x + dx * 16 * k, y: p.y + dy * 16 * k }),
       term, home: { x: term.x - 46, y: term.y - 58 }, angle: g.angles[index] - 90, scale: k, floor: term.y + 26,
+      // le câble est assez long pour la prise la plus éloignée (au dernier protocole, elle est en haut à gauche)
+      reach: Math.max(330, Math.hypot(sock.x - term.x, sock.y - term.y) + 70),
     };
     if (!pos.current) pos.current = { ...geo.current.home };
     if (!rope.current) rope.current = new Rope(term, geo.current.tail(pos.current), 24, ropeLen.current);
@@ -127,7 +142,7 @@ export function PlugScene({ room: r, index, cells, energy, incidentOpen, onPlugg
     const loop = () => {
       const g = geo.current, p = pos.current, rp = rope.current;
       if (g && p && rp) {
-        const tail = g.tail(p), want = Math.min(340, Math.max(110, Math.hypot(tail.x - g.term.x, tail.y - g.term.y) * 1.25));
+        const tail = g.tail(p), want = Math.min(g.reach * 1.12, Math.max(110, Math.hypot(tail.x - g.term.x, tail.y - g.term.y) * 1.25));
         if (want > ropeLen.current) { ropeLen.current = want; rp.seg = want / rp.n; }
         rp.step(g.term, tail, g.floor);
         const d = rp.d(); paths.current.forEach((el) => el?.setAttribute("d", d));
@@ -183,7 +198,7 @@ export function PlugScene({ room: r, index, cells, energy, incidentOpen, onPlugg
     const dx = e.clientX - d.sx, dy = e.clientY - d.sy;
     if (Math.hypot(dx, dy) > 6) d.moved = true;
     // le câble a une longueur : la fiche ne va pas plus loin
-    let p = { x: d.px + dx, y: d.py + dy }; const tx = p.x - g.term.x, ty = p.y - g.term.y, dist = Math.hypot(tx, ty), max = 330;
+    let p = { x: d.px + dx, y: d.py + dy }; const tx = p.x - g.term.x, ty = p.y - g.term.y, dist = Math.hypot(tx, ty), max = g.reach;
     if (dist > max) p = { x: g.term.x + (tx * max) / dist, y: g.term.y + (ty * max) / dist };
     pos.current = p;
   };
@@ -210,13 +225,14 @@ export function PlugScene({ room: r, index, cells, energy, incidentOpen, onPlugg
     : "Fais glisser la fiche de ta batterie jusqu'à la prise libre de la centrale, ou touche-la.");
 
   return (
-    <div ref={box} className="plug-scene">
-      <div className="kicker" style={{ color: "#fff" }}>{kicker}</div>
-      <div style={{ fontSize: 19, fontWeight: 700, lineHeight: 1.2, marginTop: 2 }}>{title}</div>
-      <div className={`small ${msg ? "" : "muted"}`} role="status" style={{ minHeight: 40, maxWidth: 330, color: msg ? "var(--amber)" : undefined }}>{hint}</div>
+    <div ref={box} className="plug-scene hud-scene">
+      <div className="hud-chip"><span className="dot" />{kicker}</div>
+      <div className="hud-title">{title}</div>
+      <div className={`small ${msg ? "" : "muted"}`} role="status" style={{ minHeight: 38, maxWidth: 340, lineHeight: 1.35, color: msg ? "var(--amber)" : undefined }}>{hint}</div>
       <Reactor room={r} plugged={plugged} free={phase === "done" ? -1 : index} fire={fire} ctl={ctl} recvRef={recvRef}
         lux={0.22 + 0.2 * (plugged / total)} onFail={onFail} onFire={onAwaken} />
-      <div className="plug-gauge">
+      <div className="plug-gauge hud-panel">
+        <i className="c tr" /><i className="c bl" />
         <div className="lbl"><span>BATTERIE DU PROTOCOLE {String(index + 1).padStart(2, "0")}</span><b>{Math.round(((cells - drained) / cells) * 100)} %</b></div>
         <div className={`battery xl ${drained === 0 ? "full" : ""}`} aria-hidden="true">
           {Array.from({ length: cells }, (_, i) => <i key={i} className={`${i === cells - 1 ? "final" : ""} ${i < cells - drained ? "on" : "drain"}`} />)}
@@ -259,7 +275,7 @@ export function ArcScene({ room: r, onAwaken }: { room: Room; onAwaken: () => vo
   const recvRef = useRef<HTMLSpanElement>(null);
   const [fired, setFired] = useState(false);
   return (
-    <div className="plug-scene" style={{ marginTop: 6 }}>
+    <div className="plug-scene hud-scene" style={{ marginTop: 6 }}>
       <div className="small muted" role="status" style={{ minHeight: 40, maxWidth: 330 }}>
         {fired ? `${r.member} reçoit l'arc.` : `Le circuit est réparé. Maintiens ton doigt sur la centrale pour envoyer l'arc à ${r.member}.`}
       </div>

@@ -284,7 +284,7 @@ export function StepView({ roomId, stepId }: { roomId: string; stepId: string })
   };
   // La batterie est branchée sur la centrale. Le réveil ne vient que de l'arc, envoyé par le joueur depuis la centrale.
   const onPlugged = () => setPlugged(true);
-  const onAwaken = () => window.setTimeout(() => fx({ type: "awaken", roomId: r.id }), 500);
+  const onAwaken = () => window.setTimeout(() => fx({ type: "awaken", roomId: r.id }), 150);
 
   const next = r.steps[idx + 1];
   return (
@@ -504,11 +504,11 @@ export function IncidentView({ roomId }: { roomId: string }) {
     const first = !getState().progress.incidents[r.id];
     updateProgress((d) => { d.incidents[r.id] = { at: today(), fusesLeft: Math.max(fuses, d.incidents[r.id]?.fusesLeft ?? 0) }; });
     if (first) addEnergy(REWARD.incident, "panne résolue");
-    sfx("power"); fx({ type: "burst", color: `hsl(${r.hue} 100% 62%)` }); checkBadges();
+    sfx("power"); fx({ type: "burst" }); checkBadges();
     setState("won");
     setRearm(first && roomComplete(getState().progress, r));
   };
-  const sendArc = () => window.setTimeout(() => { setRearm(false); fx({ type: "awaken", roomId: r.id }); }, 500);
+  const sendArc = () => window.setTimeout(() => { setRearm(false); fx({ type: "awaken", roomId: r.id }); }, 150);
   const restart = () => { setI(0); setFuses(3); setPicked([]); setState("play"); sfx("power"); };
 
   return (

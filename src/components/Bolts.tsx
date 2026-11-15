@@ -128,7 +128,7 @@ function render() {
 // ---------------- génération d'un éclair ----------------
 const dist = (a: Pt, b: Pt) => Math.hypot(b.x - a.x, b.y - a.y);
 /** Canal fractal entre a et b (déplacement du point milieu), découpé jusqu'à des segments de 2 à 4 px. */
-function channel(a: Pt, b: Pt, rough: number): Pt[] {
+export function channel(a: Pt, b: Pt, rough: number): Pt[] {
   const len = dist(a, b);
   const levels = Math.max(2, Math.min(8, Math.round(Math.log2(len / 3))));
   let pts = [a, b], disp = len * rough;
