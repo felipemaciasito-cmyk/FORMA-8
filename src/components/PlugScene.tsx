@@ -3,228 +3,239 @@ import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react
 import type { Room } from "../content/types";
 import { releaseEnergy } from "../lib/energy";
 import { sfx } from "../lib/sound";
-import { arcs, centerOf, sparks, strike } from "./Bolts";
+import { centerOf, type Pt } from "./Bolts";
+import { Centrale, type CentraleHandle, type FireState } from "./Centrale";
 import { ChargedCapsule } from "./Crew";
 
-// Fin d'un protocole : la batterie est pleine, et le joueur la branche lui-même sur la capsule du membre.
-// Deuxième version (15/11/2026, retour du propriétaire : « les prises doivent être rattachées à la jauge de batterie
-// et se brancher à la capsule ») :
-// - la capsule repose sur son socle, qui porte une prise par protocole du caisson (et le disjoncteur de la panne) ;
-// - sous la capsule, le banc de batteries : une batterie par protocole, chacune juste sous sa prise. Le câble sort
-//   de la borne de la batterie, et sa fiche se branche dans la prise du socle ;
-// - les batteries des protocoles déjà faits restent branchées (vidées dans la capsule, câble sous tension) ;
-// - à chaque branchement, la batterie se vide cellule après cellule dans la capsule, qui s'éclaire un peu plus,
-//   et les kW rejoignent le compteur du haut.
-// Quand tous les câbles sont branchés, le courant passe… sauf si la panne du caisson coupe le circuit : il faut
-// alors la réparer (puis réarmer le disjoncteur) pour réveiller le membre.
-// Geste : faire glisser la fiche jusqu'à la prise libre. Un simple toucher la branche aussi (accessibilité).
+// Fin d'un protocole (troisième version, choisie par le propriétaire le 15/11/2026 : la « centrale ») :
+// la jauge que le joueur a chargée pendant le protocole a un vrai câble, qui sort de sa borne « + ». Il tire la fiche et
+// la branche dans la prise libre de la centrale du caisson (un anneau posé sous la capsule du membre). La batterie se
+// vide dans la centrale, qui réagit un peu plus fort à chaque prise, et les kW rejoignent le compteur du haut.
+// Quand toutes les prises sont branchées et que la panne est réparée, le joueur maintient son doigt sur la centrale :
+// l'arc part vers la capsule et réveille le membre. Avant, la tentative échoue (prise libre ou panne).
+// Geste : faire glisser la fiche jusqu'à la prise. Un simple toucher la branche aussi (accessibilité).
 
-interface Pt { x: number; y: number }
-type Phase = "ready" | "plugging" | "flowing" | "done" | "fault";
+type Phase = "ready" | "drag" | "seat" | "flow" | "done";
 
-/** Décalage entre le centre de la fiche et sa prise : les broches entrent dans la prise par le bas. */
-const SEAT = 13;
-/** Bas de la fiche (là où le câble la rejoint), mesuré depuis son centre. */
-const TAIL = 16;
+/** Câble souple : une corde simulée (points reliés), qui pend, se balance et suit la fiche. */
+class Rope {
+  n: number; seg: number; p: Pt[]; q: Pt[];
+  constructor(a: Pt, b: Pt, n: number, len: number) {
+    this.n = n; this.seg = len / n; this.p = []; this.q = [];
+    for (let i = 0; i <= n; i++) { const pt = { x: a.x + (b.x - a.x) * (i / n), y: a.y + (b.y - a.y) * (i / n) + Math.sin(Math.PI * i / n) * 16 }; this.p.push(pt); this.q.push({ ...pt }); }
+  }
+  step(a: Pt, b: Pt, floor: number) {
+    const { p, q, n } = this;
+    for (let i = 1; i < n; i++) { const vx = (p[i].x - q[i].x) * 0.97, vy = (p[i].y - q[i].y) * 0.97; q[i].x = p[i].x; q[i].y = p[i].y; p[i].x += vx; p[i].y += vy + 0.45; }
+    for (let it = 0; it < 14; it++) {
+      p[0].x = a.x; p[0].y = a.y; p[n].x = b.x; p[n].y = b.y;
+      for (let i = 0; i < n; i++) {
+        const u = p[i], v = p[i + 1], dx = v.x - u.x, dy = v.y - u.y, d = Math.hypot(dx, dy) || 1, k = ((d - this.seg) / d) * 0.5;
+        if (i > 0) { u.x += dx * k; u.y += dy * k; }
+        if (i + 1 < n) { v.x -= dx * k; v.y -= dy * k; }
+      }
+      for (let i = 1; i < n; i++) if (p[i].y > floor) p[i].y = floor;
+    }
+  }
+  d() {
+    const p = this.p; let s = `M${p[0].x.toFixed(1)} ${p[0].y.toFixed(1)}`;
+    for (let i = 1; i < p.length - 1; i++) { const mx = (p[i].x + p[i + 1].x) / 2, my = (p[i].y + p[i + 1].y) / 2; s += ` Q${p[i].x.toFixed(1)} ${p[i].y.toFixed(1)} ${mx.toFixed(1)} ${my.toFixed(1)}`; }
+    const l = p[p.length - 1]; return `${s} L${l.x.toFixed(1)} ${l.y.toFixed(1)}`;
+  }
+}
 
-/** La fiche du câble ; une fois branchée, ses broches sont dans la prise et ne se voient plus. */
-function PlugSvg({ live, seated }: { live?: boolean; seated?: boolean }) {
+/** La fiche du câble (broches vers le haut avant rotation). */
+function PlugSvg({ live }: { live?: boolean }) {
   return (
-    <svg width="30" height="40" viewBox="0 0 30 40" aria-hidden="true">
-      {!seated && <rect x="8.6" y="0.5" width="3.2" height="10" rx="1.1" fill="#c9d6ea" />}
-      {!seated && <rect x="18.2" y="0.5" width="3.2" height="10" rx="1.1" fill="#c9d6ea" />}
-      <rect x="2.5" y="9" width="25" height="19" rx="6" fill="#1a2336" stroke="#f4feff" strokeWidth="1.5" />
-      <rect x="8" y="15.5" width="14" height="2.8" rx="1.4" fill={live ? "#f4feff" : "#3be8ff"} />
-      <path d="M10.5 28 h9 v5 a4.5 4.5 0 0 1 -9 0 Z" fill="#141c2c" stroke="#3a4766" />
+    <svg width="30" height="40" viewBox="-15 -22 30 40" aria-hidden="true">
+      <rect x="-8.5" y="-21" width="3.4" height="10" rx="1.2" fill="#c9d6ea" /><rect x="5" y="-21" width="3.4" height="10" rx="1.2" fill="#c9d6ea" />
+      <rect x="-13" y="-12" width="26" height="20" rx="6" fill="#1a2336" stroke="#f4feff" strokeWidth="1.5" />
+      <rect x="-7" y="-4" width="14" height="3" rx="1.5" fill={live ? "#f4feff" : "#3be8ff"} />
+      <path d="M-5 8 h10 v6 a5 5 0 0 1 -10 0 Z" fill="#141c2c" stroke="#3a4766" />
     </svg>
   );
 }
 
-/** Nombre de cellules de la batterie d'un protocole : une par vérification, plus une pour la fin. */
-const cellsOf = (r: Room, i: number) => (r.steps[i]?.blocks.filter((b) => b.type === "exercise").length ?? 0) + 1;
+/** La capsule du membre, son électrode de réception, et la centrale juste dessous. */
+function Reactor({ room: r, plugged, free, fire, ctl, onFail, onFire, recvRef, lux }: {
+  room: Room; plugged: number; free: number; fire: FireState; ctl: React.RefObject<CentraleHandle | null>;
+  onFail: (why: Exclude<FireState, "ok">) => void; onFire: () => void; recvRef: React.RefObject<HTMLSpanElement | null>; lux: number;
+}) {
+  return (
+    <div className="reactor">
+      <ChargedCapsule id={r.id} state="asleep" lux={lux} size={104} />
+      <span className="recv" ref={recvRef} aria-hidden="true" />
+      <Centrale ref={ctl} total={r.steps.length} plugged={plugged} free={free} fire={fire} memberName={r.member}
+        target={() => centerOf(recvRef.current)} onFail={onFail} onFire={onFire} />
+    </div>
+  );
+}
 
-export function PlugScene({ room: r, index, cells, energy, incidentOpen, onPlugged }: {
+const failText = (why: Exclude<FireState, "ok">, left: number) => why === "fault"
+  ? "Connexion impossible : la panne coupe le circuit. Répare-la d'abord."
+  : `Connexion impossible : encore ${left} prise${left > 1 ? "s" : ""} à brancher.`;
+
+export function PlugScene({ room: r, index, cells, energy, incidentOpen, onPlugged, onAwaken }: {
   room: Room; index: number; cells: number; energy: number; incidentOpen: boolean;
   /** Appelé quand la batterie est branchée (last : c'était la dernière prise). */
   onPlugged: (last: boolean) => void;
+  /** L'arc a frappé la capsule (toutes les prises branchées, sans panne) : le membre se réveille. */
+  onAwaken: () => void;
 }) {
   const total = r.steps.length;
   const last = index === total - 1;
   const box = useRef<HTMLDivElement>(null);
-  const capRef = useRef<HTMLDivElement>(null);
-  const sockRefs = useRef<(HTMLSpanElement | null)[]>([]);
-  const termRefs = useRef<(HTMLSpanElement | null)[]>([]);
+  const ctl = useRef<CentraleHandle | null>(null);
+  const termRef = useRef<HTMLSpanElement>(null);
+  const recvRef = useRef<HTMLSpanElement>(null);
+  const plugEl = useRef<HTMLDivElement>(null);
+  const paths = useRef<(SVGPathElement | null)[]>([]);
   const [phase, setPhase] = useState<Phase>("ready");
   const [plugged, setPlugged] = useState(index);
   const [drained, setDrained] = useState(0);
-  const [geo, setGeo] = useState<{ socks: Pt[]; terms: Pt[] } | null>(null);
-  const [plug, setPlug] = useState<Pt | null>(null);
   const [flight, setFlight] = useState<null | { from: Pt; to: Pt }>(null);
-  const drag = useRef<null | { sx: number; sy: number; px: number; py: number; moved: boolean }>(null);
+  const [msg, setMsg] = useState("");
+  const geo = useRef<null | { seat: Pt; tail: (p: Pt) => Pt; term: Pt; home: Pt; angle: number; scale: number; floor: number }>(null);
+  const pos = useRef<Pt | null>(null);
+  const rope = useRef<Rope | null>(null);
+  const ropeLen = useRef(110);
+  const phaseRef = useRef<Phase>("ready");
+  phaseRef.current = phase;
 
-  // Géométrie (coordonnées dans la scène), mesurée à l'ouverture et quand l'écran change de taille.
+  // Géométrie (coordonnées dans la scène), mesurée à l'ouverture et quand l'écran change.
   const measure = useCallback(() => {
-    const b = box.current?.getBoundingClientRect();
-    if (!b) return;
-    const at = (el: Element | null | undefined, dy = 0) => { const q = el?.getBoundingClientRect(); return q ? { x: q.left - b.left + q.width / 2, y: q.top - b.top + q.height / 2 + dy } : { x: 0, y: 0 }; };
-    setGeo({ socks: sockRefs.current.map((s) => at(s)), terms: termRefs.current.map((t) => at(t, -3)) });
+    const b = box.current?.getBoundingClientRect(), g = ctl.current?.geometry(), t = termRef.current?.getBoundingClientRect();
+    if (!b || !g || !t) return;
+    const a = (g.angles[index] * Math.PI) / 180, dx = Math.cos(a), dy = Math.sin(a);
+    const sock = { x: g.sockets[index].x - b.left, y: g.sockets[index].y - b.top };
+    const term = { x: t.left - b.left + t.width / 2, y: t.top - b.top + t.height / 2 };
+    const k = g.scale;
+    geo.current = {
+      seat: { x: sock.x + dx * 12 * k, y: sock.y + dy * 12 * k },
+      tail: (p) => ({ x: p.x + dx * 16 * k, y: p.y + dy * 16 * k }),
+      term, home: { x: term.x - 46, y: term.y - 58 }, angle: g.angles[index] - 90, scale: k, floor: term.y + 26,
+    };
+    if (!pos.current) pos.current = { ...geo.current.home };
+    if (!rope.current) rope.current = new Rope(term, geo.current.tail(pos.current), 24, ropeLen.current);
+  }, [index]);
+  useLayoutEffect(() => { measure(); }, [measure, phase, msg]);
+  useEffect(() => { const re = () => { geo.current = null; measure(); }; window.addEventListener("resize", re); return () => window.removeEventListener("resize", re); }, [measure]);
+
+  // Le câble et la fiche suivent le doigt (dessinés hors de React, 60 fois par seconde, pendant la scène).
+  useEffect(() => {
+    let raf = 0;
+    const loop = () => {
+      const g = geo.current, p = pos.current, rp = rope.current;
+      if (g && p && rp) {
+        const tail = g.tail(p), want = Math.min(340, Math.max(110, Math.hypot(tail.x - g.term.x, tail.y - g.term.y) * 1.25));
+        if (want > ropeLen.current) { ropeLen.current = want; rp.seg = want / rp.n; }
+        rp.step(g.term, tail, g.floor);
+        const d = rp.d(); paths.current.forEach((el) => el?.setAttribute("d", d));
+        const el = plugEl.current;
+        if (el) { el.style.transform = `translate(${p.x.toFixed(1)}px, ${p.y.toFixed(1)}px) rotate(${g.angle.toFixed(1)}deg) scale(${g.scale.toFixed(3)})`; el.style.visibility = "visible"; }
+      }
+      raf = requestAnimationFrame(loop);
+    };
+    raf = requestAnimationFrame(loop);
+    return () => cancelAnimationFrame(raf);
   }, []);
-  // Les textes changent de hauteur au fil de la scène : on remesure, pour que les câbles suivent les prises.
-  useLayoutEffect(() => { measure(); }, [measure, phase, plugged]);
-  useEffect(() => { window.addEventListener("resize", measure); return () => window.removeEventListener("resize", measure); }, [measure]);
-  // Au repos, la fiche attend juste au-dessus de la borne de sa batterie.
-  const home = geo ? { x: geo.terms[index].x, y: geo.terms[index].y - 34 } : null;
-  useEffect(() => { if (home && !plug && phase === "ready") setPlug(home); }, [home, plug, phase]);
 
-  // La capsule s'illumine un peu plus à chaque câble branché (sans jamais atteindre le plein : c'est le réveil).
-  const lux = 0.1 + 0.75 * (plugged / total);
-  const target = geo?.socks[index];
-
-  const connect = () => {
-    if (!geo || !target) return;
-    setPhase("flowing");
-    sfx("plug");
-    const rect = box.current!.getBoundingClientRect(), s = { x: rect.left + target.x, y: rect.top + target.y };
-    sparks(s, 14); arcs(s, 16, 260, 2);
-    // La batterie se vide dans la capsule, cellule après cellule (de la plus haute à la plus basse).
-    for (let k = 1; k <= cells; k++) window.setTimeout(() => setDrained(k), 200 + k * 170);
-    window.setTimeout(() => {
-      setPlugged(index + 1);
-      const c = centerOf(capRef.current);
-      strike(s, { x: c.x, y: c.y - 10 });
-      const hud = centerOf(document.querySelector(".hud-stat.kw"), { x: window.innerWidth - 70, y: 30 });
-      if (energy > 0) setFlight({ from: { x: c.x, y: c.y - 40 }, to: hud });
-      else releaseEnergy();
-    }, 300 + cells * 170);
-    window.setTimeout(() => {
-      setPlug(null);
-      if (last && incidentOpen) {
-        // Tous les câbles sont branchés, mais la panne coupe le circuit.
-        sfx("circuit-fail");
-        window.setTimeout(() => setPhase("fault"), 650);
-      } else setPhase("done");
-      onPlugged(last);
-    }, 1900 + cells * 120);
-  };
-
-  const animateTo = (to: Pt, ms: number, hop: number, then?: () => void) => {
-    const from = plug ?? to, t0 = performance.now();
+  const animateTo = (to: Pt, ms: number, then?: () => void) => {
+    const from = { ...(pos.current ?? to) }, t0 = performance.now();
     const step = (t: number) => {
       const k = Math.min(1, (t - t0) / ms), e = k < 0.5 ? 2 * k * k : 1 - Math.pow(-2 * k + 2, 2) / 2;
-      setPlug({ x: from.x + (to.x - from.x) * e + Math.sin(Math.PI * k) * hop, y: from.y + (to.y - from.y) * e });
+      pos.current = { x: from.x + (to.x - from.x) * e, y: from.y + (to.y - from.y) * e };
       if (k < 1) requestAnimationFrame(step); else then?.();
     };
     requestAnimationFrame(step);
   };
+
+  const connect = () => {
+    setPhase("flow"); setMsg("");
+    sfx("plug");
+    ctl.current?.react(index);
+    // La batterie se vide dans la centrale, cellule après cellule.
+    for (let k = 1; k <= cells; k++) window.setTimeout(() => { setDrained(k); sfx("cell"); }, 260 + k * 240);
+    window.setTimeout(() => {
+      setPlugged(index + 1);
+      const core = ctl.current?.geometry()?.core ?? centerOf(box.current);
+      const hud = centerOf(document.querySelector(".hud-stat.kw"), { x: window.innerWidth - 70, y: 30 });
+      if (energy > 0) setFlight({ from: { x: core.x, y: core.y - 20 }, to: hud });
+      else releaseEnergy();
+    }, 360 + cells * 240);
+    window.setTimeout(() => { setPhase("done"); onPlugged(last); }, 1500 + cells * 240);
+  };
   const autoPlug = (animated: boolean) => {
-    if (phase !== "ready" || !target) return;
-    setPhase("plugging");
-    animateTo({ x: target.x, y: target.y + SEAT }, animated ? 520 : 120, animated ? 10 : 0, connect);
+    const g = geo.current; if (phaseRef.current !== "ready" || !g) return;
+    setPhase("seat");
+    animateTo(g.seat, animated ? 520 : 120, connect);
   };
 
+  const drag = useRef<null | { sx: number; sy: number; px: number; py: number; moved: boolean }>(null);
   const onDown = (e: React.PointerEvent) => {
-    if (phase !== "ready" || !plug) return;
+    if (phaseRef.current !== "ready" || !pos.current) return;
     (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
-    drag.current = { sx: e.clientX, sy: e.clientY, px: plug.x, py: plug.y, moved: false };
-    sfx("tap");
+    drag.current = { sx: e.clientX, sy: e.clientY, px: pos.current.x, py: pos.current.y, moved: false };
+    setPhase("drag"); sfx("tap");
   };
   const onMove = (e: React.PointerEvent) => {
-    const d = drag.current; if (!d) return;
+    const d = drag.current, g = geo.current; if (!d || !g) return;
     const dx = e.clientX - d.sx, dy = e.clientY - d.sy;
     if (Math.hypot(dx, dy) > 6) d.moved = true;
-    setPlug({ x: d.px + dx, y: d.py + dy });
+    // le câble a une longueur : la fiche ne va pas plus loin
+    let p = { x: d.px + dx, y: d.py + dy }; const tx = p.x - g.term.x, ty = p.y - g.term.y, dist = Math.hypot(tx, ty), max = 330;
+    if (dist > max) p = { x: g.term.x + (tx * max) / dist, y: g.term.y + (ty * max) / dist };
+    pos.current = p;
   };
   const onUp = () => {
-    const d = drag.current; drag.current = null; if (!d || !plug || !target || !home) return;
-    const dist = Math.hypot(plug.x - target.x, plug.y - SEAT - target.y);
-    if (!d.moved || dist < 52) autoPlug(!d.moved);
-    else animateTo(home, 380, 0);
+    const d = drag.current, g = geo.current, p = pos.current; drag.current = null; if (!d || !g || !p) return;
+    phaseRef.current = "ready"; setPhase("ready");
+    if (!d.moved || Math.hypot(p.x - g.seat.x, p.y - g.seat.y) < 48 * Math.max(0.8, g.scale)) autoPlug(!d.moved);
+    else animateTo(g.home, 380);
   };
 
-  // Câble d'une borne de batterie (en bas) jusqu'à la fiche (en haut) : il monte en souplesse.
-  const cable = (a: Pt, b: Pt) => {
-    const h = Math.max(24, (a.y - b.y) * 0.5);
-    return `M${a.x} ${a.y} C ${a.x} ${a.y - h}, ${b.x} ${b.y + h}, ${b.x} ${b.y}`;
-  };
-  const pastCls = phase === "fault" ? "cut" : "live";
-  const pct = Math.round(((cells - drained) / cells) * 100);
-  // Mêmes colonnes pour le socle et le banc : chaque batterie est juste sous sa prise (plus le disjoncteur).
-  const cols = `repeat(${total}, var(--col))${r.incident ? " 30px" : ""}`;
+  // Tentative d'envoi de l'arc : selon les prises branchées et la panne.
+  const fire: FireState = plugged < total ? "missing" : incidentOpen ? "fault" : "ok";
+  const onFail = (why: Exclude<FireState, "ok">) => setMsg(failText(why, total - plugged));
+  const live = phase === "flow" || phase === "done";
+
+  const kicker = `Protocole ${String(index + 1).padStart(2, "0")} terminé · centrale ${plugged} / ${total}`;
+  const title = phase === "done"
+    ? (plugged >= total ? "Centrale chargée" : "La centrale monte en puissance")
+    : "Branche ta batterie sur la centrale";
+  const hint = msg || (phase === "done"
+    ? (plugged < total ? `Encore ${total - plugged} protocole${total - plugged > 1 ? "s" : ""} : quand toutes les prises seront branchées, tu enverras l'arc à ${r.member}.`
+      : incidentOpen ? `Toutes les prises sont branchées, mais une panne coupe le circuit. Répare-la, puis envoie l'arc à ${r.member}.`
+        : `Maintiens ton doigt sur la centrale pour envoyer l'arc à ${r.member}.`)
+    : "Fais glisser la fiche de ta batterie jusqu'à la prise libre de la centrale, ou touche-la.");
 
   return (
     <div ref={box} className="plug-scene">
-      <div className="kicker" style={{ color: "#fff" }}>Protocole {String(index + 1).padStart(2, "0")} terminé · {phase === "fault" ? "disjoncté" : phase === "done" ? `capsule ${plugged} / ${total}` : `batterie ${pct} %`}</div>
-      <div style={{ fontSize: 19, fontWeight: 700, lineHeight: 1.2, marginTop: 2 }}>
-        {phase === "fault" ? "Le courant ne passe pas" : phase === "done" ? (plugged >= total ? "Le courant passe" : `${r.member} reprend des forces`) : `Branche ta batterie sur la capsule de ${r.member}`}
-      </div>
-      <div className="small muted" style={{ minHeight: 40, maxWidth: 320 }}>
-        {phase === "fault" ? `Les ${total} batteries sont branchées, mais une panne coupe le circuit. Répare-la pour réveiller ${r.member}.`
-          : phase === "done" ? (plugged >= total ? "" : `Encore ${total - plugged} protocole${total - plugged > 1 ? "s" : ""} pour le réveiller.`)
-          : "Fais glisser la fiche de ta batterie jusqu'à la prise libre du socle, ou touche-la."}
-      </div>
-
-      {/* La capsule et son socle : une seule pièce. */}
-      <div className="capsule-unit">
-        <motion.div ref={capRef} key={`cap-${plugged}`} style={{ position: "relative", zIndex: 1 }}
-          initial={plugged > index ? { scale: 1.06, filter: "brightness(1.8)" } : false} animate={{ scale: 1, filter: "brightness(1)" }} transition={{ duration: 0.7, ease: "easeOut" }}>
-          <ChargedCapsule id={r.id} state="asleep" lux={phase === "fault" ? 0.4 : lux} size={120} />
-        </motion.div>
-        <div className={`socle ${phase === "fault" ? "fault" : ""}`} style={{ gridTemplateColumns: cols }} aria-label={`Socle de la capsule : ${plugged} batterie${plugged > 1 ? "s" : ""} branchée${plugged > 1 ? "s" : ""} sur ${total}`}>
-          {r.steps.map((s, i) => (
-            <span key={s.id} className="col">
-              <span ref={(el) => { sockRefs.current[i] = el; }} className={`sock ${i < plugged ? (phase === "fault" ? "on dead" : "on") : ""} ${i === index && phase === "ready" ? "free" : ""}`} />
-            </span>
-          ))}
-          {r.incident && <span className={`breaker ${phase === "fault" ? "off" : ""}`} aria-label={phase === "fault" ? "Disjoncteur de la panne : coupé" : "Disjoncteur de la panne"}><small>PANNE</small></span>}
+      <div className="kicker" style={{ color: "#fff" }}>{kicker}</div>
+      <div style={{ fontSize: 19, fontWeight: 700, lineHeight: 1.2, marginTop: 2 }}>{title}</div>
+      <div className={`small ${msg ? "" : "muted"}`} role="status" style={{ minHeight: 40, maxWidth: 330, color: msg ? "var(--amber)" : undefined }}>{hint}</div>
+      <Reactor room={r} plugged={plugged} free={phase === "done" ? -1 : index} fire={fire} ctl={ctl} recvRef={recvRef}
+        lux={0.22 + 0.2 * (plugged / total)} onFail={onFail} onFire={onAwaken} />
+      <div className="plug-gauge">
+        <div className="lbl"><span>BATTERIE DU PROTOCOLE {String(index + 1).padStart(2, "0")}</span><b>{Math.round(((cells - drained) / cells) * 100)} %</b></div>
+        <div className={`battery xl ${drained === 0 ? "full" : ""}`} aria-hidden="true">
+          {Array.from({ length: cells }, (_, i) => <i key={i} className={`${i === cells - 1 ? "final" : ""} ${i < cells - drained ? "on" : "drain"}`} />)}
+          <span className="term" ref={termRef} />
         </div>
       </div>
-
-      {/* Le banc de batteries : une par protocole, chacune sous sa prise. */}
-      <div className="bank" style={{ gridTemplateColumns: cols }} aria-hidden="true">
-        {r.steps.map((s, i) => {
-          const n = i === index ? cells : cellsOf(r, i);
-          const state = i < plugged ? "used" : i === index ? "current" : "empty";
-          const lit = state === "current" ? n - drained : 0;
-          return (
-            <span key={s.id} className={`col ${state}`}>
-              <span className={`vbatt ${state === "current" && drained === 0 ? "full" : ""}`}>
-                <span ref={(el) => { termRefs.current[i] = el; }} className="term" />
-                {Array.from({ length: n }, (_, k) => <i key={k} className={k >= n - lit ? "on" : ""} />)}
-              </span>
-              <small>P{i + 1}</small>
-            </span>
-          );
-        })}
-        {r.incident && <span />}
-      </div>
-      <div className="small muted mono" style={{ fontSize: 10.5, letterSpacing: ".1em", marginTop: 6 }}>BATTERIE DU PROTOCOLE {String(index + 1).padStart(2, "0")} · {pct} %</div>
-
-      {geo && (
-        <svg className="cables" aria-hidden="true">
-          {geo.socks.slice(0, plugged).map((s, i) => {
-            if (i === index && plug) return null; // le câble de la batterie en cours suit sa fiche
-            const d = cable(geo.terms[i], { x: s.x, y: s.y + SEAT + TAIL });
-            return <g key={i} className={pastCls}><path className="glow" d={d} /><path className="sheath" d={d} /><path className="core" d={d} /></g>;
-          })}
-          {plug && (() => {
-            const d = cable(geo.terms[index], { x: plug.x, y: plug.y + TAIL });
-            const on = phase === "flowing";
-            return <g className={on ? "live" : ""}>{on && <path className="glow" d={d} />}<path className="sheath" d={d} /><path className="core" d={d} /></g>;
-          })()}
-        </svg>
-      )}
-      {/* Fiches déjà branchées dans le socle. */}
-      {geo && geo.socks.slice(0, plugged).map((s, i) => (i === index && plug ? null : (
-        <div key={i} className="plug seated" style={{ left: s.x, top: s.y + SEAT }} aria-hidden="true"><PlugSvg live={phase !== "fault"} seated /></div>
-      )))}
-      {plug && (
-        <div className={`plug ${phase === "ready" && !drag.current ? "hint" : ""}`} style={{ left: plug.x, top: plug.y }} role="button" tabIndex={0}
-          aria-label={`Brancher la batterie sur la capsule de ${r.member}`}
-          onPointerDown={onDown} onPointerMove={onMove} onPointerUp={onUp} onPointerCancel={onUp}
-          onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); autoPlug(true); } }}>
-          <PlugSvg live={phase === "flowing"} seated={phase === "flowing"} />
-        </div>
-      )}
+      <svg className="cables" aria-hidden="true">
+        <g className={live ? "live" : ""}>
+          {live && <path className="glow" ref={(el) => { paths.current[0] = el; }} />}
+          <path className="sheath" ref={(el) => { paths.current[1] = el; }} />
+          <path className="core" ref={(el) => { paths.current[2] = el; }} />
+        </g>
+      </svg>
+      {plugged === index && <div ref={plugEl} className={`plug ${phase === "ready" ? "hint" : ""}`} role="button" tabIndex={0}
+        aria-label={`Brancher la batterie sur la centrale de ${r.member}`}
+        onPointerDown={onDown} onPointerMove={onMove} onPointerUp={onUp} onPointerCancel={onUp}
+        onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); autoPlug(true); } }}>
+        <div className="plug-in"><PlugSvg live={live} /></div>
+      </div>}
       {flight && (
         <motion.div className="kw-flight" aria-hidden="true"
           initial={{ x: flight.from.x - 70, y: flight.from.y - 26, scale: 0.5, opacity: 0 }}
@@ -235,6 +246,25 @@ export function PlugScene({ room: r, index, cells, energy, incidentOpen, onPlugg
           +{energy}<small>kW</small>
         </motion.div>
       )}
+    </div>
+  );
+}
+
+/**
+ * Après la panne réparée : toutes les prises de la centrale sont branchées. Le joueur maintient son doigt sur la
+ * centrale pour envoyer l'arc vers la capsule (remplace l'ancien « Réarmer le disjoncteur »).
+ */
+export function ArcScene({ room: r, onAwaken }: { room: Room; onAwaken: () => void }) {
+  const ctl = useRef<CentraleHandle | null>(null);
+  const recvRef = useRef<HTMLSpanElement>(null);
+  const [fired, setFired] = useState(false);
+  return (
+    <div className="plug-scene" style={{ marginTop: 6 }}>
+      <div className="small muted" role="status" style={{ minHeight: 40, maxWidth: 330 }}>
+        {fired ? `${r.member} reçoit l'arc.` : `Le circuit est réparé. Maintiens ton doigt sur la centrale pour envoyer l'arc à ${r.member}.`}
+      </div>
+      <Reactor room={r} plugged={r.steps.length} free={-1} fire="ok" ctl={ctl} recvRef={recvRef} lux={0.3}
+        onFail={() => {}} onFire={() => { setFired(true); onAwaken(); }} />
     </div>
   );
 }

@@ -157,9 +157,22 @@ export async function plugBattery(page: Page) {
   await expect(page.getByRole("button", { name: "Retour au caisson" })).toBeVisible({ timeout: 8000 });
 }
 
-/** Panne réparée : réarme le disjoncteur pour faire passer le courant (réveil du membre). */
-export async function rearmBreaker(page: Page) {
-  await page.getByRole("button", { name: /Réarmer le disjoncteur/ }).click();
+/** Maintient le doigt sur la centrale du caisson pendant `ms` millisecondes (tentative d'envoi de l'arc). */
+export async function holdCentrale(page: Page, ms: number) {
+  const c = page.getByRole("button", { name: /^Centrale : / }).first();
+  await c.scrollIntoViewIfNeeded();
+  const b = await c.boundingBox();
+  if (!b) throw new Error("centrale introuvable");
+  await page.mouse.move(b.x + b.width / 2, b.y + b.height / 2);
+  await page.mouse.down();
+  await page.waitForTimeout(ms);
+  await page.mouse.up();
+}
+
+/** Panne réparée : toutes les prises sont branchées, on envoie l'arc depuis la centrale (réveil du membre). */
+export async function sendArc(page: Page) {
+  await expect(page.getByRole("button", { name: /^Centrale : maintiens pour envoyer l'arc/ })).toBeVisible();
+  await holdCentrale(page, 3200);
 }
 
 /** Maintenance : entraînement libre sur les notions apprises, jusqu'à l'écran de fin. */

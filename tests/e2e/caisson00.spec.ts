@@ -1,6 +1,6 @@
 import { readFileSync } from "node:fs";
 import { expect, test } from "@playwright/test";
-import { boot, ceremonies, closeGradeCeremony, dismissCeremonies, rearmBreaker, LABEL, playMaintenance, playStep, solve, type Step } from "./helpers";
+import { boot, ceremonies, holdCentrale, closeGradeCeremony, dismissCeremonies, sendArc, LABEL, playMaintenance, playStep, solve, type Step } from "./helpers";
 
 // Banc d'essai du caisson 00 : on joue tout le caisson comme le joueur, sur un écran
 // d'iPhone. Chaque type d'exercice est résolu, les simulateurs et procédures sont
@@ -57,6 +57,11 @@ test("le caisson 00 se joue entièrement, avec chaque outil d'apprentissage", as
   // jamais pendant la lecture (playStep le vérifie).
   expect(ceremonies.grade).toBeGreaterThan(0);
 
+  // Les cinq prises de la centrale sont branchées, mais la panne coupe encore le circuit : toucher la centrale
+  // tente d'envoyer l'arc, et la tentative échoue.
+  await holdCentrale(page, 1600);
+  await expect(page.getByText("Connexion impossible : la panne coupe le circuit. Répare-la d'abord.")).toBeVisible();
+
   // Procédure pas à pas : cocher une étape, l'état est gardé.
   // Le dernier protocole vient de se terminer : on referme sa cérémonie pour le relire.
   await page.getByRole("button", { name: "Relire le protocole" }).click();
@@ -83,7 +88,7 @@ test("le caisson 00 se joue entièrement, avec chaque outil d'apprentissage", as
     await page.getByRole("button", { name: k < C00.incident.scenarios.length - 1 ? /Alerte suivante/ : /Rétablir le courant/ }).click();
   }
   await expect(page.getByText("Panne réparée")).toBeVisible();
-  await rearmBreaker(page);
+  await sendArc(page);
   await expect(page.getByText("Sans un seul fusible grillé")).toBeVisible();
   // Le membre se réveille (scène plein écran), puis la montée de grade éventuelle.
   await expect(page.getByRole("dialog", { name: /^Réveil :/ })).toBeVisible({ timeout: 5000 });

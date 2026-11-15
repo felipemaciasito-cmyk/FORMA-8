@@ -18,7 +18,7 @@ import { OraSays } from "./Ora";
 import { Rays, Shockwave, Sparks } from "./Rewards";
 import { fillBattery, getEnergyBar, startEnergyBar, stopEnergyBar, useEnergyBar } from "../lib/energy";
 import { bigStrike, centerOf } from "./Bolts";
-import { PlugScene } from "./PlugScene";
+import { ArcScene, PlugScene } from "./PlugScene";
 import { CrewCapsule, CrewFigure, MemberSays } from "./Crew";
 
 // ======================= Caisson (un niveau, un membre de l'équipe) =======================
@@ -282,11 +282,9 @@ export function StepView({ roomId, stepId }: { roomId: string; stepId: string })
     bigStrike(from, [centerOf(cellsEls[cellsEls.length - 1])], CHARGE_HIT, () => fillBattery());
     window.setTimeout(() => { setCharging(false); open(); }, (CHARGE_HIT + 1.2) * 1000);
   };
-  // La batterie est branchée : si c'était le dernier câble et qu'aucune panne ne coupe le circuit, le membre se réveille.
-  const onPlugged = () => {
-    setPlugged(true);
-    if (roomComplete(getState().progress, r)) window.setTimeout(() => fx({ type: "awaken", roomId: r.id }), 700);
-  };
+  // La batterie est branchée sur la centrale. Le réveil ne vient que de l'arc, envoyé par le joueur depuis la centrale.
+  const onPlugged = () => setPlugged(true);
+  const onAwaken = () => window.setTimeout(() => fx({ type: "awaken", roomId: r.id }), 500);
 
   const next = r.steps[idx + 1];
   return (
@@ -324,7 +322,7 @@ export function StepView({ roomId, stepId }: { roomId: string; stepId: string })
               style={{ position: "fixed", inset: 0, zIndex: 105, overflowY: "auto", overflowX: "hidden", background: `radial-gradient(circle at 50% 14%, hsl(${r.hue} 90% 45% / .3), transparent 60%), #04060c` }}>
               <div style={{ maxWidth: 420, margin: "0 auto", padding: `${finished.top + 22}px 18px calc(var(--safe-bottom) + 28px)`, textAlign: "center" }}>
                 {finished.plug ? (
-                  <PlugScene room={r} index={idx} cells={finished.cells} energy={finished.energy} incidentOpen={!!r.incident && !p.incidents[r.id]} onPlugged={onPlugged} />
+                  <PlugScene room={r} index={idx} cells={finished.cells} energy={finished.energy} incidentOpen={!!r.incident && !p.incidents[r.id]} onPlugged={onPlugged} onAwaken={onAwaken} />
                 ) : (<>
                 <div style={{ position: "relative", display: "grid", placeItems: "center", height: 120 }}>
                     <Rays color={`hsl(${r.hue} 100% 62% / .35)`} size={360} opacity={0.6} />
@@ -480,7 +478,7 @@ export function IncidentView({ roomId }: { roomId: string }) {
   const [fuses, setFuses] = useState(3);
   const [picked, setPicked] = useState<number[]>([]);
   const [state, setState] = useState<"play" | "won" | "lost">("play");
-  // Les câbles de tous les protocoles sont branchés : réarmer le disjoncteur fait passer le courant et réveille le membre.
+  // Toutes les prises de la centrale sont branchées : le joueur envoie l'arc qui réveille le membre.
   const [rearm, setRearm] = useState(false);
   const [shake, setShake] = useState(false);
   const order = useMemo(() => r?.incident?.scenarios.map((s) => [...s.options].sort(() => Math.random() - 0.5)) ?? [], [r]);
@@ -510,7 +508,7 @@ export function IncidentView({ roomId }: { roomId: string }) {
     setState("won");
     setRearm(first && roomComplete(getState().progress, r));
   };
-  const rearmBreaker = () => { setRearm(false); sfx("breaker"); window.setTimeout(() => fx({ type: "awaken", roomId: r.id }), 450); };
+  const sendArc = () => window.setTimeout(() => { setRearm(false); fx({ type: "awaken", roomId: r.id }); }, 500);
   const restart = () => { setI(0); setFuses(3); setPicked([]); setState("play"); sfx("power"); };
 
   return (
@@ -565,8 +563,8 @@ export function IncidentView({ roomId }: { roomId: string }) {
               </span>
             </div>
             <div className="h2">Panne réparée</div>
-            <div className="muted" style={{ marginBottom: 14 }}>{fuses === 3 ? "Sans un seul fusible grillé. Impressionnant." : `Avec ${fuses} fusible${fuses > 1 ? "s" : ""} restant${fuses > 1 ? "s" : ""}.`} {rearm ? `Le circuit est réparé : réarme le disjoncteur pour envoyer le courant dans la capsule de ${r.member}.` : roomComplete(p, r) ? `${r.member} est entièrement réveillé.` : ""}</div>
-            {rearm ? <button className="btn block" onClick={rearmBreaker}><Icon name="bolt" size={18} /> Réarmer le disjoncteur</button>
+            <div className="muted" style={{ marginBottom: 14 }}>{fuses === 3 ? "Sans un seul fusible grillé. Impressionnant." : `Avec ${fuses} fusible${fuses > 1 ? "s" : ""} restant${fuses > 1 ? "s" : ""}.`} {!rearm && roomComplete(p, r) ? `${r.member} est entièrement réveillé.` : ""}</div>
+            {rearm ? <ArcScene room={r} onAwaken={sendArc} />
               : <button className="btn block" onClick={() => go("")}>Retour à la carte</button>}
           </motion.div>
         )}

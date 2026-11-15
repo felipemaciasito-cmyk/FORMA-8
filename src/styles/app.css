@@ -347,48 +347,25 @@ textarea.input { min-height: 96px; resize: vertical; line-height: 1.45; }
 .plug-scene .cables .live .glow { stroke: rgba(59, 232, 255, .35); stroke-width: 9; }
 .plug-scene .cables .cut .core { stroke: #34405c; animation: none; }
 @keyframes cable-flow { to { stroke-dashoffset: -14; } }
-/* Capsule et son socle (une seule pièce), puis le banc de batteries : une batterie par protocole, sous sa prise. */
-.plug-scene { --col: 38px; }
-.capsule-unit { position: relative; display: flex; flex-direction: column; align-items: center; margin-top: 2px; }
-.socle { position: relative; z-index: 1; margin-top: -18px; display: grid; gap: 8px; justify-content: center; align-items: center; padding: 13px 14px 11px; min-width: 190px; border-radius: 10px 10px 16px 16px; background: linear-gradient(#111a2d, #070c17 70%); border: 1px solid #26345a; box-shadow: inset 0 1px 0 rgba(255, 255, 255, .07), 0 14px 26px -12px rgba(0, 0, 0, .9); }
-.socle::before { content: ""; position: absolute; left: 50%; top: -7px; width: 84px; height: 8px; transform: translateX(-50%); border-radius: 8px 8px 0 0; background: #111a2d; border: 1px solid #26345a; border-bottom: 0; }
-.socle .col { display: grid; place-items: center; }
-.sock { position: relative; width: 26px; height: 26px; border-radius: 50%; background: #03060c; border: 2px solid #2a3858; }
-.sock::before { content: ""; position: absolute; left: 6px; right: 6px; top: 9.5px; height: 3px; border-radius: 2px; background: #16203a; }
-.sock::after { content: ""; position: absolute; left: 50%; bottom: 100%; width: 2px; height: 12px; transform: translateX(-50%); background: #1c2740; }
-.sock.free { border-color: #fff; animation: socket-call 1.3s ease-out infinite; }
-.sock.on { border-color: #f4feff; box-shadow: 0 0 12px rgba(59, 232, 255, .8); }
-.sock.on::before { background: #f4feff; }
-.sock.on::after { background: #f4feff; box-shadow: 0 0 6px var(--cyan); }
-.sock.dead { border-color: #3a4766; box-shadow: none; }
-.sock.dead::before, .sock.dead::after { background: #16203a; box-shadow: none; }
-@keyframes socket-call { 0% { box-shadow: 0 0 0 0 rgba(190, 245, 255, .7); } 100% { box-shadow: 0 0 0 12px rgba(190, 245, 255, 0); } }
-.breaker { position: relative; width: 26px; height: 30px; border-radius: 6px; background: #03060c; border: 1.5px solid #2a3858; justify-self: center; }
-.breaker::before { content: ""; position: absolute; left: 6px; right: 6px; top: 4px; height: 11px; border-radius: 3px; background: #9fb3cf; transition: top .2s, background .2s; }
-.breaker.off::before { top: 14px; background: var(--red); }
-.breaker small { position: absolute; top: 33px; left: 50%; transform: translateX(-50%); font: 600 8px var(--mono); letter-spacing: .06em; color: var(--text-3); white-space: nowrap; }
-.breaker.off small { color: var(--red); }
-.bank { position: relative; z-index: 1; display: grid; gap: 8px; justify-content: center; align-items: end; margin-top: 96px; }
-.bank .col { display: flex; flex-direction: column; align-items: center; gap: 5px; }
-.bank small { font: 600 9px var(--mono); letter-spacing: .06em; color: var(--text-3); }
-.bank .current small { color: #fff; }
-.bank .empty { opacity: .4; }
-.vbatt { position: relative; display: flex; flex-direction: column; gap: 3px; width: 26px; padding: 4px; border-radius: 7px; border: 1.5px solid #2a3858; background: #070c17; transition: border-color .4s, box-shadow .4s; }
-.vbatt .term { position: absolute; left: 50%; top: -6px; width: 10px; height: 5px; transform: translateX(-50%); border-radius: 3px 3px 0 0; background: #2a3858; }
-.vbatt i { display: block; height: 8px; border-radius: 2.5px; background: #121b2c; transition: background .25s, box-shadow .25s; }
-.vbatt i.on { background: #f4feff; box-shadow: 0 0 8px #fff, 0 0 14px var(--cyan); }
-.current .vbatt { width: 32px; border-color: #5d6f96; }
-.current .vbatt i { height: 11px; }
-.used .vbatt .term, .current .vbatt .term { background: #c9d6ea; }
-.vbatt.full { border-color: rgba(220, 250, 255, .9); box-shadow: 0 0 16px rgba(59, 232, 255, .6), 0 0 34px -6px rgba(190, 245, 255, .7); animation: battery-breathe 1.6s ease-in-out infinite; }
-.plug { position: absolute; z-index: 3; width: 40px; height: 48px; margin: -24px 0 0 -20px; display: grid; place-items: center; touch-action: none; cursor: grab; -webkit-user-select: none; user-select: none; }
-.plug.seated { pointer-events: none; cursor: default; }
-.plug.hint { animation: plug-nudge 1.4s ease-in-out infinite; }
+.plug { position: absolute; left: 0; top: 0; z-index: 3; width: 40px; height: 48px; margin: -24px 0 0 -20px; display: grid; place-items: center; touch-action: none; cursor: grab; -webkit-user-select: none; user-select: none; visibility: hidden; }
+.plug.hint .plug-in { animation: plug-nudge 1.4s ease-in-out infinite; }
+/* La capsule, son électrode de réception, puis la centrale ; en bas, la jauge du protocole et sa borne « + ». */
+.reactor { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; margin-top: 4px; }
+.reactor .recv { position: relative; width: 3px; height: 14px; margin-top: -4px; background: #c9d6ea; }
+.reactor .recv::after { content: ""; position: absolute; left: 50%; bottom: -8px; width: 12px; height: 12px; transform: translateX(-50%); border-radius: 50%; background: #1a2336; border: 2px solid #c9d6ea; }
+.reactor .centrale { margin-top: 22px; }
+.plug-gauge { position: relative; z-index: 1; width: 100%; margin-top: 30px; }
+.plug-gauge .lbl { display: flex; justify-content: space-between; font: 600 10px var(--mono); letter-spacing: .1em; color: var(--text-3); margin-bottom: 6px; }
+.plug-gauge .lbl b { color: #fff; font-variant-numeric: tabular-nums; }
+.battery.xl { gap: 7px; padding: 7px; border-radius: 14px; margin-right: 14px; }
+.battery.xl i { height: 22px; border-radius: 6px; }
+.battery.xl i.drain { background: #121b2c; box-shadow: none; animation: none; }
+.battery .term { position: absolute; right: -9px; top: 50%; width: 6px; height: 40%; transform: translateY(-50%); }
 .plug:focus-visible { outline: 2px solid var(--cyan); outline-offset: 2px; border-radius: 10px; }
 @keyframes plug-nudge { 50% { transform: translateY(-8px); } }
 .kw-flight { position: fixed; z-index: 116; left: 0; top: 0; pointer-events: none; white-space: nowrap; font: 700 44px var(--mono); color: #fff; text-shadow: 0 0 18px rgba(190, 245, 255, .95), 0 0 42px rgba(59, 232, 255, .7); }
 .kw-flight small { font-size: 19px; margin-left: 4px; color: var(--cyan); }
-.reduce-motion .battery i.on, .reduce-motion .battery.full, .reduce-motion .vbatt.full, .reduce-motion .sock.free, .reduce-motion .plug.hint, .reduce-motion .plug-scene .cables .live .core { animation: none !important; }
+.reduce-motion .battery i.on, .reduce-motion .battery.full, .reduce-motion .sock.free, .reduce-motion .plug.hint .plug-in, .reduce-motion .plug-scene .cables .live .core { animation: none !important; }
 
 /* Bouton du son dans la barre du haut (15/11/2026) */
 .hud-stat.snd { padding: 6px 8px; color: var(--text); }
@@ -406,3 +383,18 @@ textarea.input { min-height: 96px; resize: vertical; line-height: 1.45; }
 .snd-switch.on i { transform: translateX(12px); }
 /* Écran de fin de protocole ouvert : il couvre tout l'écran, la barre du haut reste au-dessus. */
 .finish-open .hud { z-index: 106; }
+
+/* La centrale d'un caisson : anneau, segments, électricité qui circule, tentative d'arc (15/11/2026). */
+.centrale { width: min(280px, 78vw); margin: 0 auto; touch-action: none; -webkit-user-select: none; user-select: none; }
+.centrale svg { display: block; width: 100%; height: auto; cursor: pointer; overflow: visible; }
+.centrale svg:focus-visible { outline: 2px solid var(--cyan); outline-offset: 4px; border-radius: 50%; }
+.ctl-seg { fill: none; stroke: #1c2740; stroke-width: 9; stroke-linecap: round; transition: stroke .25s; }
+.ctl-seg.on { stroke: rgba(190, 245, 255, .85); filter: drop-shadow(0 0 4px var(--cyan)); }
+.ctl-seg.hot { stroke: #fff; filter: drop-shadow(0 0 9px var(--cyan)); }
+.ctl-seg.fail { stroke: var(--red); filter: drop-shadow(0 0 6px var(--red)); }
+.ctl-crawl polyline { fill: none; stroke: #f4feff; stroke-width: 1.3; stroke-linejoin: round; filter: drop-shadow(0 0 3px var(--cyan)); }
+.ctl-call { fill: none; stroke: #fff; animation: ctl-call 1.2s ease-out infinite; }
+@keyframes ctl-call { 0% { opacity: 1; stroke-width: 2; } 100% { opacity: .1; stroke-width: 8; } }
+.centrale.failed { animation: ctl-shake .35s; }
+@keyframes ctl-shake { 25% { transform: translateX(-4px); } 75% { transform: translateX(4px); } }
+.reduce-motion .ctl-call, .reduce-motion .centrale.failed { animation: none !important; }
