@@ -6,7 +6,7 @@ import { deviceLabel, syncNow, useSyncState } from "../lib/sync";
 import { saveFile } from "../lib/share";
 import { sfx } from "../lib/sound";
 import { DEFAULT_PROGRESS, getState, replaceProgress, updateProgress, updateSettings, useProgress, useSettings, type Progress } from "../lib/store";
-import { TopBar } from "./Chrome";
+import { SoundControls, Toggle, TopBar } from "./Chrome";
 import { go } from "../lib/router";
 import { Icon, type IconId } from "./Icon";
 
@@ -50,14 +50,8 @@ export function SettingsView() {
 
       <Section icon="sliders" title="Profil & confort">
         <label className="field"><span>Ton prénom</span><input className="input" value={p.name} maxLength={24} onChange={(e) => updateProgress((d) => { d.name = e.target.value; })} /></label>
-        <Toggle label="Effets sonores" on={s.sound} onChange={(v) => { updateSettings({ sound: v }); if (v) setTimeout(() => sfx("ok"), 50); }} />
-        <Toggle label="Fond sonore de la réserve" on={s.ambience} onChange={(v) => updateSettings({ ambience: v })} />
-        <p className="small muted" style={{ margin: "4px 0 0" }}>Ronronnement des transformateurs, ventilation, grésillements au loin. Plus ton équipe se réveille, plus la salle s'anime. Avec des écouteurs, c'est encore mieux.</p>
-        {s.ambience && (
-          <label className="field" style={{ marginTop: 10 }}><span>Volume du fond sonore</span>
-            <input type="range" min={0} max={100} step={5} value={Math.round((s.ambienceVolume ?? 0.6) * 100)} onChange={(e) => updateSettings({ ambienceVolume: Number(e.target.value) / 100 })} aria-label="Volume du fond sonore" style={{ width: "100%", accentColor: "var(--cyan)" }} />
-          </label>
-        )}
+        <SoundControls />
+        <p className="small muted" style={{ margin: "4px 0 0" }}>Fond sonore : ronronnement des transformateurs, ventilation, grésillements au loin. Plus ton équipe se réveille, plus la salle s'anime. Avec des écouteurs, c'est encore mieux. Le haut-parleur de la barre du haut règle aussi le son, depuis n'importe quel écran.</p>
         <label className="field" style={{ marginTop: 12 }}><span>Animations</span>
           <select className="input" value={s.reduceMotion} onChange={(e) => updateSettings({ reduceMotion: e.target.value as typeof s.reduceMotion })}>
             <option value="auto">Selon le réglage de l'iPhone</option>
@@ -176,13 +170,3 @@ function Section({ title, icon, children }: { title: string; icon: IconId; child
   return <section className="panel" style={{ marginTop: 14 }}><div className="panel-title"><Icon name={icon} size={16} /> {title}</div>{children}</section>;
 }
 
-function Toggle({ label, on, onChange }: { label: string; on: boolean; onChange: (v: boolean) => void }) {
-  return (
-    <button className="row" style={{ width: "100%", padding: "6px 0" }} onClick={() => onChange(!on)} role="switch" aria-checked={on}>
-      <span className="grow" style={{ textAlign: "left" }}>{label}</span>
-      <span style={{ width: 50, height: 30, borderRadius: 15, padding: 3, background: on ? "var(--cyan)" : "#253250", transition: "background .2s" }}>
-        <span style={{ display: "block", width: 24, height: 24, borderRadius: "50%", background: "#fff", transform: `translateX(${on ? 20 : 0}px)`, transition: "transform .2s" }} />
-      </span>
-    </button>
-  );
-}

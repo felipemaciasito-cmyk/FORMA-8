@@ -253,6 +253,30 @@ const SOUNDS = {
     contactor(t + 0.85, 1, 0.4); zap(t + 0.88, 0.9);
     tesla(t + 1.05, 659.25, 0.12, 0.08); tesla(t + 1.2, 987.77, 0.35, 0.08);
   },
+  /**
+   * Claquement d'un éclair qui frappe (chaque petit éclair : bonne réponse, branchement) : un coup sec très aigu,
+   * des grésillements, un choc sourd et un court roulement qui s'éloigne (demande du propriétaire, 15/11/2026).
+   */
+  crack() {
+    const t = now(), a = A(), g = 0.8 + Math.random() * 0.3;
+    click(t, 5600 + Math.random() * 1200, 0.5, 0.003, 0.75 * g, 0.45); crackle(t, 0.14, 9000, 0.4 * g, 1500, 0.45);
+    thump(t, 150, 42, 0.2, 0.26 * g, 0.45);
+    const s = noise(t + 0.03, 0.75, brownBuf!), lp = filt("lowpass", 1100, 0.7); lp.frequency.setValueAtTime(1100, t + 0.03); lp.frequency.exponentialRampToValueAtTime(140, t + 0.75);
+    const e = a.createGain(); e.gain.setValueAtTime(0.0001, t + 0.03); e.gain.exponentialRampToValueAtTime(0.16 * g, t + 0.07); e.gain.exponentialRampToValueAtTime(0.0001, t + 0.75);
+    s.connect(lp); lp.connect(e); e.connect(out(0.7));
+  },
+  /** Tonnerre des grands éclairs (fin de protocole) : la frappe, puis un roulement grave qui s'éloigne par vagues. */
+  thunder() {
+    const t = now(), a = A();
+    click(t, 5000, 0.5, 0.004, 0.9, 0.6); crackle(t, 0.28, 9000, 0.55, 1000, 0.6);
+    thump(t, 110, 30, 0.6, 0.55, 0.6); buzz(t + 0.01, 0.6, 0.06, 2400, 350, 2.5, 0.005, 0.5);
+    [[0.1, 2.0, 0.42], [0.55, 1.6, 0.26]].forEach(([d, dur, gain]) => {
+      const s = noise(t + d, dur + 0.1, brownBuf!), lp = filt("lowpass", 1500, 0.8); lp.frequency.setValueAtTime(1500, t + d); lp.frequency.exponentialRampToValueAtTime(100, t + d + dur);
+      const e = a.createGain(); e.gain.setValueAtTime(0.0001, t + d); e.gain.exponentialRampToValueAtTime(gain, t + d + 0.07); e.gain.exponentialRampToValueAtTime(0.0001, t + d + dur);
+      const am = a.createGain(); am.gain.value = 0.7; const lfo = osc("sine", 3 + Math.random() * 3), lg = a.createGain(); lg.gain.value = 0.3; lfo.connect(lg); lg.connect(am.gain);
+      s.connect(lp); lp.connect(am); am.connect(e); e.connect(out(0.9)); lfo.start(t + d); lfo.stop(t + d + dur + 0.1);
+    });
+  },
   badge() { const t = now(); relay(t, 0.8); tesla(t + 0.08, 880, 0.1, 0.05); tesla(t + 0.2, 1318.5, 0.22, 0.05); },
   alarm() {
     const t = now();
@@ -340,11 +364,13 @@ const RECIPES: Recipe[] = [
   { id: "ok", dur: 0.9, variants: 3, make: SOUNDS.ok },
   { id: "ko", dur: 1.0, variants: 2, make: SOUNDS.ko },
   { id: "cell", dur: 1.2, variants: 2, make: SOUNDS.cell },
+  { id: "crack", dur: 1.0, variants: 3, make: SOUNDS.crack },
   { id: "lever", dur: 4.4, stereo: true, make: SOUNDS.lever },
   { id: "storm", dur: 4.4, stereo: true, make: SOUNDS.storm },
   { id: "power", dur: 1.3, make: SOUNDS.power },
   { id: "badge", dur: 1.0, make: SOUNDS.badge },
   { id: "charge", dur: 2.6, make: SOUNDS.charge },
+  { id: "thunder", dur: 2.8, variants: 2, make: SOUNDS.thunder },
   { id: "plug", dur: 2.3, make: SOUNDS.plug },
   { id: "circuit-fail", dur: 2.0, make: SOUNDS["circuit-fail"] },
   { id: "breaker", dur: 0.9, make: SOUNDS.breaker },
@@ -483,6 +509,12 @@ export function syncAmbience() {
   if (!amb) { try { ambStart(); } catch { /* jamais bloquant */ } }
   else if (rt) amb.g.gain.setTargetAtTime(ambVolume, rt.currentTime, 0.2);
 }
+/** Volume des effets sonores (réglage « sfxVolume », de 0 à 1), appliqué tout de suite si le son est prêt. */
+export function syncSfxVolume() {
+  if (!fxBus || !rt) return;
+  const v = Math.max(0, Math.min(1, getState().settings.sfxVolume ?? 1));
+  fxBus.gain.setTargetAtTime(0.85 * v, rt.currentTime, 0.05);
+}
 /** Énergie de la réserve (0 à 1) : plus elle est haute, plus la salle ronronne et s'anime. */
 export function setAmbienceLevel(x: number) {
   ambLevel = Math.max(0, Math.min(1, x));
@@ -504,7 +536,7 @@ export function unlockAudio() {
       const comp = rt.createDynamicsCompressor();
       comp.threshold.value = -16; comp.knee.value = 12; comp.ratio.value = 5; comp.attack.value = 0.002; comp.release.value = 0.25;
       comp.connect(rt.destination);
-      fxBus = rt.createGain(); fxBus.gain.value = 0.85; fxBus.connect(comp);
+      fxBus = rt.createGain(); fxBus.gain.value = 0.85 * Math.max(0, Math.min(1, getState().settings.sfxVolume ?? 1)); fxBus.connect(comp);
       ambBus = rt.createGain(); ambBus.gain.value = 0.85; ambBus.connect(comp);
     }
     unlocked = true;

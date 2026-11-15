@@ -195,6 +195,7 @@ export const GLYPHS: Record<IconId, Glyph> = {
   power: { d: "M12 3v8M7.1 6.1a7.5 7.5 0 1 0 9.8 0" },
   lever: { d: many(rr(4, 14, 16, 6.5, 1.5), "M12 14 16.5 5.5"), a: "M8 17.2h8", f: c(17, 4.8, 2) },
   speaker: { d: "M4 10v4h4l5 4V6L8 10H4Zm12.5-1.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12" },
+  "speaker-off": { d: "M4 10v4h4l5 4V6L8 10H4Z", a: "M16.5 9.5l5 5m0-5-5 5" },
   share: { d: "M12 3v12m0-12L8 7m4-4 4 4M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7" },
   download: { d: "M12 3v12m0 0-4.5-4.5M12 15l4.5-4.5M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2" },
   copy: { d: "M9 9h10v11H9V9ZM5 15V4h10" },

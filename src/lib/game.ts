@@ -10,9 +10,7 @@ export type FxEvent =
   // Propres à FORMA-8 : affichés par src/components/Rewards.tsx.
   | { type: "gain"; amount: number; x?: number; y?: number; quiet?: boolean }
   | { type: "levelup"; index: number; title: string; next?: { title: string; at: number } }
-  | { type: "awaken"; roomId: string; replay?: boolean }
-  /** Fin d'un protocole : les cérémonies retenues pendant la leçon peuvent passer. */
-  | { type: "stepdone" };
+  | { type: "awaken"; roomId: string; replay?: boolean };
 const fxListeners = new Set<(e: FxEvent) => void>();
 export function onFx(l: (e: FxEvent) => void) { fxListeners.add(l); return () => { fxListeners.delete(l); }; }
 export function fx(e: FxEvent) { fxListeners.forEach((l) => l(e)); }
@@ -62,7 +60,9 @@ export function addEnergy(amount: number, label?: string, opts: { quiet?: boolea
   fx({ type: "gain", amount, quiet: opts.quiet });
   if (label) fx({ type: "toast", icon: "bolt", text: `+${amount} kW · ${label}`, tone: "cyan" });
   if (after.index > before) {
-    sfx("levelup");
+    // Pas de son ici : la cérémonie plein écran joue elle-même « levelup ». Pendant un protocole, le grade n'est
+    // annoncé qu'à la fin ; jouer le son tout de suite couvrait le bruit de la cellule de batterie qui s'allume
+    // (remarque du propriétaire, 15/11/2026).
     // Pas de bandeau : la cérémonie (fin de protocole ou plein écran) annonce elle-même le nouveau grade.
     fx({ type: "burst", color: "#4dffa0" });
     fx({ type: "levelup", index: after.index, title: after.title, next: after.next });
