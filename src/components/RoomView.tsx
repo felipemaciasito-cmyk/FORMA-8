@@ -15,6 +15,8 @@ import { Icon } from "./Icon";
 import { AskOra, DeliveryCard } from "./Mechanics";
 import { plain } from "../lib/richtext";
 import { OraSays } from "./Ora";
+import { Rays, Shockwave, Sparks } from "./Rewards";
+import { getEnergyBar, startEnergyBar, stopEnergyBar, useEnergyBar } from "../lib/energy";
 import { CrewCapsule, CrewFigure, MemberSays } from "./Crew";
 
 // ======================= Caisson (un niveau, un membre de l'équipe) =======================
@@ -190,7 +192,7 @@ export function StepView({ roomId, stepId }: { roomId: string; stepId: string })
   const [revealed, setRevealed] = useState(() => (wasDone ? 999 : Math.max(1, resumedAt)));
   const [solvedAtOpen] = useState(() => new Set(Object.keys(getState().progress.exercises).filter((k) => k.startsWith(`${key}#`))));
   const [solved, setSolved] = useState<Record<number, boolean>>({});
-  const [finished, setFinished] = useState<null | { energy: number; before: number; after: number; grade: ReturnType<typeof levelOf> | null }>(null);
+  const [finished, setFinished] = useState<null | { energy: number; before: number; after: number; grade: ReturnType<typeof levelOf> | null; top: number }>(null);
   const [levelAtOpen] = useState(() => levelOf(getState().progress.energy).index);
   const [cheer, setCheer] = useState(0);
   const bottom = useRef<HTMLDivElement>(null);
@@ -205,6 +207,14 @@ export function StepView({ roomId, stepId }: { roomId: string; stepId: string })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   useEffect(() => { if (finished) setTimeout(() => bottom.current?.scrollIntoView({ behavior: "smooth", block: "center" }), 250); }, [finished]);
+
+  // Barre d'énergie du protocole : les kW gagnés s'y accumulent, et rejoignent le compteur à la fin.
+  useEffect(() => {
+    if (!step || wasDone) return;
+    startEnergyBar(REWARD.step + step.blocks.filter((b) => b.type === "exercise").length * REWARD.exerciseFirst);
+    return () => stopEnergyBar();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [key]);
 
   const blocks = useMemo(() => step?.blocks ?? [], [step]);
   if (!r || !step) return <div className="wrap"><p>Protocole introuvable.</p></div>;
@@ -242,7 +252,7 @@ export function StepView({ roomId, stepId }: { roomId: string; stepId: string })
     if (first) {
       updateProgress((d) => { d.steps[key] = today(); });
       learnNotions(step.introduces, r.id);
-      addEnergy(REWARD.step, "protocole terminé");
+      addEnergy(REWARD.step, undefined, { quiet: true });
       earned.current += REWARD.step;
     }
     sfx("power");
@@ -250,7 +260,8 @@ export function StepView({ roomId, stepId }: { roomId: string; stepId: string })
     checkBadges();
     const after = roomPower(getState().progress, r);
     const lv = levelOf(getState().progress.energy);
-    setFinished({ energy: earned.current, before, after, grade: lv.index > levelAtOpen ? lv : null });
+    const hud = document.querySelector(".hud")?.getBoundingClientRect();
+    setFinished({ energy: Math.max(earned.current, getEnergyBar().held), before, after, grade: lv.index > levelAtOpen ? lv : null, top: hud ? Math.max(0, hud.bottom - 12) : 0 });
     fx({ type: "stepdone" });
     // Caisson sans panne : le dernier protocole réveille le membre.
     if (first && roomComplete(getState().progress, r)) window.setTimeout(() => fx({ type: "awaken", roomId: r.id }), 900);
@@ -273,7 +284,8 @@ export function StepView({ roomId, stepId }: { roomId: string; stepId: string })
           ))}
         </AnimatePresence>
       </div>
-      <div ref={bottom} style={{ marginTop: 22, scrollMarginBottom: "calc(var(--tabbar-h) + var(--safe-bottom) + 20px)" }}>
+      {!finished && <EnergyBar />}
+      <div ref={bottom} style={{ marginTop: 22, paddingBottom: 28, scrollMarginBottom: "calc(var(--tabbar-h) + var(--safe-bottom) + 20px)" }}>
         {!finished && !atEnd && (
           <motion.button className="btn block" whileTap={{ scale: 0.97 }} disabled={blockedByExercise} onClick={revealNext}>
             {blockedByExercise ? "Réussis la vérification pour continuer" : <>Continuer <Icon name="chevron-right" size={18} stroke={2.2} /></>}
@@ -288,12 +300,16 @@ export function StepView({ roomId, stepId }: { roomId: string; stepId: string })
           {finished && (
             <motion.div key="fini" role="dialog" aria-modal="true" aria-label={`Protocole ${String(idx + 1).padStart(2, "0")} terminé`}
               initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-              style={{ position: "fixed", inset: 0, zIndex: 105, overflowY: "auto", background: `radial-gradient(circle at 50% 18%, hsl(${r.hue} 90% 45% / .28), transparent 62%), #04060c` }}>
-              <div style={{ maxWidth: 420, margin: "0 auto", padding: "calc(var(--safe-top) + 28px) 18px calc(var(--safe-bottom) + 28px)", textAlign: "center" }}>
-                <motion.div initial={{ scale: 0.6, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ type: "spring", stiffness: 220, damping: 16 }}
-                  style={{ display: "grid", placeItems: "center" }}>
-                  <CrewFigure id={r.id} state={roomComplete(p, r) ? "awake" : "asleep"} mood="happy" size={96} label={r.member} />
-                </motion.div>
+              style={{ position: "fixed", left: 0, right: 0, bottom: 0, top: finished.top, zIndex: 105, overflowY: "auto", overflowX: "hidden", background: `radial-gradient(circle at 50% 14%, hsl(${r.hue} 90% 45% / .3), transparent 60%), #04060c` }}>
+              <div style={{ maxWidth: 420, margin: "0 auto", padding: "22px 18px calc(var(--safe-bottom) + 28px)", textAlign: "center" }}>
+                <div style={{ position: "relative", display: "grid", placeItems: "center", height: 120 }}>
+                  <Rays color={`hsl(${r.hue} 100% 62% / .35)`} size={360} opacity={0.6} />
+                  <Shockwave color={`hsl(${r.hue} 100% 64%)`} delay={0.15} size={200} />
+                  <Sparks color={`hsl(${r.hue} 100% 66%)`} count={20} radius={130} delay={0.15} />
+                  <motion.div initial={{ scale: 0.4, opacity: 0, y: 20 }} animate={{ scale: [0.4, 1.12, 1], opacity: 1, y: [20, -8, 0] }} transition={{ duration: 0.7, ease: "easeOut" }} style={{ position: "relative" }}>
+                    <CrewFigure id={r.id} state={roomComplete(p, r) ? "awake" : "asleep"} mood="happy" size={96} label={r.member} />
+                  </motion.div>
+                </div>
                 <div className="mono" style={{ fontSize: 11, letterSpacing: ".14em", color: "var(--accent)", marginTop: 6 }}>{r.code} · {r.member.toUpperCase()}</div>
                 <div className="h2" style={{ margin: "4px 0 2px" }}>Protocole {String(idx + 1).padStart(2, "0")} terminé</div>
                 <div className="muted">{step.title}</div>
@@ -308,11 +324,7 @@ export function StepView({ roomId, stepId }: { roomId: string; stepId: string })
                 </div>
 
                 {crewLines(r.id) && !roomComplete(p, r) && <div style={{ textAlign: "left" }}><MemberSays member={r.member} hue={r.hue} md={crewLines(r.id)!.demi} asleep /></div>}
-                {finished.energy > 0 && (
-                  <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.9 }} className="mono" style={{ color: "var(--cyan)", fontSize: 28, margin: "16px 0 4px", textShadow: "0 0 16px rgba(59,232,255,.6)" }}>
-                    +<CountUp from={0} to={finished.energy} delay={0.9} /> kW
-                  </motion.div>
-                )}
+                {finished.energy > 0 && <EnergyPayout amount={finished.energy} />}
                 {finished.grade && (
                   <motion.div initial={{ opacity: 0, scale: 0.85 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 1.1, type: "spring", stiffness: 240, damping: 16 }}
                     className="panel" role="status" style={{ margin: "12px 0 4px", padding: 12, textAlign: "left", display: "flex", gap: 12, alignItems: "center", borderColor: "rgba(77,255,160,.55)", background: "radial-gradient(circle at 12% 50%, rgba(77,255,160,.22), rgba(12,19,34,.9) 60%)", boxShadow: "0 0 26px -8px rgba(77,255,160,.7)" }}>
@@ -348,6 +360,61 @@ export function StepView({ roomId, stepId }: { roomId: string; stepId: string })
           )}
         </AnimatePresence>
       </div>
+    </div>
+  );
+}
+
+/** La barre d'énergie du protocole : fine, posée au-dessus des onglets, elle reçoit les kW de chaque bonne réponse. */
+function EnergyBar() {
+  const bar = useEnergyBar();
+  if (!bar.max) return null;
+  const pct = Math.min(100, (bar.landed / bar.max) * 100);
+  return (
+    <div role="status" aria-label={`Énergie du protocole : ${bar.landed} kW`} className="no-print"
+      style={{ position: "fixed", left: 0, right: 0, bottom: "calc(var(--tabbar-h) + var(--safe-bottom) + 4px)", zIndex: 29, pointerEvents: "none", padding: "0 14px" }}>
+      <div style={{ maxWidth: 640, margin: "0 auto", display: "flex", alignItems: "center", gap: 8 }}>
+        <div style={{ flex: 1, height: 3, borderRadius: 2, background: "rgba(125,200,255,.1)", overflow: "hidden" }}>
+          <motion.div initial={false} animate={{ width: `${pct}%` }} transition={{ type: "spring", stiffness: 120, damping: 20 }}
+            style={{ height: "100%", borderRadius: 2, background: "linear-gradient(90deg, var(--cyan), var(--led))", boxShadow: "0 0 8px rgba(59,232,255,.8)" }} />
+        </div>
+        <motion.span key={bar.landed} className="energy-pill" initial={bar.landed ? { scale: 1.3 } : false} animate={{ scale: 1 }} transition={{ type: "spring", stiffness: 420, damping: 18 }}
+          style={{ display: "inline-flex", alignItems: "center", gap: 3, padding: "2px 8px", borderRadius: 999, font: "700 11px var(--mono)", color: "var(--cyan)",
+            background: "rgba(6,10,19,.92)", border: "1px solid rgba(59,232,255,.3)", boxShadow: bar.landed ? "0 0 10px -2px rgba(59,232,255,.6)" : "none" }}>
+          <Icon name="bolt" size={11} /> {bar.landed} kW
+        </motion.span>
+      </div>
+    </div>
+  );
+}
+
+/**
+ * Fin de protocole : le total jaillit du bas de l'écran, défile, puis part rejoindre le compteur du haut
+ * (le jaillissement final est joué par la couche des récompenses, événement « payout »).
+ */
+function EnergyPayout({ amount }: { amount: number }) {
+  const el = useRef<HTMLDivElement>(null);
+  const [sent, setSent] = useState(false);
+  useEffect(() => {
+    const t1 = window.setTimeout(() => sfx("power"), 650);
+    const t2 = window.setTimeout(() => {
+      const rr = el.current?.getBoundingClientRect();
+      if (rr) fx({ type: "payout", amount, x: rr.left + rr.width / 2, y: rr.top + rr.height / 2 });
+      setSent(true);
+    }, 2300);
+    return () => { window.clearTimeout(t1); window.clearTimeout(t2); };
+  }, [amount]);
+  return (
+    <div style={{ position: "relative", margin: "18px 0 6px", height: 74, display: "grid", placeItems: "center" }}>
+      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.75 }} style={{ position: "absolute", inset: 0 }}>
+        <Shockwave color="var(--cyan)" delay={0.75} size={170} />
+        <Sparks color="var(--cyan)" count={22} radius={120} delay={0.75} />
+      </motion.div>
+      <motion.div ref={el} initial={{ y: 260, scale: 0.4, opacity: 0 }} animate={{ y: 0, scale: sent ? 0.86 : 1, opacity: sent ? 0.35 : 1 }}
+        transition={{ y: { delay: 0.35, type: "spring", stiffness: 150, damping: 14 }, scale: { delay: sent ? 0 : 0.35, duration: 0.4 }, opacity: { delay: sent ? 0 : 0.35, duration: 0.3 } }}
+        className="mono" style={{ position: "relative", fontSize: 44, fontWeight: 700, color: "#dffbff", lineHeight: 1, textShadow: "0 0 18px rgba(59,232,255,.95), 0 0 40px rgba(77,255,160,.45)" }}>
+        +<CountUp from={0} to={amount} delay={0.6} /><span style={{ fontSize: 18, marginLeft: 4, color: "var(--cyan)" }}>kW</span>
+      </motion.div>
+      <motion.div className="small" initial={{ opacity: 0 }} animate={{ opacity: sent ? 1 : 0 }} style={{ position: "absolute", bottom: -6, color: "var(--led)" }}>Versés dans ton compteur</motion.div>
     </div>
   );
 }

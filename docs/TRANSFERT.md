@@ -1,4 +1,4 @@
-# FORMA-8 · Réveille l'équipe : document de transfert (état au 14/11/2026)
+# FORMA-8 · Réveille l'équipe : document de transfert (état au 15/11/2026)
 
 > À lire au démarrage de chaque nouvelle session (renvoi dans `CLAUDE.md`). Ce document complète
 > `CLAUDE.md`, `docs/CONCEPTION.md` et `docs/PROGRAMME.md`. En cas d'écart, le code du dépôt fait foi :
@@ -48,8 +48,8 @@
 - Produit fil rouge : choisi dans l'appli, grâce à l'atelier guidé du caisson 00. Pistes : appli grand public,
   outil pour les pros, appli avec IA intégrée.
 - Dépôt : `felipemaciasito-cmyk/FORMA-8` (public, vérifié).
-- En ligne : **https://felipemaciasito-cmyk.github.io/FORMA-8/**. Le caisson 00 est jouable ; le caisson 01 le sera
-  dès la fusion de sa PR ; les caissons 02 à 10 sont affichés « en préparation ».
+- En ligne : **https://felipemaciasito-cmyk.github.io/FORMA-8/**. Les caissons 00 et 01 sont jouables ; les caissons
+  02 à 10 sont affichés « en préparation ». La refonte de l'interface (option B, voir 3.3 et 3.15) arrive par sa PR.
 - Volume prévu : environ 60 protocoles et 140 notions, soit environ 6 à 10 mois à 15-30 min par jour (estimation).
 
 ---
@@ -75,10 +75,12 @@
    dans `src/content/icon-ids.json`. Contrôle : `npm run check:emoji`.
 2. **Zéro zone de flou.** Toute notion a une fiche à 3 niveaux, une analogie, un exemple et des prérequis, et elle est
    définie avant d'être utilisée. Les termes s'écrivent `[[id]]` ou `[[id|texte]]`. Contrôle : `npm run validate`.
-3. **Parité visuelle avec FORMA-7.**
-   - Les fichiers listés dans `scripts/design-parity.json` sont identiques à ceux de FORMA-7, à part les seules substitutions listées.
+3. **Identité visuelle : même palette, mêmes polices que FORMA-7** (option B, choisie le 15/11/2026).
+   - Les variables de `:root` de `src/styles/app.css` (couleurs, rayons, polices) restent identiques à FORMA-7.
+   - Écrans, composants et animations peuvent évoluer ; tout nouveau changement visuel important se montre d'abord
+     au propriétaire (maquette ou captures) et attend son accord.
    - Glyphes et identifiants d'icônes : ajout seulement, dans le même style (grille de 24, trait de 1,8, coins arrondis).
-   - Contrôle : `npm run check:parity`.
+   - Contrôle : `npm run check:parity` (variables de `:root`, glyphes, couleur de thème, polices).
 4. **Stockage** : toutes les clés commencent par `forma8:`. Ne jamais écrire sous `forma7:` (lecture seule, dans `src/lib/forma7.ts`).
 5. **Synchronisation** dans `progress/forma-8.json` de FORMA-7-data. Ne jamais toucher `progress/progress.json`.
 6. **Secrets** : uniquement sur l'appareil du joueur.
@@ -88,10 +90,10 @@
 8. **Sources** : documentation officielle, en français quand elle existe (`https://code.claude.com/docs/fr/`), citée
    avec sa date de vérification. Aucun cours tiers copié ou traduit mot pour mot.
 9. **Aucun contenu de FORMA-7.**
-   - Seules la couche visuelle et la mécanique de jeu viennent de FORMA-7.
-   - Illustrations : uniquement `src/components/Illustrations.tsx`. `Art.tsx` reste dans le dépôt pour la parité, mais
-     son usage est interdit (vérifié par le validateur et un test garde-fou).
-   - Chaque caisson doit passer son banc d'essai de bout en bout (modèle : `tests/e2e/caisson00.spec.ts`).
+   - Seules la palette, les polices et la mécanique de jeu viennent de FORMA-7.
+   - Illustrations : uniquement `src/components/Illustrations.tsx` et les personnages de `src/components/Crew.tsx`.
+     `Art.tsx` (illustrations de FORMA-7) a été retiré le 15/11/2026 ; un test garde-fou vérifie qu'il ne revient pas.
+   - Chaque caisson doit passer son banc d'essai de bout en bout (modèle : `tests/e2e/caisson01.spec.ts`).
 
 ### 2.3 Méthode de travail établie
 - Une **branche par lot**, créée depuis `origin/main`, et une **PR par lot, qui cible directement `main`**.
@@ -120,8 +122,8 @@ npm run validate && npm run check:emoji && npm run check:parity && npm run typec
 ## 3. État actuel et éléments validés
 
 ### 3.1 Git, PR et mise en ligne
-- `origin/main` = `79c1061` (« Merge pull request #7 », le document de transfert), vérifié le 14/11/2026.
-  Juste avant : `9ac4f20` (« Merge pull request #6 »). Les commits avant lui :
+- `origin/main` = `ccb28cf` (« Merge pull request #8 », le caisson 01), vérifié le 15/11/2026.
+  Avant : `79c1061` (PR #7, ce document), puis `9ac4f20` (« Merge pull request #6 »). Les commits avant lui :
   - `e12fc8c` : contenu du caisson 00 et banc d'essai ;
   - `c882962` : fusion de la PR #5 ;
   - `f14df24` et `58e0879` : outils ;
@@ -133,12 +135,13 @@ npm run validate && npm run check:emoji && npm run check:parity && npm run typec
   - #4 : lots 2 et 3 vers `main`, fermée automatiquement ;
   - #5 : outils d'apprentissage ;
   - #6 : contenu du caisson 00 ;
-  - #7 : ce document de transfert.
-- **PR du caisson 01** : ouverte depuis la branche `claude/charming-darwin-rxq6b5` (nom imposé par l'environnement de
-  la session), vers `main`. Tant qu'elle n'est pas fusionnée, `main` ne contient pas le caisson 01.
-- Branches distantes encore présentes, toutes fusionnées : `claude/forma8-c00`, `claude/forma8-lot2-mecaniques`,
-  `claude/forma8-programme`, `claude/new-session-wuj1q9`, `claude/forma8-transfert`.
-  **Ne pas les supprimer sans accord.**
+  - #7 : ce document de transfert ;
+  - #8 : caisson 01 (fusionnée le 14/11/2026, vérifications vertes).
+- **PR de la refonte de l'interface (option B)** : depuis la branche `claude/charming-darwin-rxq6b5` (nom imposé par
+  l'environnement de la session), vers `main`.
+- Le 15/11/2026, le propriétaire a été invité à supprimer les branches déjà fusionnées (`claude/forma8-c00`,
+  `claude/forma8-lot2-mecaniques`, `claude/forma8-programme`, `claude/new-session-wuj1q9`, `claude/forma8-transfert`) ;
+  vérifier lesquelles restent. **Ne jamais en supprimer soi-même sans accord.**
 - Workflows :
   - `.github/workflows/ci.yml` (« Vérifications FORMA-8 », sur chaque PR, Node 22) : récupère FORMA-7 dans `forma-7`,
     puis lance toutes les vérifications et les tests de bout en bout ;
@@ -157,13 +160,19 @@ npm run validate && npm run check:emoji && npm run check:parity && npm run typec
   - `test` (`node --test tests/unit/*.test.mjs`), `test:e2e` ;
   - `build` (validate, emoji, puis vite build), `preview`.
 
-### 3.3 Couche visuelle et parité
-- Fichiers « exacts », identiques à FORMA-7 après substitutions :
-  - `src/styles/app.css` (30 variables `:root`) ;
-  - `src/components/{Icon,Emblems,Chrome,Ora,Art,Boot,TermSheet,Exercises}.tsx` ;
-  - `src/lib/sound.ts`, `src/lib/motion.ts`, `scripts/gen-icons.mjs` ;
-  - `index.html`, `vite.config.ts`, `public/icons/icon.svg`.
-- Le contrôle exige aussi la couleur de thème `#04060c` et `black-translucent`.
+### 3.3 Identité visuelle (règle depuis le 15/11/2026)
+- Choix du propriétaire, après des maquettes jouables comparant trois versions (actuelle, option A « enrichir sans
+  toucher au socle », option B « tout libérer ») : **option B**.
+- `scripts/design-parity.json` : plus aucun fichier « exact » ni substitution. Le contrôle vérifie :
+  - les 30 variables `:root` de `src/styles/app.css` : identiques à FORMA-7 (palette, rayons, polices) ;
+  - `glyphs.ts` et `icon-ids.json` : ajout seulement ;
+  - les réglages obligatoires : couleur de thème `#04060c`, `black-translucent`, polices Space Grotesk et
+    JetBrains Mono importées dans `src/main.tsx`.
+- Fichiers autrefois figés, désormais modifiés : `Chrome.tsx` (barre du haut : jauge vers le prochain grade, compteur
+  qui défile et attend la fin du protocole, flamme qui bat) et `Exercises.tsx` (tampon « Réussi », série de bonnes
+  réponses). `Art.tsx` est retiré.
+- Historique, pour mémoire : jusqu'au 15/11/2026, les fichiers suivants étaient identiques à FORMA-7, avec les seules
+  substitutions ci-dessous.
 - Fichiers « ajout seulement » : `glyphs.ts` et `icon-ids.json`. 10 glyphes ajoutés : rocket, search, branch, bug,
   server, globe, coins, code, team, capsule.
 - Substitutions validées le 14/11/2026 :
@@ -174,6 +183,15 @@ npm run validate && npm run check:emoji && npm run check:parity && npm run typec
   - noms et descriptions dans `index.html` et `vite.config.ts` ;
   - icône de l'appli avec le chiffre 8.
 - Écart visuel validé le 14/11/2026 : les tuiles « caissons » (capsules) posées sur la même dalle isométrique que FORMA-7.
+- Maquettes (pages privées, à jour au 15/11/2026, pour le propriétaire) :
+  - comparaison des trois versions : https://claude.ai/artifact/XfDNr2NXi6gKk3aVtrMNww ;
+  - quatre propositions pour les kW gagnés : https://claude.ai/artifact/MnHHKo1GFejYPRgL63UZwF.
+  Méthode, à réutiliser pour tout nouveau changement visuel : construire chaque version avec
+  `npx vite build --base ./ --outDir <dossier>`, retirer le service worker (refusé dans une page privée), réduire les
+  polices aux sous-ensembles latin et latin-ext, déposer une progression de démonstration dans
+  `forma8:progress-secours`, puis publier les dossiers dans une page à onglets (un `iframe` par version).
+  Attention : le module du SDK Claude contient un caractère U+FFFD littéral, refusé à la publication ; le remplacer par
+  son échappement `\uFFFD` (même texte).
 
 ### 3.4 Données, stockage et synchronisation
 - Stockage local :
@@ -238,20 +256,48 @@ npm run validate && npm run check:emoji && npm run check:parity && npm run typec
 
 ### 3.8 Écrans
 - `MapView.tsx` :
-  - carte des 11 capsules ;
+  - frise du produit (`ProductTimeline`) : une version par membre, de v0.0 à v1.0, livrées en vert ;
+  - carte des 11 capsules, avec le visage du membre dans le hublot (endormi, réveillé, silhouette si verrouillé)
+    et l'étiquette « Prochain réveil » ;
   - bouton « Ton équipe » ;
   - **Quart du jour** (`QuartPanel`, `quartActions`) : maintenance, reprise, panne, livraison, avec durées estimées.
 - `RoomView.tsx` :
   - écrans caisson, protocole et panne (routes `#/caisson/<id>`, `#/caisson/<id>/<step>`, `#/panne/<id>`) ;
+  - caisson : héros (`CaissonHero` : le membre dans sa capsule, son métier, ce qu'il dit) et chemin des protocoles
+    (`QuestNode`, durée estimée `stepMinutes`, énergie à gagner) ;
+  - protocole : bandeau du membre qui sourit à chaque réussite et jauge par blocs (`StepMeter`), programme du
+    protocole (`StepBriefing`), barre d'énergie (`EnergyBar`), cérémonie de fin plein écran (sous la barre du haut)
+    avec jaillissement du total (`EnergyPayout`), nouveau grade, notions gagnées et bouton « Relire le protocole » ;
   - `DeliveryCard` ;
   - bouton **Demander à ORA** dans la barre du protocole.
 - `Views.tsx` :
   - Base : notions, portfolio exportable en Markdown, panneau Héritage FORMA-7 ;
   - Maintenance ;
   - Atelier des consignes ;
-  - Équipe (fiches des membres, qui vérifient le vrai fichier dans le dépôt du produit).
+  - Équipe : galerie des 11 membres et fiche en feuille du bas (capsule, réplique, vrai fichier à vérifier dans le
+    dépôt du produit, « Revoir son réveil ») ;
+  - Base : notions rangées par membre (avancement par caisson) et voyants de la boîte de révision.
 - `SettingsView.tsx` : Claude (indispensable), GitHub et dépôt de données, synchronisation, Héritage FORMA-7,
   sauvegarde, installation, à propos.
+
+### 3.9 bis Personnages, récompenses et cérémonies (refonte du 15/11/2026)
+- `src/components/Crew.tsx` : les 11 membres en SVG, dans le style d'ORA (ORA reprend son propre dessin pour c00).
+  États `locked` (silhouette), `asleep` (yeux fermés, respiration, « z »), `awake` (yeux allumés, clignements),
+  humeur `happy`. `CrewCapsule` : le membre dans sa capsule (vitre givrée qui se lève au réveil). `MemberSays` : bulle
+  de réplique.
+- `src/content/equipe.json` : pour chaque caisson, `role`, `dort` (affichés dès le début du jeu), `demi` (après le premier
+  protocole), `reveil` (caisson terminé). Le validateur vérifie qu'elles n'emploient aucune notion inconnue à ce moment.
+- `src/components/Rewards.tsx` (`RewardLayer`, monté dans `App.tsx`) :
+  - jaillissements de kW (`JetView`) : pendant un protocole, un petit « +10 kW » jaillit du doigt et file dans la barre
+    d'énergie ; en fin de protocole, le total jaillit en grand (`payout`) et rejoint le compteur du haut, qui
+    s'illumine ; ailleurs, les kW rejoignent directement le compteur ;
+  - cérémonie de montée de grade plein écran (hors protocole ; pendant un protocole, le grade s'annonce dans sa
+    cérémonie de fin) ; scène de réveil d'un membre (5 phases, passable d'un toucher) ;
+  - langage visuel commun : `Shockwave` (onde de choc), `Sparks` (éclats), `Rays` (rayons).
+  - Les cérémonies ne s'ouvrent jamais au milieu d'une leçon, d'une panne ou d'une maintenance (`busyRoute`).
+- `src/lib/energy.ts` : la barre d'énergie d'un protocole (`held` : kW pas encore montrés dans le compteur,
+  `landed` : kW arrivés dans la barre). Présentation seulement : la progression enregistre chaque kW tout de suite.
+- Événements ajoutés à `fx()` (`src/lib/game.ts`) : `gain` (avec `quiet`), `levelup`, `awaken`, `stepdone`, `payout`.
 
 ### 3.9 Outils d'apprentissage disponibles
 - Exercices (mécanique de FORMA-7) : `qcm`, `truefalse`, `cloze`, `order`, `wiring`, `feynman`.
@@ -397,14 +443,15 @@ Le plan détaillé de chaque caisson (protocoles, notions, simulateurs, pannes, 
   - les analogies, dont l'illustration doit être dans `illustration-ids.json` ;
   - les livraisons et `teamFile`.
   - Un caisson vide déclenche un simple avertissement « en préparation ».
-- Tests unitaires : 31 tests, répartis dans `merge.test.mjs`, `garde-fous.test.mjs`, `livraisons.test.mjs` (fetch simulé)
-  et `validateur.test.mjs`. Ce que vérifie `garde-fous.test.mjs` :
+- Tests unitaires : 34 tests, répartis dans `merge.test.mjs`, `garde-fous.test.mjs`, `livraisons.test.mjs` (fetch simulé),
+  `validateur.test.mjs` (dont les répliques de l'équipe et les simulateurs inconnus) et `energie.test.mjs` (barre
+  d'énergie). Ce que vérifie `garde-fous.test.mjs` :
   - aucune écriture sous `forma7:` ;
   - `progress.json` jamais touché ;
   - clés `forma8:` uniquement ;
   - substitutions de parité documentées ;
   - aucun simulateur de FORMA-7 ;
-  - aucun usage de `Art`.
+  - aucun usage de `Art` (retiré).
 - Tests de bout en bout : 9 tests, sur un écran d'iPhone 13 (`playwright.config.ts`, adresse
   `http://localhost:4173/FORMA-8/`, `vite preview`, trace désactivée) :
   - `socle.spec.ts` ;
@@ -414,7 +461,8 @@ Le plan détaillé de chaque caisson (protocoles, notions, simulateurs, pannes, 
     dans `forma8:progress-secours`, que l'appli fusionne au démarrage), joue les 5 protocoles, les 3 simulateurs
     dans tous leurs modes, une procédure, l'ordre de mission, la panne, la livraison, l'atelier et la maintenance ;
   - `helpers.ts` contient `boot()` et les outils communs aux bancs : `solve()`, `playStep(page, caisson, protocole,
-    numéro, onBlock?)`, `playMaintenance()`. **Modèle pour le caisson 02 : `caisson01.spec.ts`.**
+    numéro, onBlock?)`, `playMaintenance()`, `dismissCeremonies()` (ferme une scène de réveil ou une montée de
+    grade). **Modèle pour le caisson 02 : `caisson01.spec.ts`.**
 
 ### 3.13 Tarifs et coûts (vérifiés le 14/11/2026, à revérifier)
 - Tarifs de l'API, en dollars par million de tokens (envoyés / reçus) :
@@ -440,6 +488,12 @@ Le plan détaillé de chaque caisson (protocoles, notions, simulateurs, pannes, 
   to the … branch », « Able to merge », « Delete branch », « Restore branch », « This branch has conflicts that must
   be resolved », l'emplacement du crayon sur iPhone (une adresse directe `…/edit/branche/fichier` est donnée en
   secours). Corriger le caisson 01 si le propriétaire signale un écart.
+- **Refonte de l'interface, non vérifiée sur un vrai iPhone** (seulement sur un iPhone 13 simulé dans Chromium) :
+  fluidité des animations (ondes de choc, éclats, rayons, personnages animés) sur un iPhone ancien, son, et taille
+  des personnages. À faire confirmer par le propriétaire après la mise en ligne.
+- La barre d'énergie ne compte que les kW gagnés depuis l'ouverture du protocole : un protocole repris après
+  fermeture de l'appli repart d'une barre vide (les kW déjà gagnés sont bien comptés dans le compteur du haut).
+- Durées des protocoles (`stepMinutes`) : estimation à environ 50 secondes par bloc, à ajuster avec l'usage réel.
 - Incertitudes à vérifier :
   - l'affichage exact de claude.ai/code et de github.com dans Safari mobile (libellés des boutons) ;
   - si on peut modifier après coup la liste des dépôts d'un jeton « fine-grained » ;
@@ -481,6 +535,14 @@ Le plan détaillé de chaque caisson (protocoles, notions, simulateurs, pannes, 
   comme étude de cas de son propre projet. Les leçons, fiches, exercices, simulateurs et illustrations de FORMA-7
   restent interdits. Contrôle fait au caisson 01 : aucune suite de 5 mots du texte pédagogique n'est commune avec
   FORMA-7, en dehors de ces citations et de tournures courantes.
+- Refonte de l'interface (15/11/2026), après des maquettes jouables :
+  - **option B** : même palette et mêmes polices que FORMA-7, le reste peut évoluer (règle 3 réécrite) ;
+  - **11 personnages avec répliques**, scène de réveil, frise du produit, chemin des protocoles, Base par membre :
+    gardés ;
+  - **cérémonies plus spectaculaires** (onde de choc, éclats, rayons) ;
+  - **kW** : une barre d'énergie discrète, aux couleurs de l'appli, pendant le protocole ; un petit jaillissement de
+    10 kW par bonne réponse, vers la barre ; le total qui jaillit en grand en fin de protocole et rejoint le compteur.
+    Demande du propriétaire : « rends le tout cohérent et très esthétique ».
 
 ### 4.2 Pistes écartées, et pourquoi
 - **Traduire intégralement les cours Anthropic Academy** : droits d'auteur, et ces cours demandent une connexion.
@@ -494,7 +556,12 @@ Le plan détaillé de chaque caisson (protocoles, notions, simulateurs, pannes, 
 - **Claude optionnel** : écarté, Claude est indispensable.
 - **Construire et faire tester lot par lot** : remplacé par « tout d'un coup ».
 - **Le composant `Art` de FORMA-7** : remplacé par `Illustrations.tsx`, car les dessins de `Art` contiennent des textes
-  des leçons de FORMA-7.
+  des leçons de FORMA-7. Retiré du dépôt le 15/11/2026.
+- **Option A de la refonte** (« enrichir sans toucher au socle », parité stricte) : écartée au profit de l'option B.
+- **kW** : les « pièces d'énergie » (pièces aspirées une à une), la jauge orange qui ne se vide qu'à la fin sans
+  jaillissement, et le compteur seul (« discret ») : écartés le 15/11/2026.
+- **Une cérémonie de grade qui s'ouvre au milieu d'un protocole** : elle bloquait la lecture ; le grade s'annonce
+  désormais dans la cérémonie de fin de protocole.
 
 ---
 
@@ -502,17 +569,20 @@ Le plan détaillé de chaque caisson (protocoles, notions, simulateurs, pannes, 
 
 ### 5.1 Au démarrage de chaque nouvelle session (avant toute écriture)
 1. Lire `CLAUDE.md`, ce document, `docs/CONCEPTION.md` et `docs/PROGRAMME.md`.
-2. `git fetch origin`. Vérifier que `origin/main` contient `79c1061` et, si elle a été fusionnée, la PR du
-   caisson 01 ; si quelque chose d'autre a changé, le dire au propriétaire.
+2. `git fetch origin`. Vérifier que `origin/main` contient `ccb28cf` (caisson 01) et, si elle a été fusionnée, la PR
+   de la refonte de l'interface ; si quelque chose d'autre a changé, le dire au propriétaire.
 3. Attacher `felipemaciasito-cmyk/forma-7` (public, lecture seule) et le cloner **à côté** de FORMA-8, sous le nom
    `forma-7`, pour `check:parity`. Le cloner en entier (sans `--depth`) si l'historique sert d'étude de cas.
 4. `npm ci`, puis lancer la commande complète de vérification. Annoncer le résultat au propriétaire :
    l'état de départ doit être entièrement vert.
 5. Attendre le **feu vert explicite** du propriétaire pour le caisson suivant. Le lui demander en QCM s'il ne l'a pas déjà donné.
 
-### 5.2 Caisson 01 : fait. Prochaine étape : caisson 02 · Le Règlement de bord · v0.2 (après le feu vert)
-- **Avant tout** : vérifier que la PR du caisson 01 a été fusionnée par le propriétaire. Sinon, le lui rappeler, et
-  ne pas empiler une nouvelle PR dessus.
+### 5.2 Caisson 01 et refonte : faits. Prochaine étape : caisson 02 · Le Règlement de bord · v0.2 (après le feu vert)
+- **Avant tout** : vérifier que la PR de la refonte de l'interface a été fusionnée par le propriétaire. Sinon, le lui
+  rappeler, et ne pas empiler une nouvelle PR dessus. Lui demander s'il a joué la nouvelle version sur son iPhone
+  (fluidité, son, lisibilité), et corriger d'abord ce qu'il signale.
+- **Répliques** : écrire `demi` et `reveil` du Règlement de bord (`src/content/equipe.json`) avec le vocabulaire du
+  caisson 02, une fois ses notions définies ; le validateur vérifie le moment où chaque réplique s'affiche.
 - **Branche** : une nouvelle branche depuis `origin/main` (ou celle qu'impose l'environnement).
 - **Plan** : `docs/PROGRAMME.md`, caisson 02. 6 protocoles, environ 20 notions (`session`, `environnement-cloud`,
   `terminal`, `commande`, `token`, `contexte`, `fenetre-contexte`, `compaction`, `claude-md`, `memoire-projet`,

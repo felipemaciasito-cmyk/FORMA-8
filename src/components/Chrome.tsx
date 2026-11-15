@@ -3,6 +3,7 @@ import { useEffect, useRef, useState, type ReactNode } from "react";
 import { dueNotions, levelOf, onFx, uptime, type FxEvent } from "../lib/game";
 import { go } from "../lib/router";
 import { sfx } from "../lib/sound";
+import { useEnergyBar } from "../lib/energy";
 import { useProgress, useSettings } from "../lib/store";
 import { BadgeEmblem } from "./Emblems";
 import { Icon, type IconId } from "./Icon";
@@ -10,6 +11,16 @@ import { Icon, type IconId } from "./Icon";
 // ---------------- HUD (barre du haut) ----------------
 export function Hud() {
   const p = useProgress();
+  // Pendant un protocole, les kW gagnés attendent dans la barre d'énergie : le compteur les reçoit à la fin.
+  const bar = useEnergyBar();
+  const shown = Math.max(0, p.energy - bar.held);
+  const [glow, setGlow] = useState(false);
+  const prevHeld = useRef(bar.held);
+  useEffect(() => {
+    const was = prevHeld.current;
+    prevHeld.current = bar.held;
+    if (was > 0 && bar.held === 0) { setGlow(true); const t = window.setTimeout(() => setGlow(false), 900); return () => window.clearTimeout(t); }
+  }, [bar.held]);
   const lv = levelOf(p.energy);
   const up = uptime(p.days);
   const due = dueNotions(p).length;
@@ -21,14 +32,40 @@ export function Hud() {
           <span className="lbl">Accréditation<b>{lv.title}</b></span>
         </button>
         <span className="hud-spacer" />
-        <motion.span key={p.energy} className="hud-stat kw" initial={{ scale: 1.25 }} animate={{ scale: 1 }} aria-label={`${p.energy} kilowatts d'énergie`}>
-          <Icon name="bolt" size={14} /> {p.energy}
+        <motion.span className="hud-stat kw" aria-label={`${p.energy} kilowatts d'énergie`} animate={glow ? { scale: [1, 1.22, 1] } : { scale: 1 }} transition={{ duration: 0.45 }}
+          style={{ transition: "box-shadow .3s, border-color .3s", ...(glow ? { borderColor: "var(--cyan)", boxShadow: "0 0 0 3px rgba(59,232,255,.18), 0 0 22px rgba(59,232,255,.8)" } : {}) }}>
+          <Icon name="bolt" size={14} /> <Rolling value={shown} />
         </motion.span>
-        <span className="hud-stat up" aria-label={`Uptime ${up} jours`}><Icon name="flame" size={14} /> {up}j</span>
+        <span className="hud-stat up" aria-label={`Uptime ${up} jours`}>
+          <motion.span style={{ display: "inline-flex" }} animate={up > 0 ? { scale: [1, 1.18, 1], rotate: [0, -6, 0] } : {}} transition={{ duration: 1.4, repeat: Infinity, repeatDelay: 1.2 }}><Icon name="flame" size={14} /></motion.span> {up}j
+        </span>
         {due > 0 && <button className="hud-stat hot" onClick={() => go("maintenance")} aria-label={`${due} notions à réviser`}><Icon name="thermo" size={14} /> {due}</button>}
+      </div>
+      {/* Variante B : jauge vers le prochain grade, sous la barre du haut. */}
+      <div aria-hidden="true" style={{ maxWidth: 640, margin: "6px auto 0", height: 3, borderRadius: 2, background: "rgba(255,255,255,.06)", overflow: "hidden" }}>
+        <motion.div initial={false} animate={{ width: `${lv.pct}%` }} transition={{ duration: 0.9, ease: "easeOut" }}
+          style={{ height: "100%", background: "linear-gradient(90deg, var(--cyan), var(--led))", boxShadow: "0 0 8px var(--led)" }} />
       </div>
     </header>
   );
+}
+
+/** Compteur qui défile jusqu'à sa nouvelle valeur (variante B). */
+function Rolling({ value }: { value: number }) {
+  const [v, setV] = useState(value);
+  const from = useRef(value);
+  useEffect(() => {
+    let raf = 0;
+    const a = from.current, t0 = performance.now();
+    const tick = (t: number) => {
+      const k = Math.min(1, (t - t0) / 900);
+      setV(Math.round(a + (value - a) * (1 - Math.pow(1 - k, 3))));
+      if (k < 1) raf = requestAnimationFrame(tick); else from.current = value;
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [value]);
+  return <>{v}</>;
 }
 
 // ---------------- Barre d'onglets ----------------
