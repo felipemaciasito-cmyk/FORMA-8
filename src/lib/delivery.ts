@@ -59,7 +59,7 @@ function completeIfReady(r: Room) {
   if (!st.complete || st.validated) return;
   updateProgress((d) => { d.deliveries[r.id] = today(); });
   addEnergy(REWARD.delivery, `livraison ${r.version}`);
-  sfx("power");
+  sfx("delivery");
   fx({ type: "burst", color: `hsl(${r.hue} 100% 62%)` });
   checkBadges();
 }

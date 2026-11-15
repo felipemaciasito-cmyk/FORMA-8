@@ -5,7 +5,7 @@ import type { Block, Room } from "../content/types";
 import { addEnergy, checkBadges, fx, learnNotions, levelOf, REWARD } from "../lib/game";
 import { roomComplete, roomPower, roomReady, roomStepsDone, roomUnlocked, stepMinutes, stepUnlocked } from "../lib/progress";
 import { go } from "../lib/router";
-import { sfx } from "../lib/sound";
+import { CHARGE_HIT, sfx } from "../lib/sound";
 import { getState, today, updateProgress, useProgress } from "../lib/store";
 import { exportRoomFiche } from "../lib/fiche";
 import { BlockView } from "./Blocks";
@@ -16,7 +16,9 @@ import { AskOra, DeliveryCard } from "./Mechanics";
 import { plain } from "../lib/richtext";
 import { OraSays } from "./Ora";
 import { Rays, Shockwave, Sparks } from "./Rewards";
-import { getEnergyBar, startEnergyBar, stopEnergyBar, useEnergyBar } from "../lib/energy";
+import { fillBattery, getEnergyBar, startEnergyBar, stopEnergyBar, useEnergyBar } from "../lib/energy";
+import { bigStrike, centerOf } from "./Bolts";
+import { PlugScene } from "./PlugScene";
 import { CrewCapsule, CrewFigure, MemberSays } from "./Crew";
 
 // ======================= Caisson (un niveau, un membre de l'équipe) =======================
@@ -192,7 +194,10 @@ export function StepView({ roomId, stepId }: { roomId: string; stepId: string })
   const [revealed, setRevealed] = useState(() => (wasDone ? 999 : Math.max(1, resumedAt)));
   const [solvedAtOpen] = useState(() => new Set(Object.keys(getState().progress.exercises).filter((k) => k.startsWith(`${key}#`))));
   const [solved, setSolved] = useState<Record<number, boolean>>({});
-  const [finished, setFinished] = useState<null | { energy: number; before: number; after: number; grade: ReturnType<typeof levelOf> | null; top: number }>(null);
+  const [finished, setFinished] = useState<null | { energy: number; before: number; after: number; grade: ReturnType<typeof levelOf> | null; top: number; plug: boolean; cells: number }>(null);
+  // Scène du branchement : la suite (réplique, notions, boutons) apparaît une fois la batterie branchée.
+  const [plugged, setPlugged] = useState(false);
+  const [charging, setCharging] = useState(false);
   const [levelAtOpen] = useState(() => levelOf(getState().progress.energy).index);
   const [cheer, setCheer] = useState(0);
   const bottom = useRef<HTMLDivElement>(null);
@@ -208,10 +213,12 @@ export function StepView({ roomId, stepId }: { roomId: string; stepId: string })
   }, []);
   useEffect(() => { if (finished) setTimeout(() => bottom.current?.scrollIntoView({ behavior: "smooth", block: "center" }), 250); }, [finished]);
 
-  // Barre d'énergie du protocole : les kW gagnés s'y accumulent, et rejoignent le compteur à la fin.
+  // Batterie du protocole : une cellule par vérification, plus une pour la fin. Les kW y attendent le branchement.
+  const exCount = step ? step.blocks.filter((b) => b.type === "exercise").length : 0;
   useEffect(() => {
     if (!step || wasDone) return;
-    startEnergyBar(REWARD.step + step.blocks.filter((b) => b.type === "exercise").length * REWARD.exerciseFirst);
+    const litAtOpen = step.blocks.filter((b, i) => b.type === "exercise" && solvedAtOpen.has(`${key}#${i}`)).length;
+    startEnergyBar(REWARD.step + exCount * REWARD.exerciseFirst, exCount + 1, litAtOpen);
     return () => stopEnergyBar();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [key]);
@@ -246,7 +253,8 @@ export function StepView({ roomId, stepId }: { roomId: string; stepId: string })
     }
   };
 
-  const complete = () => {
+  const complete = (ev?: React.MouseEvent) => {
+    if (charging) return;
     const before = roomPower(getState().progress, r);
     const first = !getState().progress.steps[key];
     if (first) {
@@ -255,16 +263,27 @@ export function StepView({ roomId, stepId }: { roomId: string; stepId: string })
       addEnergy(REWARD.step, undefined, { quiet: true });
       earned.current += REWARD.step;
     }
-    sfx("power");
-    fx({ type: "burst", color: `hsl(${r.hue} 100% 62%)` });
     checkBadges();
     const after = roomPower(getState().progress, r);
     const lv = levelOf(getState().progress.energy);
     const hud = document.querySelector(".hud")?.getBoundingClientRect();
-    setFinished({ energy: Math.max(earned.current, getEnergyBar().held), before, after, grade: lv.index > levelAtOpen ? lv : null, top: hud ? Math.max(0, hud.bottom - 12) : 0 });
-    fx({ type: "stepdone" });
-    // Caisson sans panne : le dernier protocole réveille le membre.
-    if (first && roomComplete(getState().progress, r)) window.setTimeout(() => fx({ type: "awaken", roomId: r.id }), 900);
+    const open = () => {
+      setFinished({ energy: Math.max(earned.current, getEnergyBar().held), before, after, grade: lv.index > levelAtOpen ? lv : null, top: hud ? Math.max(0, hud.bottom - 12) : 0, plug: first, cells: exCount + 1 });
+      fx({ type: "stepdone" });
+    };
+    if (!first) { sfx("power"); fx({ type: "burst", color: `hsl(${r.hue} 100% 62%)` }); open(); return; }
+    // Première fois : le grand éclair charge la dernière cellule, puis la scène du branchement s'ouvre.
+    setCharging(true);
+    sfx("charge");
+    const from = ev ? { x: ev.clientX, y: ev.clientY } : centerOf(document.activeElement);
+    const cellsEls = document.querySelectorAll(".battery-dock .battery i");
+    bigStrike(from, [centerOf(cellsEls[cellsEls.length - 1])], CHARGE_HIT, () => fillBattery());
+    window.setTimeout(() => { setCharging(false); open(); }, (CHARGE_HIT + 1.2) * 1000);
+  };
+  // La batterie est branchée : si c'était le dernier câble et qu'aucune panne ne coupe le circuit, le membre se réveille.
+  const onPlugged = () => {
+    setPlugged(true);
+    if (roomComplete(getState().progress, r)) window.setTimeout(() => fx({ type: "awaken", roomId: r.id }), 700);
   };
 
   const next = r.steps[idx + 1];
@@ -284,7 +303,7 @@ export function StepView({ roomId, stepId }: { roomId: string; stepId: string })
           ))}
         </AnimatePresence>
       </div>
-      {!finished && <EnergyBar />}
+      {!finished && <Battery />}
       <div ref={bottom} style={{ marginTop: 22, paddingBottom: 28, scrollMarginBottom: "calc(var(--tabbar-h) + var(--safe-bottom) + 20px)" }}>
         {!finished && !atEnd && (
           <motion.button className="btn block" whileTap={{ scale: 0.97 }} disabled={blockedByExercise} onClick={revealNext}>
@@ -292,8 +311,8 @@ export function StepView({ roomId, stepId }: { roomId: string; stepId: string })
           </motion.button>
         )}
         {!finished && atEnd && (
-          <motion.button className="btn block led" initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} whileTap={{ scale: 0.97 }} disabled={blockedByExercise} onClick={complete}>
-            <Icon name="bolt" size={18} /> {wasDone ? "Relancer le protocole" : "Terminer le protocole"}
+          <motion.button className="btn block led" initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} whileTap={{ scale: 0.97 }} disabled={blockedByExercise || charging} onClick={(e) => complete(e)}>
+            <Icon name="bolt" size={18} /> {wasDone && !charging && !finished ? "Relancer le protocole" : "Terminer le protocole"}
           </motion.button>
         )}
         <AnimatePresence>
@@ -302,29 +321,33 @@ export function StepView({ roomId, stepId }: { roomId: string; stepId: string })
               initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
               style={{ position: "fixed", left: 0, right: 0, bottom: 0, top: finished.top, zIndex: 105, overflowY: "auto", overflowX: "hidden", background: `radial-gradient(circle at 50% 14%, hsl(${r.hue} 90% 45% / .3), transparent 60%), #04060c` }}>
               <div style={{ maxWidth: 420, margin: "0 auto", padding: "22px 18px calc(var(--safe-bottom) + 28px)", textAlign: "center" }}>
+                {finished.plug ? (
+                  <PlugScene room={r} index={idx} cells={finished.cells} energy={finished.energy} incidentOpen={!!r.incident && !p.incidents[r.id]} onPlugged={onPlugged} />
+                ) : (<>
                 <div style={{ position: "relative", display: "grid", placeItems: "center", height: 120 }}>
-                  <Rays color={`hsl(${r.hue} 100% 62% / .35)`} size={360} opacity={0.6} />
-                  <Shockwave color={`hsl(${r.hue} 100% 64%)`} delay={0.15} size={200} />
-                  <Sparks color={`hsl(${r.hue} 100% 66%)`} count={20} radius={130} delay={0.15} />
-                  <motion.div initial={{ scale: 0.4, opacity: 0, y: 20 }} animate={{ scale: [0.4, 1.12, 1], opacity: 1, y: [20, -8, 0] }} transition={{ duration: 0.7, ease: "easeOut" }} style={{ position: "relative" }}>
-                    <CrewFigure id={r.id} state={roomComplete(p, r) ? "awake" : "asleep"} mood="happy" size={96} label={r.member} />
-                  </motion.div>
-                </div>
-                <div className="mono" style={{ fontSize: 11, letterSpacing: ".14em", color: "var(--accent)", marginTop: 6 }}>{r.code} · {r.member.toUpperCase()}</div>
-                <div className="h2" style={{ margin: "4px 0 2px" }}>Protocole {String(idx + 1).padStart(2, "0")} terminé</div>
-                <div className="muted">{step.title}</div>
-
-                <div className="panel" style={{ margin: "16px 0 0", padding: 14, textAlign: "left" }}>
-                  <div className="row"><span className="mono small grow">RÉVEIL DE {r.member.toUpperCase()}</span>
-                    <span className="mono" style={{ color: "var(--accent)" }}><CountUp from={finished.before} to={finished.after} delay={0.5} /> %</span></div>
-                  <div className="progress" style={{ marginTop: 8, height: 10 }}>
-                    <motion.i initial={{ width: `${finished.before}%` }} animate={{ width: `${finished.after}%` }} transition={{ delay: 0.5, duration: 1.2, ease: "easeOut" }} />
+                    <Rays color={`hsl(${r.hue} 100% 62% / .35)`} size={360} opacity={0.6} />
+                    <Shockwave color={`hsl(${r.hue} 100% 64%)`} delay={0.15} size={200} />
+                    <Sparks color={`hsl(${r.hue} 100% 66%)`} count={20} radius={130} delay={0.15} />
+                    <motion.div initial={{ scale: 0.4, opacity: 0, y: 20 }} animate={{ scale: [0.4, 1.12, 1], opacity: 1, y: [20, -8, 0] }} transition={{ duration: 0.7, ease: "easeOut" }} style={{ position: "relative" }}>
+                      <CrewFigure id={r.id} state={roomComplete(p, r) ? "awake" : "asleep"} mood="happy" size={96} label={r.member} />
+                    </motion.div>
                   </div>
-                  <div className="small muted" style={{ marginTop: 8 }}>{finished.after >= 100 ? `${r.member} est prêt à se réveiller.` : r.incident && idx === r.steps.length - 1 ? "Dernière étape : réparer la panne." : `${r.steps.length - roomStepsDone(p, r)} protocole${r.steps.length - roomStepsDone(p, r) > 1 ? "s" : ""} avant la panne finale.`}</div>
-                </div>
-
+                  <div className="mono" style={{ fontSize: 11, letterSpacing: ".14em", color: "var(--accent)", marginTop: 6 }}>{r.code} · {r.member.toUpperCase()}</div>
+                  <div className="h2" style={{ margin: "4px 0 2px" }}>Protocole {String(idx + 1).padStart(2, "0")} terminé</div>
+                  <div className="muted">{step.title}</div>
+  
+                  <div className="panel" style={{ margin: "16px 0 0", padding: 14, textAlign: "left" }}>
+                    <div className="row"><span className="mono small grow">RÉVEIL DE {r.member.toUpperCase()}</span>
+                      <span className="mono" style={{ color: "var(--accent)" }}><CountUp from={finished.before} to={finished.after} delay={0.5} /> %</span></div>
+                    <div className="progress" style={{ marginTop: 8, height: 10 }}>
+                      <motion.i initial={{ width: `${finished.before}%` }} animate={{ width: `${finished.after}%` }} transition={{ delay: 0.5, duration: 1.2, ease: "easeOut" }} />
+                    </div>
+                    <div className="small muted" style={{ marginTop: 8 }}>{finished.after >= 100 ? `${r.member} est prêt à se réveiller.` : r.incident && idx === r.steps.length - 1 ? "Dernière étape : réparer la panne." : `${r.steps.length - roomStepsDone(p, r)} protocole${r.steps.length - roomStepsDone(p, r) > 1 ? "s" : ""} avant la panne finale.`}</div>
+                  </div>
+  
+                </>)}
+                {(!finished.plug || plugged) && (<>
                 {crewLines(r.id) && !roomComplete(p, r) && <div style={{ textAlign: "left" }}><MemberSays member={r.member} hue={r.hue} md={crewLines(r.id)!.demi} asleep /></div>}
-                {finished.energy > 0 && <EnergyPayout amount={finished.energy} />}
                 {finished.grade && (
                   <motion.div initial={{ opacity: 0, scale: 0.85 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 1.1, type: "spring", stiffness: 240, damping: 16 }}
                     className="panel" role="status" style={{ margin: "12px 0 4px", padding: 12, textAlign: "left", display: "flex", gap: 12, alignItems: "center", borderColor: "rgba(77,255,160,.55)", background: "radial-gradient(circle at 12% 50%, rgba(77,255,160,.22), rgba(12,19,34,.9) 60%)", boxShadow: "0 0 26px -8px rgba(77,255,160,.7)" }}>
@@ -355,6 +378,7 @@ export function StepView({ roomId, stepId }: { roomId: string; stepId: string })
                   <button className="btn ghost block" onClick={() => go(`caisson/${r.id}`)}>Retour au caisson</button>
                   <button className="btn ghost small block" onClick={() => { sfx("tap"); setFinished(null); }}>Relire le protocole</button>
                 </div>
+                </>)}
               </div>
             </motion.div>
           )}
@@ -364,57 +388,20 @@ export function StepView({ roomId, stepId }: { roomId: string; stepId: string })
   );
 }
 
-/** La barre d'énergie du protocole : fine, posée au-dessus des onglets, elle reçoit les kW de chaque bonne réponse. */
-function EnergyBar() {
+/** La batterie du protocole, posée au-dessus des onglets : chaque bonne réponse y charge une cellule (éclair). */
+function Battery() {
   const bar = useEnergyBar();
-  if (!bar.max) return null;
-  const pct = Math.min(100, (bar.landed / bar.max) * 100);
+  if (!bar.max || !bar.cells) return null;
+  const pct = Math.round((bar.lit / bar.cells) * 100);
   return (
-    <div role="status" aria-label={`Énergie du protocole : ${bar.landed} kW`} className="no-print"
-      style={{ position: "fixed", left: 0, right: 0, bottom: "calc(var(--tabbar-h) + var(--safe-bottom) + 4px)", zIndex: 29, pointerEvents: "none", padding: "0 14px" }}>
-      <div style={{ maxWidth: 640, margin: "0 auto", display: "flex", alignItems: "center", gap: 8 }}>
-        <div style={{ flex: 1, height: 3, borderRadius: 2, background: "rgba(125,200,255,.1)", overflow: "hidden" }}>
-          <motion.div initial={false} animate={{ width: `${pct}%` }} transition={{ type: "spring", stiffness: 120, damping: 20 }}
-            style={{ height: "100%", borderRadius: 2, background: "linear-gradient(90deg, var(--cyan), var(--led))", boxShadow: "0 0 8px rgba(59,232,255,.8)" }} />
+    <div className="battery-dock no-print" role="status" aria-label={`Batterie du protocole : ${pct} %`}>
+      <div>
+        <span className="mono" style={{ fontSize: 9.5, letterSpacing: ".12em", color: "var(--text-3)" }}>BATTERIE</span>
+        <div className={`battery ${bar.lit >= bar.cells ? "full" : ""}`} aria-hidden="true">
+          {Array.from({ length: bar.cells }, (_, i) => <i key={i} data-cell={i} className={`${i === bar.cells - 1 ? "final" : ""} ${i < bar.lit ? "on" : ""}`} />)}
         </div>
-        <motion.span key={bar.landed} className="energy-pill" initial={bar.landed ? { scale: 1.3 } : false} animate={{ scale: 1 }} transition={{ type: "spring", stiffness: 420, damping: 18 }}
-          style={{ display: "inline-flex", alignItems: "center", gap: 3, padding: "2px 8px", borderRadius: 999, font: "700 11px var(--mono)", color: "var(--cyan)",
-            background: "rgba(6,10,19,.92)", border: "1px solid rgba(59,232,255,.3)", boxShadow: bar.landed ? "0 0 10px -2px rgba(59,232,255,.6)" : "none" }}>
-          <Icon name="bolt" size={11} /> {bar.landed} kW
-        </motion.span>
+        <span className="lbl">{pct} %</span>
       </div>
-    </div>
-  );
-}
-
-/**
- * Fin de protocole : le total jaillit du bas de l'écran, défile, puis part rejoindre le compteur du haut
- * (le jaillissement final est joué par la couche des récompenses, événement « payout »).
- */
-function EnergyPayout({ amount }: { amount: number }) {
-  const el = useRef<HTMLDivElement>(null);
-  const [sent, setSent] = useState(false);
-  useEffect(() => {
-    const t1 = window.setTimeout(() => sfx("power"), 650);
-    const t2 = window.setTimeout(() => {
-      const rr = el.current?.getBoundingClientRect();
-      if (rr) fx({ type: "payout", amount, x: rr.left + rr.width / 2, y: rr.top + rr.height / 2 });
-      setSent(true);
-    }, 2300);
-    return () => { window.clearTimeout(t1); window.clearTimeout(t2); };
-  }, [amount]);
-  return (
-    <div style={{ position: "relative", margin: "18px 0 6px", height: 74, display: "grid", placeItems: "center" }}>
-      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.75 }} style={{ position: "absolute", inset: 0 }}>
-        <Shockwave color="var(--cyan)" delay={0.75} size={170} />
-        <Sparks color="var(--cyan)" count={22} radius={120} delay={0.75} />
-      </motion.div>
-      <motion.div ref={el} initial={{ y: 260, scale: 0.4, opacity: 0 }} animate={{ y: 0, scale: sent ? 0.86 : 1, opacity: sent ? 0.35 : 1 }}
-        transition={{ y: { delay: 0.35, type: "spring", stiffness: 150, damping: 14 }, scale: { delay: sent ? 0 : 0.35, duration: 0.4 }, opacity: { delay: sent ? 0 : 0.35, duration: 0.3 } }}
-        className="mono" style={{ position: "relative", fontSize: 44, fontWeight: 700, color: "#dffbff", lineHeight: 1, textShadow: "0 0 18px rgba(59,232,255,.95), 0 0 40px rgba(77,255,160,.45)" }}>
-        +<CountUp from={0} to={amount} delay={0.6} /><span style={{ fontSize: 18, marginLeft: 4, color: "var(--cyan)" }}>kW</span>
-      </motion.div>
-      <motion.div className="small" initial={{ opacity: 0 }} animate={{ opacity: sent ? 1 : 0 }} style={{ position: "absolute", bottom: -6, color: "var(--led)" }}>Versés dans ton compteur</motion.div>
     </div>
   );
 }
@@ -502,6 +489,8 @@ export function IncidentView({ roomId }: { roomId: string }) {
   const [fuses, setFuses] = useState(3);
   const [picked, setPicked] = useState<number[]>([]);
   const [state, setState] = useState<"play" | "won" | "lost">("play");
+  // Les câbles de tous les protocoles sont branchés : réarmer le disjoncteur fait passer le courant et réveille le membre.
+  const [rearm, setRearm] = useState(false);
   const [shake, setShake] = useState(false);
   const order = useMemo(() => r?.incident?.scenarios.map((s) => [...s.options].sort(() => Math.random() - 0.5)) ?? [], [r]);
   if (!r?.incident) return <div className="wrap"><p>Aucune panne ici.</p></div>;
@@ -528,8 +517,9 @@ export function IncidentView({ roomId }: { roomId: string }) {
     if (first) addEnergy(REWARD.incident, "panne résolue");
     sfx("power"); fx({ type: "burst", color: `hsl(${r.hue} 100% 62%)` }); checkBadges();
     setState("won");
-    if (first && roomComplete(getState().progress, r)) window.setTimeout(() => fx({ type: "awaken", roomId: r.id }), 1100);
+    setRearm(first && roomComplete(getState().progress, r));
   };
+  const rearmBreaker = () => { setRearm(false); sfx("breaker"); window.setTimeout(() => fx({ type: "awaken", roomId: r.id }), 450); };
   const restart = () => { setI(0); setFuses(3); setPicked([]); setState("play"); sfx("power"); };
 
   return (
@@ -584,8 +574,9 @@ export function IncidentView({ roomId }: { roomId: string }) {
               </span>
             </div>
             <div className="h2">Panne réparée</div>
-            <div className="muted" style={{ marginBottom: 14 }}>{fuses === 3 ? "Sans un seul fusible grillé. Impressionnant." : `Avec ${fuses} fusible${fuses > 1 ? "s" : ""} restant${fuses > 1 ? "s" : ""}.`} {r.member} est entièrement réveillé.</div>
-            <button className="btn block" onClick={() => go("")}>Retour à la carte</button>
+            <div className="muted" style={{ marginBottom: 14 }}>{fuses === 3 ? "Sans un seul fusible grillé. Impressionnant." : `Avec ${fuses} fusible${fuses > 1 ? "s" : ""} restant${fuses > 1 ? "s" : ""}.`} {rearm ? `Le circuit est réparé : réarme le disjoncteur pour envoyer le courant dans la capsule de ${r.member}.` : roomComplete(p, r) ? `${r.member} est entièrement réveillé.` : ""}</div>
+            {rearm ? <button className="btn block" onClick={rearmBreaker}><Icon name="bolt" size={18} /> Réarmer le disjoncteur</button>
+              : <button className="btn block" onClick={() => go("")}>Retour à la carte</button>}
           </motion.div>
         )}
       </AnimatePresence>

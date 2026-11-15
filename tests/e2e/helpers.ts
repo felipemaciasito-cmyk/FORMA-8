@@ -8,6 +8,8 @@ export async function boot(page: Page, name = "Alex") {
   await expect(page.getByText("11 membres d'équipe")).toBeVisible({ timeout: 15_000 });
   await page.getByLabel("Ton prénom").fill(name);
   await page.getByRole("button", { name: "Prendre mon poste" }).click();
+  // ORA propose le fond sonore de la réserve avant le levier.
+  await page.getByRole("button", { name: "Non merci" }).click();
   await page.getByRole("button", { name: "Abaisser le levier principal" }).click();
   await expect(page.getByText("Réserve de FORMA-8")).toBeVisible({ timeout: 15_000 });
 }
@@ -99,6 +101,18 @@ export async function playStep(page: Page, roomId: string, step: Step, n: number
   }
   await page.getByRole("button", { name: /Terminer le protocole/ }).click();
   await expect(page.getByText(`Protocole ${String(n).padStart(2, "0")} terminé`)).toBeVisible();
+  await plugBattery(page);
+}
+
+/** Fin de protocole : branche la batterie sur la capsule (un toucher sur la prise suffit), puis attend la suite. */
+export async function plugBattery(page: Page) {
+  await page.getByRole("button", { name: /^Brancher la batterie/ }).click({ force: true }); // la prise bouge doucement
+  await expect(page.getByRole("button", { name: "Retour au caisson" })).toBeVisible({ timeout: 8000 });
+}
+
+/** Panne réparée : réarme le disjoncteur pour faire passer le courant (réveil du membre). */
+export async function rearmBreaker(page: Page) {
+  await page.getByRole("button", { name: /Réarmer le disjoncteur/ }).click();
 }
 
 /** Maintenance : entraînement libre sur les notions apprises, jusqu'à l'écran de fin. */

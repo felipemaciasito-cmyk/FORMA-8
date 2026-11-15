@@ -1,63 +1,369 @@
 import { getState } from "./store";
 
-// Sons synthétisés en direct (aucun fichier audio) : relais, carillons, alarme.
-let ctx: AudioContext | null = null;
+// Sons de FORMA-8, fabriqués en direct par le téléphone (aucun fichier audio), sur le thème de l'électricité :
+// relais, contacteurs, arcs, transformateurs. Une réverbération légère leur donne l'écho d'une salle de machines.
+// Choisis par le propriétaire le 15/11/2026 sur la maquette « Labo son et lumière » (version 5) :
+// clavier « Feutré », levier en sectionneur, montée de grade « Accréditation », réveil « Défibrillateur ».
+// Deux réglages indépendants : les effets (settings.sound) et le fond sonore (settings.ambience).
 
-function ac() {
+type Ctx = AudioContext;
+let ctx: Ctx | null = null;
+let master: GainNode | null = null;
+let rev: ConvolverNode | null = null;
+let noiseBuf: AudioBuffer | null = null;
+let brownBuf: AudioBuffer | null = null;
+let curve: Float32Array<ArrayBuffer> | null = null;
+let curPan = 0, curFar = 0; // placement d'un son du fond : gauche/droite, éloignement
+
+/** Instant (en secondes après le début du son) où la batterie reçoit l'arc de fin de protocole. */
+export const CHARGE_HIT = 0.74;
+/** Instant où la décharge réveille le membre (réveil « Défibrillateur »). */
+export const WAKE_HIT = 2.0;
+
+function audio(): Ctx | null {
   if (!ctx) {
-    const C = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
+    const C = window.AudioContext || (window as unknown as { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
     if (!C) return null;
+    try { const s = (navigator as unknown as { audioSession?: { type: string } }).audioSession; if (s) s.type = "playback"; } catch { /* facultatif */ }
     ctx = new C();
+    const comp = ctx.createDynamicsCompressor();
+    comp.threshold.value = -16; comp.knee.value = 12; comp.ratio.value = 5; comp.attack.value = 0.002; comp.release.value = 0.25;
+    master = ctx.createGain(); master.gain.value = 0.85;
+    master.connect(comp).connect(ctx.destination);
+    rev = ctx.createConvolver(); rev.buffer = makeIR(ctx, 2.4, 2.6); rev.connect(master);
+    noiseBuf = makeNoise(ctx, 2.5, false); brownBuf = makeNoise(ctx, 4, true); curve = makeCurve(30);
   }
-  if (ctx.state === "suspended") ctx.resume().catch(() => {});
+  if (ctx.state === "suspended" && document.visibilityState === "visible") ctx.resume().catch(() => {});
   return ctx;
 }
 
-function tone(freq: number, dur: number, type: OscillatorType, gain: number, delay = 0, slideTo?: number) {
-  const a = ac(); if (!a) return;
-  const t0 = a.currentTime + delay;
-  const o = a.createOscillator(); const g = a.createGain();
-  o.type = type; o.frequency.setValueAtTime(freq, t0);
-  if (slideTo) o.frequency.exponentialRampToValueAtTime(slideTo, t0 + dur);
-  g.gain.setValueAtTime(0.0001, t0);
-  g.gain.exponentialRampToValueAtTime(gain, t0 + 0.012);
-  g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
-  o.connect(g).connect(a.destination);
-  o.start(t0); o.stop(t0 + dur + 0.05);
+function makeNoise(a: Ctx, sec: number, brown: boolean) {
+  const len = Math.floor(a.sampleRate * sec), b = a.createBuffer(1, len, a.sampleRate), d = b.getChannelData(0);
+  let last = 0;
+  for (let i = 0; i < len; i++) { const w = Math.random() * 2 - 1; if (brown) { last = (last + 0.02 * w) / 1.02; d[i] = last * 3.5; } else d[i] = w; }
+  return b;
+}
+function makeIR(a: Ctx, sec: number, decay: number) {
+  const len = Math.floor(a.sampleRate * sec), b = a.createBuffer(2, len, a.sampleRate);
+  for (let c = 0; c < 2; c++) { const d = b.getChannelData(c); let lp = 0; for (let i = 0; i < len; i++) { lp += (Math.random() * 2 - 1 - lp) * (0.55 - 0.4 * i / len); d[i] = lp * Math.pow(1 - i / len, decay); } }
+  return b;
+}
+function makeCurve(k: number) { const n = 1024, c = new Float32Array(n); for (let i = 0; i < n; i++) { const x = i * 2 / n - 1; c[i] = (1 + k) * x / (1 + k * Math.abs(x)); } return c; }
+
+// ---------------- briques ----------------
+const A = () => ctx!;
+const now = () => A().currentTime;
+function out(space: number, dest: AudioNode = master!) {
+  const a = A(), g = a.createGain(); let node: AudioNode = g;
+  if (curFar) { g.gain.value = 1 - 0.5 * curFar; space = Math.max(space, 0.6 + 0.35 * curFar); }
+  if (curPan && a.createStereoPanner) { const p = a.createStereoPanner(); p.pan.value = curPan; g.connect(p); node = p; }
+  if (curFar) { const lp = a.createBiquadFilter(); lp.type = "lowpass"; lp.frequency.value = 5200 - 3600 * curFar; node.connect(lp); node = lp; }
+  node.connect(dest);
+  if (space > 0) { const s = a.createGain(); s.gain.value = space; node.connect(s); s.connect(rev!); }
+  return g;
+}
+function env(t: number, at: number, peak: number, hold: number, rel: number) {
+  const g = A().createGain();
+  g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(peak, t + at);
+  g.gain.setValueAtTime(peak, t + at + hold); g.gain.exponentialRampToValueAtTime(0.0001, t + at + hold + rel);
+  return g;
+}
+function filt(type: BiquadFilterType, f: number, q?: number) { const b = A().createBiquadFilter(); b.type = type; b.frequency.value = f; if (q) b.Q.value = q; return b; }
+function osc(type: OscillatorType, f: number) { const o = A().createOscillator(); o.type = type; o.frequency.value = f; return o; }
+function noise(t: number, dur: number, buf: AudioBuffer = noiseBuf!) {
+  const s = A().createBufferSource(); s.buffer = buf; s.start(t, Math.random() * Math.max(0, buf.duration - dur - 0.05), dur + 0.04); return s;
+}
+function click(t: number, f: number, q: number, dur: number, gain: number, space = 0.08, lp = 0) {
+  const s = noise(t, dur + 0.01), b = filt("bandpass", f, q), e = env(t, 0.0006, gain, dur * 0.3, dur);
+  s.connect(b); if (lp) { const l = filt("lowpass", lp, 0.7); b.connect(l); l.connect(e); } else b.connect(e); e.connect(out(space));
+}
+function band(t: number, f: number, q: number, dur: number, gain: number, space = 0.08) { const s = noise(t, dur + 0.02), b = filt("bandpass", f, q), e = env(t, 0.001, gain, dur * 0.2, dur); s.connect(b); b.connect(e); e.connect(out(space)); }
+function body(t: number, lp: number, dur: number, gain: number, space = 0.08) { const s = noise(t, dur + 0.02), b = filt("lowpass", lp, 0.8), e = env(t, 0.001, gain, dur * 0.2, dur); s.connect(b); b.connect(e); e.connect(out(space)); }
+function thump(t: number, f0: number, f1: number, dur: number, gain: number, space = 0.1, type: OscillatorType = "sine") {
+  const o = osc(type, f0); o.frequency.setValueAtTime(f0, t); o.frequency.exponentialRampToValueAtTime(f1, t + dur);
+  const e = env(t, 0.002, gain, 0, dur); o.connect(e); e.connect(out(space)); o.start(t); o.stop(t + dur + 0.05);
+}
+function ring(t: number, freqs: number[], dur: number, gain: number, space = 0.2) {
+  freqs.forEach((f, i) => { const o = osc("sine", f), e = env(t, 0.001, gain / (i + 1), 0, dur * (1 - i * 0.12)); o.connect(e); e.connect(out(space)); o.start(t); o.stop(t + dur + 0.05); });
+}
+/** Crépitement électrique : impulsions aléatoires, chacune avec une petite résonance. */
+function crackle(t: number, dur: number, density: number, gain: number, hp = 2000, space = 0.2) {
+  const a = A(), len = Math.max(1, Math.floor(a.sampleRate * dur)), b = a.createBuffer(1, len, a.sampleRate), d = b.getChannelData(0), p = density / a.sampleRate;
+  for (let i = 0; i < len; i++) if (Math.random() < p) {
+    const amp = (Math.random() * 0.8 + 0.2) * (Math.random() < 0.5 ? -1 : 1), L = 4 + Math.floor(Math.random() * 40);
+    for (let k = 0; k < L && i + k < len; k++) d[i + k] += amp * Math.pow(1 - k / L, 2) * (k % 2 ? -1 : 1);
+  }
+  const s = a.createBufferSource(); s.buffer = b; const h = filt("highpass", hp, 0.7), e = env(t, 0.001, gain, dur * 0.55, dur * 0.45);
+  s.connect(h); h.connect(e); e.connect(out(space)); s.start(t);
+}
+function sweepNoise(t: number, type: BiquadFilterType, f0: number, f1: number, dur: number, gain: number, at: number, space: number, buf?: AudioBuffer) {
+  const s = noise(t, dur + 0.05, buf), b = filt(type, f0, type === "bandpass" ? 2 : 0.7);
+  b.frequency.setValueAtTime(f0, t); b.frequency.exponentialRampToValueAtTime(f1, t + dur);
+  const e = env(t, at, gain, 0, Math.max(0.02, dur - at)); s.connect(b); b.connect(e); e.connect(out(space));
+}
+/** Bourdonnement électrique (100 Hz : deux fois la fréquence du réseau, 50 Hz), passé dans un filtre qui balaie. */
+function buzz(t: number, dur: number, gain: number, f0: number, f1: number, q = 3, at = 0.05, space = 0.3, base = 100) {
+  const a = A(), o = osc("sawtooth", base), o2 = osc("square", base * 1.5), m = a.createGain(); m.gain.value = 0.5; o.connect(m); o2.connect(m);
+  const b = filt("bandpass", f0, q); b.frequency.setValueAtTime(f0, t); b.frequency.exponentialRampToValueAtTime(f1, t + dur);
+  const hold = Math.max(0, dur * 0.55 - at), end = t + at + hold + dur * 0.45 + 0.05;
+  const e = env(t, at, gain, hold, dur * 0.45); m.connect(b); b.connect(e); e.connect(out(space));
+  o.start(t); o2.start(t); o.stop(end); o2.stop(end);
+}
+/** Deux notes jouées par un arc électrique (bobine Tesla musicale) : signature des petites victoires. */
+function tesla(t: number, f: number, dur: number, gain: number, space = 0.45) {
+  const a = A(), o = osc("square", f), o2 = osc("sawtooth", f * 2.004), mix = a.createGain(); mix.gain.value = 0.5; o.connect(mix); o2.connect(mix);
+  const ws = a.createWaveShaper(); ws.curve = curve; mix.connect(ws);
+  const n = noise(t, dur + 0.05), nb = filt("bandpass", 3600, 0.7), am = a.createGain(); am.gain.value = 0;
+  const og = a.createGain(); og.gain.value = 0.8; o.connect(og); og.connect(am.gain); n.connect(nb); nb.connect(am);
+  const hp = filt("highpass", 200, 0.7), lp = filt("lowpass", 7000, 0.7), e = env(t, 0.006, gain, dur * 0.7, dur * 0.3);
+  const wg = a.createGain(); wg.gain.value = 0.35; ws.connect(wg); wg.connect(hp); am.connect(hp); hp.connect(lp); lp.connect(e); e.connect(out(space));
+  o.start(t); o2.start(t); o.stop(t + dur + 0.1); o2.stop(t + dur + 0.1);
+  crackle(t, dur, 1800, gain * 0.7, 3000, space);
+}
+/** Accord grave et propre (quinte), sans mélodie : la puissance qui s'installe. */
+function powerChord(t: number, dur: number, gain: number, base = 55) {
+  const a = A(), lp = filt("lowpass", 1400, 0.8); lp.frequency.setValueAtTime(2200, t); lp.frequency.exponentialRampToValueAtTime(500, t + dur);
+  const e = a.createGain(); e.gain.setValueAtTime(0.0001, t); e.gain.exponentialRampToValueAtTime(gain, t + 0.04); e.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+  lp.connect(e); e.connect(out(0.7));
+  ([[base, "sawtooth", 0.5], [base * 1.003, "sawtooth", 0.5], [base * 1.5, "triangle", 0.6], [base * 2, "triangle", 0.5], [base * 3, "sine", 0.3]] as const)
+    .forEach(([f, ty, g]) => { const o = osc(ty, f), og = a.createGain(); og.gain.value = g; o.connect(og); og.connect(lp); o.start(t); o.stop(t + dur + 0.05); });
+}
+function relay(t: number, g = 1) { click(t, 2800, 3, 0.004, 0.24 * g, 0.15); ring(t + 0.001, [3200, 4700], 0.05, 0.035 * g); thump(t, 300, 190, 0.03, 0.08 * g); click(t + 0.008, 3400, 4, 0.003, 0.09 * g, 0.15); }
+function contactor(t: number, g = 1, space = 0.35) {
+  thump(t, 95, 42, 0.14, 0.5 * g, space); body(t, 1500, 0.06, 0.45 * g, space); ring(t + 0.002, [1180, 1730, 2650], 0.2, 0.06 * g, space);
+  click(t, 3600, 1, 0.004, 0.32 * g, space); click(t + 0.019, 2900, 2, 0.004, 0.14 * g, space);
+}
+function tube(t: number, g = 1) {
+  [0, 0.08 + Math.random() * 0.04, 0.2 + Math.random() * 0.05].forEach((d, i) => {
+    click(t + d, 2600 + i * 300, 4, 0.004, 0.13 * g, 0.2);
+    const o = osc("sawtooth", 100), b = filt("bandpass", 1400, 1.5), e = env(t + d, 0.004, 0.05 * g, 0.03, 0.05); o.connect(b); b.connect(e); e.connect(out(0.2)); o.start(t + d); o.stop(t + d + 0.12);
+  });
+  const o = osc("sawtooth", 100), b = filt("bandpass", 1100, 1.2), e = env(t + 0.3, 0.01, 0.045 * g, 0.15, 0.6); o.connect(b); b.connect(e); e.connect(out(0.25)); o.start(t + 0.3); o.stop(t + 1.1);
+}
+function zap(t: number, g = 1) {
+  click(t, 6000, 0.7, 0.003, 0.45 * g, 0.2); crackle(t, 0.14, 4200, 0.4 * g, 1700, 0.25);
+  const o = osc("sawtooth", 2600); o.frequency.setValueAtTime(2600, t); o.frequency.exponentialRampToValueAtTime(500, t + 0.13);
+  const b = filt("bandpass", 3000, 3), e = env(t, 0.002, 0.05 * g, 0.02, 0.11); o.connect(b); b.connect(e); e.connect(out(0.2)); o.start(t); o.stop(t + 0.2);
+  crackle(t + 0.1, 0.28, 650, 0.08 * g, 4000, 0.3);
+}
+function impact(t: number, gain = 1, len = 2.6) {
+  const a = A(), sub = osc("sine", 95); sub.frequency.setValueAtTime(95, t); sub.frequency.exponentialRampToValueAtTime(28, t + 1.1);
+  const se = env(t, 0.004, 0.75 * gain, 0.05, 1.3); sub.connect(se); se.connect(out(0.3)); sub.start(t); sub.stop(t + 1.5);
+  const k = osc("sine", 160); k.frequency.setValueAtTime(160, t); k.frequency.exponentialRampToValueAtTime(45, t + 0.12);
+  const ws = a.createWaveShaper(); ws.curve = curve; const ke = env(t, 0.001, 0.5 * gain, 0.02, 0.2); k.connect(ws); ws.connect(ke); ke.connect(out(0.5)); k.start(t); k.stop(t + 0.3);
+  click(t, 4200, 0.5, 0.006, 0.9 * gain, 0.7);
+  curPan = -0.7; crackle(t, 0.5, 8000, 0.45 * gain, 900, 0.7); curPan = 0.7; crackle(t + 0.01, 0.5, 8000, 0.45 * gain, 900, 0.7); curPan = 0;
+  const lp = filt("lowpass", 2600, 1.2); lp.frequency.setValueAtTime(2600, t); lp.frequency.exponentialRampToValueAtTime(260, t + len);
+  const be = env(t, 0.012, 0.22 * gain, 0.15, len), bw = a.createWaveShaper(); bw.curve = curve; const pre = a.createGain(); pre.gain.value = 0.35;
+  pre.connect(bw); bw.connect(lp); lp.connect(be); be.connect(out(0.75));
+  [55, 55.4, 82.4, 110, 110.6].forEach((f) => { const o = osc("sawtooth", f); o.connect(pre); o.start(t); o.stop(t + len + 0.4); });
+  ring(t + 0.005, [233, 367, 541, 802], 2.4, 0.05 * gain, 0.9);
+  crackle(t + 0.4, 1.6, 180, 0.05 * gain, 2400, 0.8);
 }
 
-function noise(dur: number, gain: number, freq = 2400, delay = 0) {
-  const a = ac(); if (!a) return;
-  const t0 = a.currentTime + delay;
-  const len = Math.floor(a.sampleRate * dur);
-  const buf = a.createBuffer(1, len, a.sampleRate);
-  const data = buf.getChannelData(0);
-  for (let i = 0; i < len; i++) data[i] = (Math.random() * 2 - 1) * (1 - i / len);
-  const src = a.createBufferSource(); src.buffer = buf;
-  const f = a.createBiquadFilter(); f.type = "bandpass"; f.frequency.value = freq; f.Q.value = 1.2;
-  const g = a.createGain(); g.gain.value = gain;
-  src.connect(f).connect(g).connect(a.destination);
-  src.start(t0);
-}
+// ---------------- les sons de FORMA-8 ----------------
+/** Rangées de lumières qui s'allument après le levier, du fond de la salle jusqu'au joueur (secondes après l'impact). */
+export const LEVER_LIGHTS = [0.75, 1.15, 1.45, 1.66, 1.82, 1.94];
+/** Instant de l'impact du levier, puis de la dernière rangée (la plus proche). */
+export const LEVER_HIT = 0.3, LEVER_LAST = LEVER_HIT + 2.05;
 
-export type Sfx = "tap" | "ok" | "ko" | "power" | "levelup" | "badge" | "alarm" | "type" | "relay" | "open";
+const SOUNDS = {
+  tap() { const t = now(); click(t, 2300, 1.4, 0.004, 0.16, 0.05); thump(t, 420, 260, 0.025, 0.05, 0.05); },
+  open() { const t = now(); click(t, 3300, 1.6, 0.004, 0.24, 0.1); ring(t + 0.002, [2150], 0.035, 0.03); thump(t, 190, 120, 0.035, 0.08); click(t + 0.007, 2600, 3, 0.003, 0.08); },
+  type() { key("char"); },
+  relay() { relay(now()); },
+  ok() { const t = now(); relay(t); zap(t + 0.03, 0.55); },
+  ko() {
+    const t = now(); crackle(t, 0.09, 9000, 0.42, 800, 0.2);
+    const o = osc("square", 100); o.frequency.setValueAtTime(100, t); o.frequency.linearRampToValueAtTime(82, t + 0.24);
+    const b = filt("lowpass", 1700, 1), e = env(t, 0.004, 0.11, 0.14, 0.1); o.connect(b); b.connect(e); e.connect(out(0.15)); o.start(t); o.stop(t + 0.32);
+    contactor(t + 0.15, 0.6, 0.25); thump(t + 0.16, 220, 50, 0.5, 0.06, 0.2);
+  },
+  /** Mise sous tension ordinaire (panne réparée, sauvegarde restaurée…). */
+  power() { const t = now(); contactor(t, 0.8, 0.4); zap(t + 0.02, 0.6); tube(t + 0.15, 0.7); },
+  /** Une cellule de la batterie s'allume comme un néon (l'étincelle vient du son de la bonne réponse). */
+  cell() { tube(now() + 0.02, 0.9); },
+  /** Fin de protocole : la charge monte, l'arc claque dans la batterie, des relais confirment, l'arc chante deux notes. */
+  charge() {
+    const t = now(), t1 = t + CHARGE_HIT, a = A();
+    const o = osc("sine", 220); o.frequency.setValueAtTime(220, t); o.frequency.exponentialRampToValueAtTime(2400, t1);
+    const lfo = osc("sine", 14); lfo.frequency.setValueAtTime(14, t); lfo.frequency.linearRampToValueAtTime(40, t1); const lg = a.createGain(); lg.gain.value = 0.035; lfo.connect(lg);
+    const e = env(t, CHARGE_HIT - 0.02, 0.07, 0, 0.03); lg.connect(e.gain); o.connect(e); e.connect(out(0.3)); o.start(t); o.stop(t1 + 0.1); lfo.start(t); lfo.stop(t1 + 0.1);
+    sweepNoise(t, "highpass", 1500, 6000, CHARGE_HIT, 0.06, CHARGE_HIT - 0.05, 0.2);
+    crackle(t + 0.25, CHARGE_HIT - 0.25, 1500, 0.09, 3000, 0.3);
+    click(t1, 5000, 0.5, 0.004, 0.9, 0.5); crackle(t1, 0.3, 9000, 0.55, 1100, 0.5); thump(t1, 72, 34, 0.35, 0.5, 0.5);
+    buzz(t1 + 0.02, 0.7, 0.13, 2600, 500, 2, 0.004, 0.4);
+    [0.4, 0.5, 0.6].forEach((d, i) => relay(t1 + d, 0.6 + i * 0.2));
+    tesla(t1 + 0.75, 880, 0.12, 0.05); tesla(t1 + 0.9, 1318.5, 0.28, 0.05);
+  },
+  /** La prise glisse et se verrouille, étincelle, le courant monte dans le câble. */
+  plug() {
+    const t = now();
+    sweepNoise(t, "bandpass", 1800, 3200, 0.07, 0.12, 0.01, 0.1);
+    contactor(t + 0.07, 0.8, 0.3); click(t + 0.09, 3800, 2, 0.004, 0.25, 0.2); zap(t + 0.08, 0.8);
+    buzz(t + 0.12, 1.1, 0.11, 300, 1700, 3, 0.5, 0.35); tube(t + 0.85, 0.75);
+  },
+  /** Le courant essaie de passer, le disjoncteur saute (une panne coupe le circuit). */
+  "circuit-fail"() {
+    const t = now();
+    buzz(t, 0.7, 0.12, 250, 1500, 3, 0.55, 0.35);
+    crackle(t + 0.55, 0.12, 9000, 0.5, 900, 0.35); contactor(t + 0.62, 0.9, 0.4); thump(t + 0.63, 240, 45, 0.7, 0.1, 0.3);
+    buzz(t + 1.2, 0.3, 0.06, 300, 600, 3, 0.2, 0.35); crackle(t + 1.45, 0.08, 7000, 0.3, 900, 0.3);
+  },
+  breaker() { const t = now(); click(t, 2600, 2, 0.006, 0.3, 0.2); contactor(t + 0.03, 1.1, 0.45); thump(t + 0.04, 70, 40, 0.4, 0.4, 0.4); },
+  /** Le levier principal : la lame entre en force, gros impact, puis les rangées de lumières s'allument jusqu'au joueur. */
+  lever() {
+    const t = now(), a = A();
+    sweepNoise(t, "bandpass", 900, 2800, 0.3, 0.16, 0.05, 0.3); click(t + 0.02, 3000, 3, 0.004, 0.12);
+    const c = t + LEVER_HIT;
+    crackle(c - 0.015, 0.12, 9000, 0.5, 1100, 0.5); contactor(c, 1.2, 0.7);
+    impact(c + 0.01, 1, 2.2);
+    const hg = a.createGain(); hg.gain.setValueAtTime(0, c + 0.05); hg.gain.linearRampToValueAtTime(0.18, c + 0.2); hg.gain.exponentialRampToValueAtTime(0.05, c + 1.1);
+    hg.gain.exponentialRampToValueAtTime(0.16, c + 2.05); hg.gain.exponentialRampToValueAtTime(0.0001, c + 3.6);
+    const hl = filt("lowpass", 1000, 0.8); hg.connect(hl); hl.connect(out(0.5));
+    [[50, 0.5], [100, 1], [200, 0.6], [300, 0.45], [400, 0.3], [600, 0.12]].forEach(([f, g]) => { const o = osc("sine", f), og = a.createGain(); og.gain.value = g; o.connect(og); og.connect(hg); o.start(c + 0.05); o.stop(c + 3.7); });
+    LEVER_LIGHTS.forEach((d, i) => { curFar = Math.max(0, 0.95 - i * 0.16); curPan = (i % 2 ? 0.5 : -0.5) * (0.4 + i * 0.1); contactor(c + d, 0.45 + i * 0.1, 0.6); tube(c + d + 0.04, 0.4 + i * 0.08); curFar = 0; curPan = 0; });
+    contactor(c + 2.05, 1.3, 0.6); thump(c + 2.05, 70, 32, 0.8, 0.55, 0.6); crackle(c + 2.04, 0.2, 7000, 0.35, 1200, 0.6);
+  },
+  /** Livraison vérifiée : quatre relais francs, un contacteur, puis deux notes électriques. */
+  delivery() {
+    const t = now();
+    [0, 0.2, 0.4, 0.6].forEach((d, i) => { relay(t + d, 1.1); ring(t + d, [1600 + i * 400], 0.06, 0.05); buzz(t + d + 0.02, 0.12, 0.04, 900 + i * 300, 1200 + i * 300, 3, 0.01, 0.2); });
+    contactor(t + 0.85, 1, 0.4); zap(t + 0.88, 0.9);
+    tesla(t + 1.05, 659.25, 0.12, 0.08); tesla(t + 1.2, 987.77, 0.35, 0.08);
+  },
+  badge() { const t = now(); relay(t, 0.8); tesla(t + 0.08, 880, 0.1, 0.05); tesla(t + 0.2, 1318.5, 0.22, 0.05); },
+  alarm() {
+    const t = now();
+    for (let i = 0; i < 3; i++) {
+      const s = t + i * 0.7; relay(s, 0.5);
+      [415, 440].forEach((f) => { const o = osc("sawtooth", f), b = filt("bandpass", 950, 1.3), e = env(s + 0.01, 0.02, 0.07, 0.4, 0.06); o.connect(b); b.connect(e); e.connect(out(0.35)); o.start(s); o.stop(s + 0.6); });
+    }
+  },
+  /** Montée de grade « Accréditation » : un faisceau scanne, quatre verrous s'ouvrent, la puissance s'installe. */
+  levelup() {
+    const t = now(), a = A();
+    const g = a.createGain(); let dest: AudioNode = master!;
+    if (a.createStereoPanner) { const p = a.createStereoPanner(); p.pan.setValueAtTime(-0.85, t); p.pan.linearRampToValueAtTime(0.85, t + 0.9); g.connect(p); p.connect(master!); const sd = a.createGain(); sd.gain.value = 0.35; p.connect(sd); sd.connect(rev!); dest = g; }
+    const n = noise(t, 1.0), b = filt("bandpass", 500, 5); b.frequency.setValueAtTime(500, t); b.frequency.exponentialRampToValueAtTime(5200, t + 0.9);
+    const e = env(t, 0.08, 0.16, 0.62, 0.2); n.connect(b); b.connect(e); e.connect(dest === master ? out(0.35) : g);
+    for (let i = 0; i < 9; i++) click(t + i * 0.1, 3400, 6, 0.003, 0.06, 0.2);
+    LEVELUP_LOCKS.forEach((d, i) => { curPan = [-0.6, 0.6, -0.3, 0.3][i]; contactor(t + d, 0.75 + i * 0.1, 0.5); sweepNoise(t + d + 0.03, "highpass", 3200, 1500, 0.16, 0.07, 0.01, 0.4); curPan = 0; });
+    const h = t + LEVELUP_HIT;
+    thump(h, 75, 34, 0.7, 0.55, 0.6); click(h, 4200, 0.6, 0.005, 0.5, 0.6);
+    powerChord(h, 2.6, 0.2, 55); crackle(h + 0.05, 1.8, 350, 0.05, 5000, 0.8);
+  },
+  /** Réveil « Défibrillateur » : la charge siffle, silence, décharge, puis le cœur électrique du membre repart. */
+  awaken() {
+    const t = now(), h = WAKE_HIT, a = A();
+    const o = osc("sine", 700); o.frequency.setValueAtTime(700, t); o.frequency.exponentialRampToValueAtTime(3400, t + 1.7);
+    const lfo = osc("sine", 9), lg = a.createGain(); lg.gain.value = 0.012; lfo.connect(lg);
+    const e = a.createGain(); e.gain.setValueAtTime(0.0001, t); e.gain.exponentialRampToValueAtTime(0.07, t + 1.6); e.gain.linearRampToValueAtTime(0, t + 1.72);
+    lg.connect(e.gain); o.connect(e); e.connect(out(0.3)); o.start(t); lfo.start(t); o.stop(t + 1.8); lfo.stop(t + 1.8);
+    [0.2, 0.7, 1.1, 1.4, 1.6].forEach((d, i) => relay(t + d, 0.3 + i * 0.1));
+    thump(t + h, 130, 38, 0.55, 0.8, 0.5); body(t + h, 500, 0.22, 0.6, 0.6); click(t + h, 4500, 0.5, 0.005, 0.8, 0.6); zap(t + h + 0.01, 1);
+    sweepNoise(t + h + 0.2, "highpass", 1900, 800, 1.2, 0.18, 0.05, 0.6);
+    WAKE_BEATS.forEach((d, i) => { const g = [0.55, 0.42, 0.7, 0.55][i]; thump(t + h + d, 62, 40, 0.3, g, 0.4); buzz(t + h + d, 0.25, 0.05 * g, 250, 120, 2, 0.01, 0.3); });
+    const s = t + h + WAKE_SYSTEMS; contactor(s, 0.9, 0.5); powerChord(s, 2.4, 0.14, 55);
+  },
+} satisfies Record<string, () => void>;
 
+/** Montée de grade : les quatre verrous, puis l'instant où la puissance s'installe (secondes). */
+export const LEVELUP_LOCKS = [1.0, 1.2, 1.4, 1.6], LEVELUP_HIT = 1.95;
+/** Réveil : battements du cœur électrique après la décharge, puis démarrage de ses systèmes (secondes après WAKE_HIT). */
+export const WAKE_BEATS = [0.75, 0.98, 1.65, 1.88], WAKE_SYSTEMS = 2.4;
+
+export type Sfx = keyof typeof SOUNDS;
+
+/** Joue un effet sonore (si les effets sont activés). Le son n'est jamais bloquant. */
 export function sfx(name: Sfx) {
   if (!getState().settings.sound) return;
+  try { if (audio()) SOUNDS[name](); } catch { /* le son n'est jamais bloquant */ }
+}
+
+/** Une touche du clavier « Feutré » : un petit clic étouffé et aigu, sans grave. */
+export function key(kind: "char" | "space" | "enter" = "char") {
+  if (!getState().settings.sound) return;
   try {
-    switch (name) {
-      case "tap": noise(0.03, 0.18, 3200); break;
-      case "type": noise(0.015, 0.06, 4200); break;
-      case "relay": noise(0.05, 0.35, 1400); tone(90, 0.08, "square", 0.05); break;
-      case "open": tone(520, 0.08, "sine", 0.06); tone(780, 0.12, "sine", 0.05, 0.05); break;
-      case "ok": tone(660, 0.12, "sine", 0.12); tone(990, 0.22, "sine", 0.1, 0.08); break;
-      case "ko": tone(160, 0.22, "square", 0.05); tone(120, 0.25, "square", 0.04, 0.08); break;
-      case "power":
-        tone(60, 1.2, "sawtooth", 0.05, 0, 240); noise(0.4, 0.15, 800, 0.05);
-        tone(440, 0.3, "sine", 0.08, 0.9); tone(880, 0.5, "sine", 0.06, 1.0); break;
-      case "levelup": [523, 659, 784, 1047].forEach((f, i) => tone(f, 0.25, "triangle", 0.09, i * 0.09)); break;
-      case "badge": tone(880, 0.12, "sine", 0.08); tone(1320, 0.3, "sine", 0.07, 0.1); break;
-      case "alarm": for (let i = 0; i < 3; i++) { tone(740, 0.18, "square", 0.04, i * 0.4); tone(520, 0.18, "square", 0.04, i * 0.4 + 0.2); } break;
-    }
+    if (!audio()) return;
+    const t = now() + 0.002, v = 0.7 + Math.random() * 0.5, p = 0.9 + Math.random() * 0.2, big = kind !== "char";
+    click(t, (big ? 2300 : 3000) * p, 1.1, 0.005, (big ? 0.15 : 0.11) * v, 0.05, 3800);
+    band(t + 0.001, (big ? 760 : 1050) * p, 1.6, big ? 0.03 : 0.018, (big ? 0.2 : 0.13) * v, 0.05);
+    click(t + 0.045 + Math.random() * 0.04, 2700 * p, 1.3, 0.003, 0.022 * v, 0.03, 3600);
   } catch { /* le son n'est jamais bloquant */ }
+}
+
+// ---------------- le fond sonore de la réserve ----------------
+// Ronronnement des transformateurs, ventilation, et des événements variés au loin (grésillements, petits
+// courts-circuits, relais, néon qui hésite). Plus l'énergie de l'équipe est haute, plus la salle s'anime.
+interface Amb { g: GainNode; humG: GainNode; buzzG: GainNode; nodes: AudioScheduledSourceNode[]; timer: number }
+let amb: Amb | null = null;
+let ambLevel = 0.3, ambVolume = 0.6;
+const EVENTS: [number, (gf: number) => void][] = [
+  [3, (gf) => crackle(now(), 0.03 + Math.random() * 0.1, 400 + Math.random() * 1500, 0.025 * gf, 2600, 0.6)],
+  [2, (gf) => relay(now(), 0.22 * gf)],
+  [2, (gf) => { const t = now(); buzz(t, 0.35 + Math.random() * 0.5, 0.035 * gf, 1300, 1700, 3, 0.08, 0.6); crackle(t + 0.05, 0.3, 900, 0.018 * gf, 3000, 0.6); }],
+  [1, (gf) => { const t = now(); crackle(t, 0.05, 9000, 0.06 * gf, 1000, 0.6); thump(t, 160, 60, 0.12, 0.05 * gf, 0.6); }],
+  [1.5, (gf) => { const t = now(), n = 3 + Math.floor(Math.random() * 4); let d = 0; for (let i = 0; i < n; i++) { d += 0.04 + Math.random() * 0.06; buzz(t + d, 0.03, 0.03 * gf, 1200, 1200, 1.5, 0.004, 0.5); } }],
+  [1, (gf) => { const t = now(), n = 3 + Math.floor(Math.random() * 4); for (let i = 0; i < n; i++) relay(t + i * (0.025 + Math.random() * 0.04), 0.12 * gf); }],
+  [0.8, (gf) => contactor(now(), 0.22 * gf, 0.9)],
+  [0.5, (gf) => { const t = now(), o = osc("sine", 3000); o.frequency.setValueAtTime(3000, t); o.frequency.linearRampToValueAtTime(3400, t + 1.2); const e = env(t, 0.4, 0.005 * gf, 0.3, 0.5); o.connect(e); e.connect(out(0.5)); o.start(t); o.stop(t + 1.3); }],
+];
+function ambEvent() {
+  if (!amb) return;
+  const tot = EVENTS.reduce((s, e) => s + e[0], 0); let r = Math.random() * tot, ev = EVENTS[0];
+  for (const e of EVENTS) { r -= e[0]; if (r <= 0) { ev = e; break; } }
+  // Les événements passent par le volume du fond sonore, pas par celui des effets.
+  const keep = master; master = amb.g;
+  curPan = Math.random() * 1.6 - 0.8; curFar = 0.3 + Math.random() * 0.6;
+  try { ev[1](0.4 + 0.6 * ambLevel); } finally { curPan = 0; curFar = 0; master = keep; }
+}
+function ambStart() {
+  const a = audio(); if (!a || amb) return;
+  const t = a.currentTime, g = a.createGain(); g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(ambVolume, t + 2.5); g.connect(master!);
+  const humG = a.createGain(); humG.gain.value = 0.006 + 0.014 * ambLevel;
+  const lp = filt("lowpass", 800, 0.7); humG.connect(lp); lp.connect(g);
+  const nodes: AudioScheduledSourceNode[] = [];
+  [[50, 0.3], [100, 1], [200, 0.5], [300, 0.3], [400, 0.16], [500, 0.08]].forEach(([f, v]) => { const o = osc("sine", f * (1 + (Math.random() - 0.5) * 0.003)), og = a.createGain(); og.gain.value = v; o.connect(og); og.connect(humG); o.start(); nodes.push(o); });
+  const lfo = osc("sine", 0.07), lg = a.createGain(); lg.gain.value = 0.003; lfo.connect(lg); lg.connect(humG.gain); lfo.start(); nodes.push(lfo);
+  const bz = osc("sawtooth", 100), bb = filt("bandpass", 2400, 6), buzzG = a.createGain(); buzzG.gain.value = 0.0035 * ambLevel; bz.connect(bb); bb.connect(buzzG); buzzG.connect(g); bz.start(); nodes.push(bz);
+  const air = a.createBufferSource(); air.buffer = brownBuf; air.loop = true; const al = filt("lowpass", 380, 0.5), ag = a.createGain(); ag.gain.value = 0.045;
+  const alfo = osc("sine", 0.05), alg = a.createGain(); alg.gain.value = 120; alfo.connect(alg); alg.connect(al.frequency);
+  air.connect(al); al.connect(ag); ag.connect(g); air.start(); alfo.start(); nodes.push(air, alfo);
+  amb = { g, humG, buzzG, nodes, timer: 0 };
+  const next = () => { if (!amb) return; amb.timer = window.setTimeout(() => { if (document.visibilityState === "visible") { try { ambEvent(); } catch { /* jamais bloquant */ } } next(); }, (1000 + 4500 * (1 - ambLevel)) * (0.5 + Math.random())); };
+  next();
+}
+function ambStop() {
+  if (!amb || !ctx) return;
+  const a = amb; amb = null; window.clearTimeout(a.timer);
+  const t = ctx.currentTime; a.g.gain.cancelScheduledValues(t); a.g.gain.setValueAtTime(a.g.gain.value, t); a.g.gain.linearRampToValueAtTime(0, t + 0.8);
+  window.setTimeout(() => a.nodes.forEach((o) => { try { o.stop(); } catch { /* déjà arrêté */ } }), 1000);
+}
+/**
+ * Met le fond sonore en accord avec les réglages. À appeler après un geste du joueur (Safari n'autorise le son
+ * qu'après un toucher) : l'appli le rappelle au premier toucher de chaque ouverture.
+ */
+export function syncAmbience() {
+  const s = getState().settings;
+  ambVolume = Math.max(0, Math.min(1, s.ambienceVolume ?? 0.6));
+  if (!s.ambience) { ambStop(); return; }
+  if (!amb) { try { ambStart(); } catch { /* jamais bloquant */ } }
+  else if (ctx) amb.g.gain.setTargetAtTime(ambVolume, ctx.currentTime, 0.2);
+}
+/** Énergie de la réserve (0 à 1) : plus elle est haute, plus la salle ronronne et s'anime. */
+export function setAmbienceLevel(x: number) {
+  ambLevel = Math.max(0, Math.min(1, x));
+  if (!amb || !ctx) return;
+  const t = ctx.currentTime; amb.humG.gain.setTargetAtTime(0.006 + 0.014 * ambLevel, t, 0.6); amb.buzzG.gain.setTargetAtTime(0.0035 * ambLevel, t, 0.6);
+}
+/** Débloque le son au premier toucher (Safari), et coupe tout quand l'appli passe en arrière-plan. */
+export function installAudioUnlock() {
+  const unlock = () => { if (getState().settings.sound || getState().settings.ambience) { audio(); syncAmbience(); } };
+  window.addEventListener("pointerdown", unlock, { capture: true });
+  document.addEventListener("visibilitychange", () => {
+    if (!ctx) return;
+    if (document.visibilityState === "hidden") ctx.suspend().catch(() => {});
+    else if (getState().settings.sound || getState().settings.ambience) ctx.resume().catch(() => {});
+  });
 }

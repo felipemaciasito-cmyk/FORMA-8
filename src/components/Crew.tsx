@@ -377,6 +377,25 @@ export function CrewCapsule({ id, state, power = 0, size = 200, mood }: { id: st
   );
 }
 
+/**
+ * La capsule qui se charge : plus le courant arrive (lux de 0 à 1), plus l'intérieur s'éclaire et plus le membre
+ * sort de l'ombre (batterie branchée après chaque protocole, réveil).
+ */
+export function ChargedCapsule({ id, state, lux, size = 132, mood }: { id: string; state: CrewState; lux: number; size?: number; mood?: CrewMood }) {
+  const x = Math.max(0, Math.min(1, lux));
+  return (
+    <div style={{ position: "relative", width: size, height: size * 1.2 }}>
+      <div aria-hidden="true" style={{ position: "absolute", left: -size * 0.25, right: -size * 0.25, bottom: -size * 0.06, height: size * 0.4, borderRadius: "50%",
+        background: "radial-gradient(ellipse, rgba(59,232,255,.55), transparent 70%)", opacity: x, transition: "opacity .8s" }} />
+      <div style={{ filter: `brightness(${(0.45 + 0.85 * x).toFixed(2)}) saturate(${(0.6 + 0.6 * x).toFixed(2)})`, transition: "filter .8s" }}>
+        <CrewCapsule id={id} state={state} power={Math.round(x * 100)} size={size} mood={mood} />
+      </div>
+      <div aria-hidden="true" style={{ position: "absolute", left: "22%", right: "22%", top: "26%", bottom: "14%", borderRadius: "40% 40% 8px 8px", pointerEvents: "none", mixBlendMode: "screen",
+        background: "radial-gradient(ellipse at 50% 35%, rgba(240,253,255,.95), rgba(59,232,255,.5) 45%, transparent 75%)", opacity: state === "awake" ? 0.25 : 0.7 * x, transition: "opacity .8s" }} />
+    </div>
+  );
+}
+
 /** État d'un membre selon la progression : verrouillé, endormi, ou réveillé. */
 export function crewState(unlocked: boolean, complete: boolean): CrewState {
   return complete ? "awake" : unlocked ? "asleep" : "locked";

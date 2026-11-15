@@ -20,7 +20,7 @@ const streakSubs = new Set<(n: number) => void>();
 function setStreak(n: number) { streak = n; streakSubs.forEach((f) => f(n)); }
 function good(e?: { clientX: number; clientY: number }) {
   sfx("ok");
-  fx({ type: "burst", x: e?.clientX, y: e?.clientY, color: "#4dffa0" });
+  fx({ type: "burst", x: e?.clientX, y: e?.clientY, color: "#3be8ff" });
   setStreak(streak + 1);
 }
 function bad() { sfx("ko"); setStreak(0); }

@@ -319,3 +319,58 @@ textarea.input { min-height: 96px; resize: vertical; line-height: 1.45; }
   .panel { border: 1px solid #ccc; background: #fff; color: #111; }
   .term { color: #0b5f8a; background: none; border: 0; }
 }
+
+/* ============================================================
+   FORMA-8 — Son et lumière (15/11/2026) : batterie du protocole, scène du branchement
+   Blanc et cyan pour l'énergie. Les variables de :root ne changent pas.
+   ============================================================ */
+.battery { position: relative; display: flex; gap: 5px; padding: 4px; border-radius: 9px; border: 1.5px solid #2a3858; background: #070c17; margin-right: 8px; transition: border-color .4s, box-shadow .4s; }
+.battery::after { content: ""; position: absolute; right: -8px; top: 50%; width: 5px; height: 40%; transform: translateY(-50%); border-radius: 0 3px 3px 0; background: #2a3858; transition: background .4s; }
+.battery i { position: relative; flex: 1; height: 10px; border-radius: 3px; background: #121b2c; transition: background .25s, box-shadow .25s; }
+.battery i.on { background: #f4feff; box-shadow: 0 0 10px #fff, 0 0 18px var(--cyan); animation: cell-ignite .55s steps(1); }
+.battery i.final { flex: 1.6; }
+.battery.full { border-color: rgba(220, 250, 255, .9); box-shadow: 0 0 18px rgba(59, 232, 255, .6), 0 0 44px -6px rgba(190, 245, 255, .7); animation: battery-breathe 1.6s ease-in-out infinite; }
+.battery.full::after { background: #f4feff; }
+.battery.xl { gap: 7px; padding: 7px; border-radius: 14px; }
+.battery.xl i { height: 26px; border-radius: 6px; }
+.battery.xl i.drain { background: #121b2c; box-shadow: none; animation: none; }
+@keyframes cell-ignite { 0% { background: #f4feff; } 12% { background: #121b2c; } 22% { background: #cfefff; } 30% { background: #121b2c; } 46% { background: #f4feff; } 52% { background: #6a8aa0; } 62%, 100% { background: #f4feff; } }
+@keyframes battery-breathe { 50% { box-shadow: 0 0 10px rgba(59, 232, 255, .35), 0 0 26px -6px rgba(190, 245, 255, .4); } }
+.battery-dock { position: fixed; left: 0; right: 0; bottom: calc(var(--tabbar-h) + var(--safe-bottom) + 6px); z-index: 29; pointer-events: none; padding: 0 14px; }
+.battery-dock > div { max-width: 640px; margin: 0 auto; display: flex; align-items: center; gap: 10px; padding: 6px 10px; border-radius: 14px; background: rgba(6, 10, 19, .9); border: 1px solid var(--line); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
+.battery-dock .battery { flex: 1; }
+.battery-dock .lbl { font: 700 11px var(--mono); color: #fff; font-variant-numeric: tabular-nums; white-space: nowrap; }
+
+.plug-scene { position: relative; display: flex; flex-direction: column; align-items: center; text-align: center; touch-action: pan-y; }
+.plug-scene .cables { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; z-index: 2; }
+.plug-scene .cables path { fill: none; stroke-linecap: round; }
+.plug-scene .cables .sheath { stroke: #1b2438; stroke-width: 7; }
+.plug-scene .cables .core { stroke: #34405c; stroke-width: 2.4; }
+.plug-scene .cables .live .core { stroke: #f4feff; stroke-dasharray: 5 9; animation: cable-flow .45s linear infinite; }
+.plug-scene .cables .live .glow { stroke: rgba(59, 232, 255, .35); stroke-width: 9; }
+.plug-scene .cables .cut .core { stroke: #34405c; animation: none; }
+@keyframes cable-flow { to { stroke-dashoffset: -14; } }
+.socle { position: relative; z-index: 1; display: flex; gap: 10px; align-items: center; justify-content: center; flex-wrap: wrap; margin-top: 8px; padding: 8px 12px 18px; border-radius: 14px; background: #070c17; border: 1px solid #1c2740; }
+.sock { position: relative; width: 30px; height: 30px; border-radius: 50%; background: #03060c; border: 2px solid #2a3858; display: grid; place-items: center; }
+.sock::before { content: ""; position: absolute; left: 8px; right: 8px; top: 12px; height: 3px; border-radius: 2px; background: #16203a; }
+.sock.free { border-color: #fff; animation: socket-call 1.3s ease-out infinite; }
+.sock.on { border-color: #f4feff; box-shadow: 0 0 12px rgba(59, 232, 255, .8); }
+.sock.on::before { background: #f4feff; }
+.sock.dead { border-color: #3a4766; box-shadow: none; }
+.sock.dead::before { background: #16203a; }
+.sock small, .breaker small { position: absolute; top: 33px; left: 50%; transform: translateX(-50%); font: 600 8.5px var(--mono); letter-spacing: .06em; color: var(--text-3); white-space: nowrap; }
+@keyframes socket-call { 0% { box-shadow: 0 0 0 0 rgba(190, 245, 255, .7); } 100% { box-shadow: 0 0 0 12px rgba(190, 245, 255, 0); } }
+.breaker { position: relative; width: 26px; height: 32px; border-radius: 6px; background: #03060c; border: 1.5px solid #2a3858; }
+.breaker::before { content: ""; position: absolute; left: 7px; right: 7px; top: 4px; height: 12px; border-radius: 3px; background: #9fb3cf; transition: top .2s, background .2s; }
+.breaker.off::before { top: 15px; background: var(--red); }
+.breaker.off small { color: var(--red); }
+.plug { position: absolute; z-index: 3; width: 44px; height: 54px; margin: -27px 0 0 -22px; display: grid; place-items: center; touch-action: none; cursor: grab; -webkit-user-select: none; user-select: none; }
+.plug.hint { animation: plug-nudge 1.4s ease-in-out infinite; }
+.plug:focus-visible { outline: 2px solid var(--cyan); outline-offset: 2px; border-radius: 10px; }
+@keyframes plug-nudge { 50% { transform: translateY(-8px); } }
+.plug-dock { position: relative; z-index: 1; width: 100%; margin-top: 70px; }
+.plug-dock .lbl { display: flex; justify-content: space-between; font: 600 10px var(--mono); letter-spacing: .1em; color: var(--text-3); margin-bottom: 6px; }
+.plug-dock .lbl b { color: #fff; font-variant-numeric: tabular-nums; }
+.kw-flight { position: fixed; z-index: 116; left: 0; top: 0; pointer-events: none; white-space: nowrap; font: 700 44px var(--mono); color: #fff; text-shadow: 0 0 18px rgba(190, 245, 255, .95), 0 0 42px rgba(59, 232, 255, .7); }
+.kw-flight small { font-size: 19px; margin-left: 4px; color: var(--cyan); }
+.reduce-motion .battery i.on, .reduce-motion .battery.full, .reduce-motion .sock.free, .reduce-motion .plug.hint, .reduce-motion .plug-scene .cables .live .core { animation: none !important; }

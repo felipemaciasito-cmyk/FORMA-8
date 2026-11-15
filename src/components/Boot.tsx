@@ -1,7 +1,7 @@
 import { AnimatePresence, motion, useMotionValue, useTransform, animate } from "motion/react";
 import { useEffect, useRef, useState } from "react";
-import { sfx } from "../lib/sound";
-import { updateProgress, useProgress } from "../lib/store";
+import { key, LEVER_HIT, LEVER_LAST, LEVER_LIGHTS, sfx } from "../lib/sound";
+import { updateProgress, updateSettings, useProgress } from "../lib/store";
 import { OraSays } from "./Ora";
 
 const BIOS = [
@@ -15,8 +15,9 @@ const BIOS = [
 
 export function Boot({ power, onDone }: { power: number; onDone: () => void }) {
   const progress = useProgress();
-  const returning = progress.bootedOnce;
-  const [phase, setPhase] = useState<"bios" | "ora" | "lever" | "flash">(returning ? "bios" : "bios");
+  // Lu une seule fois : le levier marque bootedOnce pendant la séquence, qui doit rester celle du premier lancement.
+  const [returning] = useState(progress.bootedOnce);
+  const [phase, setPhase] = useState<"bios" | "ora" | "ambience" | "lever" | "flash">("bios");
   const [lines, setLines] = useState<string[]>([]);
   const [name, setName] = useState(progress.name);
   const skip = useRef(false);
@@ -36,9 +37,22 @@ export function Boot({ power, onDone }: { power: number; onDone: () => void }) {
       ci++;
       out[li] = script[li].slice(0, ci);
       setLines([...out]);
-      if (ci % 3 === 0) sfx("type");
-      if (ci >= script[li].length) { li++; ci = 0; setTimeout(tick, returning ? 120 : 260); }
-      else setTimeout(tick, returning ? 10 : 16);
+      const ch = script[li][ci - 1], nx = script[li][ci];
+      // Premier lancement : une vraie frappe, touche par touche, avec un rythme humain. Reprise : rapide et discrète.
+      if (!returning) key(ch === " " ? "space" : "char");
+      else if (ci % 3 === 0) key("char");
+      if (ci >= script[li].length) {
+        li++; ci = 0;
+        if (!returning) setTimeout(() => key("enter"), 120);
+        setTimeout(tick, returning ? 120 : 260 + Math.random() * 200);
+      } else if (returning) setTimeout(tick, 10);
+      else {
+        let d = 30 + Math.random() * 40;
+        if (ch === "." && nx === ".") d = 24 + Math.random() * 8;
+        if (ch === " ") d += 15 + Math.random() * 35;
+        if (Math.random() < 0.05) d += 90 + Math.random() * 120;
+        setTimeout(tick, d);
+      }
     };
     const finish = () => setTimeout(() => {
       if (cancelled) return;
@@ -53,14 +67,22 @@ export function Boot({ power, onDone }: { power: number; onDone: () => void }) {
   const confirmName = () => {
     updateProgress((p) => { p.name = name.trim().slice(0, 24); });
     sfx("open");
+    setPhase("ambience");
+  };
+  const chooseAmbience = (on: boolean) => {
+    updateSettings({ ambience: on });
+    sfx("open");
     setPhase("lever");
   };
 
+  // Le levier : la lame entre en force (impact), puis les rangées de lumières s'allument jusqu'au joueur.
+  const [lights, setLights] = useState(0);
   const pull = () => {
-    sfx("power");
-    setPhase("flash");
+    sfx("lever");
     updateProgress((p) => { p.bootedOnce = true; });
-    setTimeout(onDone, 1100);
+    setTimeout(() => setPhase("flash"), LEVER_HIT * 1000);
+    LEVER_LIGHTS.forEach((d, i) => setTimeout(() => setLights(i + 1), (LEVER_HIT + d) * 1000));
+    setTimeout(onDone, (LEVER_LAST + 0.6) * 1000);
   };
 
   return (
@@ -84,6 +106,15 @@ export function Boot({ power, onDone }: { power: number; onDone: () => void }) {
               </form>
             </motion.div>
           )}
+          {phase === "ambience" && (
+            <motion.div key="amb" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} style={{ marginTop: 28 }}>
+              <OraSays md={`Une question avant d'envoyer le courant${progress.name ? `, ${progress.name}` : ""} : veux-tu entendre la réserve ? Un **fond sonore** discret : le ronronnement des transformateurs, la ventilation, quelques grésillements au loin. Avec des écouteurs, c'est encore mieux. Tu pourras le changer à tout moment dans **Réglages**.`} />
+              <div className="stack" style={{ marginTop: 18, gap: 10 }}>
+                <button className="btn block" onClick={() => chooseAmbience(true)}>Oui, allume le fond sonore</button>
+                <button className="btn ghost block" onClick={() => chooseAmbience(false)}>Non merci</button>
+              </div>
+            </motion.div>
+          )}
           {phase === "lever" && (
             <motion.div key="lever" initial={{ opacity: 0 }} animate={{ opacity: 1 }} style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 18 }}>
               <OraSays compact md={`Parfait${progress.name ? `, ${progress.name}` : ""}. Abaisse le **levier principal** pour envoyer le courant dans la réserve.`} />
@@ -93,9 +124,25 @@ export function Boot({ power, onDone }: { power: number; onDone: () => void }) {
         </AnimatePresence>
       </div>
       <AnimatePresence>
-        {phase === "flash" && (
-          <motion.div key="flash" initial={{ opacity: 0 }} animate={{ opacity: [0, 1, 0.2, 0.9, 0] }} transition={{ duration: returning ? 0.4 : 1.1, times: [0, 0.1, 0.3, 0.45, 1] }}
+        {phase === "flash" && returning && (
+          <motion.div key="flash" initial={{ opacity: 0 }} animate={{ opacity: [0, 1, 0.2, 0.9, 0] }} transition={{ duration: 0.4, times: [0, 0.1, 0.3, 0.45, 1] }}
             style={{ position: "fixed", inset: 0, background: "radial-gradient(circle, #e9fdff, #3be8ff 40%, #020308 75%)", pointerEvents: "none" }} />
+        )}
+        {phase === "flash" && !returning && (
+          <motion.div key="power" initial={{ opacity: 0 }} animate={{ opacity: 1 }} style={{ position: "fixed", inset: 0, pointerEvents: "none" }}>
+            {/* l'impact du levier : un éclair blanc, l'écran tremble */}
+            <motion.div initial={{ opacity: 1 }} animate={{ opacity: 0 }} transition={{ duration: 0.5 }} style={{ position: "absolute", inset: 0, background: "#fff" }} />
+            {/* les rangées de lumières s'allument du fond de la salle jusqu'au joueur */}
+            <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", justifyContent: "flex-start", gap: "7%", padding: "16% 10% 0" }}>
+              {LEVER_LIGHTS.map((_, i) => (
+                <motion.div key={i} initial={{ opacity: 0 }} animate={{ opacity: lights > i ? [0, 1, 0.3, 1] : 0 }} transition={{ duration: 0.35 }}
+                  style={{ height: 4 + i * 2, marginInline: `${30 - i * 5}%`, borderRadius: 4, background: "#f4feff", boxShadow: `0 0 ${12 + i * 6}px #fff, 0 0 ${30 + i * 12}px rgba(59,232,255,.8)` }} />
+              ))}
+            </div>
+            <motion.div animate={{ opacity: lights / LEVER_LIGHTS.length * 0.55 }} transition={{ duration: 0.3 }}
+              style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse at 50% 20%, rgba(190,245,255,.8), rgba(59,232,255,.25) 45%, transparent 80%)" }} />
+            {lights >= LEVER_LIGHTS.length && <motion.div initial={{ opacity: 0.9 }} animate={{ opacity: 0 }} transition={{ duration: 0.6, delay: (LEVER_LAST - LEVER_HIT - LEVER_LIGHTS[LEVER_LIGHTS.length - 1]) }} style={{ position: "absolute", inset: 0, background: "radial-gradient(circle, #ffffff, #bdf6ff 45%, rgba(4,6,12,0) 85%)" }} />}
+          </motion.div>
         )}
       </AnimatePresence>
       {phase === "bios" && <div className="mono dim small" style={{ textAlign: "center" }}>Touchez l'écran pour accélérer</div>}
