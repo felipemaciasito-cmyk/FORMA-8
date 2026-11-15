@@ -25,7 +25,7 @@ npm install
 npm run dev            # serveur de développement
 npm run validate       # validateur « zéro zone de flou » (+ zéro emoji dans le contenu)
 npm run check:emoji    # contrôle « zéro emoji » du code
-npm run check:parity   # parité visuelle avec FORMA-7 (dépôt FORMA-7 à côté)
+npm run check:parity   # même palette et mêmes polices que FORMA-7 (dépôt FORMA-7 à côté)
 npm run typecheck      # vérification des types
 npm test               # tests unitaires
 npm run build          # validations + build de production (dist/)

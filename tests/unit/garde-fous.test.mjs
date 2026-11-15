@@ -68,7 +68,6 @@ test("aucun simulateur ni modèle de contenu de FORMA-7 n'est repris", () => {
 
 test("les illustrations de FORMA-7 (composant Art) ne sont utilisées nulle part", () => {
   for (const p of src) {
-    if (p.endsWith(join("components", "Art.tsx"))) continue; // fichier de la couche visuelle, conservé pour la parité
     assert.doesNotMatch(readFileSync(p, "utf8"), /from "\.\/Art"|from "\.\.\/Art"|<Art\b/, `${p} utilise une illustration de FORMA-7`);
   }
 });
