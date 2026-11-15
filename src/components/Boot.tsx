@@ -1,6 +1,7 @@
 import { AnimatePresence, motion, useMotionValue, useTransform, animate } from "motion/react";
 import { useEffect, useRef, useState } from "react";
-import { key, LEVER_HIT, LEVER_LAST, LEVER_LIGHTS, sfx, unlockAudio } from "../lib/sound";
+import { key, LEVER_HIT, LEVER_LAST, LEVER_LIGHTS, sfx, STORM_STRIKES, unlockAudio } from "../lib/sound";
+import { flash, skyStrike } from "./Bolts";
 import { Icon } from "./Icon";
 import { updateProgress, updateSettings, useProgress } from "../lib/store";
 import { OraSays } from "./Ora";
@@ -85,7 +86,17 @@ export function Boot({ power, onDone }: { power: number; onDone: () => void }) {
     updateProgress((p) => { p.bootedOnce = true; });
     setTimeout(() => setPhase("flash"), LEVER_HIT * 1000);
     LEVER_LIGHTS.forEach((d, i) => setTimeout(() => setLights(i + 1), (LEVER_HIT + d) * 1000));
-    setTimeout(onDone, (LEVER_LAST + 0.6) * 1000);
+    // Toute la salle est allumée : un orage électrique éclate, et l'accueil apparaît dans le flash du dernier éclair.
+    const storm = LEVER_LAST + 0.15;
+    setTimeout(() => sfx("storm"), storm * 1000);
+    const W = window.innerWidth, H = window.innerHeight;
+    const bolts: [number, number, number][] = [[0.3, 0.6, 0.78], [0.82, 0.42, 0.62], [0.55, 0.5, 0.95]];
+    STORM_STRIKES.forEach((d, i) => setTimeout(() => {
+      const [fx0, tx, ty] = bolts[i];
+      skyStrike(W * fx0, W * tx, H * ty);
+      flash(i === STORM_STRIKES.length - 1 ? 0.95 : 0.55, i === STORM_STRIKES.length - 1 ? 1100 : 450);
+    }, (storm + d) * 1000));
+    setTimeout(onDone, (storm + STORM_STRIKES[STORM_STRIKES.length - 1] + 0.12) * 1000);
   };
 
   return (

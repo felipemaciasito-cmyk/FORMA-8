@@ -166,6 +166,8 @@ function impact(t: number, gain = 1, len = 2.6) {
 export const LEVER_LIGHTS = [0.75, 1.15, 1.45, 1.66, 1.82, 1.94];
 /** Instant de l'impact du levier, puis de la dernière rangée (la plus proche). */
 export const LEVER_HIT = 0.3, LEVER_LAST = LEVER_HIT + 2.05;
+/** L'orage après le levier : instants des trois éclairs (secondes après son début). */
+export const STORM_STRIKES = [0, 0.25, 0.55];
 
 const SOUNDS = {
   tap() { const t = now(); click(t, 2300, 1.4, 0.004, 0.16, 0.05); thump(t, 420, 260, 0.025, 0.05, 0.05); },
@@ -224,6 +226,27 @@ const SOUNDS = {
     [[50, 0.5], [100, 1], [200, 0.6], [300, 0.45], [400, 0.3], [600, 0.12]].forEach(([f, g]) => { const o = osc("sine", f), og = a.createGain(); og.gain.value = g; o.connect(og); og.connect(hg); o.start(c + 0.05); o.stop(c + 3.7); });
     LEVER_LIGHTS.forEach((d, i) => { curFar = Math.max(0, 0.95 - i * 0.16); curPan = (i % 2 ? 0.5 : -0.5) * (0.4 + i * 0.1); contactor(c + d, 0.45 + i * 0.1, 0.6); tube(c + d + 0.04, 0.4 + i * 0.08); curFar = 0; curPan = 0; });
     contactor(c + 2.05, 1.3, 0.6); thump(c + 2.05, 70, 32, 0.8, 0.55, 0.6); crackle(c + 2.04, 0.2, 7000, 0.35, 1200, 0.6);
+  },
+  /** L'orage qui suit le levier : trois éclairs qui claquent, le tonnerre qui roule, l'électricité qui grésille. */
+  storm() {
+    const t = now(), a = A();
+    STORM_STRIKES.forEach((d, i) => {
+      curPan = [0, 0.6, -0.6][i] ?? 0;
+      const g = [1, 0.8, 0.9][i] ?? 0.8;
+      click(t + d, 5200, 0.5, 0.004, 0.95 * g, 0.7); crackle(t + d, 0.3, 9000, 0.6 * g, 1000, 0.7);
+      thump(t + d, 95, 28, 0.7, 0.65 * g, 0.7); buzz(t + d + 0.01, 0.9, 0.08 * g, 2400, 350, 2.5, 0.005, 0.6);
+      curPan = 0;
+    });
+    // le tonnerre roule : grave qui s'éloigne, avec des « vagues »
+    [[0.15, 3.4, 0.6], [0.7, 2.8, 0.4]].forEach(([d, dur, gain]) => {
+      const s = noise(t + d, dur + 0.1, brownBuf!), lp = filt("lowpass", 1800, 0.8); lp.frequency.setValueAtTime(1800, t + d); lp.frequency.exponentialRampToValueAtTime(110, t + d + dur);
+      const e = a.createGain(); e.gain.setValueAtTime(0.0001, t + d); e.gain.exponentialRampToValueAtTime(gain, t + d + 0.08); e.gain.exponentialRampToValueAtTime(0.0001, t + d + dur);
+      const am = a.createGain(); am.gain.value = 0.7; const lfo = osc("sine", 3 + Math.random() * 3), lg = a.createGain(); lg.gain.value = 0.3; lfo.connect(lg); lg.connect(am.gain);
+      s.connect(lp); lp.connect(am); am.connect(e); e.connect(out(0.9)); lfo.start(t + d); lfo.stop(t + d + dur + 0.1);
+    });
+    const sub = osc("sine", 48); sub.frequency.setValueAtTime(48, t + 0.1); sub.frequency.exponentialRampToValueAtTime(28, t + 2.2);
+    const se = env(t + 0.1, 0.05, 0.45, 0.3, 1.8); sub.connect(se); se.connect(out(0.3)); sub.start(t + 0.1); sub.stop(t + 2.4);
+    crackle(t + 0.4, 2.2, 260, 0.06, 2600, 0.8);
   },
   /** Livraison vérifiée : quatre relais francs, un contacteur, puis deux notes électriques. */
   delivery() {

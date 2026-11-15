@@ -141,3 +141,18 @@ export function sparks(c: Pt, n = 14) {
     g.restore(); glow(c.x, c.y, 30 * (1 - e), 0.8 * (1 - e / 0.7));
   });
 }
+
+/** Flash blanc sur tout l'écran, qui s'éteint (il survit au changement d'écran : la toile reste montée). */
+export function flash(peak = 0.85, ms = 700) {
+  if (reduced() || !g) return;
+  const t0 = performance.now();
+  play((t) => {
+    const k = (t - t0) / ms; if (k >= 1 || !g) return false;
+    g.save(); g.fillStyle = `rgba(235,252,255,${peak * (1 - k) * (1 - k)})`; g.fillRect(0, 0, W, H); g.restore();
+  });
+}
+
+/** Un éclair qui tombe du haut de l'écran (orage du levier principal). */
+export function skyStrike(fromX: number, toX: number, toY: number) {
+  bigStrike({ x: fromX, y: -20 }, [{ x: toX, y: toY }], 0.02);
+}

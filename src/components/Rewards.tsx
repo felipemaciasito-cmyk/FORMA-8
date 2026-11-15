@@ -6,7 +6,7 @@ import { getEnergyBar, holdEnergy, landEnergy } from "../lib/energy";
 import { useReduceMotion } from "../lib/motion";
 import { go } from "../lib/router";
 import { key, LEVELUP_HIT, LEVELUP_LOCKS, sfx, WAKE_BEATS, WAKE_HIT, WAKE_SYSTEMS } from "../lib/sound";
-import { arcs, BoltCanvas, centerOf, sparks, strike, type Pt } from "./Bolts";
+import { arcs, centerOf, sparks, strike, type Pt } from "./Bolts";
 import { ChargedCapsule } from "./Crew";
 import { Icon } from "./Icon";
 
@@ -76,7 +76,6 @@ export function RewardLayer() {
 
   return (
     <>
-      <BoltCanvas />
       <div aria-hidden="true" style={{ position: "fixed", inset: 0, pointerEvents: "none", zIndex: 116 }}>
         {pops.map((p) => <KwPop key={p.id} p={p} onDone={() => setPops((l) => l.filter((x) => x.id !== p.id))} />)}
       </div>
