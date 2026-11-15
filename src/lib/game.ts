@@ -62,7 +62,9 @@ export function addEnergy(amount: number, label?: string, opts: { quiet?: boolea
   fx({ type: "gain", amount, quiet: opts.quiet });
   if (label) fx({ type: "toast", icon: "bolt", text: `+${amount} kW · ${label}`, tone: "cyan" });
   if (after.index > before) {
-    sfx("levelup");
+    // Pas de son ici : la cérémonie plein écran joue elle-même « levelup ». Pendant un protocole, le grade n'est
+    // annoncé qu'à la fin ; jouer le son tout de suite couvrait le bruit de la cellule de batterie qui s'allume
+    // (remarque du propriétaire, 15/11/2026).
     // Pas de bandeau : la cérémonie (fin de protocole ou plein écran) annonce elle-même le nouveau grade.
     fx({ type: "burst", color: "#4dffa0" });
     fx({ type: "levelup", index: after.index, title: after.title, next: after.next });
