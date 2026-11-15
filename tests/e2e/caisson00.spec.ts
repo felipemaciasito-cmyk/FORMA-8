@@ -1,6 +1,6 @@
 import { readFileSync } from "node:fs";
 import { expect, test } from "@playwright/test";
-import { boot, dismissCeremonies, LABEL, playMaintenance, playStep, solve, type Step } from "./helpers";
+import { boot, dismissCeremonies, rearmBreaker, LABEL, playMaintenance, playStep, solve, type Step } from "./helpers";
 
 // Banc d'essai du caisson 00 : on joue tout le caisson comme le joueur, sur un écran
 // d'iPhone. Chaque type d'exercice est résolu, les simulateurs et procédures sont
@@ -78,6 +78,7 @@ test("le caisson 00 se joue entièrement, avec chaque outil d'apprentissage", as
     await page.getByRole("button", { name: k < C00.incident.scenarios.length - 1 ? /Alerte suivante/ : /Rétablir le courant/ }).click();
   }
   await expect(page.getByText("Panne réparée")).toBeVisible();
+  await rearmBreaker(page);
   await expect(page.getByText("Sans un seul fusible grillé")).toBeVisible();
   // Le membre se réveille (scène plein écran), puis la montée de grade éventuelle.
   await expect(page.getByRole("dialog", { name: /^Réveil :/ })).toBeVisible({ timeout: 5000 });

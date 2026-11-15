@@ -51,6 +51,13 @@ export function SettingsView() {
       <Section icon="sliders" title="Profil & confort">
         <label className="field"><span>Ton prénom</span><input className="input" value={p.name} maxLength={24} onChange={(e) => updateProgress((d) => { d.name = e.target.value; })} /></label>
         <Toggle label="Effets sonores" on={s.sound} onChange={(v) => { updateSettings({ sound: v }); if (v) setTimeout(() => sfx("ok"), 50); }} />
+        <Toggle label="Fond sonore de la réserve" on={s.ambience} onChange={(v) => updateSettings({ ambience: v })} />
+        <p className="small muted" style={{ margin: "4px 0 0" }}>Ronronnement des transformateurs, ventilation, grésillements au loin. Plus ton équipe se réveille, plus la salle s'anime. Avec des écouteurs, c'est encore mieux.</p>
+        {s.ambience && (
+          <label className="field" style={{ marginTop: 10 }}><span>Volume du fond sonore</span>
+            <input type="range" min={0} max={100} step={5} value={Math.round((s.ambienceVolume ?? 0.6) * 100)} onChange={(e) => updateSettings({ ambienceVolume: Number(e.target.value) / 100 })} aria-label="Volume du fond sonore" style={{ width: "100%", accentColor: "var(--cyan)" }} />
+          </label>
+        )}
         <label className="field" style={{ marginTop: 12 }}><span>Animations</span>
           <select className="input" value={s.reduceMotion} onChange={(e) => updateSettings({ reduceMotion: e.target.value as typeof s.reduceMotion })}>
             <option value="auto">Selon le réglage de l'iPhone</option>

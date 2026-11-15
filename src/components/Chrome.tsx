@@ -142,7 +142,8 @@ function burst(c: HTMLCanvasElement | null, x?: number, y?: number, color = "#3b
   const ctx = c.getContext("2d"); if (!ctx) return;
   ctx.scale(dpr, dpr);
   const cx = x ?? window.innerWidth / 2, cy = y ?? window.innerHeight * 0.45;
-  const colors = [color, "#ffffff", "#4dffa0", "#a78bfa"];
+  // Blanc et cyan seulement pour l'énergie (choix du 15/11/2026), plus la couleur demandée.
+  const colors = [color, "#ffffff", "#ffffff", "#3be8ff"];
   const parts = Array.from({ length: 70 }, () => {
     const a = Math.random() * Math.PI * 2, s = 2 + Math.random() * 7;
     return { x: cx, y: cy, vx: Math.cos(a) * s, vy: Math.sin(a) * s - 2, life: 1, r: 1.5 + Math.random() * 2.5, c: colors[Math.floor(Math.random() * colors.length)] };

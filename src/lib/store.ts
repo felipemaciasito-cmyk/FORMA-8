@@ -71,6 +71,9 @@ export interface Progress {
 
 export interface Settings {
   sound: boolean;
+  /** Fond sonore de la réserve (coupé tant que le joueur ne l'a pas choisi) et son volume, de 0 à 1. */
+  ambience: boolean;
+  ambienceVolume: number;
   reduceMotion: "auto" | "on" | "off";
   ghOwner: string;
   ghRepo: string;
@@ -111,6 +114,8 @@ export const DEFAULT_PROGRESS: Progress = {
 
 export const DEFAULT_SETTINGS: Settings = {
   sound: true,
+  ambience: false,
+  ambienceVolume: 0.6,
   reduceMotion: "auto",
   ghOwner: "felipemaciasito-cmyk",
   ghRepo: "FORMA-7-data",

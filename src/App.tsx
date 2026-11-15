@@ -4,6 +4,7 @@ import { notion, ROOMS } from "./content";
 import { checkBadges, setBadgeCtx } from "./lib/game";
 import { roomsDoneCount, totalPower } from "./lib/progress";
 import { setLabelResolver } from "./lib/richtext";
+import { installAudioUnlock, setAmbienceLevel, syncAmbience } from "./lib/sound";
 import { useRoute } from "./lib/router";
 import { useProgress, useSettings, useStore } from "./lib/store";
 import { useProgressSync } from "./lib/sync";
@@ -34,6 +35,11 @@ export function App() {
     setBadgeCtx({ roomsDone: roomsDoneCount(p), roomsTotal: ROOMS.length });
   }, [p]);
   useEffect(() => { if (ready && booted) checkBadges(); }, [ready, booted]);
+  // Son : déblocage au premier toucher (Safari), fond sonore selon les réglages, salle plus animée quand l'équipe se réveille.
+  useEffect(() => { installAudioUnlock(); }, []);
+  useEffect(() => { if (ready) syncAmbience(); }, [ready, settings.ambience, settings.ambienceVolume]);
+  const power = totalPower(p);
+  useEffect(() => { setAmbienceLevel(0.15 + 0.85 * power / 100); }, [power]);
 
   const reduce = settings.reduceMotion === "on" || (settings.reduceMotion === "auto" && window.matchMedia?.("(prefers-reduced-motion: reduce)").matches);
   useEffect(() => { document.documentElement.classList.toggle("reduce-motion", reduce); }, [reduce]);

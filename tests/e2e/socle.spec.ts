@@ -82,9 +82,11 @@ test("clin d'oeil FORMA-7 : lu, affiché, jamais modifié", async ({ page }) => 
   await page.goto("./");
   await seedForma7(page, forma7);
   await page.reload();
+  await page.getByRole("button", { name: "Mettre sous tension" }).click();
   await page.locator(".boot").click();
   await expect(page.getByLabel("Ton prénom")).toBeVisible({ timeout: 15_000 });
   await page.getByRole("button", { name: "Prendre mon poste" }).click();
+  await page.getByRole("button", { name: "Non merci" }).click();
   await page.getByRole("button", { name: "Abaisser le levier principal" }).click();
   await page.getByRole("navigation", { name: "Navigation principale" }).getByRole("button", { name: "Base" }).click();
   await expect(page.getByText("Pilote de baie")).toBeVisible();
