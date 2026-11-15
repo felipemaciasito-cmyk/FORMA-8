@@ -1,104 +1,108 @@
-# FORMA-8 · Réveille l'équipe : document de transfert (état au 15/11/2026)
+# FORMA-8 · Réveille l'équipe : document de transfert (état au 15/11/2026, après la refonte)
 
-> À lire au démarrage de chaque nouvelle session (renvoi dans `CLAUDE.md`). Ce document complète
+> À lire en entier au démarrage de chaque nouvelle session (renvoi dans `CLAUDE.md`). Ce document complète
 > `CLAUDE.md`, `docs/CONCEPTION.md` et `docs/PROGRAMME.md`. En cas d'écart, le code du dépôt fait foi :
-> signaler l'écart au propriétaire. Mettre ce document à jour à la fin de chaque lot.
+> signaler l'écart au propriétaire. Mettre ce document à jour à la fin de chaque lot, dans la même PR.
 
 ---
 
 ## 1. Objectif et contexte
 
 ### 1.1 Le propriétaire
-- Il n'est pas développeur et travaille uniquement dans Safari sur iPhone et iPad : ni ordinateur, ni appli Claude.
-- Lui répondre en français, en le tutoyant, simplement. Les questions se posent en QCM (outil de questions),
-  et chaque question doit se comprendre seule.
-- Ses objectifs : **en faire un métier** et **lancer un produit**. Il a 15 à 30 minutes par jour. Il ne lit pas l'anglais.
+- Il n'est pas développeur et travaille uniquement dans Safari sur iPhone et iPad : ni ordinateur, ni appli Claude
+  installée. Il pilote Claude Code depuis claude.ai/code et fusionne les PR sur github.com.
+- Lui répondre en **français**, en le **tutoyant**, simplement. Les questions se posent en **QCM** (outil de questions),
+  et chaque question doit se comprendre seule. Il ne lit pas l'anglais : traduire chaque libellé anglais de GitHub.
+- Ses objectifs : **en faire un métier** et **lancer un produit**. Il a 15 à 30 minutes par jour.
 - Abonnement Claude **Pro**, donc sans crédits API inclus.
-- Diagnostic du 14/11/2026, profil « pilote débutant » :
-  - il survolait les diffs sans les lire ;
-  - Git : 1 ou 2 sur 4 ;
-  - il n'a jamais mis un site en ligne seul ;
-  - il n'a jamais créé de jeton GitHub ;
-  - il n'a jamais utilisé d'outil de débogage.
-- Préférences permanentes d'honnêteté :
-  - signaler toute incertitude (« je ne suis pas certain », « à vérifier ») ;
-  - ne jamais inventer une source, une URL, un chiffre ou une citation ;
-  - signaler ce qui a pu évoluer depuis la dernière vérification ;
-  - citer des sources réelles avec leur date de vérification.
+- Diagnostic du 14/11/2026, profil « pilote débutant » : il survolait les diffs sans les lire ; Git : 1 ou 2 notions
+  sur 4 ; jamais mis un site en ligne seul ; jamais créé de jeton GitHub ; jamais utilisé d'outil de débogage.
+- Préférences permanentes d'honnêteté : signaler toute incertitude (« je ne suis pas certain », « à vérifier ») ;
+  ne jamais inventer une source, une URL, un chiffre ou une citation ; signaler ce qui a pu évoluer depuis la
+  dernière vérification ; citer des sources réelles, ouvertes, avec leur date de vérification.
+- Ce qu'il attend, dans ses mots :
+  - « Sois ambitieux ! » ; « Sois extrêmement ambitieux et rigoureux » ;
+  - « Je veux adorer utiliser cette appli et avoir le sentiment de vivre une vraie aventure/expérience prenante avec
+    une vraie impression de progression » ;
+  - « Fais-en un outil pédagogique stimulant, ludique et interactif » ; « Rends le tout cohérent et très esthétique ».
+- Comment il aime décider : il veut **voir avant de choisir**. Pour un changement visuel, il a demandé des
+  « maquettes d'abord », puis « un nouvel aperçu » des propositions : lui montrer une page jouable ou des captures,
+  puis lui poser un QCM.
 
 ### 1.2 FORMA-7, le projet précédent (référence et étude de cas)
-- PWA ludique pour apprendre l'IA : un « datacenter » à rallumer (7 salles plus 1 bonus), avec un guide, ORA, et 53 notions.
-- Dépôt public `felipemaciasito-cmyk/forma-7`. Sa base Vite est `/FORMA-7/`, donc l'adresse probable est
-  https://felipemaciasito-cmyk.github.io/FORMA-7/ (à confirmer).
-- Construit en 20 h environ, en 6 commits envoyés directement sur `main`, sans tests ni CLAUDE.md.
-  C'est une étude de cas : on n'en reprend jamais le contenu.
-- Dépôt privé `felipemaciasito-cmyk/forma-7-data`. Il contient `PIPELINE.md`, `README.md`, `config.json`, `index.json`,
-  `missions/j1-2026-11-13.json` et `processed.json`. Il n'a **pas de dossier `progress/`**, car le jeton de
-  synchronisation de FORMA-7 n'a jamais été créé.
+- PWA ludique pour apprendre l'IA : un « datacenter » à rallumer (7 salles plus 1 bonus), avec un guide, ORA, et
+  53 notions.
+- Dépôt public `felipemaciasito-cmyk/forma-7` (attacher en lecture seule, cloner à côté de FORMA-8 sous le nom
+  `forma-7`). Sa base Vite est `/FORMA-7/` ; l'adresse probable est https://felipemaciasito-cmyk.github.io/FORMA-7/
+  (à confirmer).
+- Construit en 20 h environ, en 6 commits envoyés directement sur `main`, sans tests ni CLAUDE.md. Étude de cas
+  seulement : on n'en reprend jamais le contenu pédagogique.
+- Dépôt privé `felipemaciasito-cmyk/forma-7-data` : `PIPELINE.md`, `README.md`, `config.json`, `index.json`,
+  `missions/j1-2026-11-13.json`, `processed.json`. **Pas de dossier `progress/`** : le jeton de synchronisation de
+  FORMA-7 n'a jamais été créé.
 
 ### 1.3 FORMA-8 · « Réveille l'équipe »
 - PWA pour apprendre le vibe coding (créer des applications avec l'IA, avec Claude Code), de débutant à expert.
 - Exigences pédagogiques : très ludique, très guidée, animée, interface soignée, zéro zone de flou, outils interactifs.
-- Univers :
-  - le datacenter de FORMA-7 est rallumé ;
-  - dans sa réserve dorment **11 membres de l'équipe**, un par caisson, et chacun incarne un vrai savoir-faire de Claude Code ;
-  - le joueur passe d'apprenti à chef d'orchestre d'agents.
+- Univers : le datacenter de FORMA-7 est rallumé ; dans sa réserve dorment **11 membres de l'équipe**, un par caisson,
+  chacun incarnant un vrai savoir-faire de Claude Code ; le joueur passe d'apprenti à chef d'orchestre d'agents.
 - **Un caisson = un membre = un niveau = une version du produit fil rouge** (v0.0 à v1.0). Chaque niveau se termine
   par une **vraie livraison en ligne**, vérifiée automatiquement sur GitHub.
-- Produit fil rouge : choisi dans l'appli, grâce à l'atelier guidé du caisson 00. Pistes : appli grand public,
-  outil pour les pros, appli avec IA intégrée.
-- Dépôt : `felipemaciasito-cmyk/FORMA-8` (public, vérifié).
-- En ligne : **https://felipemaciasito-cmyk.github.io/FORMA-8/**. Les caissons 00 et 01 sont jouables ; les caissons
-  02 à 10 sont affichés « en préparation ». La refonte de l'interface (option B, voir 3.3 et 3.15) arrive par sa PR.
+- Produit fil rouge : choisi dans l'appli (atelier guidé du caisson 00). Exemple utilisé dans le contenu et les tests :
+  « Carnet de chantier ».
+- Dépôt : `felipemaciasito-cmyk/FORMA-8` (public).
+- En ligne : **https://felipemaciasito-cmyk.github.io/FORMA-8/**. Caissons 00 et 01 jouables, avec la refonte de
+  l'interface (mise en ligne n° 6 réussie le 15/11/2026 à 02:27 UTC). Caissons 02 à 10 « en préparation ».
 - Volume prévu : environ 60 protocoles et 140 notions, soit environ 6 à 10 mois à 15-30 min par jour (estimation).
 
 ---
 
 ## 2. Règles et contraintes strictes
 
-### 2.1 Règles du propriétaire (brief initial, toujours en vigueur)
+### 2.1 Règles du propriétaire (toujours en vigueur)
 - « Ne fais jamais d'action destructive ou difficile à annuler sans mon accord explicite : supprimer une branche,
-  fusionner des branches, contourner une règle de sécurité. » Pas d'envoi direct sur `main` sans son accord.
-- Commits en français, avec les lignes d'attribution fournies par le système.
-- Pull requests : une par lot (demande générale du propriétaire, voir 2.3).
+  fusionner des branches, contourner une règle de sécurité. » **Jamais d'envoi direct sur `main`.** C'est lui qui
+  fusionne.
+- Une seule PR par lot, vers `main`, qui met aussi à jour ce document. **L'annoncer clairement ; il ne fusionne
+  qu'après l'annonce.** Ne plus rien pousser après l'annonce (le 14/11, il a fusionné la PR #8 pendant que la CI
+  vérifiait un dernier petit commit).
+- Commits en français, qui expliquent le pourquoi, avec les lignes d'attribution fournies par le système de la session.
 - **Ne jamais modifier `progress/progress.json`** de FORMA-7-data : il appartient à FORMA-7.
 - Jeton GitHub et clé API : sur les appareils du joueur uniquement. Jamais dans le code, les commits ou les journaux.
-- **Tout écart visuel par rapport à FORMA-7 doit être validé explicitement AVANT d'être fait.**
+- **Changements visuels** : la palette et les polices de FORMA-7 ne changent pas ; tout nouveau changement visuel
+  important se montre d'abord (maquette jouable ou captures) et attend son accord.
 - Pas de logos de marques.
 - **Aucun contenu de FORMA-7** : « Je ne veux reprendre aucun contenu de FORMA-7, tout doit reposer sur de nouvelles
-  sources (anthropic et autres) ». FORMA-8 enseigne tout elle-même, indépendamment de FORMA-7.
-- Ambition : « vérifies que tous les meilleurs outils prévus pour l'apprentissage soient disponibles et parfaitement
-  fonctionnels afin de délivrer un apprentissage extrêmement ludique et guidé de façon précise. Sois ambitieux ! »
+  sources (anthropic et autres) ». Exception validée : l'étude de cas de l'historique de FORMA-7 (voir 4.1).
+- Toute procédure destinée au joueur doit être faisable **dans Safari sur iPhone** (github.com et claude.ai/code).
 
-### 2.2 Règles du dépôt (`CLAUDE.md`)
-1. **Zéro emoji** dans l'appli et le contenu. Uniquement les icônes maison : `src/components/glyphs.ts`, identifiants
-   dans `src/content/icon-ids.json`. Contrôle : `npm run check:emoji`.
-2. **Zéro zone de flou.** Toute notion a une fiche à 3 niveaux, une analogie, un exemple et des prérequis, et elle est
-   définie avant d'être utilisée. Les termes s'écrivent `[[id]]` ou `[[id|texte]]`. Contrôle : `npm run validate`.
-3. **Identité visuelle : même palette, mêmes polices que FORMA-7** (option B, choisie le 15/11/2026).
-   - Les variables de `:root` de `src/styles/app.css` (couleurs, rayons, polices) restent identiques à FORMA-7.
-   - Écrans, composants et animations peuvent évoluer ; tout nouveau changement visuel important se montre d'abord
-     au propriétaire (maquette ou captures) et attend son accord.
-   - Glyphes et identifiants d'icônes : ajout seulement, dans le même style (grille de 24, trait de 1,8, coins arrondis).
-   - Contrôle : `npm run check:parity` (variables de `:root`, glyphes, couleur de thème, polices).
-4. **Stockage** : toutes les clés commencent par `forma8:`. Ne jamais écrire sous `forma7:` (lecture seule, dans `src/lib/forma7.ts`).
+### 2.2 Règles du dépôt (`CLAUDE.md`, résumé)
+1. **Zéro emoji** dans l'appli et le contenu ; uniquement les icônes maison (`src/components/glyphs.ts`, identifiants
+   dans `src/content/icon-ids.json`). Contrôle : `npm run check:emoji` et le validateur.
+2. **Zéro zone de flou** : toute notion a une fiche à 3 niveaux, une analogie, un exemple et des prérequis, et elle est
+   définie avant d'être utilisée. Termes écrits `[[id]]` ou `[[id|texte]]`. Contrôle : `npm run validate`.
+3. **Identité visuelle : même palette, mêmes polices que FORMA-7** (option B, 15/11/2026). Les 30 variables `:root` de
+   `src/styles/app.css` restent identiques à FORMA-7 ; écrans, composants et animations peuvent évoluer. Glyphes et
+   identifiants d'icônes : ajout seulement, même style (grille de 24, trait de 1,8, coins arrondis).
+   Contrôle : `npm run check:parity`.
+4. **Stockage** : clés `forma8:` uniquement. Jamais d'écriture sous `forma7:` (lecture seule, `src/lib/forma7.ts`).
 5. **Synchronisation** dans `progress/forma-8.json` de FORMA-7-data. Ne jamais toucher `progress/progress.json`.
 6. **Secrets** : uniquement sur l'appareil du joueur.
-7. **Vocabulaire** :
-   - « équipe », jamais « équipage » ;
-   - dans le code, un caisson (niveau) est un `Room`, un protocole de réveil (leçon) un `Step`, une panne un `Incident`.
+7. **Vocabulaire** : « équipe », jamais « équipage ». Dans le code : caisson = `Room`, protocole de réveil (leçon) =
+   `Step`, panne = `Incident`.
 8. **Sources** : documentation officielle, en français quand elle existe (`https://code.claude.com/docs/fr/`), citée
    avec sa date de vérification. Aucun cours tiers copié ou traduit mot pour mot.
-9. **Aucun contenu de FORMA-7.**
-   - Seules la palette, les polices et la mécanique de jeu viennent de FORMA-7.
-   - Illustrations : uniquement `src/components/Illustrations.tsx` et les personnages de `src/components/Crew.tsx`.
-     `Art.tsx` (illustrations de FORMA-7) a été retiré le 15/11/2026 ; un test garde-fou vérifie qu'il ne revient pas.
-   - Chaque caisson doit passer son banc d'essai de bout en bout (modèle : `tests/e2e/caisson01.spec.ts`).
+9. **Aucun contenu de FORMA-7** : fiches, leçons, exercices, simulateurs et modèles écrits à neuf. Seules la palette,
+   les polices et la mécanique de jeu viennent de FORMA-7. Illustrations : uniquement `src/components/Illustrations.tsx`
+   et les personnages de `src/components/Crew.tsx`. Les répliques de l'équipe (`src/content/equipe.json`) passent par
+   le validateur. Chaque caisson passe son banc d'essai de bout en bout (modèle : `tests/e2e/caisson01.spec.ts`).
 
 ### 2.3 Méthode de travail établie
-- Une **branche par lot**, créée depuis `origin/main`, et une **PR par lot, qui cible directement `main`**.
-  Jamais de PR empilées (erreur commise avec les PR #2 et #3).
-- Pousser uniquement sur la branche autorisée par l'environnement de la session. Si l'environnement impose un nom, l'utiliser.
+- Une **branche par lot**, créée depuis `origin/main`, et une **PR par lot, qui cible directement `main`**. Jamais de
+  PR empilées (erreur des PR #2 et #3). Pousser uniquement sur la branche imposée par l'environnement de la session.
+  Si cette branche a déjà été fusionnée, la recréer depuis `origin/main` (l'envoi reste alors une simple avance).
+- **Ne jamais réécrire un historique déjà poussé** (`--force`) : le 15/11/2026, un envoi forcé a été refusé par la
+  sécurité de la session. Ajouter des commits par-dessus.
 - Avant toute PR, cette commande doit passer entièrement :
 
 ```bash
@@ -106,521 +110,398 @@ npm run validate && npm run check:emoji && npm run check:parity && npm run typec
 ```
 
   `check:parity` a besoin de FORMA-7 cloné à côté (`../forma-7` ou `../FORMA-7`), ou de l'option `--forma7 <dossier>`.
-- **Annoncer clairement au propriétaire quand une PR est prête, et lui demander de ne fusionner qu'après cette annonce.**
-  La PR #5 avait été fusionnée trop tôt, ce qui a obligé à ouvrir la PR #6.
-- Après une PR, proposer de la surveiller. Se désabonner une fois la PR fusionnée.
+- Après l'ouverture d'une PR : s'abonner à son activité (`subscribe_pr_activity`), attendre le robot « verifier »
+  (environ 2 min 30), annoncer « prête, tu peux fusionner » seulement quand il est vert, puis vérifier la mise en
+  ligne (workflow « Déployer FORMA-8 sur GitHub Pages », moins d'une minute).
+- Outils GitHub de la session : les outils `mcp__github__*` (créer la PR, lire ses vérifications, lister les
+  workflows). Pas de `gh` sauf pour la recherche.
 - Aucun identifiant de modèle dans les commits, les PR ou le code, sauf dans les lignes d'attribution du système.
-- Lignes d'attribution : celles de la nouvelle session. Pour mémoire, l'ancienne session terminait ses commits par :
-  `Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>` et `Claude-Session: https://claude.ai/code/session_012Fxm7ytQCzYDiyoRfZtKUA`.
-  Ses PR se terminaient par le pied fourni par le système (lien Claude Code et lien de session).
-- Toute procédure destinée au joueur doit être faisable **dans Safari sur iPhone** (github.com et claude.ai/code).
-- Dans le conteneur cloud, Chromium et Playwright sont préinstallés : ne pas lancer `playwright install`.
-  La CI GitHub l'installe elle-même.
+- Dans le conteneur cloud, Chromium et Playwright sont préinstallés : ne pas lancer `playwright install` (la CI
+  GitHub l'installe elle-même).
+- Pour tout changement visuel : regarder chaque écran en capture (Playwright, `devices['iPhone 13']`) avant la
+  commande complète, et montrer une maquette au propriétaire avant de construire (voir 3.3).
 
 ---
 
 ## 3. État actuel et éléments validés
 
 ### 3.1 Git, PR et mise en ligne
-- `origin/main` = `ccb28cf` (« Merge pull request #8 », le caisson 01), vérifié le 15/11/2026.
-  Avant : `79c1061` (PR #7, ce document), puis `9ac4f20` (« Merge pull request #6 »). Les commits avant lui :
-  - `e12fc8c` : contenu du caisson 00 et banc d'essai ;
-  - `c882962` : fusion de la PR #5 ;
-  - `f14df24` et `58e0879` : outils ;
-  - `e18dca5` : fusion de la PR #3 ;
-  - `2601276` : fusion de la PR #1.
-- Les PR, toutes fusionnées par le propriétaire :
-  - #1 : socle ;
-  - #2 et #3 : lots 2 et 3, fusionnés par erreur dans des branches intermédiaires ;
-  - #4 : lots 2 et 3 vers `main`, fermée automatiquement ;
-  - #5 : outils d'apprentissage ;
-  - #6 : contenu du caisson 00 ;
-  - #7 : ce document de transfert ;
-  - #8 : caisson 01 (fusionnée le 14/11/2026, vérifications vertes).
-- **PR de la refonte de l'interface (option B)** : depuis la branche `claude/charming-darwin-rxq6b5` (nom imposé par
-  l'environnement de la session), vers `main`.
-- Le 15/11/2026, le propriétaire a été invité à supprimer les branches déjà fusionnées (`claude/forma8-c00`,
-  `claude/forma8-lot2-mecaniques`, `claude/forma8-programme`, `claude/new-session-wuj1q9`, `claude/forma8-transfert`) ;
-  vérifier lesquelles restent. **Ne jamais en supprimer soi-même sans accord.**
+- `origin/main` = **`b96f074`** (« Merge pull request #9 », la refonte de l'interface), vérifié le 15/11/2026.
+  Avant : `ccb28cf` (PR #8, caisson 01), `79c1061` (PR #7, premier document de transfert), `9ac4f20` (PR #6).
+- PR, toutes fusionnées par le propriétaire :
+  - #1 socle ; #2 et #3 lots 2 et 3 (fusionnés par erreur dans des branches intermédiaires) ; #4 lots 2 et 3 vers
+    `main` (fermée automatiquement) ; #5 outils d'apprentissage ; #6 contenu du caisson 00 ; #7 document de transfert ;
+  - #8 caisson 01 (14/11/2026) ;
+  - #9 refonte de l'interface, option B (15/11/2026, 5 commits : 3 de prototype, puis la nouvelle règle visuelle et
+    la fin de la refonte).
+  - La PR qui ajoute la présente version de ce document suit la #9.
+- Branches distantes au 15/11/2026 : `main` et `claude/charming-darwin-rxq6b5` (branche de cette session, entièrement
+  fusionnée ; le propriétaire peut la supprimer). Les anciennes branches fusionnées ont été supprimées par lui.
 - Workflows :
-  - `.github/workflows/ci.yml` (« Vérifications FORMA-8 », sur chaque PR, Node 22) : récupère FORMA-7 dans `forma-7`,
-    puis lance toutes les vérifications et les tests de bout en bout ;
+  - `.github/workflows/ci.yml` (« Vérifications FORMA-8 », job `verifier`, sur chaque PR, Node 22) : récupère FORMA-7
+    dans `forma-7`, puis lance toutes les vérifications et les tests de bout en bout ;
   - `.github/workflows/deploy.yml` (sur envoi vers `main`) : construit l'appli et la publie sur GitHub Pages.
-- GitHub Pages : Source « GitHub Actions », activée par le propriétaire. La mise en ligne n°3 a réussi.
+- GitHub Pages : Source « GitHub Actions ». Dernière mise en ligne : n° 6, réussie (15/11/2026, 02:27 UTC).
 
 ### 3.2 Pile technique
-- Vite 8, React 19, TypeScript 6, motion 14 (`motion/react`), idb-keyval.
-- Polices : @fontsource Space Grotesk et JetBrains Mono.
-- vite-plugin-pwa 2.
+- Vite 8, React 19, TypeScript 6, motion 14 (`motion/react`), idb-keyval 6, vite-plugin-pwa 2.
+- Polices : @fontsource Space Grotesk et JetBrains Mono (importées dans `src/main.tsx`).
 - `@anthropic-ai/sdk` ^1.8, chargé à la demande, avec `dangerouslyAllowBrowser`.
-- `@playwright/test` 1.63.0.
-- Base `/FORMA-8/`. `tsconfig.json` contient `allowImportingTsExtensions: true`, pour que Node importe `./gh-core.ts`.
-- Scripts npm :
-  - `dev`, `validate`, `check:emoji`, `check:parity`, `typecheck` ;
-  - `test` (`node --test tests/unit/*.test.mjs`), `test:e2e` ;
-  - `build` (validate, emoji, puis vite build), `preview`.
+- `@playwright/test` 1.63.0. Node 22 dans la CI ; les tests unitaires importent des `.ts` directement
+  (`tsconfig.json` : `allowImportingTsExtensions: true`).
+- Base `/FORMA-8/`. Routage par le fragment d'adresse : `#/caisson/c01`, `#/caisson/c01/p2`, `#/panne/c01`,
+  `#/equipe`, `#/base`, `#/maintenance`, `#/atelier`, `#/reglages`, `#/icones`.
+- Scripts npm : `dev`, `validate`, `check:emoji`, `check:parity`, `typecheck`, `test` (`node --test
+  tests/unit/*.test.mjs`), `test:e2e`, `build` (validate, emoji, puis vite build), `preview`.
 
-### 3.3 Identité visuelle (règle depuis le 15/11/2026)
-- Choix du propriétaire, après des maquettes jouables comparant trois versions (actuelle, option A « enrichir sans
-  toucher au socle », option B « tout libérer ») : **option B**.
-- `scripts/design-parity.json` : plus aucun fichier « exact » ni substitution. Le contrôle vérifie :
+### 3.3 Identité visuelle et maquettes
+- Règle depuis le 15/11/2026 (option B) : voir 2.2, règle 3. `scripts/design-parity.json` n'a plus de fichier
+  « exact » ni de substitution. `scripts/check-design-parity.mjs` vérifie :
   - les 30 variables `:root` de `src/styles/app.css` : identiques à FORMA-7 (palette, rayons, polices) ;
-  - `glyphs.ts` et `icon-ids.json` : ajout seulement ;
-  - les réglages obligatoires : couleur de thème `#04060c`, `black-translucent`, polices Space Grotesk et
-    JetBrains Mono importées dans `src/main.tsx`.
-- Fichiers autrefois figés, désormais modifiés : `Chrome.tsx` (barre du haut : jauge vers le prochain grade, compteur
-  qui défile et attend la fin du protocole, flamme qui bat) et `Exercises.tsx` (tampon « Réussi », série de bonnes
-  réponses). `Art.tsx` est retiré.
-- Historique, pour mémoire : jusqu'au 15/11/2026, les fichiers suivants étaient identiques à FORMA-7, avec les seules
-  substitutions ci-dessous.
-- Fichiers « ajout seulement » : `glyphs.ts` et `icon-ids.json`. 10 glyphes ajoutés : rocket, search, branch, bug,
-  server, globe, coins, code, team, capsule.
-- Substitutions validées le 14/11/2026 :
-  - `Boot.tsx` : lignes du BIOS (« FORMA-8 · BIOS v8.0.26 », « Datacenter FORMA-7 .......... EN LIGNE »,
-    « Caissons détectés ........... 11 », « Équipe réveillée ............ 0 % », « [ALERTE] Équipe en sommeil. »),
-    écran de reprise, accueil d'ORA (11 membres d'équipe, ton propre produit) et phrase du levier ;
-  - `Exercises.tsx` : préfixe `forma8:brouillon:` ;
-  - noms et descriptions dans `index.html` et `vite.config.ts` ;
-  - icône de l'appli avec le chiffre 8.
-- Écart visuel validé le 14/11/2026 : les tuiles « caissons » (capsules) posées sur la même dalle isométrique que FORMA-7.
-- Maquettes (pages privées, à jour au 15/11/2026, pour le propriétaire) :
-  - comparaison des trois versions : https://claude.ai/artifact/XfDNr2NXi6gKk3aVtrMNww ;
-  - quatre propositions pour les kW gagnés : https://claude.ai/artifact/MnHHKo1GFejYPRgL63UZwF.
-  Méthode, à réutiliser pour tout nouveau changement visuel : construire chaque version avec
-  `npx vite build --base ./ --outDir <dossier>`, retirer le service worker (refusé dans une page privée), réduire les
-  polices aux sous-ensembles latin et latin-ext, déposer une progression de démonstration dans
-  `forma8:progress-secours`, puis publier les dossiers dans une page à onglets (un `iframe` par version).
-  Attention : le module du SDK Claude contient un caractère U+FFFD littéral, refusé à la publication ; le remplacer par
-  son échappement `\uFFFD` (même texte).
+  - `glyphs.ts` et `icon-ids.json` : ajout seulement (10 glyphes ajoutés par FORMA-8 : rocket, search, branch, bug,
+    server, globe, coins, code, team, capsule) ;
+  - les réglages obligatoires : couleur de thème `#04060c`, barre d'état `black-translucent`, polices dans
+    `src/main.tsx`.
+- Couleurs utilisées (variables de FORMA-7) : fond `#04060c`, cyan `--cyan` `#3be8ff`, vert `--led` `#4dffa0`,
+  violet `--violet` `#a78bfa`, ambre `--amber` `#ffb547`, rouge `--red` `#ff4d6d`. Chaque caisson a une teinte
+  (`hue`, voir 3.11), utilisée en `hsl(<hue> 100% 64%)` pour son membre et ses écrans.
+- `Art.tsx` (illustrations de FORMA-7) est retiré ; un garde-fou empêche son retour.
+- Éléments repris de FORMA-7 et adaptés pour FORMA-8 (validés le 14/11/2026) : lignes du BIOS de `Boot.tsx`
+  (« FORMA-8 · BIOS v8.0.26 », « Caissons détectés ........... 11 », etc.), accueil d'ORA, préfixe
+  `forma8:brouillon:` dans `Exercises.tsx`, noms et descriptions dans `index.html` et `vite.config.ts`, icône avec le
+  chiffre 8, tuiles « caissons » sur la dalle isométrique.
+- **Maquettes** (pages privées du propriétaire, sur claude.ai) :
+  - https://claude.ai/artifact/XfDNr2NXi6gKk3aVtrMNww : onglets « Actuelle » (avant la refonte, `ccb28cf`) et
+    « Nouvelle » (la refonte), avec une progression de démonstration et un guide ;
+  - https://claude.ai/artifact/MnHHKo1GFejYPRgL63UZwF : les quatre propositions de kW gagnés (voir 4.2).
+  - Méthode pour en refaire (les scripts de cette session ne sont pas dans le dépôt) :
+    1. construire chaque version : `npx vite build --base ./ --outDir <dossier>` (une copie de travail par version,
+       par exemple `git worktree add`, avec `node_modules` en lien symbolique) ;
+    2. dans chaque dossier : supprimer `sw.js`, `workbox-*.js`, `registerSW.js`, `manifest.webmanifest` et leurs
+       balises dans `index.html` (un service worker est refusé dans une page privée) ; ne garder que les polices
+       `.woff2` latin et latin-ext ;
+    3. remplacer dans `assets/claude-*.js` le caractère U+FFFD littéral (dans un gabarit `` `…` ``) par son échappement
+       `�` : sinon la publication est refusée ;
+    4. injecter avant `<title>` un script qui dépose une progression de démonstration dans
+       `localStorage["forma8:progress-secours"]` si `localStorage["forma8:demo-v1"]` est absent (l'appli la fusionne au
+       démarrage) ;
+    5. publier une page à onglets (un `iframe` par version) avec l'outil Artifact, en passant chaque fichier dans
+       `files` ; ajouter un bouton qui efface les clés `forma8:` et la base IndexedDB `keyval-store` pour rejouer.
 
 ### 3.4 Données, stockage et synchronisation
-- Stockage local :
-  - IndexedDB `keyval-store` / `keyval`, partagé avec FORMA-7 (même origine `felipemaciasito-cmyk.github.io`) ;
-  - clés `forma8:progress`, `forma8:settings`, `forma8:sync`, `forma8:heritage`, `forma8:brouillon:*` ;
-  - plus une copie de secours synchrone `forma8:progress-secours` dans localStorage.
-- `src/lib/store.ts` :
-  - la progression contient `product{name,pitch,owner,repo,at}`, `deliveryChecks`, `deliveries`, `consignes`, `reports` ;
-  - enregistrement différé de 250 ms ;
-  - `flush()` à la fermeture (pagehide, ou page masquée) écrit la copie de secours ;
-  - `initStore` fusionne cette copie, puis la supprime. C'est le correctif du produit perdu au rechargement.
-- `src/lib/merge.ts`, fusion sans perte :
-  - une vérification réelle l'emporte sur une case cochée à la main ;
-  - pour les livraisons, la date la plus ancienne est gardée ;
-  - pour les consignes et les rapports, la meilleure note est gardée ;
-  - pour le produit, la version la plus récente (`at`) est gardée.
-- `src/lib/sync.ts` : fichier `progress/forma-8.json` de FORMA-7-data, via l'API GitHub, avec un jeton « fine-grained ».
-- `src/lib/forma7.ts`, héritage en lecture seule :
-  - lit `forma7:progress` en local, sinon `progress/progress.json` par une simple lecture (GET) ;
-  - affiche les grades et badges de FORMA-7 en souvenir, sans effet sur l'apprentissage.
-- Sur iOS, une appli ajoutée à l'écran d'accueil a un stockage séparé de celui de Safari (comportement de WebKit).
+- Stockage local : IndexedDB `keyval-store` / `keyval`, partagé avec FORMA-7 (même origine
+  `felipemaciasito-cmyk.github.io`) ; clés `forma8:progress`, `forma8:settings`, `forma8:sync`, `forma8:heritage`,
+  `forma8:brouillon:*` ; plus une copie de secours synchrone `forma8:progress-secours` dans localStorage.
+- `src/lib/store.ts` : la progression contient notamment `steps`, `lessons` (position dans un protocole), `exercises`,
+  `incidents`, `notions` (boîte Leitner), `badges`, `product{name,pitch,owner,repo,at}`, `deliveryChecks`,
+  `deliveries`, `consignes`, `reports`, et des compteurs par appareil (`counters`) ; enregistrement différé de 250 ms ;
+  `flush()` à la fermeture écrit la copie de secours ; `initStore` la fusionne puis la supprime.
+- `src/lib/merge.ts`, fusion sans perte : une vérification réelle l'emporte sur une case cochée ; livraisons : date la
+  plus ancienne ; consignes et rapports : meilleure note ; produit : version la plus récente (`at`).
+- `src/lib/sync.ts` : fichier `progress/forma-8.json` de FORMA-7-data, via l'API GitHub, jeton « fine-grained ».
+- `src/lib/forma7.ts` : lit `forma7:progress` en local, sinon `progress/progress.json` (lecture seule) ; affiche grades
+  et badges de FORMA-7 en souvenir.
+- Sur iOS, une appli ajoutée à l'écran d'accueil a un stockage séparé de celui de Safari (WebKit).
 
 ### 3.5 GitHub et livraisons
-- `src/lib/gh-core.ts` : `repoUrl`, `apiHeaders(token)`, `ghError`.
-- `src/lib/github.ts` : `ghHeaders()`, `testGithub()`.
-- `src/lib/checks.ts` : fonction pure `evaluateCheck(check, product, deps)`. Les points d'accès appelés :
-  - `file` : `contents/<path>` ;
-  - `commits` : `commits?per_page=100` ;
-  - `pullsMerged` : `pulls?state=closed&per_page=100` ;
-  - `workflow` ;
-  - `pages` : `pagesUrl` = `https://{owner en minuscules}.github.io/{repo}/` (même origine que FORMA-8, donc pas de CORS) ;
-  - `manual` : case à cocher par le joueur.
-- `src/lib/delivery.ts` : `verifyDelivery`, `toggleManual`, `deliveryState`, `checkKey`. Une livraison complète rapporte `REWARD.delivery`.
-- Un dépôt public se vérifie sans jeton : le banc d'essai le fait.
+- `src/lib/gh-core.ts` (`repoUrl`, `apiHeaders`, `ghError`), `src/lib/github.ts` (`ghHeaders`, `testGithub`).
+- `src/lib/checks.ts`, `evaluateCheck(check, product, deps)` : `file` (`contents/<path>`), `commits`
+  (`commits?per_page=100`), `pullsMerged` (`pulls?state=closed&per_page=100`), `workflow`, `pages`
+  (`https://{owner en minuscules}.github.io/{repo}/`, même origine que FORMA-8, donc pas de CORS), `manual`.
+- `src/lib/delivery.ts` : `verifyDelivery`, `toggleManual`, `deliveryState`, `checkKey`. Une livraison complète
+  rapporte `REWARD.delivery`. Un dépôt public se vérifie sans jeton.
 
 ### 3.6 Claude dans l'appli (indispensable)
-- La clé API est saisie dans Réglages et reste sur l'appareil.
-- Modèles (`src/lib/models.ts`) : `claude-opus-5-5` par défaut, `claude-sonnet-5-5`, `claude-haiku-5-5`.
-- `src/lib/claude.ts` : une fonction `ask()` avec sorties structurées et repli. Fonctions :
-  - `testKey` ;
-  - `gradeFeynman`, `reexplain` ;
-  - `gradeConsigne` : 5 critères et une version améliorée ;
-  - `gradeBugReport` ;
-  - `suggestIdeas` ;
-  - `askOra(question, lesson, known)` : répond à partir de la leçon et des notions déjà connues.
+- Clé API saisie dans Réglages, gardée sur l'appareil.
+- Modèles (`src/lib/models.ts`) : `claude-opus-5-5` (par défaut), `claude-sonnet-5-5`, `claude-haiku-5-5`.
+- `src/lib/claude.ts` : `ask()` avec sorties structurées et repli ; `testKey`, `gradeFeynman`, `reexplain`,
+  `gradeConsigne` (5 critères et une version améliorée), `gradeBugReport`, `suggestIdeas`,
+  `askOra(question, lesson, known)`.
 
 ### 3.7 Mécanique de jeu (`src/lib/game.ts`, `src/lib/progress.ts`)
-- Énergie en kW.
-- Grades : Recrue 0, Apprenti 150, Opérateur 400, Pilote 800, Chef d'atelier 1300, Chef d'équipe 1900, Commandant 2600,
-  Chef d'orchestre 3400.
-- Récompenses ajoutées : livraison 150, consigne 15, rapport 25.
-- Maintenance : Leitner à 5 boîtes. Uptime en jours. 3 fusibles par panne.
-- Badges :
-  - boot, room1, half (6 caissons), all (11 caissons), nofuse ;
-  - up3, up7, maint, base20, feyn ;
-  - skill, livraison1, plume (consigne notée 85 ou plus), detective (rapport noté 80 ou plus).
-  - Le badge « signal » de FORMA-7 a été retiré.
-- Réglages de progression :
-  - `roomReady` : un caisson sans protocole est « en préparation » ;
-  - `roomComplete` exige `roomReady` ;
-  - `totalPower` fait la moyenne sur les 11 caissons.
+- Énergie en kW. Grades : Recrue 0, Apprenti 150, Opérateur 400, Pilote 800, Chef d'atelier 1300, Chef d'équipe 1900,
+  Commandant 2600, Chef d'orchestre 3400.
+- `REWARD` : step 40, exerciseFirst 10, exerciseRetry 4, incident 120, mission 60, review 5, skill 80, feynman 20,
+  delivery 150, consigne 15, report 25.
+- `addEnergy(amount, label?, { quiet? })` : émet `gain` ; une montée de grade émet `levelup` (plus de bandeau
+  « Accréditation » : la cérémonie l'annonce).
+- Événements `fx()` : `toast`, `burst`, `badge` (repris de FORMA-7) ; `gain` (avec `quiet`), `levelup`, `awaken`,
+  `stepdone`, `payout` (FORMA-8).
+- Maintenance : Leitner à 5 boîtes (1, 2, 4, 8, 16 jours). Uptime en jours. 3 fusibles par panne.
+- Badges : boot, room1, half (6 caissons), all (11), nofuse, up3, up7, maint, base20, feyn, skill, livraison1, plume
+  (consigne 85 ou plus), detective (rapport 80 ou plus). Le badge « signal » de FORMA-7 est retiré. Le badge « skill »
+  n'est pas encore obtenable (il attend la Forge de Skills du caisson 02).
+- `roomReady` (un caisson sans protocole est « en préparation »), `roomComplete` (protocoles et panne), `roomPower`,
+  `totalPower` (moyenne sur 11), `stepMinutes(step)` (durée estimée : 0,85 min par bloc, 5 min au moins).
 
 ### 3.8 Écrans
-- `MapView.tsx` :
-  - frise du produit (`ProductTimeline`) : une version par membre, de v0.0 à v1.0, livrées en vert ;
-  - carte des 11 capsules, avec le visage du membre dans le hublot (endormi, réveillé, silhouette si verrouillé)
-    et l'étiquette « Prochain réveil » ;
-  - bouton « Ton équipe » ;
-  - **Quart du jour** (`QuartPanel`, `quartActions`) : maintenance, reprise, panne, livraison, avec durées estimées.
+- `MapView.tsx` : anneau d'énergie de l'équipe ; frise du produit (`ProductTimeline`, une version par membre, de v0.0 à
+  v1.0) ; ORA ; **Quart du jour** (`QuartPanel`, `quartActions`) ; carte des 11 caissons sur dalle isométrique, visage
+  du membre dans le hublot (endormi, réveillé, silhouette si verrouillé), étiquette « Prochain réveil », câbles.
 - `RoomView.tsx` :
-  - écrans caisson, protocole et panne (routes `#/caisson/<id>`, `#/caisson/<id>/<step>`, `#/panne/<id>`) ;
-  - caisson : héros (`CaissonHero` : le membre dans sa capsule, son métier, ce qu'il dit) et chemin des protocoles
-    (`QuestNode`, durée estimée `stepMinutes`, énergie à gagner) ;
-  - protocole : bandeau du membre qui sourit à chaque réussite et jauge par blocs (`StepMeter`), programme du
-    protocole (`StepBriefing`), barre d'énergie (`EnergyBar`), cérémonie de fin plein écran (sous la barre du haut)
-    avec jaillissement du total (`EnergyPayout`), nouveau grade, notions gagnées et bouton « Relire le protocole » ;
-  - `DeliveryCard` ;
-  - bouton **Demander à ORA** dans la barre du protocole.
-- `Views.tsx` :
-  - Base : notions, portfolio exportable en Markdown, panneau Héritage FORMA-7 ;
-  - Maintenance ;
-  - Atelier des consignes ;
-  - Équipe : galerie des 11 membres et fiche en feuille du bas (capsule, réplique, vrai fichier à vérifier dans le
-    dépôt du produit, « Revoir son réveil ») ;
-  - Base : notions rangées par membre (avancement par caisson) et voyants de la boîte de révision.
-- `SettingsView.tsx` : Claude (indispensable), GitHub et dépôt de données, synchronisation, Héritage FORMA-7,
-  sauvegarde, installation, à propos.
+  - caisson : `CaissonHero` (le membre dans sa capsule, son métier, sa réplique, la jauge de réveil), chemin des
+    protocoles (`QuestNode`, durée, +40 kW), panne, livraison (`DeliveryCard`), export de la fiche ;
+  - protocole : `StepMeter` (le membre sourit à chaque réussite ; jauge par blocs), `StepBriefing` (au programme),
+    blocs révélés un par un avec « Continuer », **barre d'énergie** (`EnergyBar`), bouton « Demander à ORA » ;
+    cérémonie de fin plein écran **sous la barre du haut** : le membre, onde de choc, éclats, rayons, jauge de réveil
+    avant/après, réplique `demi`, **total qui jaillit** (`EnergyPayout`) puis file vers le compteur, nouveau grade
+    éventuel, notions gagnées, boutons (protocole suivant, panne, caisson) et « Relire le protocole » ;
+  - panne : 3 alertes, 3 fusibles ; la réparation déclenche la scène de réveil si le caisson est terminé.
+- `Views.tsx` : **Base** (notions rangées par membre, avancement par caisson, voyants de la boîte de révision,
+  badges et grades, statistiques, portfolio exportable en Markdown, héritage FORMA-7) ; **Maintenance** ; **Atelier**
+  des consignes ; **Équipe** (galerie des 11 membres ; fiche en feuille du bas : capsule, réplique, vrai fichier à
+  vérifier dans le dépôt du produit, « Revoir son réveil », « Aller à son caisson » ; formulaire du produit).
+- `Chrome.tsx` : barre du haut (grade, **jauge vers le prochain grade**, compteur d'énergie qui **défile** et
+  **attend la fin du protocole**, puis s'illumine ; flamme qui bat ; notions à réviser), onglets, toasts, éclats,
+  feuille du bas, `TopBar`.
+- `Exercises.tsx` : six types d'exercices ; tampon « RÉUSSI », **série de bonnes réponses**.
+- `SettingsView.tsx` : Claude, GitHub et dépôt de données, synchronisation, héritage FORMA-7, sauvegarde,
+  installation, à propos. `Boot.tsx` : BIOS, accueil d'ORA, levier ; écran de reprise à chaque ouverture.
 
-### 3.9 bis Personnages, récompenses et cérémonies (refonte du 15/11/2026)
-- `src/components/Crew.tsx` : les 11 membres en SVG, dans le style d'ORA (ORA reprend son propre dessin pour c00).
-  États `locked` (silhouette), `asleep` (yeux fermés, respiration, « z »), `awake` (yeux allumés, clignements),
-  humeur `happy`. `CrewCapsule` : le membre dans sa capsule (vitre givrée qui se lève au réveil). `MemberSays` : bulle
-  de réplique.
-- `src/content/equipe.json` : pour chaque caisson, `role`, `dort` (affichés dès le début du jeu), `demi` (après le premier
-  protocole), `reveil` (caisson terminé). Le validateur vérifie qu'elles n'emploient aucune notion inconnue à ce moment.
+### 3.9 Personnages, récompenses et cérémonies (refonte du 15/11/2026)
+- `src/components/Crew.tsx` : 11 membres en SVG (repère 120 x 140), dans le style d'ORA (ORA garde son dessin
+  `OraDrone`). Chacun porte l'outil de son métier : Archiviste (meuble à tiroirs, œil-objectif, bande de photos),
+  Règlement de bord (casquette, registre), Scribe (plume, rouleau), Boucle (sphère et anneau qui tourne), Inspecteur
+  (loupe, liste de contrôle), Messager (ailerons, sacoche, antenne qui émet), Mémoire (disques empilés), Sentinelle
+  (visière fente, bouclier à cadenas), Escouades (un meneur, deux drones, un éclair), Lancement (fusée, hublot,
+  flamme). États `locked` (silhouette), `asleep` (yeux fermés, respiration, lettres « z »), `awake` (yeux allumés,
+  clignements) ; humeur `happy`. Exports : `CrewFigure` (option `crop="head"`), `CrewCapsule` (vitre givrée qui se
+  lève au réveil), `MemberSays` (bulle), `crewState`.
+- `src/content/equipe.json` : pour chaque caisson, `role` et `dort` (affichés dès le début du jeu), `demi` (après le
+  premier protocole), `reveil` (caisson terminé). Le validateur (règle 10) vérifie chaque réplique au moment où elle
+  s'affiche. Pour c02 à c10, `demi` et `reveil` sont provisoires : les réécrire avec le vocabulaire du caisson quand il
+  est écrit.
 - `src/components/Rewards.tsx` (`RewardLayer`, monté dans `App.tsx`) :
-  - jaillissements de kW (`JetView`) : pendant un protocole, un petit « +10 kW » jaillit du doigt et file dans la barre
-    d'énergie ; en fin de protocole, le total jaillit en grand (`payout`) et rejoint le compteur du haut, qui
-    s'illumine ; ailleurs, les kW rejoignent directement le compteur ;
-  - cérémonie de montée de grade plein écran (hors protocole ; pendant un protocole, le grade s'annonce dans sa
-    cérémonie de fin) ; scène de réveil d'un membre (5 phases, passable d'un toucher) ;
-  - langage visuel commun : `Shockwave` (onde de choc), `Sparks` (éclats), `Rays` (rayons).
-  - Les cérémonies ne s'ouvrent jamais au milieu d'une leçon, d'une panne ou d'une maintenance (`busyRoute`).
-- `src/lib/energy.ts` : la barre d'énergie d'un protocole (`held` : kW pas encore montrés dans le compteur,
-  `landed` : kW arrivés dans la barre). Présentation seulement : la progression enregistre chaque kW tout de suite.
-- Événements ajoutés à `fx()` (`src/lib/game.ts`) : `gain` (avec `quiet`), `levelup`, `awaken`, `stepdone`, `payout`.
+  - jaillissements de kW (`JetView`) : pendant un protocole, un petit « +10 kW » jaillit du doigt et file dans la
+    barre d'énergie ; en fin de protocole, le total jaillit en grand (`payout`) et rejoint le compteur ; ailleurs
+    (maintenance, atelier, livraison, panne), les kW rejoignent directement le compteur ;
+  - cérémonie de montée de grade plein écran (hors protocole) ; scène de réveil (5 phases : endormi, courant,
+    vitre qui se lève avec éclair, réplique écrite lettre à lettre, récompense ; passable d'un toucher ; rejouable
+    depuis la fiche du membre) ;
+  - langage visuel commun : `Shockwave` (onde de choc), `Sparks` (éclats), `Rays` (rayons) ;
+  - file d'attente : le réveil passe en premier ; jamais de cérémonie au milieu d'une leçon, d'une panne ou d'une
+    maintenance (`busyRoute`) ; plusieurs grades d'un coup : une seule cérémonie.
+- `src/lib/energy.ts` : barre d'énergie d'un protocole (`held` : kW pas encore montrés dans le compteur ; `landed` :
+  kW arrivés dans la barre ; `max`). Présentation seulement : la progression enregistre chaque kW tout de suite.
+- Animations réduites : `MotionConfig` et la classe `reduce-motion` coupent les mouvements ; les jaillissements sont
+  alors remplacés par la mise à jour directe du compteur.
 
-### 3.9 Outils d'apprentissage disponibles
-- Exercices (mécanique de FORMA-7) : `qcm`, `truefalse`, `cloze`, `order`, `wiring`, `feynman`.
-- Blocs propres à FORMA-8 (`src/content/types.ts`, rendus par `Blocks.tsx` et `Mechanics.tsx`) :
-  - `mission{title,goal,prompt,verify}` : ordre de mission ; cases de vérification persistantes ; remplacement de
-    `{produit}`, `{phrase}` et `{depot}` ;
-  - `consigne{id,situation,expected}`, noté par Claude ;
-  - `bugreport{id,symptom,context,expected}`, noté par Claude ;
-  - `diff{title,file,lines[{kind:add|del|ctx,t}],note}` : lecture guidée d'une modification ;
-  - `interactive{widget,caption?,mode?}` : le champ `mode` (ajouté au caisson 01) limite un simulateur aux gestes
-    déjà appris ; le validateur refuse un simulateur ou un mode inconnu ;
-  - `procedure{id,title,intro?,steps[{do,see?,help?}]}` : pas à pas avec cases persistantes `proc:{id}:{i}` et une aide
-    « Je suis bloqué » ;
-  - `source{title,url,checked,note?}` : source datée.
-- Les blocs de leçon hérités de la mécanique (texte, analogie illustrée, exercice, simulateur) sont décrits dans `types.ts`.
-- Simulateurs (`src/components/widgets/`, tous écrits à neuf), avec leur usage prévu :
-  - GitBranches : c01, protocoles 2, 3 et 5. Trois niveaux : `mode: "commits"` (enregistrer et relire),
-    `mode: "branches"` (plus branche et fusion), sans mode (plus « Revenir en arrière »). Défis cochés
-    automatiquement ; un rond se touche pour relire son message ;
-  - TimeMachine (« machine à remonter les versions ») : c01, protocole 1. Restaurer une version en ajoute une ;
-  - ConflictLab (« atelier des conflits ») : c01, protocole 5. Lire les 3 marqueurs, choisir, « Mark as resolved »,
-    « Commit merge » ;
-  - RequestTrip : c00 et c07 ;
-  - PipelineLights : c05 ;
-  - TokenBuilder : c02, protocole 6 ;
-  - CostCalc : c07 et c08, tarifs vérifiés le 14/11/2026 ;
-  - ContextView : c02, protocole 2 ;
-  - SkillToolbox : c02, protocole 5 ;
-  - McpPlugs : c02, protocole 5 ;
-  - AgentCycle : c00, protocole 3, puis c04 ;
-  - ProductLab : c00, protocole 4. Il note 3 idées sur 5 critères (Utile, Faisable, Peu coûteux, Potentiel, Envie),
-    et son brouillon est sous `forma8:brouillon:laboratoire-produit`.
-- Les 8 simulateurs de FORMA-7 et son SkillWorkshop ont été retirés.
-- Illustrations FORMA-8 (`Illustrations.tsx`, identifiants dans `illustration-ids.json`) : web-magasin, trois-couches,
-  chef-equipe, serrure-cle, vitrine ; ajoutées au caisson 01 : photos-chantier, voie-essai, relecture, correction.
-- Atelier des consignes (`src/content/atelier.ts`), 6 situations :
-  - contact, texte-deborde, a-propos ;
-  - relecture (après c01), regles (après c02), mise-en-ligne-auto (après c06).
+### 3.10 Outils d'apprentissage
+- Exercices : `qcm`, `truefalse`, `cloze`, `order`, `wiring`, `feynman`.
+- Blocs de leçon (`src/content/types.ts`, rendus par `Blocks.tsx` et `Mechanics.tsx`) : `text`, `definition`,
+  `analogy` (avec illustration), `interactive{widget,caption?,mode?}`, `example`, `callout` (info, warn, volatile,
+  ora), `exercise`, `recap` ; propres à FORMA-8 : `mission{title,goal,prompt,verify}` (remplace `{produit}`,
+  `{phrase}`, `{depot}`), `consigne{id,situation,expected}` et `bugreport{id,symptom,context,expected}` (notés par
+  Claude), `diff{title,file,lines,note}`, `procedure{id,title,intro?,steps[{do,see?,help?}]}` (cases persistantes,
+  aide « Je suis bloqué »), `source{title,url,checked,note?}`.
+- 12 simulateurs (`src/components/widgets/`, tous écrits à neuf) : GitBranches (c01 ; modes `commits`, `branches`,
+  complet ; défis), TimeMachine (c01 p1), ConflictLab (c01 p5), RequestTrip (c00, c07), AgentCycle (c00 p3, c04),
+  ProductLab (c00 p4), PipelineLights (c05), TokenBuilder (c02 p6), CostCalc (c07, c08), ContextView (c02 p2),
+  SkillToolbox (c02 p5), McpPlugs (c02 p5). Reste à écrire : la Forge de Skills (c02).
+- Illustrations (`Illustrations.tsx`, `illustration-ids.json`, 9) : web-magasin, trois-couches, chef-equipe,
+  serrure-cle, vitrine, photos-chantier, voie-essai, relecture, correction.
+- Atelier des consignes (`src/content/atelier.ts`), 6 situations : contact, texte-deborde, a-propos, relecture (après
+  c01), regles (après c02), mise-en-ligne-auto (après c06).
 
-### 3.10 Contenu : le caisson 00 est complet (`src/content/caissons/c00.json`)
-- **ORA · « Les bases du logiciel, sans coder » · v0.0** (teinte 190).
-- Les 5 protocoles et leurs notions :
-  - p1 « Ce qu'est une application » : fichier, application, navigateur, serveur, site-web. Simulateur RequestTrip.
-  - p2 « Les trois langues d'une page » : code-source, html, css, javascript.
-  - p3 « Créer avec une IA » : ia, modele-de-langage, prompt, agent, claude-code, vibe-coding. Simulateur AgentCycle.
-  - p4 « Choisir ton produit » : probleme-utilisateur, proposition-de-valeur, produit-minimum. Simulateur ProductLab.
-  - p5 « Ta première mise en ligne » : github, depot, pull-request (version simple), github-pages, adresse-web.
-- Les 4 procédures du protocole 5 :
-  - `c00-creer-depot` (6 étapes) ;
-  - `c00-ouvrir-claude-code` (4 étapes) ;
-  - `c00-fusionner` (3 étapes) ;
-  - `c00-activer-pages` (6 étapes : Deploy from a branch, `main`, `/ (root)`).
-- Panne « Ma page ne s'affiche pas » : 3 scénarios.
-- Livraison v0.0 « Ta page de présentation en ligne » : `index.html` présent (fichier), page en ligne, et une
-  case à cocher (« J'ai ouvert ma page sur mon iPhone »).
-- Fiche d'équipe : `index.html`.
-- `src/content/glossary.json` contient **34 notions** : 23 du caisson 00 et 11 du caisson 01.
-- Sources du caisson 00, vérifiées le 14/11/2026 :
-  - MDN « Comment fonctionne le Web » :
-    https://developer.mozilla.org/fr/docs/Learn_web_development/Getting_started/Web_standards/How_the_web_works
-  - glossaire MDN, en français :
-    - HTML : https://developer.mozilla.org/fr/docs/Glossary/HTML
-    - CSS : https://developer.mozilla.org/fr/docs/Glossary/CSS
-    - JavaScript : https://developer.mozilla.org/fr/docs/Glossary/JavaScript
-  - Claude Code :
-    - « Comment fonctionne Claude Code » : https://code.claude.com/docs/fr/how-claude-code-works
-    - « Démarrer avec Claude Code dans le cloud » : https://code.claude.com/docs/fr/web-quickstart
-  - GitHub « Démarrage rapide pour GitHub Pages » : https://docs.github.com/fr/pages/quickstart
-  - « Vibe coding », mot de l'année 2025 du dictionnaire Collins (AFP, via Dawn) : https://www.dawn.com/news/1953511
+### 3.11 Contenu
+- `src/content/glossary.json` : **34 notions** (23 du caisson 00, 11 du caisson 01). 10 protocoles au total.
 
-### 3.10 bis Contenu : le caisson 01 est complet (`src/content/caissons/c01.json`)
-- **L'Archiviste · « Garder chaque version » · v0.1** (teinte 150). Écrit le 14/11/2026.
-- Les 5 protocoles et leurs notions :
-  - p1 « Pourquoi garder les versions » : version, git, historique. Simulateur TimeMachine.
-  - p2 « Le commit » : commit, message-de-commit. GitBranches (mode commits), lecture d'un vrai commit de FORMA-7
-    (`4c83563`, extrait du README), étude de cas des 6 commits, procédure `c01-lire-historique` (5 étapes).
-  - p3 « Les branches » : branche, branche-principale. GitBranches (mode branches), procédure `c01-creer-branche`
-    (7 étapes : branche `essai-readme`, modification du README, commit à la main).
-  - p4 « La pull request en détail » : fusion, relecture. Procédures `c01-ouvrir-pr` (4 étapes) et
-    `c01-relire-fusionner` (5 étapes), lecture d'une pull request piégée (bloc `diff`), ordre de mission
-    « Un changement relu de bout en bout », consigne `c01-aide-relecture`.
-  - p5 « Revenir en arrière » : annulation, conflit. GitBranches complet, procédure `c01-annuler-fusion`
-    (7 étapes : casser le titre exprès, fusionner, Revert, fusionner l'annulation), ConflictLab.
-- Notions surveillées par le validateur (mot interdit avant sa définition) : « Git », « commit », « conflit ».
-  « branche », « fusion », « version » et « historique » ne peuvent pas l'être : le caisson 00 les emploie déjà
-  comme des mots courants.
-- Panne « Alerte aux archives » : 3 scénarios (bug fusionné, conflit, messages illisibles).
-- Livraison v0.1 « Un historique propre, par pull requests » : `commits` min 5, `pullsMerged` min 1, fichier
-  `README.md`, `pages`.
-- Études de cas (faits vérifiés dans le dépôt cloné de FORMA-7, heures UTC) : les 6 commits (13/11 06:45, 07:26,
-  07:32, 20:51 ; 14/11 01:43, 02:17 ; 66, 4, 1, 9, 40 et 6 fichiers), tous directement sur `main` ; et la PR de
-  FORMA-8 fusionnée trop tôt.
-- Sources du caisson 01, toutes ouvertes le 14/11/2026. GitHub a réorganisé sa documentation : les anciennes
-  adresses redirigent vers celles-ci.
-  - À propos de Git : https://docs.github.com/fr/get-started/using-git/about-git
-  - flux de GitHub : https://docs.github.com/fr/get-started/using-github/github-flow
-  - Engagements (à propos des commits) : https://docs.github.com/fr/pull-requests/reference/commits
-  - Gestion des branches au sein de votre référentiel :
-    https://docs.github.com/fr/pull-requests/how-tos/commit-changes/managing-branches-within-your-repository
-  - Modification de fichiers : https://docs.github.com/fr/repositories/working-with-files/managing-files/editing-files
-  - Requêtes de tirage (à propos des pull requests) : https://docs.github.com/fr/pull-requests/reference/pull-requests
-  - Création d'une pull request :
-    https://docs.github.com/fr/pull-requests/how-tos/create-pull-requests/creating-a-pull-request
-  - Fusion d'une pull request :
-    https://docs.github.com/fr/pull-requests/how-tos/merge-and-close-pull-requests/merging-a-pull-request
-  - Réinitialisation d'une pull request (Revert) :
-    https://docs.github.com/fr/pull-requests/how-tos/merge-and-close-pull-requests/reverting-a-pull-request
-  - Conflits de fusion : https://docs.github.com/fr/pull-requests/reference/merge-conflicts
-  - Résolution d'un conflit de fusion sur GitHub :
-    https://docs.github.com/fr/pull-requests/how-tos/merge-and-close-pull-requests/resolving-a-merge-conflict-on-github
-  - Claude Code, Flux de travail courants : https://code.claude.com/docs/fr/common-workflows
-  - Claude Code, Utiliser Claude Code dans le cloud : https://code.claude.com/docs/fr/claude-code-on-the-web
-- Libellés des boutons : github.com s'affiche en anglais. Les libellés viennent de la version anglaise des mêmes
-  pages et de captures de github.com à la taille d'un iPhone, **sans être connecté** (voir les limites en 3.14).
+| Id | Membre | Nom | Version | Teinte | Fichier de l'équipe | État |
+|---|---|---|---|---|---|---|
+| c00 | ORA | Les bases du logiciel, sans coder | v0.0 | 190 | index.html | complet |
+| c01 | L'Archiviste | Garder chaque version | v0.1 | 150 | commits | complet |
+| c02 | Le Règlement de bord | L'environnement de ton équipe | v0.2 | 210 | CLAUDE.md | à écrire |
+| c03 | Le Scribe | Décrire et découper | v0.3 | 260 | docs/SPEC.md | à écrire |
+| c04 | La Boucle | Demander, relire, corriger | v0.4 | 30 | docs/JOURNAL.md | à écrire |
+| c05 | L'Inspecteur | Qualité et vérifications | v0.5 | 120 | tests | à écrire |
+| c06 | Le Messager | La mise en ligne | v0.6 | 175 | .github/workflows | à écrire |
+| c07 | La Mémoire | Données et comptes | v0.7 | 280 | docs/DONNEES.md | à écrire |
+| c08 | La Sentinelle | Sécurité et coûts | v0.8 | 350 | SECURITY.md | à écrire |
+| c09 | Les Escouades et les Réflexes | Le niveau expert | v0.9 | 45 | .claude | à écrire |
+| c10 | Le Lancement | Produit et métier | v1.0 | 320 | CHANGELOG.md | à écrire |
 
-### 3.11 Les 11 caissons (`c02.json` à `c10.json` : squelettes sans protocole)
-
-| Id | Membre | Nom | Version | Teinte | Fichier de l'équipe |
-|---|---|---|---|---|---|
-| c00 | ORA | Les bases du logiciel, sans coder | v0.0 | 190 | index.html |
-| c01 | L'Archiviste | Garder chaque version | v0.1 | 150 | commits |
-| c02 | Le Règlement de bord | L'environnement de ton équipe | v0.2 | 210 | CLAUDE.md |
-| c03 | Le Scribe | Décrire et découper | v0.3 | 260 | docs/SPEC.md |
-| c04 | La Boucle | Demander, relire, corriger | v0.4 | 30 | docs/JOURNAL.md |
-| c05 | L'Inspecteur | Qualité et vérifications | v0.5 | 120 | tests |
-| c06 | Le Messager | La mise en ligne | v0.6 | 175 | .github/workflows |
-| c07 | La Mémoire | Données et comptes | v0.7 | 280 | docs/DONNEES.md |
-| c08 | La Sentinelle | Sécurité et coûts | v0.8 | 350 | SECURITY.md |
-| c09 | Les Escouades et les Réflexes | Le niveau expert | v0.9 | 45 | .claude |
-| c10 | Le Lancement | Produit et métier | v1.0 | 320 | CHANGELOG.md |
-
-Le plan détaillé de chaque caisson (protocoles, notions, simulateurs, pannes, livraisons, sources) est dans
-`docs/PROGRAMME.md`, validé par le propriétaire.
+- **Caisson 00** (ORA, v0.0) : p1 « Ce qu'est une application » (fichier, application, navigateur, serveur, site-web ;
+  RequestTrip) ; p2 « Les trois langues d'une page » (code-source, html, css, javascript) ; p3 « Créer avec une IA »
+  (ia, modele-de-langage, prompt, agent, claude-code, vibe-coding ; AgentCycle) ; p4 « Choisir ton produit »
+  (probleme-utilisateur, proposition-de-valeur, produit-minimum ; ProductLab) ; p5 « Ta première mise en ligne »
+  (github, depot, pull-request en version simple, github-pages, adresse-web ; procédures `c00-creer-depot`,
+  `c00-ouvrir-claude-code`, `c00-fusionner`, `c00-activer-pages`). Panne « Ma page ne s'affiche pas » (3 alertes).
+  Livraison v0.0 : `index.html`, page en ligne, case « J'ai ouvert ma page sur mon iPhone ».
+- **Caisson 01** (L'Archiviste, v0.1) : p1 « Pourquoi garder les versions » (version, git, historique ; TimeMachine) ;
+  p2 « Le commit » (commit, message-de-commit ; GitBranches mode commits ; lecture du commit `4c83563` de FORMA-7 ;
+  étude de cas des 6 commits ; procédure `c01-lire-historique`) ; p3 « Les branches » (branche, branche-principale ;
+  GitBranches mode branches ; procédure `c01-creer-branche`, branche `essai-readme`) ; p4 « La pull request en
+  détail » (fusion, relecture ; procédures `c01-ouvrir-pr` et `c01-relire-fusionner` ; diff piégé ; ordre de mission
+  « Un changement relu de bout en bout » ; consigne `c01-aide-relecture`) ; p5 « Revenir en arrière » (annulation,
+  conflit ; GitBranches complet ; procédure `c01-annuler-fusion` ; ConflictLab). Mots surveillés avant leur définition :
+  « Git », « commit », « conflit ». Panne « Alerte aux archives » (3 alertes). Livraison v0.1 : 5 commits, 1 PR
+  fusionnée, `README.md`, page en ligne.
+- Sources vérifiées le 14/11/2026 (adresses finales ; GitHub a réorganisé sa documentation) :
+  - caisson 00 : MDN « Comment fonctionne le Web »
+    (https://developer.mozilla.org/fr/docs/Learn_web_development/Getting_started/Web_standards/How_the_web_works),
+    glossaire MDN HTML, CSS, JavaScript (https://developer.mozilla.org/fr/docs/Glossary/HTML, /CSS, /JavaScript),
+    https://code.claude.com/docs/fr/how-claude-code-works, https://code.claude.com/docs/fr/web-quickstart,
+    https://docs.github.com/fr/pages/quickstart, « vibe coding » mot de l'année 2025 de Collins (AFP via Dawn,
+    https://www.dawn.com/news/1953511) ;
+  - caisson 01 : https://docs.github.com/fr/get-started/using-git/about-git ,
+    https://docs.github.com/fr/get-started/using-github/github-flow ,
+    https://docs.github.com/fr/pull-requests/reference/commits ,
+    https://docs.github.com/fr/pull-requests/how-tos/commit-changes/managing-branches-within-your-repository ,
+    https://docs.github.com/fr/repositories/working-with-files/managing-files/editing-files ,
+    https://docs.github.com/fr/pull-requests/reference/pull-requests ,
+    https://docs.github.com/fr/pull-requests/how-tos/create-pull-requests/creating-a-pull-request ,
+    https://docs.github.com/fr/pull-requests/how-tos/merge-and-close-pull-requests/merging-a-pull-request ,
+    https://docs.github.com/fr/pull-requests/how-tos/merge-and-close-pull-requests/reverting-a-pull-request ,
+    https://docs.github.com/fr/pull-requests/reference/merge-conflicts ,
+    https://docs.github.com/fr/pull-requests/how-tos/merge-and-close-pull-requests/resolving-a-merge-conflict-on-github ,
+    https://code.claude.com/docs/fr/common-workflows , https://code.claude.com/docs/fr/claude-code-on-the-web .
+- Plan détaillé des caissons 02 à 10 : `docs/PROGRAMME.md` (validé).
 
 ### 3.12 Tests et contrôles
-- `scripts/validate-content.mjs` (variable `FORMA8_CONTENT_DIR` pour les tests) vérifie :
-  - les notions : 3 niveaux, analogie, exemple, prérequis ;
-  - l'ordre d'introduction des notions et les références `[[id]]` ;
-  - les exercices ;
-  - les champs des caissons ;
-  - chaque bloc : mission ; consigne et rapport de bug (au moins 3 attendus, identifiants uniques) ; diff ;
-    source (https, date AAAA-MM-JJ) ; procédure (au moins 2 étapes) ;
-  - les analogies, dont l'illustration doit être dans `illustration-ids.json` ;
-  - les livraisons et `teamFile`.
-  - Un caisson vide déclenche un simple avertissement « en préparation ».
-- Tests unitaires : 34 tests, répartis dans `merge.test.mjs`, `garde-fous.test.mjs`, `livraisons.test.mjs` (fetch simulé),
-  `validateur.test.mjs` (dont les répliques de l'équipe et les simulateurs inconnus) et `energie.test.mjs` (barre
-  d'énergie). Ce que vérifie `garde-fous.test.mjs` :
-  - aucune écriture sous `forma7:` ;
-  - `progress.json` jamais touché ;
-  - clés `forma8:` uniquement ;
-  - substitutions de parité documentées ;
-  - aucun simulateur de FORMA-7 ;
-  - aucun usage de `Art` (retiré).
-- Tests de bout en bout : 9 tests, sur un écran d'iPhone 13 (`playwright.config.ts`, adresse
-  `http://localhost:4173/FORMA-8/`, `vite preview`, trace désactivée) :
-  - `socle.spec.ts` ;
-  - `mecaniques.spec.ts` ;
-  - `caisson00.spec.ts` : banc complet, environ 1,3 min, GitHub simulé ;
-  - `caisson01.spec.ts` : banc complet, environ 1,4 min. Il part d'un caisson 00 déjà réveillé (progression déposée
-    dans `forma8:progress-secours`, que l'appli fusionne au démarrage), joue les 5 protocoles, les 3 simulateurs
-    dans tous leurs modes, une procédure, l'ordre de mission, la panne, la livraison, l'atelier et la maintenance ;
-  - `helpers.ts` contient `boot()` et les outils communs aux bancs : `solve()`, `playStep(page, caisson, protocole,
-    numéro, onBlock?)`, `playMaintenance()`, `dismissCeremonies()` (ferme une scène de réveil ou une montée de
-    grade). **Modèle pour le caisson 02 : `caisson01.spec.ts`.**
+- `scripts/validate-content.mjs` (variable `FORMA8_CONTENT_DIR` pour les tests) : notions complètes ; ordre
+  d'introduction et références `[[id]]` ; mots surveillés (`watch`) ; exercices ; champs des caissons ; blocs FORMA-8 ;
+  simulateur existant et mode reconnu (`GitBranches` : `commits`, `branches`) ; illustrations connues ; livraisons et
+  `teamFile` ; **règle 10 : répliques de l'équipe** ; zéro emoji. Un caisson vide donne un avertissement.
+- Tests unitaires : **34** (`merge` 8, `garde-fous` 8, `livraisons` 9, `validateur` 7, `energie` 2). Garde-fous :
+  aucune écriture sous `forma7:`, `progress.json` jamais touché, clés `forma8:` uniquement, substitutions documentées,
+  aucun simulateur de FORMA-7, aucun usage de `Art`.
+- Tests de bout en bout : **9**, écran d'iPhone 13, `vite preview` sur `http://localhost:4173/FORMA-8/` :
+  `socle.spec.ts` (5), `mecaniques.spec.ts` (2), `caisson00.spec.ts` (banc complet, environ 1,2 min),
+  `caisson01.spec.ts` (banc complet, environ 1,5 min ; part d'un caisson 00 réveillé déposé dans
+  `forma8:progress-secours`). `helpers.ts` : `boot()`, `solve()`, `playStep(page, caisson, protocole, numéro,
+  onBlock?)`, `playMaintenance()`, `dismissCeremonies()`.
+- Dernier passage complet : 15/11/2026, tout vert, en local et dans la CI de la PR #9.
 
 ### 3.13 Tarifs et coûts (vérifiés le 14/11/2026, à revérifier)
-- Tarifs de l'API, en dollars par million de tokens (envoyés / reçus) :
-  - Opus 5.5 : 4 / 20 ;
-  - Sonnet 5.5 : 2 / 10 ;
-  - Haiku 5.5 : 0,10 / 0,50.
-- Coût estimé de l'usage du joueur : environ 8 $ par mois avec Opus, 4 $ avec Sonnet, moins de 0,50 $ avec Haiku.
-  C'est une estimation.
-- Les abonnements Max et Ultra incluent 100 $ et 200 $ de crédits API. Pro n'en inclut pas. Information vérifiée le
-  14/11/2026, qui peut avoir évolué.
+- API, en dollars par million de tokens (envoyés / reçus) : Opus 5.5 : 4 / 20 ; Sonnet 5.5 : 2 / 10 ;
+  Haiku 5.5 : 0,10 / 0,50. Usage estimé du joueur : environ 8 $ par mois avec Opus, 4 $ avec Sonnet, moins de 0,50 $
+  avec Haiku (estimation).
+- Max et Ultra incluent 100 $ et 200 $ de crédits API ; Pro n'en inclut pas (peut avoir évolué).
 
-### 3.14 Petites dettes et incertitudes connues
-- Le badge « skill » (« Forgeron de Skills ») ne peut pas encore être obtenu : il attend la Forge de Skills du caisson 02.
-- **Dès qu'on ajoute des notions, `caisson00.spec.ts` cassera.** Il attend « 23 / 34 notions collectées », et le
-  dénominateur est le total du glossaire : à mettre à jour après chaque caisson. `caisson01.spec.ts`, lui, lit le
-  total dans le glossaire, mais suppose que toutes les notions sont collectées : à adapter aussi au caisson 02.
-- **Libellés de GitHub non vérifiés en étant connecté** (impossible depuis la session, qui n'a pas de compte GitHub
-  dans un navigateur). Vérifiés sans connexion, sur un écran d'iPhone : l'horloge de l'historique, la page
-  « Commits », le détail d'un commit, les onglets d'une pull request, le menu « Switch branches/tags ». Tirés de la
-  documentation seulement : « Find or create a branch… », « Create branch », « Commit changes... », « Compare & pull
+### 3.14 Dettes et incertitudes connues
+- **Refonte pas encore jouée par le propriétaire sur un vrai iPhone** (tests sur un iPhone 13 simulé seulement) :
+  fluidité des animations sur un iPhone ancien, son, taille des personnages, lisibilité. Lui demander son retour.
+- La barre d'énergie ne compte que les kW gagnés depuis l'ouverture du protocole : un protocole repris après fermeture
+  repart d'une barre vide (le compteur du haut, lui, a tout).
+- Durées des protocoles : estimation à 0,85 min par bloc, à ajuster avec l'usage réel.
+- **Compteurs de notions dans les tests** : `caisson00.spec.ts` attend « 23 / 34 notions collectées » ;
+  `caisson01.spec.ts` suppose toutes les notions collectées. À adapter dès que le caisson 02 ajoute des notions.
+- **Libellés de GitHub non vérifiés en étant connecté** : vérifiés sans connexion sur un écran d'iPhone (horloge de
+  l'historique, page « Commits », détail d'un commit, onglets d'une PR, menu « Switch branches/tags ») ; tirés de la
+  documentation seulement (« Find or create a branch… », « Create branch », « Commit changes... », « Compare & pull
   request », « Create pull request », « Merge pull request », « Confirm merge », « Revert », « Resolve conflicts »,
-  « Mark as resolved », « Commit merge ». De mémoire, à confirmer par le propriétaire en jouant : « Commit directly
-  to the … branch », « Able to merge », « Delete branch », « Restore branch », « This branch has conflicts that must
-  be resolved », l'emplacement du crayon sur iPhone (une adresse directe `…/edit/branche/fichier` est donnée en
-  secours). Corriger le caisson 01 si le propriétaire signale un écart.
-- **Refonte de l'interface, non vérifiée sur un vrai iPhone** (seulement sur un iPhone 13 simulé dans Chromium) :
-  fluidité des animations (ondes de choc, éclats, rayons, personnages animés) sur un iPhone ancien, son, et taille
-  des personnages. À faire confirmer par le propriétaire après la mise en ligne.
-- La barre d'énergie ne compte que les kW gagnés depuis l'ouverture du protocole : un protocole repris après
-  fermeture de l'appli repart d'une barre vide (les kW déjà gagnés sont bien comptés dans le compteur du haut).
-- Durées des protocoles (`stepMinutes`) : estimation à environ 50 secondes par bloc, à ajuster avec l'usage réel.
-- Incertitudes à vérifier :
-  - l'affichage exact de claude.ai/code et de github.com dans Safari mobile (libellés des boutons) ;
-  - si on peut modifier après coup la liste des dépôts d'un jeton « fine-grained » ;
-  - le montant minimum d'achat de crédits dans la Console Claude ;
-  - la version la plus récente du guide RGPD de la CNIL ;
-  - la source primaire de l'expression « vibe coding » (attribuée à Andrej Karpathy, février 2025, d'après des sources
-    secondaires ; Collins cité via l'AFP et Dawn).
+  « Mark as resolved », « Commit merge ») ; de mémoire, à confirmer (« Commit directly to the … branch », « Able to
+  merge », « Delete branch », « Restore branch », « This branch has conflicts that must be resolved », emplacement du
+  crayon sur iPhone ; une adresse directe `…/edit/<branche>/<fichier>` est donnée en secours).
+- Incertitudes : libellés exacts de claude.ai/code et github.com dans Safari mobile ; possibilité de modifier après coup
+  les dépôts d'un jeton « fine-grained » ; montant minimum de crédits dans la Console Claude ; version la plus récente
+  du guide RGPD de la CNIL ; source primaire de « vibe coding » (attribuée à Andrej Karpathy, février 2025, d'après
+  des sources secondaires).
 
 ---
 
 ## 4. Décisions prises et pistes écartées
 
 ### 4.1 Décisions du propriétaire
-- Programme : sur mesure, construit sur la documentation officielle de Claude Code en français.
-  - Les cours Anthropic Academy (Claude Code 101, Claude Code in Action) servent seulement de **liste de contrôle**.
-  - Leurs sujets sont réécrits en français, sans traduction mot pour mot.
-  - Leurs sujets sont couverts aux caissons 02, 03, 04, 05 et 09.
-- Matériel : iPhone et iPad seulement, dans Safari.
-- Lien avec FORMA-7 : FORMA-8 est autonome, avec un simple clin d'œil (prénom repris, badges de FORMA-7 affichés en lecture seule).
-- Temps : 15 à 30 minutes par jour, en « quarts ».
-- Projets : un produit fil rouge, choisi dans l'appli au caisson 00.
-- Univers : l'Équipe. Le mot « équipage » est banni.
-- Nom : « FORMA-8 · Réveille l'équipe ».
-- Premiers vrais utilisateurs : au niveau 6.
-- Missions du jour : **aucune** (pas de lecture de mails). FORMA-7-data sert seulement à la synchronisation.
-- Vérification des livraisons : automatique par l'API GitHub, avec une case à cocher en secours.
-- Nouvelles mécaniques : Atelier des consignes, pannes à diagnostiquer, livraisons vérifiées.
-  En plus : fiches de l'équipe, simulateurs, portfolio, Quart du jour, Demander à ORA.
-- Claude dans l'appli : **indispensable**. Modèle par défaut : **Opus 5.5**.
-- Ordre de construction : **tout le parcours d'un coup**, avant le premier test complet par le propriétaire.
-  Le caisson 00 est quand même déjà jouable en ligne.
-- Méthode : **exemplaire** (CLAUDE.md, tests, CI, une PR par lot relue et fusionnée par le propriétaire),
-  avec une branche par lot.
-- Visuel : 4 substitutions validées, plus l'icône « 8 » et les tuiles des caissons (validées le 14/11/2026).
-- Contenu : d'abord le plan (`PROGRAMME.md`, validé), puis l'écriture caisson par caisson.
-  Aucun contenu de FORMA-7 (décision du 14/11/2026).
-- Étude de cas FORMA-7 (décision du 14/11/2026, après vérification du caisson 01) : citer **mot pour mot** des faits
-  de l'historique de FORMA-7 (messages de commit, dates, nombre de fichiers, courts extraits d'un commit) est permis,
-  comme étude de cas de son propre projet. Les leçons, fiches, exercices, simulateurs et illustrations de FORMA-7
-  restent interdits. Contrôle fait au caisson 01 : aucune suite de 5 mots du texte pédagogique n'est commune avec
-  FORMA-7, en dehors de ces citations et de tournures courantes.
+- Programme sur mesure, sur la documentation officielle de Claude Code en français ; les cours Anthropic Academy
+  (Claude Code 101, Claude Code in Action) servent seulement de liste de contrôle (sujets couverts aux caissons 02, 03,
+  04, 05 et 09, réécrits).
+- Matériel : iPhone et iPad, Safari. Temps : 15 à 30 minutes par jour, en « quarts ».
+- FORMA-8 autonome ; clin d'œil à FORMA-7 seulement (prénom repris, badges affichés en lecture seule).
+- Un produit fil rouge, choisi dans l'appli au caisson 00. Premiers vrais utilisateurs au niveau 6.
+- Univers « l'Équipe », nom « FORMA-8 · Réveille l'équipe ». Missions du jour : aucune.
+- Livraisons vérifiées automatiquement par l'API GitHub, case à cocher en secours.
+- Mécaniques : Atelier des consignes, pannes à diagnostiquer, livraisons vérifiées, fiches de l'équipe, simulateurs,
+  portfolio, Quart du jour, Demander à ORA.
+- Claude dans l'appli : **indispensable** ; modèle par défaut : Opus 5.5.
+- Construction de **tout le parcours** avant le premier test complet ; méthode exemplaire (CLAUDE.md, tests, CI, une PR
+  par lot relue et fusionnée par lui).
+- Contenu : plan d'abord (`PROGRAMME.md`, validé), puis caisson par caisson. Aucun contenu de FORMA-7 (14/11/2026).
+- Étude de cas FORMA-7 (14/11/2026) : citer **mot pour mot** des faits de son historique (messages de commit, dates,
+  nombres de fichiers, courts extraits d'un commit) est permis. Contrôle fait au caisson 01 : aucune suite de 5 mots du
+  texte pédagogique commune avec FORMA-7, hors citations et tournures courantes.
 - Refonte de l'interface (15/11/2026), après des maquettes jouables :
-  - **option B** : même palette et mêmes polices que FORMA-7, le reste peut évoluer (règle 3 réécrite) ;
-  - **11 personnages avec répliques**, scène de réveil, frise du produit, chemin des protocoles, Base par membre :
-    gardés ;
+  - **option B** : même palette, mêmes polices ; le reste peut évoluer (règle 3 réécrite) ;
+  - **11 personnages avec répliques**, scène de réveil, frise du produit, chemin des protocoles, Base par membre ;
   - **cérémonies plus spectaculaires** (onde de choc, éclats, rayons) ;
-  - **kW** : une barre d'énergie discrète, aux couleurs de l'appli, pendant le protocole ; un petit jaillissement de
-    10 kW par bonne réponse, vers la barre ; le total qui jaillit en grand en fin de protocole et rejoint le compteur.
-    Demande du propriétaire : « rends le tout cohérent et très esthétique ».
+  - **kW** : barre d'énergie discrète aux couleurs de l'appli pendant le protocole ; petit jaillissement de 10 kW par
+    bonne réponse vers la barre ; total qui jaillit en grand en fin de protocole et rejoint le compteur ; « rends le
+    tout cohérent et très esthétique ».
 
 ### 4.2 Pistes écartées, et pourquoi
-- **Traduire intégralement les cours Anthropic Academy** : droits d'auteur, et ces cours demandent une connexion.
-  Ils restent une liste de contrôle.
-- **Reprendre du contenu de FORMA-7** (ses 53 notions, ses 8 simulateurs, son SkillWorkshop, les illustrations de `Art`) :
-  refusé par le propriétaire. Tout est réécrit.
-- **Missions du jour par mail** (comme le pipeline de FORMA-7) et la mécanique « Signaux » de FORMA-7 : écartées.
-- **PR empilées sur des branches intermédiaires** : abandonnées après les PR #2 et #3. Les PR ciblent toujours `main`.
-- **Le mot « équipage »** : remplacé par « équipe ».
-- **La revue de code comme mécanique dédiée** : elle reste une notion du caisson 05.
-- **Claude optionnel** : écarté, Claude est indispensable.
-- **Construire et faire tester lot par lot** : remplacé par « tout d'un coup ».
-- **Le composant `Art` de FORMA-7** : remplacé par `Illustrations.tsx`, car les dessins de `Art` contiennent des textes
-  des leçons de FORMA-7. Retiré du dépôt le 15/11/2026.
-- **Option A de la refonte** (« enrichir sans toucher au socle », parité stricte) : écartée au profit de l'option B.
-- **kW** : les « pièces d'énergie » (pièces aspirées une à une), la jauge orange qui ne se vide qu'à la fin sans
-  jaillissement, et le compteur seul (« discret ») : écartés le 15/11/2026.
-- **Une cérémonie de grade qui s'ouvre au milieu d'un protocole** : elle bloquait la lecture ; le grade s'annonce
-  désormais dans la cérémonie de fin de protocole.
+- Traduire les cours Anthropic Academy : droits d'auteur, connexion requise.
+- Reprendre du contenu de FORMA-7 (53 notions, 8 simulateurs, SkillWorkshop, illustrations de `Art`) : refusé.
+- Missions du jour par mail et mécanique « Signaux » de FORMA-7 : écartées.
+- PR empilées sur des branches intermédiaires : abandonnées après les PR #2 et #3.
+- Le mot « équipage » ; la revue de code comme mécanique dédiée (reste une notion du caisson 05) ; Claude optionnel ;
+  construire et faire tester lot par lot.
+- Le composant `Art` de FORMA-7 : remplacé par `Illustrations.tsx`, puis retiré du dépôt (15/11/2026).
+- Option A de la refonte (enrichir sans toucher au socle, parité stricte) : écartée pour l'option B.
+- Propositions de kW écartées (15/11/2026) : « pièces d'énergie » aspirées une à une ; jauge orange qui se vide sans
+  jaillissement ; compteur seul.
+- Une cérémonie de grade au milieu d'un protocole : elle bloquait la lecture ; le grade s'annonce dans la fin de
+  protocole.
+- Réécrire un historique déjà poussé : refusé par la sécurité de la session ; on ajoute des commits.
 
 ---
 
 ## 5. Prochaine action immédiate
 
-### 5.1 Au démarrage de chaque nouvelle session (avant toute écriture)
-1. Lire `CLAUDE.md`, ce document, `docs/CONCEPTION.md` et `docs/PROGRAMME.md`.
-2. `git fetch origin`. Vérifier que `origin/main` contient `ccb28cf` (caisson 01) et, si elle a été fusionnée, la PR
-   de la refonte de l'interface ; si quelque chose d'autre a changé, le dire au propriétaire.
+### 5.1 Au démarrage de la nouvelle session (avant toute écriture)
+1. Lire en entier `CLAUDE.md`, ce document, `docs/CONCEPTION.md` et `docs/PROGRAMME.md`.
+2. `git fetch origin`. Vérifier que `origin/main` contient `b96f074` (refonte, PR #9) et la PR de ce document ; si
+   autre chose a changé, le dire au propriétaire.
 3. Attacher `felipemaciasito-cmyk/forma-7` (public, lecture seule) et le cloner **à côté** de FORMA-8, sous le nom
-   `forma-7`, pour `check:parity`. Le cloner en entier (sans `--depth`) si l'historique sert d'étude de cas.
-4. `npm ci`, puis lancer la commande complète de vérification. Annoncer le résultat au propriétaire :
-   l'état de départ doit être entièrement vert.
-5. Attendre le **feu vert explicite** du propriétaire pour le caisson suivant. Le lui demander en QCM s'il ne l'a pas déjà donné.
+   `forma-7`, **en entier** (sans `--depth`), pour `check:parity` et l'étude de cas.
+4. `npm ci`, puis la commande complète de vérification. Annoncer le résultat en quelques lignes : l'état de départ
+   doit être entièrement vert.
+5. Demander au propriétaire, en QCM, son retour sur la refonte jouée sur son iPhone (fluidité, son, lisibilité,
+   personnages, kW). Corriger d'abord ce qu'il signale ; pour un changement visuel important, maquette d'abord.
+6. Attendre son **feu vert explicite** (QCM) pour le caisson 02.
 
-### 5.2 Caisson 01 et refonte : faits. Prochaine étape : caisson 02 · Le Règlement de bord · v0.2 (après le feu vert)
-- **Avant tout** : vérifier que la PR de la refonte de l'interface a été fusionnée par le propriétaire. Sinon, le lui
-  rappeler, et ne pas empiler une nouvelle PR dessus. Lui demander s'il a joué la nouvelle version sur son iPhone
-  (fluidité, son, lisibilité), et corriger d'abord ce qu'il signale.
-- **Répliques** : écrire `demi` et `reveil` du Règlement de bord (`src/content/equipe.json`) avec le vocabulaire du
-  caisson 02, une fois ses notions définies ; le validateur vérifie le moment où chaque réplique s'affiche.
-- **Branche** : une nouvelle branche depuis `origin/main` (ou celle qu'impose l'environnement).
-- **Plan** : `docs/PROGRAMME.md`, caisson 02. 6 protocoles, environ 20 notions (`session`, `environnement-cloud`,
-  `terminal`, `commande`, `token`, `contexte`, `fenetre-contexte`, `compaction`, `claude-md`, `memoire-projet`,
-  `permission`, `mode-permission`, `mode-plan`, `markdown`, `skill`, `mcp`, `connecteur`, `plugin`, `jeton-acces`,
-  `moindre-privilege`).
-- **Simulateurs déjà faits** : ContextView (p2), SkillToolbox et McpPlugs (p5), TokenBuilder (p6). **À écrire** : la
-  Forge de Skills, d'après la documentation officielle d'Anthropic sur les Skills, en français (URL à trouver et à
-  vérifier ; elle rendra le badge « skill » obtenable).
-- **Méthode qui a marché au caisson 01**, à reprendre :
-  - ouvrir chaque source avec `curl -L` pour relever l'adresse finale et le titre exact, puis lire le texte ;
-  - relever les libellés anglais dans la version `/en/` des pages de GitHub, et capturer github.com et
-    claude.ai/code à la taille d'un iPhone (Playwright, `devices['iPhone 13']`) quand la page est publique ;
-  - donner un mode aux simulateurs pour ne jamais montrer un geste avant sa notion ;
-  - ajouter les mots techniques nouveaux au champ `watch` des notions, quand le caisson précédent ne les emploie pas ;
-  - regarder chaque nouvel écran en capture avant de lancer la commande complète.
-- **Livraison v0.2** : `CLAUDE.md`, `.claude/settings.json`, un Skill dans `.claude/skills`, et la case
-  « Synchronisation FORMA-8 activée ». Le protocole 6 crée le vrai jeton « fine-grained » : vérifier d'abord si l'on
-  peut modifier après coup la liste des dépôts d'un jeton (incertitude de 3.14).
-- **Banc d'essai** : `tests/e2e/caisson02.spec.ts`, sur le modèle de `caisson01.spec.ts` (progression des caissons 00
-  et 01 déposée au démarrage). Mettre à jour le compteur de notions de `caisson00.spec.ts` et de `caisson01.spec.ts`.
-- **Ce document** : le mettre à jour dans la même PR.
-- Ensuite : commande complète (tout vert), commit en français, envoi, **une PR vers `main`**, annonce au
-  propriétaire (« ne fusionne qu'après mon annonce »), proposition de la surveiller.
-- Aucun changement visuel sans validation préalable. Nouveaux glyphes ou illustrations : ajout seulement, dans le même style.
+### 5.2 Caisson 02 · Le Règlement de bord · « L'environnement de ton équipe » · v0.2 (après le feu vert)
+- **Branche** : celle qu'impose l'environnement, créée depuis `origin/main`.
+- **Plan** (`docs/PROGRAMME.md`) : 6 protocoles, environ 20 notions :
+  1. Une séance de travail dans le navigateur : `session`, `environnement-cloud`, `terminal`, `commande` ;
+  2. Ce que Claude voit : `token`, `contexte`, `fenetre-contexte`, `compaction` (ContextView) ;
+  3. Le fichier de règles : `claude-md`, `memoire-projet` (ordre de mission : écrire le `CLAUDE.md` du produit) ;
+  4. Les permissions : `permission`, `mode-permission`, `mode-plan` ;
+  5. Les savoir-faire et les prises : `markdown`, `skill`, `mcp`, `connecteur`, `plugin` (SkillToolbox, McpPlugs,
+     et une **nouvelle Forge de Skills** à écrire d'après la documentation officielle d'Anthropic sur les Skills, en
+     français : URL à trouver et à vérifier ; elle rendra le badge « skill » obtenable) ;
+  6. Le jeton d'accès : `jeton-acces`, `moindre-privilege` (TokenBuilder, puis création du vrai jeton
+     « fine-grained » et activation de la synchronisation ; vérifier d'abord si l'on peut modifier après coup la liste
+     des dépôts d'un jeton).
+- Panne : « Claude ignore une règle », « Permission refusée », « Contexte saturé ».
+- Livraison v0.2 : `CLAUDE.md`, `.claude/settings.json`, un Skill dans `.claude/skills`, case « Synchronisation
+  FORMA-8 activée ».
+- Sources à ouvrir et dater (titres attendus en français, adresses exactes à trouver, ne jamais les deviner) : Claude
+  Code « Comment Claude se souvient de votre projet », « Explorez la fenêtre de contexte », « Configurer les
+  autorisations », « Choisir un mode d'autorisation », « Étendre Claude avec des skills », « Connecter Claude Code à
+  des outils via MCP », « Configurer les environnements cloud » ; GitHub Docs « Jetons d'accès personnel ».
+  L'index des pages en français : https://code.claude.com/docs/_llms/fr.txt.
+- **Répliques** : réécrire `demi` et `reveil` du Règlement de bord dans `src/content/equipe.json` avec le vocabulaire
+  du caisson 02 ; ajouter au champ `watch` les mots techniques nouveaux que le caisson 01 n'emploie pas.
+- **Méthode qui a marché** : ouvrir chaque source (`curl -L`) pour relever l'adresse finale et le titre exact, puis la
+  lire ; libellés anglais dans les pages `/en/` ; captures à la taille d'un iPhone ; donner un mode aux simulateurs
+  pour ne jamais montrer un geste avant sa notion ; regarder chaque écran en capture.
+- **Banc d'essai** : `tests/e2e/caisson02.spec.ts`, sur le modèle de `caisson01.spec.ts` (caissons 00 et 01 déposés
+  au démarrage ; `dismissCeremonies()` après la panne) ; mettre à jour les compteurs de notions des bancs 00 et 01.
+- Mettre à jour ce document dans la même PR ; commande complète verte ; commit en français ; **une PR vers `main`** ;
+  attendre le robot vert ; annoncer ; ne plus rien pousser ensuite.
 
-### 5.3 À faire côté propriétaire (sans urgence, à lui rappeler)
-- **Jouer aux caissons 00 et 01** sur https://felipemaciasito-cmyk.github.io/FORMA-8/, dans Safari ou depuis l'écran
-  d'accueil. Le stockage de l'écran d'accueil est séparé de celui de Safari. En jouant le caisson 01, **noter tout
-  libellé de GitHub qui ne correspond pas** à ce que dit l'appli (voir 3.14) et le signaler.
-- **Créer la clé API Claude** :
-  - dans la Console Claude, avec un espace de travail dédié et un plafond de dépense mensuel ;
-  - acheter des crédits (montant minimum à vérifier) ;
-  - coller la clé dans Réglages.
-  - Elle sert à « Demander à ORA », à la notation « avec tes mots », aux consignes et aux rapports de bug.
-- **Jeton GitHub « fine-grained »** : il sera enseigné au caisson 02, protocole 6, et sert à la synchronisation.
-  Il n'est pas obligatoire pour vérifier un dépôt public.
+### 5.3 À faire côté propriétaire (à lui rappeler, sans urgence)
+- **Jouer la nouvelle version** sur https://felipemaciasito-cmyk.github.io/FORMA-8/ (Safari ou écran d'accueil ; si
+  rien ne change, fermer complètement l'appli et la rouvrir) et dire ce qui rame ou gêne.
+- Noter tout libellé de GitHub du caisson 01 qui ne correspond pas à l'appli.
+- **Créer la clé API Claude** : Console Claude, espace de travail dédié avec plafond de dépense mensuel, achat de
+  crédits (montant minimum à vérifier), clé collée dans Réglages. Elle sert à « Demander à ORA », à la notation
+  « avec tes mots », aux consignes et aux rapports de bug.
+- Le jeton GitHub « fine-grained » sera enseigné au caisson 02, protocole 6 ; il n'est pas obligatoire pour vérifier un
+  dépôt public.
+- Il peut supprimer la branche fusionnée `claude/charming-darwin-rxq6b5` sur GitHub.
 
 ### 5.4 Ensuite
-- Caissons 03 à 10, dans l'ordre de `docs/PROGRAMME.md`, une PR par caisson.
+- Caissons 03 à 10, dans l'ordre de `docs/PROGRAMME.md`, une PR par caisson, chacun avec son banc d'essai.
 - Caisson 07 : choisir le service de données et de comptes à partir de sources vérifiées à ce moment-là.
-- Caissons 06, 07, 08 et 10 : vérifier et dater les tarifs et les offres cités au moment de l'écriture.
+- Caissons 06, 07, 08 et 10 : vérifier et dater les tarifs et les offres au moment de l'écriture.
