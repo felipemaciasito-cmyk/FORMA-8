@@ -285,7 +285,7 @@ export function StepView({ roomId, stepId }: { roomId: string; stepId: string })
           {finished && (
             <motion.div key="fini" role="dialog" aria-modal="true" aria-label={`Protocole ${String(idx + 1).padStart(2, "0")} terminé`}
               initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-              style={{ position: "fixed", inset: 0, zIndex: 105, overflowY: "auto", background: `radial-gradient(circle at 50% 22%, hsl(${r.hue} 90% 45% / .26), rgba(4,6,12,.96) 62%)`, backdropFilter: "blur(4px)", WebkitBackdropFilter: "blur(4px)" }}>
+              style={{ position: "fixed", inset: 0, zIndex: 105, overflowY: "auto", background: `radial-gradient(circle at 50% 18%, hsl(${r.hue} 90% 45% / .28), transparent 62%), #04060c` }}>
               <div style={{ maxWidth: 420, margin: "0 auto", padding: "calc(var(--safe-top) + 28px) 18px calc(var(--safe-bottom) + 28px)", textAlign: "center" }}>
                 <motion.div initial={{ scale: 0.6, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ type: "spring", stiffness: 220, damping: 16 }}
                   style={{ display: "grid", placeItems: "center" }}>
@@ -304,6 +304,7 @@ export function StepView({ roomId, stepId }: { roomId: string; stepId: string })
                   <div className="small muted" style={{ marginTop: 8 }}>{finished.after >= 100 ? `${r.member} est prêt à se réveiller.` : r.incident && idx === r.steps.length - 1 ? "Dernière étape : réparer la panne." : `${r.steps.length - roomStepsDone(p, r)} protocole${r.steps.length - roomStepsDone(p, r) > 1 ? "s" : ""} avant la panne finale.`}</div>
                 </div>
 
+                {crewLines(r.id) && !roomComplete(p, r) && <div style={{ textAlign: "left" }}><MemberSays member={r.member} hue={r.hue} md={crewLines(r.id)!.demi} asleep /></div>}
                 {finished.energy > 0 && (
                   <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.9 }} className="mono" style={{ color: "var(--cyan)", fontSize: 28, margin: "16px 0 4px", textShadow: "0 0 16px rgba(59,232,255,.6)" }}>
                     +<CountUp from={0} to={finished.energy} delay={0.9} /> kW

@@ -73,7 +73,7 @@ function LevelUp({ e, onClose }: { e: Extract<FxEvent, { type: "levelup" }>; onC
   return (
     <motion.div role="dialog" aria-modal="true" aria-label={`Nouvelle accréditation : ${e.title}`} onClick={onClose}
       initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-      style={{ position: "fixed", inset: 0, zIndex: 110, display: "grid", placeItems: "center", padding: 24, background: "radial-gradient(circle at 50% 42%, rgba(77,255,160,.18), rgba(4,6,12,.94) 62%)", backdropFilter: "blur(6px)", WebkitBackdropFilter: "blur(6px)" }}>
+      style={{ position: "fixed", inset: 0, zIndex: 110, display: "grid", placeItems: "center", padding: 24, background: "radial-gradient(circle at 50% 40%, rgba(77,255,160,.2), transparent 62%), rgba(4,6,12,.96)", backdropFilter: "blur(8px)", WebkitBackdropFilter: "blur(8px)" }}>
       <div style={{ textAlign: "center", maxWidth: 340 }} onClick={(x) => x.stopPropagation()}>
         <div style={{ position: "relative", width: 200, height: 200, margin: "0 auto" }}>
           <motion.div aria-hidden="true" animate={{ rotate: 360 }} transition={{ duration: 18, repeat: Infinity, ease: "linear" }}
@@ -140,8 +140,8 @@ function Awakening({ e, onClose }: { e: Extract<FxEvent, { type: "awaken" }>; on
   return (
     <motion.div role="dialog" aria-modal="true" aria-label={`Réveil : ${r.member}`} onClick={skip}
       initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.4 }}
-      style={{ position: "fixed", inset: 0, zIndex: 111, overflowY: "auto", background: `radial-gradient(circle at 50% 38%, hsl(${hue} 90% 45% / ${phase >= 2 ? 0.32 : 0.1}), rgba(4,6,12,.97) 64%)`, transition: "background 1s" }}>
-      <div style={{ minHeight: "100%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "calc(var(--safe-top) + 24px) 20px calc(var(--safe-bottom) + 24px)", textAlign: "center" }}>
+      style={{ position: "fixed", inset: 0, zIndex: 111, overflowY: "auto", background: `radial-gradient(circle at 50% 34%, hsl(${hue} 90% 45% / ${phase >= 2 ? 0.34 : 0.12}), transparent 64%), #04060c`, transition: "background 1s" }}>
+      <div style={{ minHeight: "100%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "calc(var(--safe-top) + 18px) 20px calc(var(--safe-bottom) + 18px)", textAlign: "center" }}>
         <div className="mono" style={{ fontSize: 11, letterSpacing: ".16em", color: `hsl(${hue} 100% 70%)` }}>{r.code} · SÉQUENCE DE RÉVEIL</div>
         <div style={{ width: 240, margin: "8px 0 0" }}>
           <div className="progress" style={{ height: 5 }}>
@@ -150,7 +150,7 @@ function Awakening({ e, onClose }: { e: Extract<FxEvent, { type: "awaken" }>; on
         </div>
         <motion.div animate={phase === 1 ? { x: [0, -2, 2, -1, 1, 0] } : { x: 0 }} transition={{ duration: 0.4, repeat: phase === 1 ? 3 : 0 }} style={{ margin: "14px 0 4px" }}>
           <motion.div animate={{ scale: phase >= 2 ? 1.06 : 1 }} transition={{ type: "spring", stiffness: 140, damping: 12 }}>
-            <CrewCapsule id={r.id} state={phase >= 2 ? "awake" : "asleep"} power={phase >= 1 ? 100 : 62} size={190} mood={phase >= 3 ? "happy" : "neutral"} />
+            <CrewCapsule id={r.id} state={phase >= 2 ? "awake" : "asleep"} power={phase >= 1 ? 100 : 62} size={156} mood={phase >= 3 ? "happy" : "neutral"} />
           </motion.div>
         </motion.div>
         <AnimatePresence>
@@ -160,7 +160,7 @@ function Awakening({ e, onClose }: { e: Extract<FxEvent, { type: "awaken" }>; on
           <div style={{ fontSize: 30, fontWeight: 700, lineHeight: 1.1 }}>{r.member}</div>
           <div className="kicker" style={{ color: "var(--led)", marginTop: 4 }}>{e.replay ? "Souvenir du réveil" : "Membre de l'équipe réveillé"}</div>
         </motion.div>
-        <div style={{ minHeight: 96, maxWidth: 360, marginTop: 14 }}>
+        <div style={{ minHeight: 96, maxWidth: 360, marginTop: 10 }}>
           {phase >= 3 && (
             <div style={{ textAlign: "left", padding: "12px 14px", borderRadius: "4px 16px 16px 16px", background: `linear-gradient(135deg, hsl(${hue} 90% 55% / .14), rgba(12,19,34,.6))`, border: `1px solid hsl(${hue} 90% 60% / .35)` }}>
               <div className="mono" style={{ fontSize: 10.5, letterSpacing: ".14em", color: `hsl(${hue} 100% 70%)`, marginBottom: 4 }}>{r.member.toUpperCase()}</div>
@@ -172,7 +172,7 @@ function Awakening({ e, onClose }: { e: Extract<FxEvent, { type: "awaken" }>; on
           {phase >= 4 && (
             <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} style={{ width: "100%", maxWidth: 360, marginTop: 10 }}>
               {!e.replay && (
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, marginBottom: 14 }}>
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, marginBottom: 10 }}>
                   <div className="panel" style={{ margin: 0, padding: 10 }}><div className="mono" style={{ color: "var(--cyan)", fontSize: 20 }}>+{REWARD.incident}</div><div className="small muted">kW pour la panne réparée</div></div>
                   <div className="panel" style={{ margin: 0, padding: 10 }}><div className="mono" style={{ color: `hsl(${hue} 100% 70%)`, fontSize: 20 }}>{r.version}</div><div className="small muted">version de ton produit à livrer</div></div>
                 </div>

@@ -2,7 +2,7 @@ import { AnimatePresence, motion } from "motion/react";
 import { useMemo, useState } from "react";
 import { allNotions, crewLines, notion, notionOrigin, ROOMS } from "../content";
 import { SITUATIONS } from "../content/atelier";
-import type { Room } from "../content/types";
+import type { Notion, Room } from "../content/types";
 import { evaluateCheck, pagesUrl, type CheckResult } from "../lib/checks";
 import { deliveryState } from "../lib/delivery";
 import { roomComplete, roomPower, roomUnlocked } from "../lib/progress";
@@ -14,7 +14,7 @@ import { back, go } from "../lib/router";
 import { sfx } from "../lib/sound";
 import { getState, today, useProgress, useSettings, type Progress } from "../lib/store";
 import { openTerm } from "../lib/termBus";
-import { BadgeEmblem, NotionChip, notionHue } from "./Emblems";
+import { BadgeEmblem, LEITNER_COLORS, NotionChip, notionHue } from "./Emblems";
 import { Sheet, TopBar } from "./Chrome";
 import { CrewCapsule, CrewFigure, crewState, MemberSays } from "./Crew";
 import { Icon } from "./Icon";
@@ -34,6 +34,24 @@ export function BaseView({ focus }: { focus?: string }) {
     if (filter === "due") return due.has(n.id);
     return true;
   });
+  const grouped = !q && filter === "all";
+  const tile = (n: Notion, i: number) => {
+    const st = p.notions[n.id];
+    const origin = notionOrigin(n.id);
+    const open = !!(st || origin.missionId);
+    const hot = due.has(n.id);
+    return (
+      <motion.button key={n.id} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: Math.min(i, 20) * 0.02 }} whileTap={{ scale: 0.95 }}
+        onClick={() => { if (open) openTerm(n.id); else { sfx("ko"); fx({ type: "toast", icon: "lock", text: `Tu découvriras cette notion au ${origin.room?.code ?? "prochain caisson"}`, tone: "red" }); } }}
+        className="panel notion-tile" style={{ marginTop: 0, padding: 12, textAlign: "left", minHeight: 128, borderColor: hot ? "rgba(255,77,109,.5)" : st ? `hsl(${notionHue(n.id)} 90% 60% / .32)` : undefined, opacity: open ? 1 : 0.6 }}>
+        <NotionChip id={n.id} icon={n.icon} size={46} locked={!open} />
+        <div style={{ fontWeight: 700, fontSize: 14, lineHeight: 1.25 }}>{open ? n.term : "Notion verrouillée"}</div>
+        <div className="mono" style={{ fontSize: 10, color: hot ? "var(--red)" : "var(--text-3)", display: "flex", alignItems: "center", gap: 4 }}>
+          {st ? <><span role="img" aria-label={`Boîte ${st.box} sur 5`} style={{ display: "inline-flex", gap: 2 }}>{[1, 2, 3, 4, 5].map((b) => <i key={b} style={{ width: 7, height: 7, borderRadius: 2, background: b <= st.box ? LEITNER_COLORS[st.box - 1] : "rgba(255,255,255,.1)" }} />)}</span>{hot ? <><Icon name="thermo" size={11} /> SURCHAUFFE</> : <> BOÎTE {st.box}/5</>}</> : origin.room?.code}
+        </div>
+      </motion.button>
+    );
+  };
   const learned = Object.keys(p.notions).length;
   const lv = levelOf(p.energy);
   const acc = p.stats.answers ? Math.round((p.stats.correct / p.stats.answers) * 100) : 0;
@@ -46,25 +64,36 @@ export function BaseView({ focus }: { focus?: string }) {
           <button key={k} className={`chip ${filter === k ? "on" : ""}`} onClick={() => { sfx("tap"); setFilter(k); }}>{l}</button>
         ))}
       </div>
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(150px, 1fr))", gap: 10 }}>
-        {list.map((n, i) => {
-          const st = p.notions[n.id];
-          const origin = notionOrigin(n.id);
-          const open = !!(st || origin.missionId);
-          const hot = due.has(n.id);
-          return (
-            <motion.button key={n.id} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: Math.min(i, 20) * 0.02 }} whileTap={{ scale: 0.95 }}
-              onClick={() => { if (open) openTerm(n.id); else { sfx("ko"); fx({ type: "toast", icon: "lock", text: `Tu découvriras cette notion au ${origin.room?.code ?? "prochain caisson"}`, tone: "red" }); } }}
-              className="panel notion-tile" style={{ marginTop: 0, padding: 12, textAlign: "left", minHeight: 128, borderColor: hot ? "rgba(255,77,109,.5)" : st ? `hsl(${notionHue(n.id)} 90% 60% / .32)` : undefined, opacity: open ? 1 : 0.6 }}>
-              <NotionChip id={n.id} icon={n.icon} size={46} locked={!open} />
-              <div style={{ fontWeight: 700, fontSize: 14, lineHeight: 1.25 }}>{open ? n.term : "Notion verrouillée"}</div>
-              <div className="mono" style={{ fontSize: 10, color: hot ? "var(--red)" : "var(--text-3)", display: "flex", alignItems: "center", gap: 4 }}>
-                {st ? <>BOÎTE {st.box}/5{hot && <><Icon name="thermo" size={11} /> SURCHAUFFE</>}</> : origin.room?.code}
-              </div>
-            </motion.button>
-          );
-        })}
-      </div>
+      {grouped ? (
+        <div className="stack" style={{ gap: 18 }}>
+          {ROOMS.filter((r) => r.steps.length).map((r) => {
+            const ids = r.steps.flatMap((x) => x.introduces);
+            const got = ids.filter((id) => p.notions[id]).length;
+            const done = roomComplete(p, r);
+            return (
+              <section key={r.id} aria-label={`Notions du ${r.code}`}>
+                <div className="row" style={{ gap: 10, marginBottom: 8 }}>
+                  <span style={{ flex: "none", width: 36, height: 36, borderRadius: 12, overflow: "hidden", background: "#0b1222", border: `1px solid hsl(${r.hue} 90% 60% / .4)`, display: "grid", placeItems: "center" }}>
+                    <CrewFigure id={r.id} state={crewState(roomUnlocked(p, r), done)} crop="head" size={34} />
+                  </span>
+                  <span className="grow" style={{ minWidth: 0 }}>
+                    <span className="mono" style={{ fontSize: 10.5, letterSpacing: ".1em", color: `hsl(${r.hue} 100% 64%)` }}>{r.code} · {r.member.toUpperCase()}</span>
+                    <span className="progress" style={{ display: "block", height: 4, marginTop: 5 }}><motion.i initial={{ width: 0 }} animate={{ width: `${(got / ids.length) * 100}%` }} style={{ background: `hsl(${r.hue} 100% 64%)`, boxShadow: `0 0 8px hsl(${r.hue} 100% 64%)` }} /></span>
+                  </span>
+                  <span className="mono" style={{ fontSize: 13, color: got === ids.length ? "var(--led)" : "var(--text-2)" }}>{got} / {ids.length}</span>
+                </div>
+                <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(150px, 1fr))", gap: 10 }}>
+                  {ids.map((id, i) => { const n = notion(id); return n ? tile(n, i) : null; })}
+                </div>
+              </section>
+            );
+          })}
+        </div>
+      ) : (
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(150px, 1fr))", gap: 10 }}>
+          {list.map((n, i) => tile(n, i))}
+        </div>
+      )}
       {list.length === 0 && <p className="muted" style={{ textAlign: "center", marginTop: 20 }}>{allNotions().length ? "Aucune notion ne correspond." : "Les notions arriveront avec les protocoles de réveil."}</p>}
 
       <div id="badges" className="panel-title" style={{ marginTop: 28 }}><Icon name="trophy" size={16} /> Badges & accréditation</div>
