@@ -1,55 +1,48 @@
 import { getState } from "./store";
 
-// Sons de FORMA-8, fabriqués en direct par le téléphone (aucun fichier audio), sur le thème de l'électricité :
-// relais, contacteurs, arcs, transformateurs. Une réverbération légère leur donne l'écho d'une salle de machines.
-// Choisis par le propriétaire le 15/11/2026 sur la maquette « Labo son et lumière » (version 5) :
+// Sons de FORMA-8, sur le thème de l'électricité : relais, contacteurs, arcs, transformateurs, avec une
+// réverbération légère (l'écho d'une salle de machines). Aucun fichier audio : chaque son est fabriqué par le
+// téléphone. Choisis par le propriétaire le 15/11/2026 sur la maquette « Labo son et lumière » :
 // clavier « Feutré », levier en sectionneur, montée de grade « Accréditation », réveil « Défibrillateur ».
 // Deux réglages indépendants : les effets (settings.sound) et le fond sonore (settings.ambience).
+//
+// Comment c'est joué (important pour l'iPhone) : fabriquer un son en direct demande des dizaines de petits
+// éléments audio à chaque effet. Sous une rafale (bonnes réponses, badges, éclairs), le moteur de Safari finissait
+// par planter (constaté le 15/11/2026 dans WebKit : la page tombait en moins d'une minute de jeu, jamais sans son).
+// Désormais, chaque son est fabriqué UNE fois, hors temps réel (OfflineAudioContext), juste après le premier
+// toucher ; ensuite, jouer un effet ne demande qu'un lecteur et un volume. Les sons courants ont plusieurs
+// variantes, pour ne jamais sonner mécaniques. Avant d'être prêt, un son est simplement ignoré.
 
-type Ctx = AudioContext;
+type Ctx = BaseAudioContext;
+/** Le contexte audio réel (haut-parleur), créé au premier toucher. */
+let rt: AudioContext | null = null;
+let fxBus: GainNode | null = null;
+let ambBus: GainNode | null = null;
+// Contexte de fabrication en cours (hors temps réel pendant la préparation, réel pour le ronronnement du fond).
 let ctx: Ctx | null = null;
-let master: GainNode | null = null;
+let master: AudioNode | null = null;
 let rev: ConvolverNode | null = null;
 let noiseBuf: AudioBuffer | null = null;
 let brownBuf: AudioBuffer | null = null;
+let irBuf: AudioBuffer | null = null;
 let curve: Float32Array<ArrayBuffer> | null = null;
 let curPan = 0, curFar = 0; // placement d'un son du fond : gauche/droite, éloignement
-// Le son n'est créé qu'après un vrai geste du joueur (unlockAudio) : avant, les effets sont simplement ignorés.
-// Créer le moteur audio sans geste, puis lui envoyer une rafale de sons, faisait planter le moteur de Safari
-// par moments (constaté le 15/11/2026 dans WebKit).
 let unlocked = false;
+const SR = 32000; // suffisant pour ces sons, et moins de mémoire
 
 /** Instant (en secondes après le début du son) où la batterie reçoit l'arc de fin de protocole. */
 export const CHARGE_HIT = 0.74;
 /** Instant où la décharge réveille le membre (réveil « Défibrillateur »). */
 export const WAKE_HIT = 2.0;
 
-function audio(): Ctx | null {
-  if (!unlocked) return null;
-  if (!ctx) {
-    const C = window.AudioContext || (window as unknown as { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
-    if (!C) return null;
-    try { const s = (navigator as unknown as { audioSession?: { type: string } }).audioSession; if (s) s.type = "playback"; } catch { /* facultatif */ }
-    ctx = new C();
-    const comp = ctx.createDynamicsCompressor();
-    comp.threshold.value = -16; comp.knee.value = 12; comp.ratio.value = 5; comp.attack.value = 0.002; comp.release.value = 0.25;
-    master = ctx.createGain(); master.gain.value = 0.85;
-    master.connect(comp).connect(ctx.destination);
-    rev = ctx.createConvolver(); rev.buffer = makeIR(ctx, 1.6, 2.6); rev.connect(master);
-    noiseBuf = makeNoise(ctx, 2.5, false); brownBuf = makeNoise(ctx, 4, true); curve = makeCurve(30);
-  }
-  if (ctx.state === "suspended" && document.visibilityState === "visible") ctx.resume().catch(() => {});
-  return ctx;
-}
-
-function makeNoise(a: Ctx, sec: number, brown: boolean) {
-  const len = Math.floor(a.sampleRate * sec), b = a.createBuffer(1, len, a.sampleRate), d = b.getChannelData(0);
+function makeNoise(sec: number, brown: boolean) {
+  const len = Math.floor(SR * sec), b = new AudioBuffer({ numberOfChannels: 1, length: len, sampleRate: SR }), d = b.getChannelData(0);
   let last = 0;
   for (let i = 0; i < len; i++) { const w = Math.random() * 2 - 1; if (brown) { last = (last + 0.02 * w) / 1.02; d[i] = last * 3.5; } else d[i] = w; }
   return b;
 }
-function makeIR(a: Ctx, sec: number, decay: number) {
-  const len = Math.floor(a.sampleRate * sec), b = a.createBuffer(2, len, a.sampleRate);
+function makeIR(sec: number, decay: number) {
+  const len = Math.floor(SR * sec), b = new AudioBuffer({ numberOfChannels: 2, length: len, sampleRate: SR });
   for (let c = 0; c < 2; c++) { const d = b.getChannelData(c); let lp = 0; for (let i = 0; i < len; i++) { lp += (Math.random() * 2 - 1 - lp) * (0.55 - 0.4 * i / len); d[i] = lp * Math.pow(1 - i / len, decay); } }
   return b;
 }
@@ -64,7 +57,7 @@ function out(space: number, dest: AudioNode = master!) {
   if (curPan && a.createStereoPanner) { const p = a.createStereoPanner(); p.pan.value = curPan; g.connect(p); node = p; }
   if (curFar) { const lp = a.createBiquadFilter(); lp.type = "lowpass"; lp.frequency.value = 5200 - 3600 * curFar; node.connect(lp); node = lp; }
   node.connect(dest);
-  if (space > 0) { const s = a.createGain(); s.gain.value = space; node.connect(s); s.connect(rev!); }
+  if (space > 0 && rev) { const s = a.createGain(); s.gain.value = space; node.connect(s); s.connect(rev); }
   return g;
 }
 function env(t: number, at: number, peak: number, hold: number, rel: number) {
@@ -272,7 +265,7 @@ const SOUNDS = {
   levelup() {
     const t = now(), a = A();
     const g = a.createGain(); let dest: AudioNode = master!;
-    if (a.createStereoPanner) { const p = a.createStereoPanner(); p.pan.setValueAtTime(-0.85, t); p.pan.linearRampToValueAtTime(0.85, t + 0.9); g.connect(p); p.connect(master!); const sd = a.createGain(); sd.gain.value = 0.35; p.connect(sd); sd.connect(rev!); dest = g; }
+    if (a.createStereoPanner && rev) { const p = a.createStereoPanner(); p.pan.setValueAtTime(-0.85, t); p.pan.linearRampToValueAtTime(0.85, t + 0.9); g.connect(p); p.connect(master!); const sd = a.createGain(); sd.gain.value = 0.35; p.connect(sd); sd.connect(rev); dest = g; }
     const n = noise(t, 1.0), b = filt("bandpass", 500, 5); b.frequency.setValueAtTime(500, t); b.frequency.exponentialRampToValueAtTime(5200, t + 0.9);
     const e = env(t, 0.08, 0.16, 0.62, 0.2); n.connect(b); b.connect(e); e.connect(dest === master ? out(0.35) : g);
     for (let i = 0; i < 9; i++) click(t + i * 0.1, 3400, 6, 0.003, 0.06, 0.2);
@@ -327,7 +320,85 @@ export const WAKE_BEATS = [0.75, 0.98, 1.65, 1.88], WAKE_SYSTEMS = 2.4;
 
 export type Sfx = keyof typeof SOUNDS;
 
-// Garde-fou : un même son ne repart pas avant 180 ms, et jamais plus de 4 effets en une demi-seconde
+/** Une touche du clavier « Feutré » : un petit clic étouffé et aigu, sans grave. */
+function keySound(kind: "char" | "space" | "enter") {
+  const t = now() + 0.002, v = 0.7 + Math.random() * 0.5, p = 0.9 + Math.random() * 0.2, big = kind !== "char";
+  click(t, (big ? 2300 : 3000) * p, 1.1, 0.005, (big ? 0.15 : 0.11) * v, 0.05, 3800);
+  band(t + 0.001, (big ? 760 : 1050) * p, 1.6, big ? 0.03 : 0.018, (big ? 0.2 : 0.13) * v, 0.05);
+  click(t + 0.045 + Math.random() * 0.04, 2700 * p, 1.3, 0.003, 0.022 * v, 0.03, 3600);
+}
+
+// ---------------- fabrication hors temps réel ----------------
+// Durée (s), stéréo ou non, nombre de variantes. L'ordre est celui de la préparation : les sons courts et
+// fréquents d'abord (le clavier du BIOS joue quelques instants après le premier toucher).
+interface Recipe { id: string; dur: number; stereo?: boolean; variants?: number; make: () => void }
+const RECIPES: Recipe[] = [
+  ...(["char", "space", "enter"] as const).map((k) => ({ id: `key-${k}`, dur: 0.25, variants: 4, make: () => keySound(k) })),
+  { id: "tap", dur: 0.25, variants: 2, make: SOUNDS.tap },
+  { id: "open", dur: 0.4, variants: 2, make: SOUNDS.open },
+  { id: "relay", dur: 0.4, variants: 2, make: SOUNDS.relay },
+  { id: "ok", dur: 0.9, variants: 3, make: SOUNDS.ok },
+  { id: "ko", dur: 1.0, variants: 2, make: SOUNDS.ko },
+  { id: "cell", dur: 1.2, variants: 2, make: SOUNDS.cell },
+  { id: "lever", dur: 4.4, stereo: true, make: SOUNDS.lever },
+  { id: "storm", dur: 4.4, stereo: true, make: SOUNDS.storm },
+  { id: "power", dur: 1.3, make: SOUNDS.power },
+  { id: "badge", dur: 1.0, make: SOUNDS.badge },
+  { id: "charge", dur: 2.6, make: SOUNDS.charge },
+  { id: "plug", dur: 2.3, make: SOUNDS.plug },
+  { id: "circuit-fail", dur: 2.0, make: SOUNDS["circuit-fail"] },
+  { id: "breaker", dur: 0.9, make: SOUNDS.breaker },
+  { id: "delivery", dur: 2.2, make: SOUNDS.delivery },
+  { id: "alarm", dur: 2.4, make: SOUNDS.alarm },
+  { id: "levelup", dur: 4.8, stereo: true, make: SOUNDS.levelup },
+  { id: "awaken", dur: 8.0, stereo: true, make: SOUNDS.awaken },
+];
+const ready = new Map<string, AudioBuffer[]>();
+let preparing = false;
+
+type OfflineCtor = new (channels: number, length: number, rate: number) => OfflineAudioContext;
+function render(dur: number, stereo: boolean, make: () => void): Promise<AudioBuffer> {
+  const C = (window.OfflineAudioContext || (window as unknown as { webkitOfflineAudioContext?: OfflineCtor }).webkitOfflineAudioContext) as OfflineCtor | undefined;
+  if (!C) return Promise.reject(new Error("OfflineAudioContext indisponible"));
+  const oc = new C(stereo ? 2 : 1, Math.ceil(dur * SR), SR);
+  const m = oc.createGain(); m.connect(oc.destination);
+  const r = oc.createConvolver(); r.buffer = irBuf; r.connect(oc.destination);
+  const keep = { ctx, master, rev };
+  ctx = oc; master = m; rev = r;
+  try { make(); } finally { ctx = keep.ctx; master = keep.master; rev = keep.rev; }
+  return new Promise((resolve, reject) => {
+    oc.oncomplete = (e) => resolve(e.renderedBuffer);
+    try { const p = oc.startRendering() as Promise<AudioBuffer> | undefined; if (p && typeof p.then === "function") p.then(resolve, reject); } catch (e) { reject(e); }
+  });
+}
+const pause = () => new Promise<void>((r) => window.setTimeout(r, 0));
+/** Fabrique tous les sons, un par un, sans bloquer l'appli. */
+async function prepare() {
+  if (preparing) return; preparing = true;
+  noiseBuf = noiseBuf ?? makeNoise(2.5, false); brownBuf = brownBuf ?? makeNoise(4, true); irBuf = irBuf ?? makeIR(1.6, 2.6); curve = curve ?? makeCurve(30);
+  for (const rc of RECIPES) {
+    const out: AudioBuffer[] = [];
+    for (let v = 0; v < (rc.variants ?? 1); v++) { try { out.push(await render(rc.dur, !!rc.stereo, rc.make)); } catch { /* ce son restera muet */ } await pause(); }
+    if (out.length) ready.set(rc.id, out);
+  }
+  for (const [i, ev] of EVENTS.entries()) {
+    const out: AudioBuffer[] = [];
+    for (let v = 0; v < 2; v++) { try { out.push(await render(1.2, false, () => { curFar = 0.3 + Math.random() * 0.6; try { ev[1](1); } finally { curFar = 0; } })); } catch { /* muet */ } await pause(); }
+    if (out.length) ready.set(`amb-${i}`, out);
+  }
+}
+/** Joue un son préparé : un lecteur, un volume (et une position gauche/droite pour le fond). */
+function playBuffer(id: string, bus: AudioNode | null, gain = 1, pan = 0) {
+  const list = ready.get(id); if (!rt || !bus || !list?.length) return;
+  if (rt.state === "suspended" && document.visibilityState === "visible") rt.resume().catch(() => {});
+  const src = rt.createBufferSource(); src.buffer = list[Math.floor(Math.random() * list.length)];
+  let node: AudioNode = src;
+  if (gain !== 1) { const g = rt.createGain(); g.gain.value = gain; node.connect(g); node = g; }
+  if (pan && rt.createStereoPanner) { const p = rt.createStereoPanner(); p.pan.value = pan; node.connect(p); node = p; }
+  node.connect(bus); src.start();
+}
+
+// Garde-fou : un même son ne repart pas avant 180 ms, et jamais plus de 6 effets en une demi-seconde
 // (par exemple plusieurs badges débloqués d'un coup) : au-delà, les suivants sont ignorés.
 const lastPlayed: Partial<Record<Sfx, number>> = {};
 let recent: number[] = [];
@@ -335,32 +406,27 @@ function allowed(name: Sfx) {
   const t = performance.now();
   if (t - (lastPlayed[name] ?? -1e9) < 180) return false;
   recent = recent.filter((x) => t - x < 500);
-  if (recent.length >= 4) return false;
+  if (recent.length >= 6) return false;
   lastPlayed[name] = t; recent.push(t);
   return true;
 }
 
-/** Joue un effet sonore (si les effets sont activés). Le son n'est jamais bloquant. */
+/** Joue un effet sonore (si les effets sont activés et le son débloqué). Le son n'est jamais bloquant. */
 export function sfx(name: Sfx) {
   if (!getState().settings.sound || !unlocked || !allowed(name)) return;
-  try { if (audio()) SOUNDS[name](); } catch { /* le son n'est jamais bloquant */ }
+  try { playBuffer(name, fxBus); } catch { /* le son n'est jamais bloquant */ }
 }
 
-/** Une touche du clavier « Feutré » : un petit clic étouffé et aigu, sans grave. */
+/** Une touche du clavier « Feutré ». */
 export function key(kind: "char" | "space" | "enter" = "char") {
-  if (!getState().settings.sound) return;
-  try {
-    if (!audio()) return;
-    const t = now() + 0.002, v = 0.7 + Math.random() * 0.5, p = 0.9 + Math.random() * 0.2, big = kind !== "char";
-    click(t, (big ? 2300 : 3000) * p, 1.1, 0.005, (big ? 0.15 : 0.11) * v, 0.05, 3800);
-    band(t + 0.001, (big ? 760 : 1050) * p, 1.6, big ? 0.03 : 0.018, (big ? 0.2 : 0.13) * v, 0.05);
-    click(t + 0.045 + Math.random() * 0.04, 2700 * p, 1.3, 0.003, 0.022 * v, 0.03, 3600);
-  } catch { /* le son n'est jamais bloquant */ }
+  if (!getState().settings.sound || !unlocked) return;
+  try { playBuffer(`key-${kind}`, fxBus); } catch { /* le son n'est jamais bloquant */ }
 }
 
 // ---------------- le fond sonore de la réserve ----------------
-// Ronronnement des transformateurs, ventilation, et des événements variés au loin (grésillements, petits
-// courts-circuits, relais, néon qui hésite). Plus l'énergie de l'équipe est haute, plus la salle s'anime.
+// Ronronnement des transformateurs, ventilation (en direct : peu d'éléments, qui durent), et des événements variés
+// au loin (grésillements, petits courts-circuits, relais, néon qui hésite : préparés à l'avance, joués à gauche ou
+// à droite au hasard). Plus l'énergie de l'équipe est haute, plus la salle s'anime.
 interface Amb { g: GainNode; humG: GainNode; buzzG: GainNode; nodes: AudioScheduledSourceNode[]; timer: number }
 let amb: Amb | null = null;
 let ambLevel = 0.3, ambVolume = 0.6;
@@ -376,62 +442,75 @@ const EVENTS: [number, (gf: number) => void][] = [
 ];
 function ambEvent() {
   if (!amb) return;
-  const tot = EVENTS.reduce((s, e) => s + e[0], 0); let r = Math.random() * tot, ev = EVENTS[0];
-  for (const e of EVENTS) { r -= e[0]; if (r <= 0) { ev = e; break; } }
-  // Les événements passent par le volume du fond sonore, pas par celui des effets.
-  const keep = master; master = amb.g;
-  curPan = Math.random() * 1.6 - 0.8; curFar = 0.3 + Math.random() * 0.6;
-  try { ev[1](0.4 + 0.6 * ambLevel); } finally { curPan = 0; curFar = 0; master = keep; }
+  const tot = EVENTS.reduce((s, e) => s + e[0], 0); let r = Math.random() * tot, k = 0;
+  for (const [i, e] of EVENTS.entries()) { r -= e[0]; if (r <= 0) { k = i; break; } }
+  playBuffer(`amb-${k}`, amb.g, 0.4 + 0.6 * ambLevel, Math.random() * 1.6 - 0.8);
 }
 function ambStart() {
-  const a = audio(); if (!a || amb) return;
-  const t = a.currentTime, g = a.createGain(); g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(ambVolume, t + 2.5); g.connect(master!);
-  const humG = a.createGain(); humG.gain.value = 0.006 + 0.014 * ambLevel;
-  const lp = filt("lowpass", 800, 0.7); humG.connect(lp); lp.connect(g);
-  const nodes: AudioScheduledSourceNode[] = [];
-  [[50, 0.3], [100, 1], [200, 0.5], [300, 0.3], [400, 0.16], [500, 0.08]].forEach(([f, v]) => { const o = osc("sine", f * (1 + (Math.random() - 0.5) * 0.003)), og = a.createGain(); og.gain.value = v; o.connect(og); og.connect(humG); o.start(); nodes.push(o); });
-  const lfo = osc("sine", 0.07), lg = a.createGain(); lg.gain.value = 0.003; lfo.connect(lg); lg.connect(humG.gain); lfo.start(); nodes.push(lfo);
-  const bz = osc("sawtooth", 100), bb = filt("bandpass", 2400, 6), buzzG = a.createGain(); buzzG.gain.value = 0.0035 * ambLevel; bz.connect(bb); bb.connect(buzzG); buzzG.connect(g); bz.start(); nodes.push(bz);
-  const air = a.createBufferSource(); air.buffer = brownBuf; air.loop = true; const al = filt("lowpass", 380, 0.5), ag = a.createGain(); ag.gain.value = 0.045;
-  const alfo = osc("sine", 0.05), alg = a.createGain(); alg.gain.value = 120; alfo.connect(alg); alg.connect(al.frequency);
-  air.connect(al); al.connect(ag); ag.connect(g); air.start(); alfo.start(); nodes.push(air, alfo);
-  amb = { g, humG, buzzG, nodes, timer: 0 };
+  const a = rt; if (!a || amb || !ambBus || !brownBuf) return;
+  const t = a.currentTime, g = a.createGain(); g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(ambVolume, t + 2.5); g.connect(ambBus);
+  const keep = ctx; ctx = a;
+  try {
+    const humG = a.createGain(); humG.gain.value = 0.006 + 0.014 * ambLevel;
+    const lp = filt("lowpass", 800, 0.7); humG.connect(lp); lp.connect(g);
+    const nodes: AudioScheduledSourceNode[] = [];
+    [[50, 0.3], [100, 1], [200, 0.5], [300, 0.3], [400, 0.16], [500, 0.08]].forEach(([f, v]) => { const o = osc("sine", f * (1 + (Math.random() - 0.5) * 0.003)), og = a.createGain(); og.gain.value = v; o.connect(og); og.connect(humG); o.start(); nodes.push(o); });
+    const lfo = osc("sine", 0.07), lg = a.createGain(); lg.gain.value = 0.003; lfo.connect(lg); lg.connect(humG.gain); lfo.start(); nodes.push(lfo);
+    const bz = osc("sawtooth", 100), bb = filt("bandpass", 2400, 6), buzzG = a.createGain(); buzzG.gain.value = 0.0035 * ambLevel; bz.connect(bb); bb.connect(buzzG); buzzG.connect(g); bz.start(); nodes.push(bz);
+    const air = a.createBufferSource(); air.buffer = brownBuf; air.loop = true; const al = filt("lowpass", 380, 0.5), ag = a.createGain(); ag.gain.value = 0.045;
+    const alfo = osc("sine", 0.05), alg = a.createGain(); alg.gain.value = 120; alfo.connect(alg); alg.connect(al.frequency);
+    air.connect(al); al.connect(ag); ag.connect(g); air.start(); alfo.start(); nodes.push(air, alfo);
+    amb = { g, humG, buzzG, nodes, timer: 0 };
+  } finally { ctx = keep; }
   const next = () => { if (!amb) return; amb.timer = window.setTimeout(() => { if (document.visibilityState === "visible") { try { ambEvent(); } catch { /* jamais bloquant */ } } next(); }, (1000 + 4500 * (1 - ambLevel)) * (0.5 + Math.random())); };
   next();
 }
 function ambStop() {
-  if (!amb || !ctx) return;
+  if (!amb || !rt) return;
   const a = amb; amb = null; window.clearTimeout(a.timer);
-  const t = ctx.currentTime; a.g.gain.cancelScheduledValues(t); a.g.gain.setValueAtTime(a.g.gain.value, t); a.g.gain.linearRampToValueAtTime(0, t + 0.8);
+  const t = rt.currentTime; a.g.gain.cancelScheduledValues(t); a.g.gain.setValueAtTime(a.g.gain.value, t); a.g.gain.linearRampToValueAtTime(0, t + 0.8);
   window.setTimeout(() => a.nodes.forEach((o) => { try { o.stop(); } catch { /* déjà arrêté */ } }), 1000);
 }
 /**
- * Met le fond sonore en accord avec les réglages. À appeler après un geste du joueur (Safari n'autorise le son
- * qu'après un toucher) : l'appli le rappelle au premier toucher de chaque ouverture.
+ * Met le fond sonore en accord avec les réglages. Il ne démarre qu'après un geste du joueur (Safari n'autorise le
+ * son qu'après un toucher) : l'appli le rappelle à chaque toucher.
  */
 export function syncAmbience() {
   const s = getState().settings;
   ambVolume = Math.max(0, Math.min(1, s.ambienceVolume ?? 0.6));
   if (!s.ambience) { ambStop(); return; }
+  if (!unlocked) return;
   if (!amb) { try { ambStart(); } catch { /* jamais bloquant */ } }
-  else if (ctx) amb.g.gain.setTargetAtTime(ambVolume, ctx.currentTime, 0.2);
+  else if (rt) amb.g.gain.setTargetAtTime(ambVolume, rt.currentTime, 0.2);
 }
 /** Énergie de la réserve (0 à 1) : plus elle est haute, plus la salle ronronne et s'anime. */
 export function setAmbienceLevel(x: number) {
   ambLevel = Math.max(0, Math.min(1, x));
-  if (!amb || !ctx) return;
-  const t = ctx.currentTime; amb.humG.gain.setTargetAtTime(0.006 + 0.014 * ambLevel, t, 0.6); amb.buzzG.gain.setTargetAtTime(0.0035 * ambLevel, t, 0.6);
+  if (!amb || !rt) return;
+  const t = rt.currentTime; amb.humG.gain.setTargetAtTime(0.006 + 0.014 * ambLevel, t, 0.6); amb.buzzG.gain.setTargetAtTime(0.0035 * ambLevel, t, 0.6);
 }
 /**
  * Débloque le son : à appeler pendant un toucher du joueur. Safari sur iPhone n'autorise le son qu'à la fin d'un
- * vrai geste (relâcher le doigt, « click »), pas au simple appui : on joue alors un son vide pour ouvrir la voie.
+ * vrai geste (relâcher le doigt, « click »), pas au simple appui : on joue alors un son vide pour ouvrir la voie,
+ * puis on prépare tous les sons en arrière-plan.
  */
 export function unlockAudio() {
-  unlocked = true;
   try {
-    const a = audio(); if (!a) return;
-    if (a.state !== "running") a.resume().catch(() => {});
-    const s = a.createBufferSource(); s.buffer = a.createBuffer(1, 1, 22050); s.connect(a.destination); s.start(0);
+    if (!rt) {
+      const C = window.AudioContext || (window as unknown as { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
+      if (!C) return;
+      try { const s = (navigator as unknown as { audioSession?: { type: string } }).audioSession; if (s) s.type = "playback"; } catch { /* facultatif */ }
+      rt = new C();
+      const comp = rt.createDynamicsCompressor();
+      comp.threshold.value = -16; comp.knee.value = 12; comp.ratio.value = 5; comp.attack.value = 0.002; comp.release.value = 0.25;
+      comp.connect(rt.destination);
+      fxBus = rt.createGain(); fxBus.gain.value = 0.85; fxBus.connect(comp);
+      ambBus = rt.createGain(); ambBus.gain.value = 0.85; ambBus.connect(comp);
+    }
+    unlocked = true;
+    if (rt.state !== "running") rt.resume().catch(() => {});
+    const s = rt.createBufferSource(); s.buffer = rt.createBuffer(1, 1, 22050); s.connect(rt.destination); s.start(0);
+    void prepare();
   } catch { /* le son n'est jamais bloquant */ }
 }
 /** Débloque le son au premier geste (Safari), et coupe tout quand l'appli passe en arrière-plan. */
@@ -440,8 +519,8 @@ export function installAudioUnlock() {
   // Gestes qui comptent pour Safari : relâcher le doigt, « click », une touche du clavier.
   for (const ev of ["pointerup", "touchend", "click", "keydown"]) window.addEventListener(ev, unlock, { capture: true });
   document.addEventListener("visibilitychange", () => {
-    if (!ctx) return;
-    if (document.visibilityState === "hidden") ctx.suspend().catch(() => {});
-    else if (getState().settings.sound || getState().settings.ambience) ctx.resume().catch(() => {});
+    if (!rt) return;
+    if (document.visibilityState === "hidden") rt.suspend().catch(() => {});
+    else if (getState().settings.sound || getState().settings.ambience) rt.resume().catch(() => {});
   });
 }
