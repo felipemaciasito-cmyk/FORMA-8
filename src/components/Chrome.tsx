@@ -4,7 +4,7 @@ import { dueNotions, levelOf, onFx, uptime, type FxEvent } from "../lib/game";
 import { go } from "../lib/router";
 import { sfx } from "../lib/sound";
 import { useEnergyBar } from "../lib/energy";
-import { useProgress, useSettings } from "../lib/store";
+import { updateSettings, useProgress, useSettings } from "../lib/store";
 import { BadgeEmblem } from "./Emblems";
 import { Icon, type IconId } from "./Icon";
 
@@ -40,6 +40,7 @@ export function Hud() {
           <motion.span style={{ display: "inline-flex" }} animate={up > 0 ? { scale: [1, 1.18, 1], rotate: [0, -6, 0] } : {}} transition={{ duration: 1.4, repeat: Infinity, repeatDelay: 1.2 }}><Icon name="flame" size={14} /></motion.span> {up}j
         </span>
         {due > 0 && <button className="hud-stat hot" onClick={() => go("maintenance")} aria-label={`${due} notions à réviser`}><Icon name="thermo" size={14} /> {due}</button>}
+        <SoundButton />
       </div>
       {/* Variante B : jauge vers le prochain grade, sous la barre du haut. */}
       <div aria-hidden="true" style={{ maxWidth: 640, margin: "6px auto 0", height: 3, borderRadius: 2, background: "rgba(255,255,255,.06)", overflow: "hidden" }}>
@@ -47,6 +48,62 @@ export function Hud() {
           style={{ height: "100%", background: "linear-gradient(90deg, var(--cyan), var(--led))", boxShadow: "0 0 8px var(--led)" }} />
       </div>
     </header>
+  );
+}
+
+// ---------------- Son : bouton de la barre du haut (demande du propriétaire, 15/11/2026) ----------------
+/** Haut-parleur toujours visible : un toucher ouvre le réglage du son (effets, fond sonore, volumes). */
+function SoundButton() {
+  const s = useSettings();
+  const [open, setOpen] = useState(false);
+  const on = s.sound || s.ambience;
+  return (
+    <>
+      <button className={`hud-stat snd ${on ? "" : "off"}`} onClick={() => { sfx("tap"); setOpen(true); }} aria-label={`Son ${on ? "activé" : "coupé"} : régler le son`}>
+        <Icon name={on ? "speaker" : "speaker-off"} size={16} />
+      </button>
+      <Sheet open={open} onClose={() => setOpen(false)} label="Réglage du son">
+        <div className="kicker">Son de la réserve</div>
+        <div className="h2" style={{ margin: "2px 0 10px" }}>Réglage du son</div>
+        <SoundControls />
+        <button className="btn ghost block" style={{ marginTop: 14 }} onClick={() => setOpen(false)}>Fermer</button>
+      </Sheet>
+    </>
+  );
+}
+
+/** Interrupteurs et volumes du son, partagés par le bouton de la barre du haut et l'écran Réglages. */
+export function SoundControls() {
+  const s = useSettings();
+  return (
+    <div className="stack" style={{ gap: 4 }}>
+      <Toggle label="Effets sonores" on={s.sound} onChange={(v) => { updateSettings({ sound: v }); if (v) window.setTimeout(() => sfx("ok"), 60); }} />
+      {s.sound && <Volume label="Volume des effets" value={s.sfxVolume ?? 1} onChange={(v) => { updateSettings({ sfxVolume: v }); window.setTimeout(() => sfx("cell"), 30); }} />}
+      <Toggle label="Fond sonore de la réserve" on={s.ambience} onChange={(v) => updateSettings({ ambience: v })} />
+      {s.ambience && <Volume label="Volume du fond sonore" value={s.ambienceVolume ?? 0.6} onChange={(v) => updateSettings({ ambienceVolume: v })} />}
+    </div>
+  );
+}
+
+function Volume({ label, value, onChange }: { label: string; value: number; onChange: (v: number) => void }) {
+  const pct = Math.round(value * 100);
+  return (
+    <label className="field" style={{ margin: "2px 0 8px" }}>
+      <span className="row"><span className="grow">{label}</span><span className="mono" style={{ color: "var(--cyan)" }}>{pct} %</span></span>
+      <input type="range" min={0} max={100} step={5} value={pct} onChange={(e) => onChange(Number(e.target.value) / 100)} aria-label={label} style={{ width: "100%", accentColor: "var(--cyan)" }} />
+    </label>
+  );
+}
+
+/** Interrupteur (réglages). */
+export function Toggle({ label, on, onChange }: { label: string; on: boolean; onChange: (v: boolean) => void }) {
+  return (
+    <button className="row" style={{ width: "100%", padding: "6px 0" }} onClick={() => onChange(!on)} role="switch" aria-checked={on}>
+      <span className="grow" style={{ textAlign: "left" }}>{label}</span>
+      <span style={{ width: 50, height: 30, borderRadius: 15, padding: 3, background: on ? "var(--cyan)" : "#253250", transition: "background .2s" }}>
+        <span style={{ display: "block", width: 24, height: 24, borderRadius: "50%", background: "#fff", transform: `translateX(${on ? 20 : 0}px)`, transition: "transform .2s" }} />
+      </span>
+    </button>
   );
 }
 

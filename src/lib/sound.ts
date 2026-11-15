@@ -483,6 +483,12 @@ export function syncAmbience() {
   if (!amb) { try { ambStart(); } catch { /* jamais bloquant */ } }
   else if (rt) amb.g.gain.setTargetAtTime(ambVolume, rt.currentTime, 0.2);
 }
+/** Volume des effets sonores (réglage « sfxVolume », de 0 à 1), appliqué tout de suite si le son est prêt. */
+export function syncSfxVolume() {
+  if (!fxBus || !rt) return;
+  const v = Math.max(0, Math.min(1, getState().settings.sfxVolume ?? 1));
+  fxBus.gain.setTargetAtTime(0.85 * v, rt.currentTime, 0.05);
+}
 /** Énergie de la réserve (0 à 1) : plus elle est haute, plus la salle ronronne et s'anime. */
 export function setAmbienceLevel(x: number) {
   ambLevel = Math.max(0, Math.min(1, x));
@@ -504,7 +510,7 @@ export function unlockAudio() {
       const comp = rt.createDynamicsCompressor();
       comp.threshold.value = -16; comp.knee.value = 12; comp.ratio.value = 5; comp.attack.value = 0.002; comp.release.value = 0.25;
       comp.connect(rt.destination);
-      fxBus = rt.createGain(); fxBus.gain.value = 0.85; fxBus.connect(comp);
+      fxBus = rt.createGain(); fxBus.gain.value = 0.85 * Math.max(0, Math.min(1, getState().settings.sfxVolume ?? 1)); fxBus.connect(comp);
       ambBus = rt.createGain(); ambBus.gain.value = 0.85; ambBus.connect(comp);
     }
     unlocked = true;
