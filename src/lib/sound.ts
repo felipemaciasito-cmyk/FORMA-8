@@ -14,6 +14,10 @@ let noiseBuf: AudioBuffer | null = null;
 let brownBuf: AudioBuffer | null = null;
 let curve: Float32Array<ArrayBuffer> | null = null;
 let curPan = 0, curFar = 0; // placement d'un son du fond : gauche/droite, éloignement
+// Le son n'est créé qu'après un vrai geste du joueur (unlockAudio) : avant, les effets sont simplement ignorés.
+// Créer le moteur audio sans geste, puis lui envoyer une rafale de sons, faisait planter le moteur de Safari
+// par moments (constaté le 15/11/2026 dans WebKit).
+let unlocked = false;
 
 /** Instant (en secondes après le début du son) où la batterie reçoit l'arc de fin de protocole. */
 export const CHARGE_HIT = 0.74;
@@ -21,6 +25,7 @@ export const CHARGE_HIT = 0.74;
 export const WAKE_HIT = 2.0;
 
 function audio(): Ctx | null {
+  if (!unlocked) return null;
   if (!ctx) {
     const C = window.AudioContext || (window as unknown as { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
     if (!C) return null;
@@ -30,7 +35,7 @@ function audio(): Ctx | null {
     comp.threshold.value = -16; comp.knee.value = 12; comp.ratio.value = 5; comp.attack.value = 0.002; comp.release.value = 0.25;
     master = ctx.createGain(); master.gain.value = 0.85;
     master.connect(comp).connect(ctx.destination);
-    rev = ctx.createConvolver(); rev.buffer = makeIR(ctx, 2.4, 2.6); rev.connect(master);
+    rev = ctx.createConvolver(); rev.buffer = makeIR(ctx, 1.6, 2.6); rev.connect(master);
     noiseBuf = makeNoise(ctx, 2.5, false); brownBuf = makeNoise(ctx, 4, true); curve = makeCurve(30);
   }
   if (ctx.state === "suspended" && document.visibilityState === "visible") ctx.resume().catch(() => {});
@@ -322,9 +327,22 @@ export const WAKE_BEATS = [0.75, 0.98, 1.65, 1.88], WAKE_SYSTEMS = 2.4;
 
 export type Sfx = keyof typeof SOUNDS;
 
+// Garde-fou : un même son ne repart pas avant 180 ms, et jamais plus de 4 effets en une demi-seconde
+// (par exemple plusieurs badges débloqués d'un coup) : au-delà, les suivants sont ignorés.
+const lastPlayed: Partial<Record<Sfx, number>> = {};
+let recent: number[] = [];
+function allowed(name: Sfx) {
+  const t = performance.now();
+  if (t - (lastPlayed[name] ?? -1e9) < 180) return false;
+  recent = recent.filter((x) => t - x < 500);
+  if (recent.length >= 4) return false;
+  lastPlayed[name] = t; recent.push(t);
+  return true;
+}
+
 /** Joue un effet sonore (si les effets sont activés). Le son n'est jamais bloquant. */
 export function sfx(name: Sfx) {
-  if (!getState().settings.sound) return;
+  if (!getState().settings.sound || !unlocked || !allowed(name)) return;
   try { if (audio()) SOUNDS[name](); } catch { /* le son n'est jamais bloquant */ }
 }
 
@@ -409,6 +427,7 @@ export function setAmbienceLevel(x: number) {
  * vrai geste (relâcher le doigt, « click »), pas au simple appui : on joue alors un son vide pour ouvrir la voie.
  */
 export function unlockAudio() {
+  unlocked = true;
   try {
     const a = audio(); if (!a) return;
     if (a.state !== "running") a.resume().catch(() => {});

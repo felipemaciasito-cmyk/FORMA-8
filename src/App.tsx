@@ -12,7 +12,6 @@ import { useHeritageLoader } from "./lib/forma7";
 import { Boot } from "./components/Boot";
 import { FxLayer, Hud, TabBar } from "./components/Chrome";
 import { RewardLayer } from "./components/Rewards";
-import { BoltCanvas } from "./components/Bolts";
 import { MapView } from "./components/MapView";
 import { IncidentView, RoomView, StepView } from "./components/RoomView";
 import { SettingsView } from "./components/SettingsView";
@@ -84,7 +83,6 @@ export function App() {
       <TermSheetHost />
       <FxLayer />
       {booted && <RewardLayer />}
-      <BoltCanvas />
     </MotionConfig>
   );
 }
