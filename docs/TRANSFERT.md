@@ -1,4 +1,4 @@
-# FORMA-8 · Réveille l'équipe : document de transfert (état au 15/11/2026, après « son et lumière »)
+# FORMA-8 · Réveille l'équipe : document de transfert (état au 15/11/2026, après « la centrale et l'arc »)
 
 > À lire en entier au démarrage de chaque nouvelle session (renvoi dans `CLAUDE.md`), **en commençant par la
 > section 0**. Ce document complète `CLAUDE.md`, `docs/CONCEPTION.md` et `docs/PROGRAMME.md`. En cas d'écart, le
@@ -18,8 +18,9 @@ faire est ci-dessous.
    `docs/PROGRAMME.md`. Ne rien écrire avant.
 2. Faire toutes les étapes de la section 5.1 : vérifier `main`, cloner FORMA-7 à côté, `npm ci`, commande complète de
    vérification. Puis résumer au propriétaire, en quelques lignes, l'état du projet et le résultat des vérifications.
-3. Lui poser, en QCM, les questions de la section 5.1 (étape 5) sur « son et lumière » joué sur son iPhone (version en
-   ligne). Corriger d'abord ce qu'il signale ; pour un changement visuel ou sonore important, maquette jouable d'abord.
+3. Lui poser, en QCM, les questions de la section 5.1 (étape 5) sur « la centrale et l'arc » joué sur son iPhone
+   (version en ligne). Corriger d'abord ce qu'il signale ; pour un changement visuel ou sonore important, maquette
+   jouable d'abord.
 4. Lui demander son **feu vert** en QCM, puis écrire le caisson 02 en suivant la section 5.2 et `docs/PROGRAMME.md`.
    Ce qu'il attend : « Sois extrêmement ambitieux et rigoureux » ; un apprentissage très ludique, guidé pas à pas,
    cohérent et très esthétique ; chaque outil doit fonctionner parfaitement sur iPhone.
@@ -181,17 +182,26 @@ npm run validate && npm run check:emoji && npm run check:parity && npm run typec
   Dans WebKit, le contrôle « 6 commits trouvés » de la livraison échoue (GitHub simulé par `page.route`) : limite du
   banc, constatée aussi sur `main`, pas de l'appli.
 - Pour faire jouer une version avant la PR : une page privée (outil Artifact) qui charge l'appli construite en
-  chemins relatifs dans un cadre, avec deux départs (voir 3.3, méthode des maquettes) ; la recharger après chaque
+  chemins relatifs dans un cadre, avec plusieurs départs (voir 3.3, méthode des maquettes) ; la recharger après chaque
   correction.
+- **Le propriétaire fusionne parfois la PR dès sa création** (PR #13 : fusionnée 15 s après, avant la fin du robot et
+  sans ce document à jour). Donc : mettre ce document à jour **avant** d'annoncer la fin d'un lot, et lui dire de ne
+  fusionner qu'après l'annonce « robot vert ».
+- Avant de lancer la commande complète, retirer de `tests/e2e/` tout fichier `zz-*` de capture (sinon un dossier
+  `undefined/` de captures apparaît à la racine).
+- Outils de design disponibles : 21st.dev (catalogue de composants, pour l'inspiration seulement : son code est payant
+  et prévu pour Tailwind/shadcn). Higgsfield et Adobe (génération d'images) n'ont **pas** été utilisés : règle 9
+  (illustrations maison uniquement), poids sur iPhone, et ils consomment les crédits du propriétaire. Lui demander
+  avant tout usage.
 
 ---
 
 ## 3. État actuel et éléments validés
 
 ### 3.1 Git, PR et mise en ligne
-- `origin/main` = **`ef21f29`** (« Merge pull request #11 », section 0 de ce document), vérifié le 15/11/2026.
-  Avant : `f2af5ff` (PR #10), `b96f074` (PR #9, refonte de l'interface), `ccb28cf` (PR #8, caisson 01), `79c1061`
-  (PR #7, premier document de transfert), `9ac4f20` (PR #6).
+- `origin/main` = **`5f3f318`** (« Merge pull request #13 », la centrale et l'arc), vérifié le 15/11/2026, puis la
+  PR qui met ce document à jour (voir ci-dessous). Avant : `1769e85` (PR #12, son et lumière), `ef21f29` (PR #11),
+  `f2af5ff` (PR #10), `b96f074` (PR #9, refonte de l'interface), `ccb28cf` (PR #8, caisson 01), `79c1061` (PR #7).
 - PR, toutes fusionnées par le propriétaire :
   - #1 socle ; #2 et #3 lots 2 et 3 (fusionnés par erreur dans des branches intermédiaires) ; #4 lots 2 et 3 vers
     `main` (fermée automatiquement) ; #5 outils d'apprentissage ; #6 contenu du caisson 00 ; #7 document de transfert ;
@@ -200,15 +210,18 @@ npm run validate && npm run check:emoji && npm run check:parity && npm run typec
     la fin de la refonte).
   - #10 document de transfert complet (15/11/2026) ;
   - #11 section 0 « Démarrage » de ce document (15/11/2026) ;
-  - la PR « son et lumière » (branche `claude/forma8-reveille-equipe-29srjv`) suit la #11 : voir 3.15.
-- Branches distantes : après la fusion de la #11, il ne restait que `main`. La branche de « son et lumière » est
-  `claude/forma8-reveille-equipe-29srjv` ; le propriétaire la supprime après la fusion.
+  - #12 son et lumière (15/11/2026, voir 3.15) ;
+  - #13 la centrale et l'arc (15/11/2026, branche `claude/hopeful-bohr-241xx8`, voir 3.16) : créée depuis l'interface
+    de Claude Code par le propriétaire et fusionnée tout de suite, avant la fin du robot de vérification ;
+  - la PR suivante, sur la même branche repartie de `main`, ne contient que la mise à jour de ce document.
+- Branches distantes : `main` et `claude/hopeful-bohr-241xx8` (à supprimer par le propriétaire après la fusion de la
+  PR de ce document) ; `claude/forma8-reveille-equipe-29srjv` (PR #12) aussi, si elle existe encore.
 - Workflows :
   - `.github/workflows/ci.yml` (« Vérifications FORMA-8 », job `verifier`, sur chaque PR, Node 22) : récupère FORMA-7
     dans `forma-7`, puis lance toutes les vérifications et les tests de bout en bout ;
   - `.github/workflows/deploy.yml` (sur envoi vers `main`) : construit l'appli et la publie sur GitHub Pages.
-- GitHub Pages : Source « GitHub Actions ». Dernière mise en ligne : n° 7, réussie (15/11/2026, 04:37 UTC, après la
-  fusion de la #10 ; l'appli est la même que pour la n° 6, seul ce document a changé).
+- GitHub Pages : Source « GitHub Actions ». Dernière mise en ligne de l'appli : n° 10, réussie (15/11/2026, 22:55 UTC,
+  après la fusion de la #13 : la centrale et l'arc sont en ligne).
 
 ### 3.2 Pile technique
 - Vite 8, React 19, TypeScript 6, motion 14 (`motion/react`), idb-keyval 6, vite-plugin-pwa 2.
@@ -244,7 +257,16 @@ npm run validate && npm run check:emoji && npm run check:parity && npm run typec
   - https://claude.ai/artifact/HRYs5aXgi56Yq66DmVaWzo : « Labo son et lumière » (5 versions : sons, clavier, batterie
     et capsule, propositions de grade et de réveil) ;
   - https://claude.ai/artifact/VjoKcxVJsFEmEVua1SC3Wg : « FORMA-8 son et lumière », la vraie appli du lot dans un
-    cadre, avec deux départs (« Premier lancement », « Caisson 01, dernier protocole »).
+    cadre, avec deux départs (« Premier lancement », « Caisson 01, dernier protocole ») ;
+  - https://claude.ai/artifact/HLiTu4fVoJsfZMXsCZtgm4 : « La centrale, l'arc et le son », onglets « Actuelle »
+    (`1769e85`) et « Nouvelle » (la PR #13), quatre départs (« Caisson 01 · protocole 04 », « Dernier protocole »,
+    « Après la panne », « Premier lancement ») ;
+  - https://claude.ai/artifact/1mCpnKWgBcQifpDL91DYpv : « Labo du branchement », cinq pistes jouables (câble de la
+    jauge, cartouche, sectionneur, arc à maintenir, défibrillateur) ;
+  - https://claude.ai/artifact/236ZRw3zxTueGb4z8HbZVq : « Labo de la centrale », trois présentations (tour, réacteur,
+    cornes) avec **les vrais sons et éclairs de l'appli** : `src/lib/sound.ts` et `src/components/Bolts.tsx` empaquetés
+    en un script (`vite build` en mode bibliothèque, format `iife`, `define: { "process.env.NODE_ENV": "\"production\"" }`,
+    configuration placée à la racine du dépôt sous un nom `zz-*`, puis supprimée).
   - Méthode pour en refaire (les scripts de cette session ne sont pas dans le dépôt) :
     1. construire chaque version : `npx vite build --base ./ --outDir <dossier>` (une copie de travail par version,
        par exemple `git worktree add`, avec `node_modules` en lien symbolique) ;
@@ -253,11 +275,12 @@ npm run validate && npm run check:emoji && npm run check:parity && npm run typec
        `.woff2` latin et latin-ext ;
     3. remplacer dans `assets/claude-*.js` le caractère U+FFFD littéral (dans un gabarit `` `…` ``) par son échappement
        `�` : sinon la publication est refusée ;
-    4. injecter avant `<title>` un script qui dépose une progression de démonstration dans
-       `localStorage["forma8:progress-secours"]` si `localStorage["forma8:demo-v1"]` est absent (l'appli la fusionne au
-       démarrage) ;
-    5. publier une page à onglets (un `iframe` par version) avec l'outil Artifact, en passant chaque fichier dans
-       `files` ; ajouter un bouton qui efface les clés `forma8:` et la base IndexedDB `keyval-store` pour rejouer.
+    4. la page hôte (`index.html` de la maquette), à chaque départ : vide l'`iframe`, supprime la base IndexedDB
+       `keyval-store` et les clés `forma8:` (même origine que les versions), dépose la progression de démonstration du
+       départ dans `localStorage["forma8:progress-secours"]`, puis charge `<version>/index.html#<route>` ;
+    5. publier avec l'outil Artifact en passant chaque fichier dans `files` (avec `root`) ; pour une mise à jour,
+       n'envoyer que les fichiers changés et mettre `null` pour ceux qui ont disparu (les noms changent à chaque
+       construction).
 
 ### 3.4 Données, stockage et synchronisation
 - Stockage local : IndexedDB `keyval-store` / `keyval`, partagé avec FORMA-7 (même origine
@@ -294,10 +317,11 @@ npm run validate && npm run check:emoji && npm run check:parity && npm run typec
   Commandant 2600, Chef d'orchestre 3400.
 - `REWARD` : step 40, exerciseFirst 10, exerciseRetry 4, incident 120, mission 60, review 5, skill 80, feynman 20,
   delivery 150, consigne 15, report 25.
-- `addEnergy(amount, label?, { quiet? })` : émet `gain` ; une montée de grade émet `levelup` (plus de bandeau
-  « Accréditation » : la cérémonie l'annonce).
-- Événements `fx()` : `toast`, `burst`, `badge` (repris de FORMA-7) ; `gain` (avec `quiet`), `levelup`, `awaken`,
-  `stepdone` (FORMA-8). L'événement `payout` a été retiré avec « son et lumière ».
+- `addEnergy(amount, label?, { quiet? })` : émet `gain` ; une montée de grade émet `levelup`, **sans son** (la
+  cérémonie joue elle-même « levelup » ; le son en double couvrait la cellule de batterie, remarque du propriétaire).
+- Événements `fx()` : `toast`, `burst`, `badge` (repris de FORMA-7) ; `gain` (avec `quiet`), `levelup`, `awaken`
+  (FORMA-8). `payout` (son et lumière) et `stepdone` (centrale) ont été retirés. Les confettis (`burst`) sont toujours
+  blancs et bleus, quelle que soit la couleur demandée (choix du propriétaire).
 - Maintenance : Leitner à 5 boîtes (1, 2, 4, 8, 16 jours). Uptime en jours. 3 fusibles par panne.
 - Badges : boot, room1, half (6 caissons), all (11), nofuse, up3, up7, maint, base20, feyn, skill, livraison1, plume
   (consigne 85 ou plus), detective (rapport 80 ou plus). Le badge « signal » de FORMA-7 est retiré. Le badge « skill »
@@ -323,8 +347,13 @@ npm run validate && npm run check:emoji && npm run check:parity && npm run typec
   des consignes ; **Équipe** (galerie des 11 membres ; fiche en feuille du bas : capsule, réplique, vrai fichier à
   vérifier dans le dépôt du produit, « Revoir son réveil », « Aller à son caisson » ; formulaire du produit).
 - `Chrome.tsx` : barre du haut (grade, **jauge vers le prochain grade**, compteur d'énergie qui **défile** et
-  **attend la fin du protocole**, puis s'illumine ; flamme qui bat ; notions à réviser), onglets, toasts, éclats,
-  feuille du bas, `TopBar`.
+  **attend la fin du protocole**, puis s'illumine ; flamme qui bat ; notions à réviser ; **haut-parleur** qui déroule
+  un petit menu : effets et fond sonore, chacun avec interrupteur et volume), onglets, toasts, éclats, feuille du bas,
+  `TopBar`, `Toggle` et `SoundControls` (partagés avec Réglages). Glyphe ajouté : `speaker-off`. Réglage ajouté :
+  `settings.sfxVolume` (0 à 1, appliqué par `syncSfxVolume`).
+- L'écran de fin de protocole couvre **tout** l'écran (fond `finish-bg`, le même quadrillage que l'appli) ; la barre du
+  haut passe au-dessus (classe `finish-open` sur `body`). Avant, une bande du protocole restait visible sous la barre
+  (captures du propriétaire sur iPad).
 - `Exercises.tsx` : six types d'exercices ; tampon « RÉUSSI », **série de bonnes réponses**.
 - `SettingsView.tsx` : Claude, GitHub et dépôt de données, synchronisation, héritage FORMA-7, sauvegarde,
   installation, à propos. `Boot.tsx` : BIOS, accueil d'ORA, levier ; écran de reprise à chaque ouverture.
@@ -351,7 +380,10 @@ npm run validate && npm run check:emoji && npm run check:parity && npm run typec
     depuis la fiche du membre) ;
   - langage visuel commun : `Shockwave` (onde de choc), `Sparks` (éclats), `Rays` (rayons) ;
   - file d'attente : le réveil passe en premier ; jamais de cérémonie au milieu d'une leçon, d'une panne ou d'une
-    maintenance (`busyRoute`) ; plusieurs grades d'un coup : une seule cérémonie.
+    maintenance (`busyRoute`) ; plusieurs grades d'un coup : une seule cérémonie. **Un grade gagné pendant un écran
+    occupé s'annonce dès que le joueur quitte cet écran** (« Retour », « Protocole suivant »…), choix du propriétaire ;
+    l'encadré « Nouvelle accréditation » de l'écran de fin est retiré ;
+  - les cérémonies de grade et de réveil sont opaques et ne coupent jamais leur haut quand elles dépassent l'écran.
 - `src/lib/energy.ts` : barre d'énergie d'un protocole (`held` : kW pas encore montrés dans le compteur ; `landed` :
   kW arrivés dans la barre ; `max`). Présentation seulement : la progression enregistre chaque kW tout de suite.
 - Animations réduites : `MotionConfig` et la classe `reduce-motion` coupent les mouvements ; les jaillissements sont
@@ -436,14 +468,21 @@ npm run validate && npm run check:emoji && npm run check:parity && npm run typec
 - Tests unitaires : **34** (`merge` 8, `garde-fous` 8, `livraisons` 9, `validateur` 7, `energie` 2 : la batterie). Garde-fous :
   aucune écriture sous `forma7:`, `progress.json` jamais touché, clés `forma8:` uniquement, substitutions documentées,
   aucun simulateur de FORMA-7, aucun usage de `Art`.
-- Tests de bout en bout : **9**, écran d'iPhone 13, `vite preview` sur `http://localhost:4173/FORMA-8/` :
+- Tests de bout en bout : **11**, écran d'iPhone 13 (et iPad en paysage pour `affichage.spec.ts`), `vite preview` sur
+  `http://localhost:4173/FORMA-8/`. `affichage.spec.ts` (2) : l'écran de fin ne laisse rien apparaître en haut (iPhone,
+  iPad). Les autres :
   `socle.spec.ts` (5), `mecaniques.spec.ts` (2), `caisson00.spec.ts` (banc complet, environ 1,2 min),
   `caisson01.spec.ts` (banc complet, environ 2 min ; part d'un caisson 00 réveillé déposé dans
   `forma8:progress-secours` ; `E2E_TIMEOUT` règle sa durée maximale). `helpers.ts` : `boot()` (bouton « Mettre sous
   tension », « Non merci » au fond sonore), `solve()`, `playStep(page, caisson, protocole, numéro, onBlock?)` (branche
-  la batterie à la fin), `plugBattery()`, `rearmBreaker()`, `playMaintenance()`, `dismissCeremonies()`.
-- Dernier passage complet : 15/11/2026, tout vert en local (Chromium) ; caisson 01 joué en entier dans WebKit sans
-  plantage (voir 2.3).
+  la batterie à la fin, vérifie qu'aucune cérémonie de grade n'apparaît pendant le protocole), `plugBattery()` (vérifie
+  aussi `expectCoversTop`), `closeGradeCeremony()` (après chaque `page.goto`, compte les cérémonies dans
+  `ceremonies.grade`), `holdCentrale(page, ms)`, `sendArc()` (maintient le doigt 3,2 s sur la centrale),
+  `expectCoversTop(page, dialogue)`, `playMaintenance()`, `dismissCeremonies()`. Le banc du caisson 00 vérifie aussi
+  qu'une tentative d'arc avant la réparation de la panne échoue.
+- Dernier passage complet : 15/11/2026, tout vert en local (Chromium). WebKit : le caisson 00 passe la centrale, la
+  tentative refusée et l'arc, puis s'arrête à la livraison (GitHub simulé, limite connue du banc) ; le dernier protocole
+  et la surcharge de l'arc passent sans plantage.
 
 ### 3.13 Tarifs et coûts (vérifiés le 14/11/2026, à revérifier)
 - API, en dollars par million de tokens (envoyés / reçus) : Opus 5.5 : 4 / 20 ; Sonnet 5.5 : 2 / 10 ;
@@ -464,6 +503,13 @@ npm run validate && npm run check:emoji && npm run check:parity && npm run typec
 - Si le joueur quitte l'écran de la panne réparée sans réarmer le disjoncteur, la scène de réveil ne se joue pas ;
   elle reste visible depuis la fiche du membre (« Revoir son réveil »).
 - Durées des protocoles : estimation à 0,85 min par bloc, à ajuster avec l'usage réel.
+- **Centrale, à confirmer sur iPhone** (version en ligne) : fluidité du plasma et de la surcharge sur un ancien
+  modèle, geste de la fiche jusqu'à la prise la plus éloignée, hauteur de la scène sur un petit écran (iPhone SE :
+  elle dépasse probablement un peu et se fait défiler ; non vérifié).
+- Le tonnerre en fin de protocole, écarté le matin du 15/11, est revenu le soir à la demande du propriétaire (« un son
+  de tonnerre et d'éclairs frappants ») : à confirmer à l'écoute.
+- Les sons « crack » et « thunder » ont été écrits pour ce lot : le propriétaire ne les a entendus que dans les
+  maquettes.
 - **Compteurs de notions dans les tests** : `caisson00.spec.ts` attend « 23 / 34 notions collectées » ;
   `caisson01.spec.ts` suppose toutes les notions collectées. À adapter dès que le caisson 02 ajoute des notions.
 - **Libellés de GitHub non vérifiés en étant connecté** : vérifiés sans connexion sur un écran d'iPhone (horloge de
@@ -512,6 +558,33 @@ npm run validate && npm run check:emoji && npm run check:parity && npm run typec
 - **Cérémonies** (`Rewards.tsx`) : grade « Accréditation validée » (scan, verrous, numéro) et réveil
   « Défibrillateur » synchronisés sur leurs sons ; confettis des bonnes réponses en blanc et cyan.
 
+### 3.16 La centrale et l'arc (lot du 15/11/2026, PR #13, choisi sur maquettes jouables)
+- **Remarques du propriétaire sur « son et lumière »** joué en ligne : son correct (bouton silencieux compris), aucun
+  plantage ; éclairs « trop lents, grossiers » ; batterie et prises « mal faites » ; un bouton pour régler le son
+  depuis le jeu ; le bruit de la première cellule différent au dernier protocole (c'était le son de grade en double).
+- **Éclairs** (`Bolts.tsx`) : cœur d'un pixel, halo serré (toile du halo à demi-résolution), canal jusqu'à 8 niveaux
+  de détail, ramifications qui s'effilent ; trois canaux par petit éclair, quatre par grand ; durées environ deux fois
+  plus courtes. `strike` joue « crack » à l'impact, `bigStrike` joue « thunder ». `channel` est exporté (plasma).
+- **Sons ajoutés** (`sound.ts`, préparés à l'avance comme les autres) : `crack` (3 variantes), `thunder` (2).
+- **La centrale** (`Centrale.tsx`, `Plasma.ts`, `PlugScene.tsx`) : un anneau sous la capsule, une prise par protocole
+  (angles `socketAngle`, le haut reste libre pour l'électrode).
+  - Fin de protocole : la fiche sort de la borne « + » de la jauge (corde simulée, classe `Rope`, dessinée hors de
+    React) ; le câble est assez long pour la prise la plus éloignée ; glisser ou toucher la fiche la branche. La
+    batterie se vide dans la centrale, qui réagit plus fort à chaque prise (`react(index)`) ; les kW partent du cœur
+    vers le compteur.
+  - Électricité permanente dès la première prise (`Plasma.ts`) : filaments fractals le long de l'anneau, décharges
+    du cœur, aigrettes des fiches, couronne qui tremble ; plus dense à chaque prise. Toile limitée à la centrale,
+    30 images par seconde, arrêtée en arrière-plan.
+  - Toucher la centrale tente d'envoyer l'arc : la tentative échoue (son « circuit-fail », message en ambre) tant
+    qu'une prise est libre ou que la panne n'est pas réparée. Charge d'environ 2,4 s, comptée en temps réel.
+  - Après la panne réparée, `ArcScene` remplace « Réarmer le disjoncteur » : maintenir le doigt envoie l'arc ; la
+    centrale passe en **surcharge** 2,6 s (arcs de plus en plus nombreux vers la capsule, flashs) et finit sur une
+    image saturée d'éclairs ; puis la scène de réveil. Le réveil ne vient plus du dernier branchement.
+  - Habillage : graduations, anneau de mesure qui tourne, mires, repères P1 à P5, télémétrie (prises, charge,
+    circuit) ; capsule de 140 px (le membre du caisson bien visible), centrale de 206 px ; fond quadrillé de l'appli.
+- **Retirés** : le banc de batteries et le socle à prises de la version du matin (`.socle`, `.bank`, `.vbatt`) ;
+  `rearmBreaker` dans les tests (remplacé par `sendArc`).
+
 ---
 
 ## 4. Décisions prises et pistes écartées
@@ -543,6 +616,15 @@ npm run validate && npm run check:emoji && npm run check:parity && npm run typec
     tout cohérent et très esthétique ».
 
 - « Son et lumière » (15/11/2026), après cinq maquettes jouables puis des essais de la vraie appli : voir 3.15.
+- « La centrale et l'arc » (15/11/2026, soir), après deux labos et plusieurs versions jouables : voir 3.16. Ses mots :
+  « les prises qui se connectent à une même centrale », « l'arc électrique peut ensuite être envoyé une fois que toutes
+  les prises sont branchées » ; « à chaque fois que je branche une prise, elle réagit avec un effet électrique un peu
+  plus puissant » ; « on doit voir de l'électricité circuler de façon constante à partir du premier branchement » ;
+  « toucher la centrale doit simuler une tentative de connexion à la capsule, qui échouera si toutes les prises ne
+  sont pas branchées » ; arc après la panne à la place du disjoncteur (recommandation acceptée) ; confettis « blancs et
+  bleus » ; une fin « très chargée en arcs électriques » ; la page ne doit pas « dénoter » du reste de l'appli.
+- Grades : annoncés en quittant l'écran du protocole, sans encadré sur l'écran de fin.
+- Bouton du son dans la barre du haut, en petit menu discret.
   Ses mots : des sons « plus réalistes, plus stimulants », « sur le thème de l'électricité » ; pour les kW, « moins de
   couleurs », « un gros éclair » ; la batterie « se charge à chaque bonne réponse », « je dois la brancher à la
   capsule moi-même », le membre « se réveille quand tous les câbles ont été branchés et que le courant passe » ;
@@ -570,6 +652,12 @@ npm run validate && npm run check:emoji && npm run check:parity && npm run typec
   perspective) ; câbles qui partaient sur les côtés.
 - Une bibliothèque d'effets pour les éclairs : trop lourde à charger sur iPhone ; moteur écrit pour FORMA-8.
 - Fabriquer les sons en direct à chaque effet, et une toile d'éclairs plein écran permanente : plantages de Safari.
+- Branchement, version du matin (banc d'une batterie par protocole sous un socle à prises) : « pas encore ça ».
+- Labo du branchement : câble seul, cartouche, sectionneur, arc à maintenir seul (« présentation différente »),
+  défibrillateur. Labo de la centrale : la tour et les cornes (choix : le réacteur).
+- Électricité de la centrale en petits zigzags SVG : « très simple, voire enfantine ».
+- Habillage très « HUD » (coins biseautés, grille de points, puces) : « la page dénote trop du reste de l'application ».
+- Feuille du bas pour régler le son : trop voyante.
 
 ---
 
@@ -577,15 +665,16 @@ npm run validate && npm run check:emoji && npm run check:parity && npm run typec
 
 ### 5.1 Au démarrage de la nouvelle session (avant toute écriture)
 1. Lire en entier `CLAUDE.md`, ce document, `docs/CONCEPTION.md` et `docs/PROGRAMME.md`.
-2. `git fetch origin`. Vérifier que `origin/main` contient `ef21f29` (PR #11) et la PR « son et lumière » ; si autre
-   chose a changé, le dire au propriétaire.
+2. `git fetch origin`. Vérifier que `origin/main` contient `5f3f318` (PR #13) et la PR de ce document ; si autre chose
+   a changé, le dire au propriétaire.
 3. Attacher `felipemaciasito-cmyk/forma-7` (public, lecture seule) et le cloner **à côté** de FORMA-8, sous le nom
    `forma-7`, **en entier** (sans `--depth`), pour `check:parity` et l'étude de cas.
 4. `npm ci`, puis la commande complète de vérification. Annoncer le résultat en quelques lignes : l'état de départ
    doit être entièrement vert.
-5. Demander au propriétaire, en QCM, son retour sur « son et lumière » joué sur la version en ligne, sur son iPhone :
-   son (bouton silencieux compris), fond sonore, éclairs, batterie et branchement, réveil, grade, plantages
-   éventuels. Corriger d'abord ce qu'il signale ; pour un changement visuel ou sonore important, maquette d'abord, et
+5. Demander au propriétaire, en QCM, son retour sur « la centrale et l'arc » joué sur la version en ligne, sur son
+   iPhone : geste de la fiche (prise la plus éloignée comprise), électricité de la centrale, tentative refusée, arc et
+   surcharge après la panne, tonnerre et claquements, menu du son, cérémonie de grade en quittant le protocole,
+   fluidité et plantages éventuels. Corriger d'abord ce qu'il signale ; pour un changement visuel ou sonore important, maquette d'abord, et
    test dans WebKit (2.3).
 6. Attendre son **feu vert explicite** (QCM) pour le caisson 02.
 
@@ -610,8 +699,8 @@ npm run validate && npm run check:emoji && npm run check:parity && npm run typec
   autorisations », « Choisir un mode d'autorisation », « Étendre Claude avec des skills », « Connecter Claude Code à
   des outils via MCP », « Configurer les environnements cloud » ; GitHub Docs « Jetons d'accès personnel ».
   L'index des pages en français : https://code.claude.com/docs/_llms/fr.txt.
-- **Son et lumière** : le caisson 02 a 6 protocoles, donc 6 prises sur la capsule du Règlement de bord ; vérifier la
-  scène du branchement avec 6 prises sur un écran d'iPhone.
+- **Centrale** : le caisson 02 a 6 protocoles, donc 6 prises sur sa centrale (angles calculés par `socketAngle`) ;
+  vérifier la scène avec 6 prises sur un écran d'iPhone (prise la plus éloignée de la jauge, repères P1 à P6).
 - **Répliques** : réécrire `demi` et `reveil` du Règlement de bord dans `src/content/equipe.json` avec le vocabulaire
   du caisson 02 ; ajouter au champ `watch` les mots techniques nouveaux que le caisson 01 n'emploie pas.
 - **Méthode qui a marché** : ouvrir chaque source (`curl -L`) pour relever l'adresse finale et le titre exact, puis la
@@ -623,9 +712,9 @@ npm run validate && npm run check:emoji && npm run check:parity && npm run typec
   attendre le robot vert ; annoncer ; ne plus rien pousser ensuite.
 
 ### 5.3 À faire côté propriétaire (à lui rappeler, sans urgence)
-- **Jouer « son et lumière »** sur https://felipemaciasito-cmyk.github.io/FORMA-8/ après la fusion (si rien ne
-  change, fermer complètement l'appli et la rouvrir). Sa progression étant déjà là, ORA ne lui propose pas le fond
-  sonore : l'allumer dans Réglages.
+- **Jouer « la centrale et l'arc »** sur https://felipemaciasito-cmyk.github.io/FORMA-8/ (si rien ne change, fermer
+  complètement l'appli et la rouvrir). Le fond sonore se règle avec le haut-parleur de la barre du haut.
+- **Ne fusionner une PR qu'après l'annonce « robot vert »** dans la conversation (la PR #13 a été fusionnée avant).
 - Noter tout libellé de GitHub du caisson 01 qui ne correspond pas à l'appli.
 - **Créer la clé API Claude** : Console Claude, espace de travail dédié avec plafond de dépense mensuel, achat de
   crédits (montant minimum à vérifier), clé collée dans Réglages. Elle sert à « Demander à ORA », à la notation
