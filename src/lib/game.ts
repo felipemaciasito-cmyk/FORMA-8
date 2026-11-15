@@ -10,9 +10,7 @@ export type FxEvent =
   // Propres à FORMA-8 : affichés par src/components/Rewards.tsx.
   | { type: "gain"; amount: number; x?: number; y?: number; quiet?: boolean }
   | { type: "levelup"; index: number; title: string; next?: { title: string; at: number } }
-  | { type: "awaken"; roomId: string; replay?: boolean }
-  /** Fin d'un protocole : les cérémonies retenues pendant la leçon peuvent passer. */
-  | { type: "stepdone" };
+  | { type: "awaken"; roomId: string; replay?: boolean };
 const fxListeners = new Set<(e: FxEvent) => void>();
 export function onFx(l: (e: FxEvent) => void) { fxListeners.add(l); return () => { fxListeners.delete(l); }; }
 export function fx(e: FxEvent) { fxListeners.forEach((l) => l(e)); }

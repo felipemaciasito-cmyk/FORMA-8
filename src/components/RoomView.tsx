@@ -2,7 +2,7 @@ import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { crewLines, notion, room as getRoom, stepKey } from "../content";
 import type { Block, Room } from "../content/types";
-import { addEnergy, checkBadges, fx, learnNotions, levelOf, REWARD } from "../lib/game";
+import { addEnergy, checkBadges, fx, learnNotions, REWARD } from "../lib/game";
 import { roomComplete, roomPower, roomReady, roomStepsDone, roomUnlocked, stepMinutes, stepUnlocked } from "../lib/progress";
 import { go } from "../lib/router";
 import { CHARGE_HIT, sfx } from "../lib/sound";
@@ -194,11 +194,10 @@ export function StepView({ roomId, stepId }: { roomId: string; stepId: string })
   const [revealed, setRevealed] = useState(() => (wasDone ? 999 : Math.max(1, resumedAt)));
   const [solvedAtOpen] = useState(() => new Set(Object.keys(getState().progress.exercises).filter((k) => k.startsWith(`${key}#`))));
   const [solved, setSolved] = useState<Record<number, boolean>>({});
-  const [finished, setFinished] = useState<null | { energy: number; before: number; after: number; grade: ReturnType<typeof levelOf> | null; top: number; plug: boolean; cells: number }>(null);
+  const [finished, setFinished] = useState<null | { energy: number; before: number; after: number; top: number; plug: boolean; cells: number }>(null);
   // Scène du branchement : la suite (réplique, notions, boutons) apparaît une fois la batterie branchée.
   const [plugged, setPlugged] = useState(false);
   const [charging, setCharging] = useState(false);
-  const [levelAtOpen] = useState(() => levelOf(getState().progress.energy).index);
   const [cheer, setCheer] = useState(0);
   const bottom = useRef<HTMLDivElement>(null);
   const earned = useRef(0);
@@ -212,6 +211,13 @@ export function StepView({ roomId, stepId }: { roomId: string; stepId: string })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   useEffect(() => { if (finished) setTimeout(() => bottom.current?.scrollIntoView({ behavior: "smooth", block: "center" }), 250); }, [finished]);
+  // L'écran de fin couvre tout l'écran (rien du protocole ne doit apparaître autour) ; la barre du haut reste
+  // posée par-dessus, pour suivre les kW qui rejoignent le compteur.
+  const finishOpen = !!finished;
+  useEffect(() => {
+    document.body.classList.toggle("finish-open", finishOpen);
+    return () => document.body.classList.remove("finish-open");
+  }, [finishOpen]);
 
   // Batterie du protocole : une cellule par vérification, plus une pour la fin. Les kW y attendent le branchement.
   const exCount = step ? step.blocks.filter((b) => b.type === "exercise").length : 0;
@@ -265,12 +271,8 @@ export function StepView({ roomId, stepId }: { roomId: string; stepId: string })
     }
     checkBadges();
     const after = roomPower(getState().progress, r);
-    const lv = levelOf(getState().progress.energy);
     const hud = document.querySelector(".hud")?.getBoundingClientRect();
-    const open = () => {
-      setFinished({ energy: Math.max(earned.current, getEnergyBar().held), before, after, grade: lv.index > levelAtOpen ? lv : null, top: hud ? Math.max(0, hud.bottom - 12) : 0, plug: first, cells: exCount + 1 });
-      fx({ type: "stepdone" });
-    };
+    const open = () => setFinished({ energy: Math.max(earned.current, getEnergyBar().held), before, after, top: hud ? Math.max(0, hud.bottom - 12) : 0, plug: first, cells: exCount + 1 });
     if (!first) { sfx("power"); fx({ type: "burst", color: `hsl(${r.hue} 100% 62%)` }); open(); return; }
     // Première fois : le grand éclair charge la dernière cellule, puis la scène du branchement s'ouvre.
     setCharging(true);
@@ -319,8 +321,8 @@ export function StepView({ roomId, stepId }: { roomId: string; stepId: string })
           {finished && (
             <motion.div key="fini" role="dialog" aria-modal="true" aria-label={`Protocole ${String(idx + 1).padStart(2, "0")} terminé`}
               initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-              style={{ position: "fixed", left: 0, right: 0, bottom: 0, top: finished.top, zIndex: 105, overflowY: "auto", overflowX: "hidden", background: `radial-gradient(circle at 50% 14%, hsl(${r.hue} 90% 45% / .3), transparent 60%), #04060c` }}>
-              <div style={{ maxWidth: 420, margin: "0 auto", padding: "22px 18px calc(var(--safe-bottom) + 28px)", textAlign: "center" }}>
+              style={{ position: "fixed", inset: 0, zIndex: 105, overflowY: "auto", overflowX: "hidden", background: `radial-gradient(circle at 50% 14%, hsl(${r.hue} 90% 45% / .3), transparent 60%), #04060c` }}>
+              <div style={{ maxWidth: 420, margin: "0 auto", padding: `${finished.top + 22}px 18px calc(var(--safe-bottom) + 28px)`, textAlign: "center" }}>
                 {finished.plug ? (
                   <PlugScene room={r} index={idx} cells={finished.cells} energy={finished.energy} incidentOpen={!!r.incident && !p.incidents[r.id]} onPlugged={onPlugged} />
                 ) : (<>
@@ -348,17 +350,6 @@ export function StepView({ roomId, stepId }: { roomId: string; stepId: string })
                 </>)}
                 {(!finished.plug || plugged) && (<>
                 {crewLines(r.id) && !roomComplete(p, r) && <div style={{ textAlign: "left" }}><MemberSays member={r.member} hue={r.hue} md={crewLines(r.id)!.demi} asleep /></div>}
-                {finished.grade && (
-                  <motion.div initial={{ opacity: 0, scale: 0.85 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 1.1, type: "spring", stiffness: 240, damping: 16 }}
-                    className="panel" role="status" style={{ margin: "12px 0 4px", padding: 12, textAlign: "left", display: "flex", gap: 12, alignItems: "center", borderColor: "rgba(77,255,160,.55)", background: "radial-gradient(circle at 12% 50%, rgba(77,255,160,.22), rgba(12,19,34,.9) 60%)", boxShadow: "0 0 26px -8px rgba(77,255,160,.7)" }}>
-                    <span style={{ flex: "none", width: 50, height: 50, borderRadius: "50%", display: "grid", placeItems: "center", border: "3px solid var(--led)", boxShadow: "0 0 14px rgba(77,255,160,.6)", font: "700 22px var(--mono)" }}>{finished.grade.index}</span>
-                    <span>
-                      <span className="kicker" style={{ color: "var(--led)" }}>Nouvelle accréditation</span>
-                      <b style={{ display: "block", fontSize: 19 }}>{finished.grade.title}</b>
-                      <span className="small muted">{finished.grade.next ? `Prochain grade : ${finished.grade.next.title}, à ${finished.grade.next.at} kW.` : "Le plus haut grade de la réserve."}</span>
-                    </span>
-                  </motion.div>
-                )}
                 {step.introduces.length > 0 && (
                   <>
                     <div className="small muted" style={{ margin: "10px 0" }}>Modules ajoutés à ta Base de connaissances :</div>

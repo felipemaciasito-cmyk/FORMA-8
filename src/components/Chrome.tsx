@@ -52,23 +52,51 @@ export function Hud() {
 }
 
 // ---------------- Son : bouton de la barre du haut (demande du propriétaire, 15/11/2026) ----------------
-/** Haut-parleur toujours visible : un toucher ouvre le réglage du son (effets, fond sonore, volumes). */
+/**
+ * Haut-parleur toujours visible : un toucher déroule juste dessous un petit menu discret (effets et fond sonore,
+ * chacun avec son interrupteur et son volume). Un toucher ailleurs le referme (souhait du propriétaire, 15/11/2026).
+ */
 function SoundButton() {
   const s = useSettings();
   const [open, setOpen] = useState(false);
   const on = s.sound || s.ambience;
+  useEffect(() => {
+    if (!open) return;
+    const k = (e: KeyboardEvent) => { if (e.key === "Escape") setOpen(false); };
+    window.addEventListener("keydown", k);
+    return () => window.removeEventListener("keydown", k);
+  }, [open]);
   return (
     <>
-      <button className={`hud-stat snd ${on ? "" : "off"}`} onClick={() => { sfx("tap"); setOpen(true); }} aria-label={`Son ${on ? "activé" : "coupé"} : régler le son`}>
+      <button className={`hud-stat snd ${on ? "" : "off"}`} onClick={() => { sfx("tap"); setOpen((o) => !o); }} aria-expanded={open} aria-label={`Son ${on ? "activé" : "coupé"} : régler le son`}>
         <Icon name={on ? "speaker" : "speaker-off"} size={16} />
       </button>
-      <Sheet open={open} onClose={() => setOpen(false)} label="Réglage du son">
-        <div className="kicker">Son de la réserve</div>
-        <div className="h2" style={{ margin: "2px 0 10px" }}>Réglage du son</div>
-        <SoundControls />
-        <button className="btn ghost block" style={{ marginTop: 14 }} onClick={() => setOpen(false)}>Fermer</button>
-      </Sheet>
+      <AnimatePresence>
+        {open && (<>
+          <div key="away" className="snd-away" onClick={() => setOpen(false)} />
+          <motion.div key="menu" className="snd-menu" role="dialog" aria-label="Réglage du son"
+            initial={{ opacity: 0, y: -6, scale: 0.97 }} animate={{ opacity: 1, y: 0, scale: 1 }} exit={{ opacity: 0, y: -6, scale: 0.97 }} transition={{ duration: 0.16 }}>
+            <SoundRow label="Effets" on={s.sound} volume={s.sfxVolume ?? 1}
+              onToggle={(v) => { updateSettings({ sound: v }); if (v) window.setTimeout(() => sfx("ok"), 60); }}
+              onVolume={(v) => { updateSettings({ sfxVolume: v }); window.setTimeout(() => sfx("cell"), 30); }} />
+            <SoundRow label="Fond sonore" on={s.ambience} volume={s.ambienceVolume ?? 0.6}
+              onToggle={(v) => updateSettings({ ambience: v })} onVolume={(v) => updateSettings({ ambienceVolume: v })} />
+          </motion.div>
+        </>)}
+      </AnimatePresence>
     </>
+  );
+}
+
+/** Une ligne du petit menu du son : interrupteur, nom, curseur de volume. */
+function SoundRow({ label, on, volume, onToggle, onVolume }: { label: string; on: boolean; volume: number; onToggle: (v: boolean) => void; onVolume: (v: number) => void }) {
+  return (
+    <div className="snd-row">
+      <button className={`snd-switch ${on ? "on" : ""}`} role="switch" aria-checked={on} aria-label={label} onClick={() => onToggle(!on)}><i /></button>
+      <span className="snd-lbl">{label}</span>
+      <input type="range" min={0} max={100} step={5} value={Math.round(volume * 100)} disabled={!on} aria-label={`Volume : ${label.toLowerCase()}`}
+        onChange={(e) => onVolume(Number(e.target.value) / 100)} />
+    </div>
   );
 }
 

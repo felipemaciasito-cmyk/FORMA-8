@@ -26,6 +26,8 @@ export function RewardLayer() {
   const [queue, setQueue] = useState<Ceremony[]>([]);
   const last = useRef({ x: window.innerWidth / 2, y: window.innerHeight * 0.6 });
   const held = useRef<Ceremony[]>([]);
+  // Écran où un grade a été mis en attente : la cérémonie se joue dès que le joueur le quitte.
+  const heldAt = useRef("");
   const release = () => {
     const h = held.current; held.current = [];
     if (h.length) setQueue((q) => [...q.filter((x, i) => i === 0 || x.type !== "levelup"), ...h]);
@@ -53,20 +55,19 @@ export function RewardLayer() {
         strike(from, to, () => pop({ x: to.x, y: to.y + 30 }, e.amount));
       }
     }
-    // Une montée de grade pendant une leçon ou une panne attend la fin : elle n'interrompt pas la lecture.
-    // Plusieurs grades d'un coup : une seule cérémonie, pour le plus récent.
+    // Une montée de grade pendant un protocole, une panne ou une maintenance attend que le joueur quitte cet écran
+    // (choix du propriétaire, 15/11/2026 : « quand je quitte un protocole », par « Retour » ou « Protocole
+    // suivant »). Plusieurs grades d'un coup : une seule cérémonie, pour le plus récent.
     if (e.type === "levelup") {
-      if (busyRoute()) held.current = [...held.current.filter((x) => x.type !== "levelup"), e];
+      if (busyRoute()) { held.current = [...held.current.filter((x) => x.type !== "levelup"), e]; heldAt.current = window.location.hash; }
       else setQueue((q) => [...q.filter((x, i) => i === 0 || x.type !== "levelup"), e]);
     }
-    // Le réveil passe en premier : c'est le moment fort. Les grades retenus suivent.
-    if (e.type === "awaken") { const h = held.current; held.current = []; setQueue((q) => [e, ...q, ...h]); }
-    // Fin de protocole : sa cérémonie annonce elle-même le nouveau grade, on n'en ouvre pas une seconde.
-    if (e.type === "stepdone") held.current = held.current.filter((x) => x.type !== "levelup");
+    // Le réveil se joue tout de suite (c'est le moment fort) ; un grade retenu attend toujours la sortie de l'écran.
+    if (e.type === "awaken") setQueue((q) => [e, ...q]);
   }), []);
 
   useEffect(() => {
-    const onHash = () => { if (!busyRoute()) release(); };
+    const onHash = () => { if (held.current.length && window.location.hash !== heldAt.current) release(); };
     window.addEventListener("hashchange", onHash);
     return () => window.removeEventListener("hashchange", onHash);
   }, []);
@@ -162,9 +163,9 @@ function LevelUp({ e, onClose }: { e: Extract<FxEvent, { type: "levelup" }>; onC
   return (
     <motion.div role="dialog" aria-modal="true" aria-label={`Nouvelle accréditation : ${e.title}`} onClick={() => { if (!granted) { setLocks(4); setGranted(true); } }}
       initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-      style={{ position: "fixed", inset: 0, zIndex: 110, display: "grid", placeItems: "center", padding: 24, background: `radial-gradient(circle at 50% 40%, rgba(59,232,255,${granted ? 0.2 : 0.07}), transparent 62%), rgba(4,6,12,.97)`, backdropFilter: "blur(8px)", WebkitBackdropFilter: "blur(8px)", transition: "background .6s" }}>
+      style={{ position: "fixed", inset: 0, zIndex: 110, display: "flex", flexDirection: "column", alignItems: "center", overflowY: "auto", padding: "calc(var(--safe-top) + 24px) 24px calc(var(--safe-bottom) + 24px)", background: `radial-gradient(circle at 50% 40%, rgba(59,232,255,${granted ? 0.2 : 0.07}), transparent 62%), #04060c`, backdropFilter: "blur(8px)", WebkitBackdropFilter: "blur(8px)", transition: "background .6s" }}>
       {granted && !reduce && <Flash peak={0.6} duration={0.7} />}
-      <div style={{ textAlign: "center", maxWidth: 340, position: "relative", zIndex: 3 }} onClick={(x) => x.stopPropagation()}>
+      <div style={{ textAlign: "center", maxWidth: 340, margin: "auto 0", position: "relative", zIndex: 3 }} onClick={(x) => x.stopPropagation()}>
         <div className="mono" style={{ fontSize: 11, letterSpacing: ".18em", color: granted ? "#fff" : "var(--text-3)" }}>{granted ? "ACCRÉDITATION VALIDÉE" : "CONTRÔLE D'ACCRÉDITATION"}</div>
         <div style={{ position: "relative", width: 220, height: 220, margin: "10px auto 0" }}>
           {/* le faisceau qui scanne */}
@@ -260,7 +261,9 @@ function Awakening({ e, onClose }: { e: Extract<FxEvent, { type: "awaken" }>; on
       style={{ position: "fixed", inset: 0, zIndex: 111, overflowY: "auto", background: `radial-gradient(circle at 50% 34%, rgba(59,232,255,${awake ? 0.22 : phase === 1 ? 0.1 : 0.04}), transparent 64%), #04060c`, transition: "background .8s" }}>
       {phase === 3 && beat === 0 && <Flash peak={0.9} duration={0.9} />}
       <AnimatePresence>{phase === 2 && <motion.div key="dim" aria-hidden="true" initial={{ opacity: 0 }} animate={{ opacity: 0.55 }} exit={{ opacity: 0 }} transition={{ duration: 0.15 }} style={{ position: "fixed", inset: 0, background: "#000", pointerEvents: "none" }} />}</AnimatePresence>
-      <div style={{ minHeight: "100%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "calc(var(--safe-top) + 18px) 20px calc(var(--safe-bottom) + 18px)", textAlign: "center", position: "relative", zIndex: 3 }}>
+      <div style={{ minHeight: "100%", display: "flex", flexDirection: "column", alignItems: "center", padding: "calc(var(--safe-top) + 18px) 20px calc(var(--safe-bottom) + 18px)", textAlign: "center", position: "relative", zIndex: 3 }}>
+        {/* Centrage vertical sans jamais couper le haut : ces espaceurs disparaissent quand la scène dépasse l'écran. */}
+        <div aria-hidden="true" style={{ flex: "1 0 0" }} />
         <div className="mono" style={{ fontSize: 11, letterSpacing: ".16em", color: awake ? "#fff" : "var(--cyan)" }}>{r.code} · {phase === 1 ? "CHARGE EN COURS" : phase === 2 ? "CHARGÉ" : "SÉQUENCE DE RÉVEIL"}</div>
         {/* jauge de charge du défibrillateur */}
         <div style={{ width: 240, margin: "8px 0 0" }}>
@@ -306,6 +309,7 @@ function Awakening({ e, onClose }: { e: Extract<FxEvent, { type: "awaken" }>; on
           )}
         </AnimatePresence>
         {phase < 5 && <div className="small dim" style={{ marginTop: 16 }}>Touche l'écran pour passer</div>}
+        <div aria-hidden="true" style={{ flex: "1 0 0" }} />
       </div>
     </motion.div>
   );

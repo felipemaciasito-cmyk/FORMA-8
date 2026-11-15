@@ -1,6 +1,6 @@
 import { readFileSync } from "node:fs";
 import { expect, test, type Page } from "@playwright/test";
-import { dismissCeremonies, rearmBreaker, playMaintenance, playStep, type Block, type Step } from "./helpers";
+import { closeGradeCeremony, dismissCeremonies, rearmBreaker, playMaintenance, playStep, type Block, type Step } from "./helpers";
 
 // Banc d'essai du caisson 01 (L'Archiviste) : on joue tout le caisson comme le joueur, sur
 // un écran d'iPhone. Les cinq protocoles et leurs exercices, les trois simulateurs (machine
@@ -103,10 +103,12 @@ test("le caisson 01 se joue entièrement, avec chaque outil d'apprentissage", as
 
   await seedCaisson00(page);
   await page.goto("./");
+  await closeGradeCeremony(page); // un grade retenu s'annonce en quittant l'écran précédent
   await expect(page.getByText("1 / 11 membres de l'équipe réveillés")).toBeVisible({ timeout: 20_000 });
 
   // Le caisson 01 est ouvert, avec ses cinq protocoles.
   await page.goto("./#/caisson/c01");
+  await closeGradeCeremony(page); // un grade retenu s'annonce en quittant l'écran précédent
   for (const s of C01.steps) await expect(page.getByText(s.title).first()).toBeVisible();
 
   // Protocoles 1 à 5 : tous les types d'exercices, et chaque simulateur réellement utilisé.
@@ -125,6 +127,7 @@ test("le caisson 01 se joue entièrement, avec chaque outil d'apprentissage", as
 
   // Procédure pas à pas : cocher une étape, l'état est gardé ; l'aide « Je suis bloqué » existe.
   await page.goto("./#/caisson/c01/p2");
+  await closeGradeCeremony(page); // un grade retenu s'annonce en quittant l'écran précédent
   const proc = page.locator(".panel", { hasText: "Lire l'historique de ton dépôt" });
   await proc.getByRole("button", { name: "Marquer l'étape 1 comme faite" }).click();
   await expect(proc.getByText("Procédure · 1/5")).toBeVisible();
@@ -133,6 +136,7 @@ test("le caisson 01 se joue entièrement, avec chaque outil d'apprentissage", as
 
   // Protocole 4 : ordre de mission personnalisé, liste de vérification gardée, atelier noté par Claude.
   await page.goto("./#/caisson/c01/p4");
+  await closeGradeCeremony(page); // un grade retenu s'annonce en quittant l'écran précédent
   await expect(page.getByText(/de mon produit Carnet de chantier une section/)).toBeVisible();
   const mission = page.locator(".panel", { hasText: "Un changement relu de bout en bout" });
   await mission.getByRole("button", { name: /Dans Files changed, seul index.html est modifié/ }).click();
@@ -146,6 +150,7 @@ test("le caisson 01 se joue entièrement, avec chaque outil d'apprentissage", as
 
   // Panne : trois alertes, la bonne réponse à chaque fois.
   await page.goto("./#/panne/c01");
+  await closeGradeCeremony(page); // un grade retenu s'annonce en quittant l'écran précédent
   for (const [k, sc] of C01.incident.scenarios.entries()) {
     const good = sc.options.find((o) => o.ok)!;
     await page.getByRole("button", { name: good.t.slice(0, 40) }).click();
@@ -159,6 +164,7 @@ test("le caisson 01 se joue entièrement, avec chaque outil d'apprentissage", as
 
   // Livraison v0.1 : quatre contrôles vérifiés sur GitHub (simulé).
   await page.goto("./#/caisson/c01");
+  await closeGradeCeremony(page); // un grade retenu s'annonce en quittant l'écran précédent
   await page.getByRole("button", { name: /Vérifier ma livraison/ }).click();
   await expect(page.getByText("6 commits trouvés.")).toBeVisible();
   await expect(page.getByText("1 pull request fusionnée.")).toBeVisible();
@@ -168,6 +174,7 @@ test("le caisson 01 se joue entièrement, avec chaque outil d'apprentissage", as
 
   // Deux membres réveillés ; le caisson 02 est encore en préparation.
   await page.goto("./");
+  await closeGradeCeremony(page); // un grade retenu s'annonce en quittant l'écran précédent
   await expect(page.getByText("2 / 11 membres de l'équipe réveillés")).toBeVisible();
 
   // Base : toutes les notions collectées, portfolio avec la version 0.1.
@@ -177,6 +184,7 @@ test("le caisson 01 se joue entièrement, avec chaque outil d'apprentissage", as
 
   // Atelier : la situation « Faire relire avant de fusionner » s'est ouverte.
   await page.goto("./#/atelier");
+  await closeGradeCeremony(page); // un grade retenu s'annonce en quittant l'écran précédent
   await expect(page.getByText("Faire relire avant de fusionner")).toBeVisible();
 
   // Maintenance : entraînement libre sur les notions apprises.

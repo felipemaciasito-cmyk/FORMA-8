@@ -79,9 +79,26 @@ export async function solve(panel: Locator, ex: Ex) {
 
 export const LABEL: Record<string, string> = { qcm: "QCM", truefalse: "Vrai ou faux", cloze: "Texte à trous", order: "Remise en ordre", wiring: "Câblage", feynman: "Avec tes mots" };
 
+/** Nombre de cérémonies de grade vues en quittant un écran (voir closeGradeCeremony). */
+export const ceremonies = { grade: 0 };
+
+/**
+ * Un grade gagné pendant un protocole est annoncé quand le joueur quitte cet écran (choix du propriétaire,
+ * 15/11/2026) : la cérémonie couvre alors l'écran suivant. On la referme, et on la compte.
+ */
+export async function closeGradeCeremony(page: Page) {
+  const grade = page.getByRole("dialog", { name: /^Nouvelle accréditation/ }).first();
+  await page.waitForTimeout(300);
+  if (!(await grade.isVisible())) return;
+  ceremonies.grade++;
+  await grade.getByRole("button", { name: "Continuer" }).click();
+  await expect(grade).toBeHidden();
+}
+
 /** Joue un protocole de bout en bout : affiche chaque bloc, résout chaque exercice, termine. */
 export async function playStep(page: Page, roomId: string, step: Step, n: number, onBlock?: (block: Block, index: number) => Promise<void>) {
   await page.goto(`./#/caisson/${roomId}/${step.id}`);
+  await closeGradeCeremony(page);
   await expect(page.getByText(step.title).first()).toBeVisible();
   const seen: Record<string, number> = {};
   for (let i = 0; i < step.blocks.length; i++) {
@@ -101,13 +118,41 @@ export async function playStep(page: Page, roomId: string, step: Step, n: number
       await next.click();
     }
   }
+  // Jamais de cérémonie de grade pendant un protocole : elle attend que le joueur quitte l'écran.
+  await expect(page.getByRole("dialog", { name: /^Nouvelle accréditation/ })).toHaveCount(0);
   await page.getByRole("button", { name: /Terminer le protocole/ }).click();
   await expect(page.getByText(`Protocole ${String(n).padStart(2, "0")} terminé`)).toBeVisible();
   await plugBattery(page);
+  await expect(page.getByRole("dialog", { name: /^Nouvelle accréditation/ })).toHaveCount(0);
+}
+
+/**
+ * Un écran plein écran (fin de protocole, cérémonie) doit tout couvrir : en haut de l'écran, on ne doit voir que la
+ * barre du haut, puis cet écran, jamais la page qui est dessous (défaut vu par le propriétaire sur iPad, 15/11/2026).
+ * On sonde des points le long du haut de l'écran, au-dessus, dans et juste sous la barre du haut.
+ */
+export async function expectCoversTop(page: Page, dialogName: RegExp | string) {
+  const dialog = page.getByRole("dialog", { name: dialogName }).first();
+  await expect(dialog).toBeVisible();
+  const handle = await dialog.elementHandle();
+  const leaks = await page.evaluate((dlg) => {
+    const hud = document.querySelector(".hud");
+    const hb = hud ? hud.getBoundingClientRect().bottom : 0;
+    const w = window.innerWidth, out: string[] = [];
+    for (const y of [1, hb * 0.5, hb - 6, hb + 4, hb + 20]) for (const x of [6, w * 0.25, w * 0.5, w * 0.75, w - 6]) {
+      // La barre du haut et les notifications (badges, kW) ont le droit de passer par-dessus.
+      const under = document.elementsFromPoint(x, y).find((el) => !hud?.contains(el) && !el.closest(".toast-zone"));
+      if (under && dlg && !dlg.contains(under) && under !== document.documentElement && under !== document.body)
+        out.push(`${Math.round(x)},${Math.round(y)} : ${under.tagName.toLowerCase()}.${String(under.className).slice(0, 40)}`);
+    }
+    return out;
+  }, handle);
+  expect(leaks, "la page du dessous apparaît en haut de l'écran").toEqual([]);
 }
 
 /** Fin de protocole : branche la batterie sur la capsule (un toucher sur la prise suffit), puis attend la suite. */
 export async function plugBattery(page: Page) {
+  await expectCoversTop(page, /^Protocole \d+ terminé$/);
   await page.getByRole("button", { name: /^Brancher la batterie/ }).click({ force: true }); // la prise bouge doucement
   await expect(page.getByRole("button", { name: "Retour au caisson" })).toBeVisible({ timeout: 8000 });
 }

@@ -393,3 +393,16 @@ textarea.input { min-height: 96px; resize: vertical; line-height: 1.45; }
 /* Bouton du son dans la barre du haut (15/11/2026) */
 .hud-stat.snd { padding: 6px 8px; color: var(--text); }
 .hud-stat.snd.off { color: var(--text-3); }
+.snd-away { position: fixed; inset: 0; z-index: 31; }
+.snd-menu { position: fixed; z-index: 32; top: calc(var(--safe-top) + 54px); right: max(12px, calc((100vw - 640px) / 2)); width: 232px; padding: 6px 10px; border-radius: 14px; background: rgba(9, 14, 26, .96); border: 1px solid var(--line); box-shadow: 0 12px 30px -10px rgba(0, 0, 0, .9); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); transform-origin: top right; }
+.snd-row { display: flex; align-items: center; gap: 8px; padding: 6px 0; }
+.snd-row + .snd-row { border-top: 1px solid var(--line); }
+.snd-lbl { font: 600 11px var(--mono); letter-spacing: .04em; color: var(--text-2); width: 74px; flex: none; }
+.snd-row input { flex: 1; min-width: 0; accent-color: var(--cyan); }
+.snd-row input:disabled { opacity: .35; }
+.snd-switch { flex: none; width: 30px; height: 18px; border-radius: 9px; padding: 2px; background: #253250; transition: background .2s; }
+.snd-switch i { display: block; width: 14px; height: 14px; border-radius: 50%; background: #fff; transition: transform .2s; }
+.snd-switch.on { background: var(--cyan); }
+.snd-switch.on i { transform: translateX(12px); }
+/* Écran de fin de protocole ouvert : il couvre tout l'écran, la barre du haut reste au-dessus. */
+.finish-open .hud { z-index: 106; }

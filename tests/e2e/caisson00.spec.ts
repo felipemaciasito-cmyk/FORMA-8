@@ -1,6 +1,6 @@
 import { readFileSync } from "node:fs";
 import { expect, test } from "@playwright/test";
-import { boot, dismissCeremonies, rearmBreaker, LABEL, playMaintenance, playStep, solve, type Step } from "./helpers";
+import { boot, ceremonies, closeGradeCeremony, dismissCeremonies, rearmBreaker, LABEL, playMaintenance, playStep, solve, type Step } from "./helpers";
 
 // Banc d'essai du caisson 00 : on joue tout le caisson comme le joueur, sur un écran
 // d'iPhone. Chaque type d'exercice est résolu, les simulateurs et procédures sont
@@ -30,6 +30,7 @@ test("le caisson 00 se joue entièrement, avec chaque outil d'apprentissage", as
     if (step.id === "p4") {
       // Laboratoire produit : noter une idée sur les 5 critères, puis la choisir.
       await page.goto("./#/caisson/c00/p4");
+      await closeGradeCeremony(page);
       for (let k = 0; k < step.blocks.length - 1; k++) {
         const b = step.blocks[k];
         if (b.type === "exercise" && b.ex) {
@@ -52,6 +53,9 @@ test("le caisson 00 se joue entièrement, avec chaque outil d'apprentissage", as
     }
     await playStep(page, "c00", step, i + 1);
   }
+  // Le grade Apprenti (150 kW) est gagné pendant un protocole : sa cérémonie s'est jouée en quittant l'écran,
+  // jamais pendant la lecture (playStep le vérifie).
+  expect(ceremonies.grade).toBeGreaterThan(0);
 
   // Procédure pas à pas : cocher une étape, l'état est gardé.
   // Le dernier protocole vient de se terminer : on referme sa cérémonie pour le relire.
@@ -72,6 +76,7 @@ test("le caisson 00 se joue entièrement, avec chaque outil d'apprentissage", as
 
   // Panne : trois scénarios, on choisit la bonne cause à chaque fois.
   await page.goto("./#/panne/c00");
+  await closeGradeCeremony(page); // un grade retenu s'annonce en quittant l'écran précédent
   for (const [k, sc] of C00.incident.scenarios.entries()) {
     const good = sc.options.find((o) => o.ok)!;
     await page.getByRole("button", { name: good.t.slice(0, 40) }).click();
@@ -86,8 +91,10 @@ test("le caisson 00 se joue entièrement, avec chaque outil d'apprentissage", as
 
   // Livraison : dépôt du produit, vérification sur GitHub (simulé), puis contrôle manuel.
   await page.goto("./#/equipe");
+  await closeGradeCeremony(page); // un grade retenu s'annonce en quittant l'écran précédent
   await page.getByLabel("Dépôt du produit").fill("carnet-chantier");
   await page.goto("./#/caisson/c00");
+  await closeGradeCeremony(page); // un grade retenu s'annonce en quittant l'écran précédent
   await page.getByRole("button", { name: /Vérifier ma livraison/ }).click();
   await expect(page.getByText("index.html est bien présent.")).toBeVisible();
   await expect(page.getByText(/En ligne : https:\/\/felipemaciasito-cmyk\.github\.io\/carnet-chantier\//)).toBeVisible();
@@ -96,6 +103,7 @@ test("le caisson 00 se joue entièrement, avec chaque outil d'apprentissage", as
 
   // Le caisson est réveillé : la carte le montre, et le caisson suivant s'ouvre.
   await page.goto("./");
+  await closeGradeCeremony(page); // un grade retenu s'annonce en quittant l'écran précédent
   await expect(page.getByText("1 / 11 membres de l'équipe réveillés")).toBeVisible();
   await expect(page.getByRole("button", { name: /^CAISSON 01 / })).toBeAttached();
 
