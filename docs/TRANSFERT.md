@@ -1,8 +1,56 @@
 # FORMA-8 · Réveille l'équipe : document de transfert (état au 15/11/2026, après la refonte)
 
-> À lire en entier au démarrage de chaque nouvelle session (renvoi dans `CLAUDE.md`). Ce document complète
-> `CLAUDE.md`, `docs/CONCEPTION.md` et `docs/PROGRAMME.md`. En cas d'écart, le code du dépôt fait foi :
-> signaler l'écart au propriétaire. Mettre ce document à jour à la fin de chaque lot, dans la même PR.
+> À lire en entier au démarrage de chaque nouvelle session (renvoi dans `CLAUDE.md`), **en commençant par la
+> section 0**. Ce document complète `CLAUDE.md`, `docs/CONCEPTION.md` et `docs/PROGRAMME.md`. En cas d'écart, le
+> code du dépôt fait foi : signaler l'écart au propriétaire. Mettre ce document à jour à la fin de chaque lot, dans
+> la même PR.
+
+---
+
+## 0. Démarrage d'une nouvelle session : à faire tout de suite
+
+Le propriétaire ouvre une nouvelle conversation Claude Code et envoie le prompt court de la section 0.3, qui renvoie
+ici. Ce document doit donc suffire seul : tout ce qu'il faut savoir est dans les sections 1 à 5, tout ce qu'il faut
+faire est ci-dessous.
+
+### 0.1 Dans l'ordre
+1. Lire en entier, dans cet ordre : `CLAUDE.md`, ce document (sections 0 à 5), `docs/CONCEPTION.md`,
+   `docs/PROGRAMME.md`. Ne rien écrire avant.
+2. Faire toutes les étapes de la section 5.1 : vérifier `main`, cloner FORMA-7 à côté, `npm ci`, commande complète de
+   vérification. Puis résumer au propriétaire, en quelques lignes, l'état du projet et le résultat des vérifications.
+3. Lui poser, en QCM, les questions de la section 5.1 (étape 5) sur la refonte qu'il a jouée sur son iPhone. Corriger
+   d'abord ce qu'il signale ; pour un changement visuel important, maquette d'abord.
+4. Lui demander son **feu vert** en QCM, puis écrire le caisson 02 en suivant la section 5.2 et `docs/PROGRAMME.md`.
+   Ce qu'il attend : « Sois extrêmement ambitieux et rigoureux » ; un apprentissage très ludique, guidé pas à pas,
+   cohérent et très esthétique ; chaque outil doit fonctionner parfaitement sur iPhone.
+5. Fin de lot : commande complète verte, ce document mis à jour (section 0 comprise si la prochaine action change),
+   une seule PR vers `main`, attendre le robot vert, annoncer, ne plus rien pousser. Si le propriétaire veut changer
+   de conversation, lui redonner le prompt de la section 0.3.
+
+### 0.2 Ses règles non négociables (détail en section 2)
+- Français, tutoiement, explications simples. Les questions se posent en **QCM**.
+- Honnêteté avant tout : signaler toute incertitude. Ne jamais inventer une source, une URL, un chiffre ou une
+  citation. Chaque source est ouverte, vérifiée et datée. Si une URL est introuvable, le dire.
+- Aucun contenu repris de FORMA-7 : seule l'étude de cas de son historique est permise (section 4.1).
+- Même palette et mêmes polices que FORMA-7. Tout nouveau changement visuel important se montre d'abord (maquette ou
+  captures) et attend son accord.
+- Aucune action destructive ou difficile à annuler sans son accord : supprimer une branche, fusionner, envoyer sur
+  `main`, réécrire un historique déjà envoyé, contourner une règle de sécurité.
+- Toutes les vérifications doivent passer avant la pull request.
+- Une seule PR par lot, vers `main`, qui met aussi à jour ce document. L'annoncer clairement quand le robot de
+  vérification de GitHub est vert : c'est lui qui fusionne, et seulement après l'annonce. Ne plus rien pousser après.
+
+### 0.3 Le prompt de reprise (à lui redonner tel quel à chaque changement de conversation)
+
+Paramètres à lui rappeler : dépôt `felipemaciasito-cmyk/FORMA-8`, branche `main` ; environnement « Par défaut »
+(accès réseau illimité, nécessaire pour les sources officielles et FORMA-7) ; mode Auto ; une nouvelle conversation.
+Lui dire de fusionner la dernière PR **avant** d'envoyer le prompt.
+
+```text
+Tu reprends le projet FORMA-8 · « Réveille l'équipe ». Je ne suis pas développeur et je travaille uniquement depuis Safari sur iPhone.
+
+Lis en entier le fichier docs/TRANSFERT.md de la branche main, puis suis à la lettre sa section 0 « Démarrage d'une nouvelle session ». Ce fichier contient tout : l'état exact du projet, mes règles non négociables, les décisions prises et la prochaine action.
+```
 
 ---
 
@@ -103,6 +151,9 @@
   Si cette branche a déjà été fusionnée, la recréer depuis `origin/main` (l'envoi reste alors une simple avance).
 - **Ne jamais réécrire un historique déjà poussé** (`--force`) : le 15/11/2026, un envoi forcé a été refusé par la
   sécurité de la session. Ajouter des commits par-dessus.
+- **La session ne peut pas supprimer une branche distante** : le 15/11/2026, `git push origin --delete` a reçu un
+  refus 403, à ne pas contourner. C'est le propriétaire qui la supprime, avec le bouton « Delete branch » (« Supprimer
+  la branche ») en bas de la PR fusionnée, ou depuis la page des branches du dépôt (icône poubelle).
 - Avant toute PR, cette commande doit passer entièrement :
 
 ```bash
@@ -126,22 +177,26 @@ npm run validate && npm run check:emoji && npm run check:parity && npm run typec
 ## 3. État actuel et éléments validés
 
 ### 3.1 Git, PR et mise en ligne
-- `origin/main` = **`b96f074`** (« Merge pull request #9 », la refonte de l'interface), vérifié le 15/11/2026.
-  Avant : `ccb28cf` (PR #8, caisson 01), `79c1061` (PR #7, premier document de transfert), `9ac4f20` (PR #6).
+- `origin/main` = **`f2af5ff`** (« Merge pull request #10 », ce document), vérifié le 15/11/2026.
+  Avant : `b96f074` (PR #9, refonte de l'interface), `ccb28cf` (PR #8, caisson 01), `79c1061` (PR #7, premier
+  document de transfert), `9ac4f20` (PR #6).
 - PR, toutes fusionnées par le propriétaire :
   - #1 socle ; #2 et #3 lots 2 et 3 (fusionnés par erreur dans des branches intermédiaires) ; #4 lots 2 et 3 vers
     `main` (fermée automatiquement) ; #5 outils d'apprentissage ; #6 contenu du caisson 00 ; #7 document de transfert ;
   - #8 caisson 01 (14/11/2026) ;
   - #9 refonte de l'interface, option B (15/11/2026, 5 commits : 3 de prototype, puis la nouvelle règle visuelle et
     la fin de la refonte).
-  - La PR qui ajoute la présente version de ce document suit la #9.
-- Branches distantes au 15/11/2026 : `main` et `claude/charming-darwin-rxq6b5` (branche de cette session, entièrement
-  fusionnée ; le propriétaire peut la supprimer). Les anciennes branches fusionnées ont été supprimées par lui.
+  - #10 document de transfert complet (15/11/2026) ;
+  - la PR qui ajoute la section 0 « Démarrage » de ce document suit la #10.
+- Branches distantes : après la fusion de la #10, il ne restait que `main` (le propriétaire a supprimé
+  `claude/charming-darwin-rxq6b5`). La session l'a recréée depuis `main` pour la PR de la section 0 ; le propriétaire
+  la supprime après la fusion.
 - Workflows :
   - `.github/workflows/ci.yml` (« Vérifications FORMA-8 », job `verifier`, sur chaque PR, Node 22) : récupère FORMA-7
     dans `forma-7`, puis lance toutes les vérifications et les tests de bout en bout ;
   - `.github/workflows/deploy.yml` (sur envoi vers `main`) : construit l'appli et la publie sur GitHub Pages.
-- GitHub Pages : Source « GitHub Actions ». Dernière mise en ligne : n° 6, réussie (15/11/2026, 02:27 UTC).
+- GitHub Pages : Source « GitHub Actions ». Dernière mise en ligne : n° 7, réussie (15/11/2026, 04:37 UTC, après la
+  fusion de la #10 ; l'appli est la même que pour la n° 6, seul ce document a changé).
 
 ### 3.2 Pile technique
 - Vite 8, React 19, TypeScript 6, motion 14 (`motion/react`), idb-keyval 6, vite-plugin-pwa 2.
@@ -449,8 +504,8 @@ npm run validate && npm run check:emoji && npm run check:parity && npm run typec
 
 ### 5.1 Au démarrage de la nouvelle session (avant toute écriture)
 1. Lire en entier `CLAUDE.md`, ce document, `docs/CONCEPTION.md` et `docs/PROGRAMME.md`.
-2. `git fetch origin`. Vérifier que `origin/main` contient `b96f074` (refonte, PR #9) et la PR de ce document ; si
-   autre chose a changé, le dire au propriétaire.
+2. `git fetch origin`. Vérifier que `origin/main` contient `f2af5ff` (PR #10) et la PR qui a ajouté la section 0 de
+   ce document ; si autre chose a changé, le dire au propriétaire.
 3. Attacher `felipemaciasito-cmyk/forma-7` (public, lecture seule) et le cloner **à côté** de FORMA-8, sous le nom
    `forma-7`, **en entier** (sans `--depth`), pour `check:parity` et l'étude de cas.
 4. `npm ci`, puis la commande complète de vérification. Annoncer le résultat en quelques lignes : l'état de départ
@@ -499,7 +554,8 @@ npm run validate && npm run check:emoji && npm run check:parity && npm run typec
   « avec tes mots », aux consignes et aux rapports de bug.
 - Le jeton GitHub « fine-grained » sera enseigné au caisson 02, protocole 6 ; il n'est pas obligatoire pour vérifier un
   dépôt public.
-- Il peut supprimer la branche fusionnée `claude/charming-darwin-rxq6b5` sur GitHub.
+- Après la fusion de chaque PR, supprimer la branche de la session (bouton « Delete branch » en bas de la PR
+  fusionnée) : la session ne peut pas le faire elle-même.
 
 ### 5.4 Ensuite
 - Caissons 03 à 10, dans l'ordre de `docs/PROGRAMME.md`, une PR par caisson, chacun avec son banc d'essai.
