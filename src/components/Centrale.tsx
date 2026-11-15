@@ -98,7 +98,9 @@ export const Centrale = forwardRef<CentraleHandle, {
     let raf = 0;
     const MS = reduced() ? 1000 : 2400, FAIL_AT = 0.42;
     const loop = (t: number) => {
-      const h = hold.current, dt = Math.min(50, t - (h.last || t)); h.last = t;
+      // temps réel (et non nombre d'images) : la charge prend le même temps sur un appareil qui saccade ;
+      // plafonné pour ne pas sauter d'un coup au retour d'une autre appli
+      const h = hold.current, dt = Math.min(250, t - (h.last || t)); h.last = t;
       if (!h.done) {
         h.prog = h.on ? Math.min(1, h.prog + dt / MS) : Math.max(0, h.prog - dt / (MS * 1.4));
         if (h.on && !reduced() && t - h.lastArc > 85 - 45 * h.prog) {
