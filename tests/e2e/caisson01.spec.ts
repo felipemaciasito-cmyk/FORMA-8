@@ -87,7 +87,7 @@ async function playWidget(page: Page, stepId: string, b: Block, nth: number) {
 }
 
 test("le caisson 01 se joue entièrement, avec chaque outil d'apprentissage", async ({ page }) => {
-  test.setTimeout(300_000);
+  test.setTimeout(Number(process.env.E2E_TIMEOUT ?? 300_000));
   const errors: string[] = [];
   page.on("pageerror", (e) => errors.push(e.message));
 
