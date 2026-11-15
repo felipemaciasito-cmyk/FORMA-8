@@ -200,7 +200,7 @@ npm run validate && npm run check:emoji && npm run check:parity && npm run typec
     la fin de la refonte).
   - #10 document de transfert complet (15/11/2026) ;
   - #11 section 0 « Démarrage » de ce document (15/11/2026) ;
-  - la PR « son et lumière » (branche `claude/forma8-reveille-equipe-29srjv`, 9 commits) suit la #11 : voir 3.15.
+  - la PR « son et lumière » (branche `claude/forma8-reveille-equipe-29srjv`) suit la #11 : voir 3.15.
 - Branches distantes : après la fusion de la #11, il ne restait que `main`. La branche de « son et lumière » est
   `claude/forma8-reveille-equipe-29srjv` ; le propriétaire la supprime après la fusion.
 - Workflows :
