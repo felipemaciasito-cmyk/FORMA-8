@@ -75,7 +75,7 @@ Profil de **pilote débutant** : sait mener un projet de bout en bout avec Claud
 | Premiers vrais utilisateurs | Au **niveau 6** : produit fonctionnel, testé, publié, sans comptes ni données personnelles. |
 | Missions du jour | **Aucune** : pas de lecture de mails. FORMA-7-data ne sert qu'à la synchronisation. |
 | Langue | Tout en français. |
-| Identité visuelle | Strictement identique à FORMA-7 (voir le brief) ; tout écart validé explicitement avant d'être fait. |
+| Identité visuelle | Jusqu'au 15/11/2026 : strictement identique à FORMA-7. **Depuis le 15/11/2026 (option B, choisie par le propriétaire après des maquettes jouables) : même palette et mêmes polices que FORMA-7**, écrans et animations propres à FORMA-8 ; tout nouveau changement visuel important est montré au propriétaire avant d'être fait. |
 | Stockage | Clés propres à FORMA-8 (préfixe différent de `forma7:`) ; synchronisation dans `progress/forma-8.json` de FORMA-7-data ; `progress/progress.json` n'est jamais modifié. |
 
 ## 4. Parcours (proposition à détailler)
@@ -166,6 +166,10 @@ Grotesk et JetBrains Mono, vite-plugin-pwa, @anthropic-ai/sdk chargé à la dema
 FORMA-7 sert de base. Seul ajout : `@playwright/test` en dépendance de développement, pour les tests.
 
 ### Couche visuelle copiée de FORMA-7, sans retouche
+
+> **Mise à jour du 15/11/2026.** Cette section décrit le départ du projet. Depuis l'option B, seules la palette
+> (variables de `:root`) et les polices restent identiques à FORMA-7 ; le contrôle `check:parity` vérifie ces
+> seuls points, plus les glyphes (ajout seulement) et la couleur de thème. `Art.tsx` a été retiré.
 
 - `src/styles/app.css` (variables de `:root`, grille, balayage, HUD, onglets, panneaux, boutons, pastilles,
   feuille du bas, toasts, animations, règles « animations réduites ») ;

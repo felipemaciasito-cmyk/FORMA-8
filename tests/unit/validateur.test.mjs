@@ -9,13 +9,14 @@ import { spawnSync } from "node:child_process";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..", "..");
 
-function validate(caisson, glossary = []) {
+function validate(caisson, glossary = [], crew = null) {
   const dir = mkdtempSync(join(tmpdir(), "forma8-contenu-"));
   mkdirSync(join(dir, "caissons"));
   writeFileSync(join(dir, "glossary.json"), JSON.stringify(glossary));
   copyFileSync(join(root, "src", "content", "icon-ids.json"), join(dir, "icon-ids.json"));
   copyFileSync(join(root, "src", "content", "illustration-ids.json"), join(dir, "illustration-ids.json"));
   writeFileSync(join(dir, "caissons", "c00.json"), JSON.stringify(caisson));
+  if (crew) writeFileSync(join(dir, "equipe.json"), JSON.stringify(crew));
   const r = spawnSync(process.execPath, [join(root, "scripts", "validate-content.mjs")], { env: { ...process.env, FORMA8_CONTENT_DIR: dir }, encoding: "utf8" });
   return { code: r.status, out: r.stdout + r.stderr };
 }
@@ -62,6 +63,16 @@ test("un simulateur inconnu ou un mode mal écrit bloque", () => {
   assert.match(r.out, /simulateur inconnu « MachineInconnue »/);
   assert.match(r.out, /ce simulateur n'a pas de mode/);
   assert.equal((r.out.match(/✗/g) ?? []).length, 3, r.out);
+});
+
+test("une réplique de l'équipe qui emploie un mot pas encore défini bloque", () => {
+  const notionMot = { ...notionTest, id: "depot", term: "Dépôt", watch: ["dépôt"] };
+  const step = { id: "p1", title: "Titre", kicker: "Accroche", introduces: ["depot"], uses: [], blocks: [{ type: "definition", notion: "depot" }, { type: "exercise", ex: { kind: "qcm", q: "Question ?", options: [{ t: "Oui", ok: true, why: "Parce que." }, { t: "Non", ok: false, why: "Non." }] } }] };
+  const crew = { c00: { role: "Range ton dépôt avec soin.", dort: "… je rêve de rangement…", demi: "Ton dépôt prend forme, bravo.", reveil: "Ton dépôt est en ordre, bravo." } };
+  const r = validate(caisson([step]), [notionMot], crew);
+  assert.equal(r.code, 1);
+  assert.match(r.out, /equipe\.json\/c00 \(début du jeu\).*« dépôt »/);
+  assert.equal((r.out.match(/✗/g) ?? []).length, 1, r.out);
 });
 
 test("une source sans date de vérification bloque", () => {

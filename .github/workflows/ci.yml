@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
-      # FORMA-7 (dépôt public) sert de référence pour la parité visuelle.
+      # FORMA-7 (dépôt public) sert de référence pour la palette et les polices.
       - uses: actions/checkout@v7
         with:
           repository: felipemaciasito-cmyk/FORMA-7
@@ -27,7 +27,7 @@ jobs:
         run: npm run validate
       - name: Zéro emoji
         run: npm run check:emoji
-      - name: Parité visuelle avec FORMA-7
+      - name: Identité visuelle (palette et polices de FORMA-7)
         run: node scripts/check-design-parity.mjs --require --forma7 forma-7
       - name: Vérification des types
         run: npm run typecheck

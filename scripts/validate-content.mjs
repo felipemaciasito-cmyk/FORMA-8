@@ -20,13 +20,15 @@
 //  9. Blocs propres à FORMA-8 (ordre de mission, consigne, rapport de bug,
 //     lecture de modification, source datée) et livraisons bien formés.
 //     Un simulateur doit exister, et son mode éventuel être reconnu.
+// 10. Les répliques de l'équipe (src/content/equipe.json) n'emploient que des notions déjà
+//     connues au moment où elles s'affichent.
 //  8. Zéro emoji : aucun emoji ni symbole décoratif dans le glossaire et les
 //     caissons ; le champ « icon » d'une notion est un identifiant de
 //     src/content/icon-ids.json.
 //
 // Usage : node scripts/validate-content.mjs
 // =====================================================================
-import { readFileSync, readdirSync } from "node:fs";
+import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { codepoint, findEmoji } from "../src/lib/emoji-rules.js";
@@ -50,6 +52,9 @@ const rooms = readdirSync(roomsDir).filter((f) => f.endsWith(".json")).map((f) =
   .sort((a, b) => a.index - b.index);
 
 const iconIds = readJSON(join(contentDir, "icon-ids.json"));
+// Répliques des membres de l'équipe (facultatif dans les contenus de test).
+const crewPath = join(contentDir, "equipe.json");
+const crew = existsSync(crewPath) ? readJSON(crewPath) : null;
 const ICONS = new Set([...Object.keys(iconIds.notions), ...Object.keys(iconIds.interface)]);
 
 // ---------- 8. Zéro emoji ----------
@@ -130,6 +135,7 @@ for (const n of glossary) {
 }
 
 checkNoEmoji(glossary, "glossaire");
+if (crew) checkNoEmoji(crew, "equipe.json");
 for (const room of rooms) checkNoEmoji(room, room.file);
 
 // ---------- 6. Exercices ----------
@@ -266,6 +272,20 @@ function checkTexts(texts, where, allowed) {
   }
 }
 
+// ---------- 10. Répliques de l'équipe ----------
+// « role » et « dort » s'affichent dès le début du jeu ; « demi » après le premier protocole du
+// caisson ; « reveil » quand le caisson est terminé. Chacune ne peut employer que les notions connues à ce moment.
+const CREW_FIELDS = ["role", "dort", "demi", "reveil"];
+if (crew) {
+  for (const room of rooms) {
+    const c = crew[room.id];
+    if (!c) { err("equipe.json", `répliques manquantes pour ${room.id} (${room.member})`); continue; }
+    for (const f of CREW_FIELDS) if (!c[f] || c[f].length < 10) err("equipe.json", `${room.id} : réplique « ${f} » manquante ou trop courte`);
+    checkTexts([c.role ?? "", c.dort ?? ""], `equipe.json/${room.id} (début du jeu)`, new Set());
+  }
+}
+const crewCheck = (room, field, when) => { if (crew?.[room.id]?.[field]) checkTexts([crew[room.id][field]], `equipe.json/${room.id} (${when})`, new Set()); };
+
 const roomIds = new Set(rooms.map((r) => r.id));
 const indexes = new Set();
 for (const room of rooms) {
@@ -280,7 +300,7 @@ for (const room of rooms) {
   for (const req of room.requires ?? []) if (!roomIds.has(req)) err(rw, `caisson requis inconnu : ${req}`);
   // Le titre d'un caisson annonce son sujet : il peut nommer les notions que le caisson va définir.
   checkTexts([room.member, room.name, room.tagline], rw, new Set(room.steps.flatMap((s) => s.introduces)));
-  for (const step of room.steps) {
+  for (const [si, step] of room.steps.entries()) {
     const where = `${room.id}/${step.id}`;
     const stepIntro = new Set(step.introduces);
     introduce(step.introduces, where, stepIntro);
@@ -298,7 +318,10 @@ for (const room of rooms) {
       checkMechanicBlock(b, `${where} bloc ${i}`);
     });
     if (!step.blocks.some((b) => b.type === "exercise")) warn(where, "protocole sans exercice de vérification");
+    if (si === 0) crewCheck(room, "demi", "après le premier protocole");
   }
+  if (!room.steps.length) crewCheck(room, "demi", "caisson en préparation");
+  crewCheck(room, "reveil", "caisson terminé");
   if (room.incident) {
     const where = `${room.id}/panne`;
     checkTexts(textsOf(room.incident), where, new Set());

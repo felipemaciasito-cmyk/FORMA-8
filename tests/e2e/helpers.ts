@@ -122,3 +122,28 @@ export async function playMaintenance(page: Page) {
   }
   await expect(finished).toBeVisible();
 }
+
+/**
+ * Ferme les cérémonies plein écran (réveil d'un membre, montée de grade) si elles sont affichées :
+ * elles se superposent à l'écran et bloqueraient la suite du banc d'essai.
+ */
+export async function dismissCeremonies(page: Page) {
+  for (let k = 0; k < 6; k++) {
+    const wake = page.getByRole("dialog", { name: /^Réveil :/ });
+    const grade = page.getByRole("dialog", { name: /^Nouvelle accréditation/ }).first();
+    if (await wake.isVisible()) {
+      await wake.click({ position: { x: 20, y: 20 } }); // passe directement à la fin de la scène
+      await wake.getByRole("button", { name: /Accueillir dans l'équipe|Fermer/ }).click();
+      await expect(wake).toBeHidden();
+      continue;
+    }
+    if (await grade.isVisible()) {
+      await grade.getByRole("button", { name: "Continuer" }).click();
+      await expect(grade).toBeHidden();
+      continue;
+    }
+    // Une cérémonie peut encore arriver (elles se suivent) : on laisse une courte chance.
+    if (k === 0) { await page.waitForTimeout(1500); continue; }
+    break;
+  }
+}

@@ -1,6 +1,6 @@
 import { readFileSync } from "node:fs";
 import { expect, test, type Page } from "@playwright/test";
-import { playMaintenance, playStep, type Block, type Step } from "./helpers";
+import { dismissCeremonies, playMaintenance, playStep, type Block, type Step } from "./helpers";
 
 // Banc d'essai du caisson 01 (L'Archiviste) : on joue tout le caisson comme le joueur, sur
 // un écran d'iPhone. Les cinq protocoles et leurs exercices, les trois simulateurs (machine
@@ -152,6 +152,9 @@ test("le caisson 01 se joue entièrement, avec chaque outil d'apprentissage", as
     await page.getByRole("button", { name: k < C01.incident.scenarios.length - 1 ? /Alerte suivante/ : /Rétablir le courant/ }).click();
   }
   await expect(page.getByText("Panne réparée")).toBeVisible();
+  // Le membre se réveille (scène plein écran), puis la montée de grade éventuelle.
+  await expect(page.getByRole("dialog", { name: /^Réveil :/ })).toBeVisible({ timeout: 5000 });
+  await dismissCeremonies(page);
 
   // Livraison v0.1 : quatre contrôles vérifiés sur GitHub (simulé).
   await page.goto("./#/caisson/c01");

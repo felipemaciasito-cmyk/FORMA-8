@@ -1,18 +1,18 @@
 #!/usr/bin/env node
 // =====================================================================
-// Contrôle de parité visuelle entre FORMA-8 et FORMA-7.
+// Contrôle de l'identité visuelle de FORMA-8 face à FORMA-7.
 //
-// FORMA-8 doit avoir exactement l'esthétique de FORMA-7. Ce script vérifie,
-// quand les deux dépôts sont présents :
+// Règle depuis le 15/11/2026 (option B, choisie par le propriétaire) : FORMA-8
+// garde la même palette et les mêmes polices que FORMA-7 ; ses écrans et ses
+// animations peuvent évoluer librement. Ce script vérifie, quand les deux dépôts
+// sont présents :
 //  1. les variables de « :root » (couleurs, rayons, polices) : identiques ;
-//  2. les fichiers de la couche visuelle (liste « exact » de
-//     scripts/design-parity.json) : identiques à ceux de FORMA-7, après
-//     application des SEULES substitutions autorisées (textes et clés,
-//     validées par le propriétaire) ;
+//  2. les fichiers listés dans « exact » (aucun aujourd'hui) : identiques, après
+//     les seules substitutions autorisées ;
 //  3. les fichiers « enrichOnly » (glyphes, identifiants d'icônes) :
 //     FORMA-8 peut en AJOUTER, jamais en modifier ni en retirer ;
 //  4. les réglages obligatoires (couleur de thème #04060c, barre d'état
-//     « black-translucent »).
+//     « black-translucent », polices Space Grotesk et JetBrains Mono).
 // Tout autre écart est signalé et fait échouer le contrôle.
 //
 // Usage : node scripts/check-design-parity.mjs [--forma7 <dossier>] [--require]
@@ -123,10 +123,10 @@ for (const [rel, needles] of Object.entries(cfg.required)) {
   for (const n of needles) if (!t.includes(n)) errors.push(`[${rel}] réglage obligatoire manquant : ${n}`);
 }
 
-console.log(`FORMA-8 · parité visuelle avec FORMA-7 (${f7}) : ${cfg.exact.length} fichiers identiques attendus, ${cfg.enrichOnly.length} enrichissables.`);
+console.log(`FORMA-8 · identité visuelle (palette et polices de FORMA-7, ${f7}) : ${cfg.exact.length} fichier(s) identique(s) attendu(s), ${cfg.enrichOnly.length} enrichissables.`);
 if (errors.length) {
   for (const e of errors) console.error(`x ${e}`);
-  console.error(`\n${errors.length} écart(s) détecté(s). Tout écart visuel doit être validé explicitement par le propriétaire avant d'être fait.`);
+  console.error(`\n${errors.length} écart(s) détecté(s). La palette et les polices de FORMA-7 ne changent qu'avec l'accord explicite du propriétaire.`);
   process.exit(1);
 }
-console.log("Parité visuelle respectée : aucun écart non autorisé.");
+console.log("Identité visuelle respectée : même palette, mêmes polices que FORMA-7.");

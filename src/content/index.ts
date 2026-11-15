@@ -1,4 +1,5 @@
 import glossaryJson from "./glossary.json";
+import crewJson from "./equipe.json";
 import type { Notion, Room } from "./types";
 
 // Contenu de FORMA-8 : le glossaire des notions et les 11 caissons (un fichier JSON par caisson).
@@ -19,3 +20,8 @@ export function notionOrigin(id: string): { room?: Room; missionId?: string } {
 
 export function room(id: string) { return ROOMS.find((r) => r.id === id); }
 export const stepKey = (roomId: string, stepId: string) => `${roomId}/${stepId}`;
+
+/** Répliques d'un membre de l'équipe (src/content/equipe.json, contrôlées par le validateur). */
+export interface CrewLines { role: string; dort: string; demi: string; reveil: string }
+const CREW = crewJson as unknown as Record<string, CrewLines>;
+export function crewLines(id: string): CrewLines | undefined { return CREW[id]; }

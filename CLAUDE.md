@@ -16,11 +16,12 @@ prochaine action), et le mettre à jour à la fin de chaque lot.
    identifiants dans `src/content/icon-ids.json`). Contrôle : `npm run check:emoji` et le validateur.
 2. **Zéro zone de flou** : toute notion est définie (fiche à 3 niveaux, analogie, exemple, prérequis)
    avant d'être utilisée. Les termes s'écrivent `[[id]]` ou `[[id|texte]]`. Contrôle : `npm run validate`.
-3. **Parité visuelle avec FORMA-7** : la couche visuelle (liste dans `scripts/design-parity.json`) est
-   identique à celle de FORMA-7. Ne jamais la modifier. Seules les substitutions listées dans ce fichier
-   sont tolérées ; toute nouvelle substitution ou tout écart visuel doit être **validé explicitement par
-   le propriétaire avant** d'être fait. Glyphes et identifiants d'icônes : ajout seulement, dans le même
-   style (grille de 24, trait de 1,8, coins arrondis). Contrôle : `npm run check:parity`.
+3. **Identité visuelle : même palette, mêmes polices que FORMA-7** (règle choisie par le propriétaire le
+   15/11/2026, option B). Les variables de `:root` de `src/styles/app.css` (couleurs, rayons, polices Space
+   Grotesk et JetBrains Mono) restent identiques à celles de FORMA-7 ; les écrans, composants et animations
+   peuvent évoluer. Tout **nouveau changement visuel important** se montre d'abord au propriétaire (maquette ou
+   captures) et attend son accord. Glyphes et identifiants d'icônes : ajout seulement, dans le même style
+   (grille de 24, trait de 1,8, coins arrondis). Contrôle : `npm run check:parity`.
 4. **Stockage** : toutes les clés locales commencent par `forma8:`. Ne jamais écrire sous `forma7:`
    (la progression de FORMA-7 se lit uniquement, dans `src/lib/forma7.ts`).
 5. **Dépôt de données FORMA-7-data** : FORMA-8 synchronise dans `progress/forma-8.json`. Ne jamais
@@ -33,11 +34,13 @@ prochaine action), et le mettre à jour à la fin de chaque lot.
    `https://code.claude.com/docs/fr/`), citée avec sa date de vérification. Aucun cours tiers copié ou
    traduit mot pour mot.
 9. **Aucun contenu de FORMA-7** : fiches de notions, leçons, exercices, simulateurs et modèles sont écrits à
-   neuf à partir de nouvelles sources. Seules la couche visuelle et la mécanique de jeu viennent de FORMA-7.
+   neuf à partir de nouvelles sources. Seules la palette, les polices et la mécanique de jeu viennent de FORMA-7.
    Le projet FORMA-7 (historique, bugs, choix) peut servir d'étude de cas. Le plan validé du contenu est dans
    `docs/PROGRAMME.md`.
-   Illustrations : uniquement celles de `src/components/Illustrations.tsx` (jamais le composant `Art` de FORMA-7).
-   Chaque caisson doit passer le banc d'essai de bout en bout (`tests/e2e/caisson00.spec.ts` en est le modèle).
+   Illustrations : uniquement celles de `src/components/Illustrations.tsx` et les personnages de
+   `src/components/Crew.tsx` (le composant `Art` de FORMA-7 a été retiré).
+   Les répliques de l'équipe (`src/content/equipe.json`) suivent la même règle et passent par le validateur.
+   Chaque caisson doit passer le banc d'essai de bout en bout (`tests/e2e/caisson01.spec.ts` en est le modèle).
 
 ## Méthode de travail
 
@@ -55,9 +58,11 @@ npm run validate && npm run check:emoji && npm run check:parity && npm run typec
 ## Structure
 
 - `src/content/caissons/c00.json` à `c10.json` : les 11 caissons (un par niveau).
-- `src/content/glossary.json` : les notions.
+- `src/content/glossary.json` : les notions ; `src/content/equipe.json` : les répliques des 11 membres.
 - `src/lib/` : stockage (`store.ts`), fusion (`merge.ts`), synchronisation (`sync.ts`), GitHub
-  (`github.ts`), héritage FORMA-7 en lecture seule (`forma7.ts`), Claude (`claude.ts`), jeu (`game.ts`).
-- `src/components/` : écrans et couche visuelle (voir règle 3).
-- `scripts/` : validateur, contrôle zéro emoji, contrôle de parité, génération des icônes.
+  (`github.ts`), héritage FORMA-7 en lecture seule (`forma7.ts`), Claude (`claude.ts`), jeu (`game.ts`),
+  barre d'énergie d'un protocole (`energy.ts`).
+- `src/components/` : écrans et couche visuelle (voir règle 3) ; personnages (`Crew.tsx`) ; jaillissements de kW,
+  cérémonies de grade et scènes de réveil (`Rewards.tsx`).
+- `scripts/` : validateur, contrôle zéro emoji, contrôle de l'identité visuelle (`check:parity`), génération des icônes.
 - `tests/unit/` (Node) et `tests/e2e/` (Playwright, écran d'iPhone).

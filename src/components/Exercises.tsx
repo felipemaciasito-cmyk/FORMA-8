@@ -14,18 +14,40 @@ export interface ExProps { ex: Exercise; exKey: string; solvedBefore: boolean; o
 const shuffle = <T,>(a: T[]) => { const b = [...a]; for (let i = b.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [b[i], b[j]] = [b[j], b[i]]; } return b; };
 const LETTERS = "ABCDEFG";
 
+// Série de bonnes réponses (variante B) : chaque réussite l'allonge, une erreur la remet à zéro.
+let streak = 0;
+const streakSubs = new Set<(n: number) => void>();
+function setStreak(n: number) { streak = n; streakSubs.forEach((f) => f(n)); }
 function good(e?: { clientX: number; clientY: number }) {
   sfx("ok");
   fx({ type: "burst", x: e?.clientX, y: e?.clientY, color: "#4dffa0" });
+  setStreak(streak + 1);
 }
-function bad() { sfx("ko"); }
+function bad() { sfx("ko"); setStreak(0); }
 
-export function ExerciseView(props: ExProps) {
-  const { ex } = props;
+export function ExerciseView(outer: ExProps) {
+  const { ex } = outer;
   const label = { qcm: "QCM", truefalse: "Vrai ou faux", cloze: "Texte à trous", order: "Remise en ordre", wiring: "Câblage", feynman: "Avec tes mots" }[ex.kind];
+  const [won, setWon] = useState(false);
+  const [serie, setSerie] = useState(streak);
+  useLayoutEffect(() => { const f = (n: number) => setSerie(n); streakSubs.add(f); return () => { streakSubs.delete(f); }; }, []);
+  const props: ExProps = { ...outer, onSolved: (a) => { setWon(true); outer.onSolved(a); } };
   return (
-    <div className="panel" style={{ borderColor: "rgba(59,232,255,.25)" }}>
-      <div className="panel-title"><span className="led" style={{ background: "var(--cyan)", boxShadow: "0 0 8px var(--cyan)" }} />Vérification · {label}</div>
+    <motion.div className="panel" animate={won ? { boxShadow: ["0 0 0 rgba(77,255,160,0)", "0 0 34px rgba(77,255,160,.45)", "0 0 14px rgba(77,255,160,.2)"] } : {}} transition={{ duration: 0.9 }}
+      style={{ position: "relative", borderColor: won ? "rgba(77,255,160,.55)" : "rgba(59,232,255,.25)" }}>
+      <div className="panel-title" style={{ justifyContent: "space-between" }}>
+        <span style={{ display: "inline-flex", alignItems: "center", gap: 8 }}><span className="led" style={{ background: won ? "var(--led)" : "var(--cyan)", boxShadow: `0 0 8px ${won ? "var(--led)" : "var(--cyan)"}` }} />Vérification · {label}</span>
+        {serie >= 2 && (
+          <motion.span key={serie} initial={{ scale: 1.6, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ type: "spring", stiffness: 380, damping: 16 }}
+            className="pill amber" style={{ gap: 4 }}><Icon name="flame" size={12} /> Série de {serie}</motion.span>
+        )}
+      </div>
+      {won && (
+        <motion.span aria-hidden="true" initial={{ scale: 2.4, opacity: 0, rotate: -18 }} animate={{ scale: 1, opacity: 1, rotate: -8 }} transition={{ type: "spring", stiffness: 300, damping: 14 }}
+          className="mono" style={{ position: "absolute", right: 14, top: -13, padding: "3px 10px", background: "#04060c", border: "2px solid var(--led)", borderRadius: 8, color: "var(--led)", font: "700 13px var(--mono)", letterSpacing: ".14em", textShadow: "0 0 8px rgba(77,255,160,.7)", pointerEvents: "none" }}>
+          RÉUSSI
+        </motion.span>
+      )}
       {props.solvedBefore && (
         <div className="row wrap-row" style={{ gap: 8, margin: "-2px 0 12px" }}>
           <span className="pill led" style={{ flex: "none" }}><Icon name="check" size={12} stroke={2.4} /> Déjà réussie</span>
@@ -38,7 +60,7 @@ export function ExerciseView(props: ExProps) {
       {ex.kind === "order" && <Order {...props} ex={ex} />}
       {ex.kind === "wiring" && <Wiring {...props} ex={ex} />}
       {ex.kind === "feynman" && <Feynman {...props} ex={ex} />}
-    </div>
+    </motion.div>
   );
 }
 
