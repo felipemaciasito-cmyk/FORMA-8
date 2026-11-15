@@ -1,6 +1,7 @@
 import { AnimatePresence, motion, useMotionValue, useTransform, animate } from "motion/react";
 import { useEffect, useRef, useState } from "react";
-import { key, LEVER_HIT, LEVER_LAST, LEVER_LIGHTS, sfx } from "../lib/sound";
+import { key, LEVER_HIT, LEVER_LAST, LEVER_LIGHTS, sfx, unlockAudio } from "../lib/sound";
+import { Icon } from "./Icon";
 import { updateProgress, updateSettings, useProgress } from "../lib/store";
 import { OraSays } from "./Ora";
 
@@ -17,7 +18,9 @@ export function Boot({ power, onDone }: { power: number; onDone: () => void }) {
   const progress = useProgress();
   // Lu une seule fois : le levier marque bootedOnce pendant la séquence, qui doit rester celle du premier lancement.
   const [returning] = useState(progress.bootedOnce);
-  const [phase, setPhase] = useState<"bios" | "ora" | "ambience" | "lever" | "flash">("bios");
+  // Premier lancement : l'écran est éteint ; le joueur le met sous tension d'un toucher. Ce geste débloque aussi le
+  // son (Safari sur iPhone refuse tout son avant un toucher) : on entend alors le BIOS s'écrire.
+  const [phase, setPhase] = useState<"off" | "bios" | "ora" | "ambience" | "lever" | "flash">(returning ? "bios" : "off");
   const [lines, setLines] = useState<string[]>([]);
   const [name, setName] = useState(progress.name);
   const skip = useRef(false);
@@ -89,7 +92,21 @@ export function Boot({ power, onDone }: { power: number; onDone: () => void }) {
     <div className="boot" onClick={() => { if (phase === "bios") skip.current = true; }}
       style={{ position: "fixed", inset: 0, zIndex: 100, background: "#020308", display: "flex", flexDirection: "column", padding: "calc(var(--safe-top) + 28px) 22px calc(var(--safe-bottom) + 28px)" }}>
       <div className="scanlines" style={{ opacity: 0.08 }} />
-      <div style={{ maxWidth: 560, width: "100%", margin: "0 auto", flex: 1, display: "flex", flexDirection: "column" }}>
+      {phase === "off" && (
+        <div style={{ position: "absolute", inset: 0, display: "grid", placeItems: "center", textAlign: "center", padding: 24 }}>
+          <div>
+            <motion.button aria-label="Mettre sous tension" onClick={(e) => { e.stopPropagation(); unlockAudio(); sfx("relay"); setPhase("bios"); }}
+              animate={{ boxShadow: ["0 0 0 0 rgba(59,232,255,.5)", "0 0 0 18px rgba(59,232,255,0)"] }} transition={{ duration: 1.6, repeat: Infinity }}
+              whileTap={{ scale: 0.94 }}
+              style={{ width: 96, height: 96, margin: "0 auto", borderRadius: "50%", display: "grid", placeItems: "center", color: "var(--cyan)", background: "#070c17", border: "2px solid rgba(59,232,255,.6)" }}>
+              <Icon name="power" size={40} />
+            </motion.button>
+            <div className="mono" style={{ marginTop: 22, fontSize: 12, letterSpacing: ".16em", color: "#7fe9ff" }}>FORMA-8 · HORS TENSION</div>
+            <div className="small muted" style={{ marginTop: 6 }}>Touche le bouton pour mettre la réserve sous tension.<br />Active le son de ton iPhone.</div>
+          </div>
+        </div>
+      )}
+      <div style={{ maxWidth: 560, width: "100%", margin: "0 auto", flex: 1, display: "flex", flexDirection: "column", opacity: phase === "flash" && !returning ? 0 : 1, transition: "opacity .25s" }}>
         <pre className="mono" style={{ margin: 0, fontSize: 13.5, lineHeight: 1.8, color: "#7fe9ff", whiteSpace: "pre-wrap", textShadow: "0 0 8px rgba(59,232,255,.5)" }}>
           {lines.map((l, i) => (
             <div key={i} style={{ color: l.startsWith("[ALERTE]") ? "var(--amber)" : undefined }} className={i === lines.length - 1 && phase === "bios" ? "caret" : ""}>{l}</div>
@@ -132,15 +149,23 @@ export function Boot({ power, onDone }: { power: number; onDone: () => void }) {
           <motion.div key="power" initial={{ opacity: 0 }} animate={{ opacity: 1 }} style={{ position: "fixed", inset: 0, pointerEvents: "none" }}>
             {/* l'impact du levier : un éclair blanc, l'écran tremble */}
             <motion.div initial={{ opacity: 1 }} animate={{ opacity: 0 }} transition={{ duration: 0.5 }} style={{ position: "absolute", inset: 0, background: "#fff" }} />
-            {/* les rangées de lumières s'allument du fond de la salle jusqu'au joueur */}
-            <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", justifyContent: "flex-start", gap: "7%", padding: "16% 10% 0" }}>
-              {LEVER_LIGHTS.map((_, i) => (
-                <motion.div key={i} initial={{ opacity: 0 }} animate={{ opacity: lights > i ? [0, 1, 0.3, 1] : 0 }} transition={{ duration: 0.35 }}
-                  style={{ height: 4 + i * 2, marginInline: `${30 - i * 5}%`, borderRadius: 4, background: "#f4feff", boxShadow: `0 0 ${12 + i * 6}px #fff, 0 0 ${30 + i * 12}px rgba(59,232,255,.8)` }} />
-              ))}
-            </div>
-            <motion.div animate={{ opacity: lights / LEVER_LIGHTS.length * 0.55 }} transition={{ duration: 0.3 }}
-              style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse at 50% 20%, rgba(190,245,255,.8), rgba(59,232,255,.25) 45%, transparent 80%)" }} />
+            {/* La salle des machines en perspective : les rangées de lumières du plafond s'allument une à une,
+                du fond de la salle (petites, au loin) jusqu'au joueur (grandes, au-dessus de lui), avec leur reflet au sol. */}
+            {LEVER_LIGHTS.map((_, i) => {
+              const k = (i + 1) / LEVER_LIGHTS.length, on = lights > i;
+              const y = 50 - 42 * Math.pow(k, 1.25), w = 10 + 115 * Math.pow(k, 1.5), h = 2 + 9 * k;
+              return (
+                <div key={i}>
+                  <motion.div initial={{ opacity: 0 }} animate={{ opacity: on ? [0, 1, 0.25, 1] : 0.05 }} transition={{ duration: 0.35 }}
+                    style={{ position: "absolute", left: `${50 - w / 2}%`, width: `${w}%`, top: `${y}%`, height: h, borderRadius: h, background: "#f4feff",
+                      boxShadow: `0 0 ${8 + 18 * k}px #fff, 0 0 ${20 + 50 * k}px rgba(59,232,255,.8)` }} />
+                  <motion.div initial={{ opacity: 0 }} animate={{ opacity: on ? 0.35 : 0 }} transition={{ duration: 0.35 }}
+                    style={{ position: "absolute", left: `${50 - w / 2}%`, width: `${w}%`, top: `${100 - y}%`, height: h * 2, borderRadius: h, filter: "blur(6px)", background: "rgba(190,245,255,.8)" }} />
+                </div>
+              );
+            })}
+            <motion.div animate={{ opacity: lights / LEVER_LIGHTS.length * 0.6 }} transition={{ duration: 0.3 }}
+              style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse at 50% 50%, rgba(190,245,255,.55), rgba(59,232,255,.18) 40%, transparent 75%)" }} />
             {lights >= LEVER_LIGHTS.length && <motion.div initial={{ opacity: 0.9 }} animate={{ opacity: 0 }} transition={{ duration: 0.6, delay: (LEVER_LAST - LEVER_HIT - LEVER_LIGHTS[LEVER_LIGHTS.length - 1]) }} style={{ position: "absolute", inset: 0, background: "radial-gradient(circle, #ffffff, #bdf6ff 45%, rgba(4,6,12,0) 85%)" }} />}
           </motion.div>
         )}

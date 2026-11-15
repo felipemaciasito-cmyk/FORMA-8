@@ -262,7 +262,7 @@ function Awakening({ e, onClose }: { e: Extract<FxEvent, { type: "awaken" }>; on
       {phase === 3 && beat === 0 && <Flash peak={0.9} duration={0.9} />}
       <AnimatePresence>{phase === 2 && <motion.div key="dim" aria-hidden="true" initial={{ opacity: 0 }} animate={{ opacity: 0.55 }} exit={{ opacity: 0 }} transition={{ duration: 0.15 }} style={{ position: "fixed", inset: 0, background: "#000", pointerEvents: "none" }} />}</AnimatePresence>
       <div style={{ minHeight: "100%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "calc(var(--safe-top) + 18px) 20px calc(var(--safe-bottom) + 18px)", textAlign: "center", position: "relative", zIndex: 3 }}>
-        <div className="mono" style={{ fontSize: 11, letterSpacing: ".16em", color: awake ? "#fff" : "var(--cyan)" }}>{r.code} · {phase === 1 ? "CHARGE EN COURS" : phase === 2 ? "DÉCHARGE" : "SÉQUENCE DE RÉVEIL"}</div>
+        <div className="mono" style={{ fontSize: 11, letterSpacing: ".16em", color: awake ? "#fff" : "var(--cyan)" }}>{r.code} · {phase === 1 ? "CHARGE EN COURS" : phase === 2 ? "CHARGÉ" : "SÉQUENCE DE RÉVEIL"}</div>
         {/* jauge de charge du défibrillateur */}
         <div style={{ width: 240, margin: "8px 0 0" }}>
           <div style={{ height: 5, borderRadius: 3, background: "rgba(255,255,255,.07)", overflow: "hidden" }}>

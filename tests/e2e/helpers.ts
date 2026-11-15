@@ -3,6 +3,8 @@ import { expect, type Locator, type Page } from "@playwright/test";
 /** Démarrage complet : BIOS, prénom, levier. */
 export async function boot(page: Page, name = "Alex") {
   await page.goto("./");
+  // Premier lancement : l'écran est hors tension ; un toucher le met sous tension (et débloque le son sur iPhone).
+  await page.getByRole("button", { name: "Mettre sous tension" }).click();
   await expect(page.getByText("FORMA-8 · BIOS v8.0.26")).toBeVisible();
   await page.locator(".boot").click(); // accélère le BIOS
   await expect(page.getByText("11 membres d'équipe")).toBeVisible({ timeout: 15_000 });

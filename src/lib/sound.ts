@@ -253,18 +253,42 @@ const SOUNDS = {
     thump(h, 75, 34, 0.7, 0.55, 0.6); click(h, 4200, 0.6, 0.005, 0.5, 0.6);
     powerChord(h, 2.6, 0.2, 55); crackle(h + 0.05, 1.8, 350, 0.05, 5000, 0.8);
   },
-  /** Réveil « Défibrillateur » : la charge siffle, silence, décharge, puis le cœur électrique du membre repart. */
+  /**
+   * Réveil « Défibrillateur », version renforcée (retour du propriétaire, 15/11/2026 : « plus marquant, plus stimulant ») :
+   * la charge siffle et monte, des relais s'emballent, le bip « chargé » retentit, un silence, puis une décharge
+   * énorme (grave qui tombe, coup saturé, arc large), le cœur électrique du membre repart en battements lourds,
+   * et ses systèmes démarrent à pleine puissance.
+   */
   awaken() {
     const t = now(), h = WAKE_HIT, a = A();
-    const o = osc("sine", 700); o.frequency.setValueAtTime(700, t); o.frequency.exponentialRampToValueAtTime(3400, t + 1.7);
-    const lfo = osc("sine", 9), lg = a.createGain(); lg.gain.value = 0.012; lfo.connect(lg);
-    const e = a.createGain(); e.gain.setValueAtTime(0.0001, t); e.gain.exponentialRampToValueAtTime(0.07, t + 1.6); e.gain.linearRampToValueAtTime(0, t + 1.72);
-    lg.connect(e.gain); o.connect(e); e.connect(out(0.3)); o.start(t); lfo.start(t); o.stop(t + 1.8); lfo.stop(t + 1.8);
-    [0.2, 0.7, 1.1, 1.4, 1.6].forEach((d, i) => relay(t + d, 0.3 + i * 0.1));
-    thump(t + h, 130, 38, 0.55, 0.8, 0.5); body(t + h, 500, 0.22, 0.6, 0.6); click(t + h, 4500, 0.5, 0.005, 0.8, 0.6); zap(t + h + 0.01, 1);
-    sweepNoise(t + h + 0.2, "highpass", 1900, 800, 1.2, 0.18, 0.05, 0.6);
-    WAKE_BEATS.forEach((d, i) => { const g = [0.55, 0.42, 0.7, 0.55][i]; thump(t + h + d, 62, 40, 0.3, g, 0.4); buzz(t + h + d, 0.25, 0.05 * g, 250, 120, 2, 0.01, 0.3); });
-    const s = t + h + WAKE_SYSTEMS; contactor(s, 0.9, 0.5); powerChord(s, 2.4, 0.14, 55);
+    // 1. la charge : deux sifflements qui battent entre eux, un souffle qui monte, des relais qui accélèrent
+    const g = a.createGain(); g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(0.09, t + 1.42); g.gain.linearRampToValueAtTime(0, t + 1.45);
+    g.connect(out(0.3));
+    [700, 706].forEach((f) => { const o = osc("sine", f); o.frequency.setValueAtTime(f, t); o.frequency.exponentialRampToValueAtTime(f * 4.6, t + 1.42); o.connect(g); o.start(t); o.stop(t + 1.5); });
+    sweepNoise(t, "highpass", 400, 7000, 1.42, 0.09, 1.35, 0.3);
+    let d = 0.1, step = 0.22, i = 0;
+    while (d < 1.4) { curPan = i % 2 ? 0.5 : -0.5; relay(t + d, 0.3 + 0.6 * d / 1.4); curPan = 0; d += step; step = Math.max(0.03, step * 0.8); i++; }
+    // 2. le bip « chargé », puis un silence
+    const bp = osc("square", 2350), bl = filt("lowpass", 4000), be = env(t + 1.48, 0.005, 0.05, 0.22, 0.02); bp.connect(bl); bl.connect(be); be.connect(out(0.2)); bp.start(t + 1.48); bp.stop(t + 1.8);
+    // 3. la décharge
+    impact(t + h, 1.35, 2.8);
+    thump(t + h, 140, 34, 0.7, 0.9, 0.5); body(t + h, 500, 0.25, 0.7, 0.6); zap(t + h + 0.01, 1.1);
+    sweepNoise(t + h + 0.25, "highpass", 1900, 800, 1.2, 0.18, 0.05, 0.6);
+    // 4. le cœur électrique repart : battements lourds, saturés, avec un arc à chaque coup
+    WAKE_BEATS.forEach((bd, k) => {
+      const tb = t + h + bd, gb = [0.75, 0.6, 0.95, 0.8][k];
+      thump(tb, 70, 38, 0.35, gb, 0.45);
+      const kk = osc("sine", 130); kk.frequency.setValueAtTime(130, tb); kk.frequency.exponentialRampToValueAtTime(45, tb + 0.12);
+      const ws = a.createWaveShaper(); ws.curve = curve; const ke = env(tb, 0.001, 0.35 * gb, 0.02, 0.18); kk.connect(ws); ws.connect(ke); ke.connect(out(0.4)); kk.start(tb); kk.stop(tb + 0.3);
+      crackle(tb, 0.12, 6000, 0.25 * gb, 1100, 0.4);
+      buzz(tb, 0.3, 0.07 * gb, 300, 120, 2, 0.01, 0.35);
+    });
+    // 5. ses systèmes démarrent : appel de puissance, contacteur, accord grave qui s'installe
+    const s = t + h + WAKE_SYSTEMS;
+    sweepNoise(s - 0.45, "lowpass", 300, 5000, 0.45, 0.14, 0.42, 0.4);
+    contactor(s, 1.2, 0.6); thump(s, 80, 30, 0.9, 0.7, 0.6); crackle(s, 0.3, 8000, 0.4, 1100, 0.6);
+    powerChord(s, 3, 0.24, 55);
+    crackle(s + 0.3, 1.5, 300, 0.05, 4000, 0.8);
   },
 } satisfies Record<string, () => void>;
 
@@ -357,10 +381,22 @@ export function setAmbienceLevel(x: number) {
   if (!amb || !ctx) return;
   const t = ctx.currentTime; amb.humG.gain.setTargetAtTime(0.006 + 0.014 * ambLevel, t, 0.6); amb.buzzG.gain.setTargetAtTime(0.0035 * ambLevel, t, 0.6);
 }
-/** Débloque le son au premier toucher (Safari), et coupe tout quand l'appli passe en arrière-plan. */
+/**
+ * Débloque le son : à appeler pendant un toucher du joueur. Safari sur iPhone n'autorise le son qu'à la fin d'un
+ * vrai geste (relâcher le doigt, « click »), pas au simple appui : on joue alors un son vide pour ouvrir la voie.
+ */
+export function unlockAudio() {
+  try {
+    const a = audio(); if (!a) return;
+    if (a.state !== "running") a.resume().catch(() => {});
+    const s = a.createBufferSource(); s.buffer = a.createBuffer(1, 1, 22050); s.connect(a.destination); s.start(0);
+  } catch { /* le son n'est jamais bloquant */ }
+}
+/** Débloque le son au premier geste (Safari), et coupe tout quand l'appli passe en arrière-plan. */
 export function installAudioUnlock() {
-  const unlock = () => { if (getState().settings.sound || getState().settings.ambience) { audio(); syncAmbience(); } };
-  window.addEventListener("pointerdown", unlock, { capture: true });
+  const unlock = () => { if (getState().settings.sound || getState().settings.ambience) { unlockAudio(); syncAmbience(); } };
+  // Gestes qui comptent pour Safari : relâcher le doigt, « click », une touche du clavier.
+  for (const ev of ["pointerup", "touchend", "click", "keydown"]) window.addEventListener(ev, unlock, { capture: true });
   document.addEventListener("visibilitychange", () => {
     if (!ctx) return;
     if (document.visibilityState === "hidden") ctx.suspend().catch(() => {});
