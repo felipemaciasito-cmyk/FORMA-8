@@ -319,7 +319,7 @@ export function StepView({ roomId, stepId }: { roomId: string; stepId: string })
           {finished && (
             <motion.div key="fini" role="dialog" aria-modal="true" aria-label={`Protocole ${String(idx + 1).padStart(2, "0")} terminé`}
               initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-              style={{ position: "fixed", inset: 0, zIndex: 105, overflowY: "auto", overflowX: "hidden", background: `radial-gradient(circle at 50% 14%, hsl(${r.hue} 90% 45% / .3), transparent 60%), #04060c` }}>
+              className="finish-bg" style={{ position: "fixed", inset: 0, zIndex: 105, overflowY: "auto", overflowX: "hidden" }}>
               <div style={{ maxWidth: 420, margin: "0 auto", padding: `${finished.top + 22}px 18px calc(var(--safe-bottom) + 28px)`, textAlign: "center" }}>
                 {finished.plug ? (
                   <PlugScene room={r} index={idx} cells={finished.cells} energy={finished.energy} incidentOpen={!!r.incident && !p.incidents[r.id]} onPlugged={onPlugged} onAwaken={onAwaken} />

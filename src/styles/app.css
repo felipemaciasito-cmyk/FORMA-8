@@ -353,7 +353,7 @@ textarea.input { min-height: 96px; resize: vertical; line-height: 1.45; }
 .reactor { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; margin-top: 4px; }
 .reactor .recv { position: relative; width: 3px; height: 14px; margin-top: -4px; background: #c9d6ea; }
 .reactor .recv::after { content: ""; position: absolute; left: 50%; bottom: -8px; width: 12px; height: 12px; transform: translateX(-50%); border-radius: 50%; background: #1a2336; border: 2px solid #c9d6ea; }
-.reactor .centrale { margin-top: 14px; }
+.reactor .centrale { margin-top: 10px; }
 .plug-gauge { position: relative; z-index: 1; width: 100%; margin-top: 12px; }
 .plug-gauge .lbl { display: flex; justify-content: space-between; font: 600 10px var(--mono); letter-spacing: .1em; color: var(--text-3); margin-bottom: 6px; }
 .plug-gauge .lbl b { color: #fff; font-variant-numeric: tabular-nums; }
@@ -385,7 +385,7 @@ textarea.input { min-height: 96px; resize: vertical; line-height: 1.45; }
 .finish-open .hud { z-index: 106; }
 
 /* La centrale d'un caisson : un instrument (graduations, anneau de mesure, mires), du plasma sur une toile locale. */
-.centrale { position: relative; width: min(262px, 70vw); margin: 0 auto; touch-action: none; -webkit-user-select: none; user-select: none; }
+.centrale { position: relative; width: min(206px, 56vw); margin: 0 auto; touch-action: none; -webkit-user-select: none; user-select: none; }
 .centrale svg { position: relative; display: block; width: 100%; height: auto; cursor: pointer; overflow: visible; }
 .centrale svg:focus-visible { outline: 2px solid var(--cyan); outline-offset: 4px; border-radius: 50%; }
 .ctl-plasma { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
@@ -408,33 +408,20 @@ textarea.input { min-height: 96px; resize: vertical; line-height: 1.45; }
 .centrale.failed { animation: ctl-shake .35s; }
 @keyframes ctl-shake { 25% { transform: translateX(-4px); } 75% { transform: translateX(4px); } }
 .reduce-motion .ctl-call, .reduce-motion .centrale.failed, .reduce-motion .ctl-spin circle { animation: none !important; }
-/* Scène de branchement : habillage d'instrument (grille de points, équerres, coins biseautés, télémétrie). */
-.hud-scene { isolation: isolate; -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; }
-.hud-scene::before { content: ""; position: absolute; inset: -12px -18px; z-index: -1; pointer-events: none;
-  background-image: radial-gradient(rgba(143, 220, 239, .16) 1px, transparent 1.2px); background-size: 14px 14px;
-  -webkit-mask-image: radial-gradient(ellipse at 50% 45%, #000 30%, transparent 75%); mask-image: radial-gradient(ellipse at 50% 45%, #000 30%, transparent 75%); }
-.hud-chip { display: inline-flex; align-items: center; gap: 7px; padding: 5px 12px; font: 700 10px var(--mono); letter-spacing: .14em; text-transform: uppercase; color: #dff9ff;
-  background: linear-gradient(90deg, rgba(59, 232, 255, .12), rgba(59, 232, 255, .03)); border: 1px solid rgba(59, 232, 255, .35);
-  clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px); }
-.hud-chip .dot, .cap-tag .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--cyan); box-shadow: 0 0 8px var(--cyan); animation: breathe-dot 1.6s ease-in-out infinite; }
-@keyframes breathe-dot { 50% { opacity: .35; } }
-.hud-title { font-size: 18px; font-weight: 700; line-height: 1.2; margin-top: 6px; letter-spacing: -.01em; text-wrap: balance; }
-.cap-frame { position: relative; padding: 6px 22px 4px; }
-.cap-frame .c, .hud-panel .c { position: absolute; width: 12px; height: 12px; border-color: rgba(143, 220, 239, .6); border-style: solid; border-width: 0; }
-.c.tl { left: 0; top: 0; border-left-width: 1.5px; border-top-width: 1.5px; }
-.c.tr { right: 0; top: 0; border-right-width: 1.5px; border-top-width: 1.5px; }
-.c.bl { left: 0; bottom: 0; border-left-width: 1.5px; border-bottom-width: 1.5px; }
-.c.br { right: 0; bottom: 0; border-right-width: 1.5px; border-bottom-width: 1.5px; }
-.cap-tag { display: flex; align-items: center; justify-content: center; gap: 6px; margin-top: 2px; font: 700 8.5px var(--mono); letter-spacing: .14em; color: #8fdcef; }
-.cap-tag .dot { width: 5px; height: 5px; background: #4b5d82; box-shadow: none; animation: none; }
+/* Écran de fin de protocole : le même fond quadrillé que l'appli (demande du propriétaire, 15/11/2026). */
+.finish-bg { background:
+    radial-gradient(120% 70% at 50% -10%, rgba(59, 232, 255, 0.10), transparent 60%),
+    radial-gradient(90% 60% at 50% 120%, rgba(167, 139, 250, 0.08), transparent 60%),
+    linear-gradient(rgba(125, 200, 255, 0.045) 1px, transparent 1px) 0 0 / 28px 28px,
+    linear-gradient(90deg, rgba(125, 200, 255, 0.045) 1px, transparent 1px) 0 0 / 28px 28px,
+    var(--bg); }
+.hud-scene { -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; }
+.cap-frame { position: relative; display: flex; flex-direction: column; align-items: center; }
+.cap-tag { display: flex; align-items: center; justify-content: center; gap: 6px; margin-top: 2px; font: 600 10px var(--mono); letter-spacing: .12em; color: var(--text-2); }
+.cap-tag .dot { width: 6px; height: 6px; border-radius: 50%; background: #4b5d82; }
 .cap-tag .dot.on { background: var(--led); box-shadow: 0 0 8px var(--led); }
-.telemetry { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; width: 100%; margin-top: 4px; }
-.telemetry > div { padding: 6px 8px; text-align: left; background: rgba(12, 19, 34, .78); border: 1px solid #1f2b45; border-left: 2px solid rgba(59, 232, 255, .55);
-  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 7px), calc(100% - 7px) 100%, 0 100%); }
-.telemetry small { display: block; font: 700 8px var(--mono); letter-spacing: .14em; color: var(--text-3); }
-.telemetry b { display: block; font: 700 12px var(--mono); color: #e8fbff; font-variant-numeric: tabular-nums; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.telemetry .ok { border-left-color: var(--led); } .telemetry .ok b { color: var(--led); }
-.telemetry .bad { border-left-color: var(--red); } .telemetry .bad b { color: var(--red); }
-.hud-panel { position: relative; padding: 10px 12px 12px; background: linear-gradient(180deg, rgba(14, 22, 40, .85), rgba(6, 10, 19, .85)); border: 1px solid #1f2b45;
-  clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px); }
-.reduce-motion .hud-chip .dot { animation: none !important; }
+.telemetry { display: flex; flex-wrap: wrap; justify-content: center; gap: 4px 14px; margin-top: 6px; font: 600 9.5px var(--mono); letter-spacing: .1em; color: var(--text-3); }
+.telemetry b { color: var(--text); font-weight: 700; font-variant-numeric: tabular-nums; }
+.telemetry .ok b { color: var(--led); }
+.telemetry .bad b { color: var(--red); }
+.plug-gauge.panel { margin-top: 10px; padding: 10px 12px 12px; }

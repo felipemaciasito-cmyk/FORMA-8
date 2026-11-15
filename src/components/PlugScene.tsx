@@ -68,17 +68,16 @@ function Reactor({ room: r, plugged, free, fire, ctl, onFail, onFire, recvRef, l
   return (
     <div className="reactor">
       <div className="cap-frame">
-        <i className="c tl" /><i className="c tr" /><i className="c bl" /><i className="c br" />
-        <ChargedCapsule id={r.id} state="asleep" lux={fired ? 1 : lux} size={78} />
+        <ChargedCapsule id={r.id} state="asleep" lux={fired ? 1 : lux} size={140} />
         <div className="cap-tag"><span className={`dot ${fired ? "on" : ""}`} />{r.member.toUpperCase()} · {fired ? "ARC REÇU" : "EN VEILLE"}</div>
       </div>
       <span className="recv" ref={recvRef} aria-hidden="true" />
       <Centrale ref={ctl} total={total} plugged={plugged} free={free} fire={fire} memberName={r.member}
         target={() => centerOf(recvRef.current)} onFail={onFail} onCharge={setAttempt} onFire={() => { setFired(true); onFire(); }} />
       <div className="telemetry" aria-hidden="true">
-        <div><small>PRISES</small><b>{plugged} / {total}</b></div>
-        <div><small>{attempt > 0 ? "ARC" : "CHARGE"}</small><b>{Math.round((attempt > 0 ? attempt : plugged / total) * 100)} %</b></div>
-        <div className={fire === "ok" || fired ? "ok" : fire === "fault" ? "bad" : ""}><small>CIRCUIT</small><b>{circuit}</b></div>
+        <span>PRISES <b>{plugged}/{total}</b></span>
+        <span>{attempt > 0 ? "ARC" : "CHARGE"} <b>{Math.round((attempt > 0 ? attempt : plugged / total) * 100)} %</b></span>
+        <span className={fire === "ok" || fired ? "ok" : fire === "fault" ? "bad" : ""}>CIRCUIT <b>{circuit}</b></span>
       </div>
     </div>
   );
@@ -126,7 +125,7 @@ export function PlugScene({ room: r, index, cells, energy, incidentOpen, onPlugg
     geo.current = {
       seat: { x: sock.x + dx * 12 * k, y: sock.y + dy * 12 * k },
       tail: (p) => ({ x: p.x + dx * 16 * k, y: p.y + dy * 16 * k }),
-      term, home: { x: term.x - 46, y: term.y - 58 }, angle: g.angles[index] - 90, scale: k, floor: term.y + 26,
+      term, home: { x: term.x - 72, y: term.y - 34 }, angle: g.angles[index] - 90, scale: k, floor: term.y + 26,
       // le câble est assez long pour la prise la plus éloignée (au dernier protocole, elle est en haut à gauche)
       reach: Math.max(330, Math.hypot(sock.x - term.x, sock.y - term.y) + 70),
     };
@@ -226,13 +225,12 @@ export function PlugScene({ room: r, index, cells, energy, incidentOpen, onPlugg
 
   return (
     <div ref={box} className="plug-scene hud-scene">
-      <div className="hud-chip"><span className="dot" />{kicker}</div>
-      <div className="hud-title">{title}</div>
+      <div className="kicker" style={{ color: "#fff" }}>{kicker}</div>
+      <div style={{ fontSize: 19, fontWeight: 700, lineHeight: 1.2, marginTop: 2 }}>{title}</div>
       <div className={`small ${msg ? "" : "muted"}`} role="status" style={{ minHeight: 38, maxWidth: 340, lineHeight: 1.35, color: msg ? "var(--amber)" : undefined }}>{hint}</div>
       <Reactor room={r} plugged={plugged} free={phase === "done" ? -1 : index} fire={fire} ctl={ctl} recvRef={recvRef}
-        lux={0.22 + 0.2 * (plugged / total)} onFail={onFail} onFire={onAwaken} />
-      <div className="plug-gauge hud-panel">
-        <i className="c tr" /><i className="c bl" />
+        lux={0.5 + 0.2 * (plugged / total)} onFail={onFail} onFire={onAwaken} />
+      <div className="plug-gauge panel">
         <div className="lbl"><span>BATTERIE DU PROTOCOLE {String(index + 1).padStart(2, "0")}</span><b>{Math.round(((cells - drained) / cells) * 100)} %</b></div>
         <div className={`battery xl ${drained === 0 ? "full" : ""}`} aria-hidden="true">
           {Array.from({ length: cells }, (_, i) => <i key={i} className={`${i === cells - 1 ? "final" : ""} ${i < cells - drained ? "on" : "drain"}`} />)}
@@ -279,7 +277,7 @@ export function ArcScene({ room: r, onAwaken }: { room: Room; onAwaken: () => vo
       <div className="small muted" role="status" style={{ minHeight: 40, maxWidth: 330 }}>
         {fired ? `${r.member} reçoit l'arc.` : `Le circuit est réparé. Maintiens ton doigt sur la centrale pour envoyer l'arc à ${r.member}.`}
       </div>
-      <Reactor room={r} plugged={r.steps.length} free={-1} fire="ok" ctl={ctl} recvRef={recvRef} lux={0.3}
+      <Reactor room={r} plugged={r.steps.length} free={-1} fire="ok" ctl={ctl} recvRef={recvRef} lux={0.7}
         onFail={() => {}} onFire={() => { setFired(true); onAwaken(); }} />
     </div>
   );
