@@ -110,16 +110,23 @@ export async function robotize(src: AudioBuffer, f: Filtre, dose = 1): Promise<R
   }
   if (f.hache) {
     const n = Math.max(64, Math.floor((f.hache.ms / 1000) * SR)), cut = Math.floor(n * f.hache.trou), ramp = Math.floor(0.002 * SR);
+    const depth = Math.min(1, f.hache.prof * k);
     for (let i = 0; i < d.length; i++) {
-      const k = i % n, from = n - cut;
-      if (k < from) continue;
+      const pos = i % n, from = n - cut;
+      if (pos < from) continue;
       // Rampe de 2 ms à l'entrée et à la sortie du trou : pas de clic.
-      const edge = Math.min(k - from, n - 1 - k), g = edge < ramp ? edge / ramp : 1;
-      d[i] *= 1 - Math.min(1, f.hache.prof * k) * g;
+      const edge = Math.min(pos - from, n - 1 - pos), g = edge < ramp ? edge / ramp : 1;
+      d[i] *= 1 - depth * g;
     }
   }
+  return finish(out);
+}
+
+/** Volume réglé (crête à 0,9) et niveaux pour animer le personnage. */
+function finish(out: AudioBuffer): Ready {
+  const d = out.getChannelData(0);
   let peak = 0; for (let i = 0; i < d.length; i++) peak = Math.max(peak, Math.abs(d[i]));
-  if (peak > 0) { const k = 0.9 / peak; for (let i = 0; i < d.length; i++) d[i] *= k; }
+  if (peak > 0) { const g = 0.9 / peak; for (let i = 0; i < d.length; i++) d[i] *= g; }
   const step = Math.floor(FRAME * SR), levels = new Float32Array(Math.ceil(d.length / step));
   let top = 0;
   for (let j = 0; j < levels.length; j++) {
@@ -129,5 +136,20 @@ export async function robotize(src: AudioBuffer, f: Filtre, dose = 1): Promise<R
   }
   if (top > 0) for (let j = 0; j < levels.length; j++) levels[j] = Math.min(1, levels[j] / top);
   return { buffer: out, levels };
+}
+
+/**
+ * Superpose plusieurs versions déjà préparées (deux effets sur une même voix, ou deux voix qui disent la même
+ * réplique) en une seule, puis règle le volume.
+ */
+export function mixReady(parts: Ready[]): Ready {
+  if (parts.length === 1) return parts[0];
+  const len = Math.max(...parts.map((p) => p.buffer.length));
+  // Un contexte hors temps réel sert juste à fabriquer le tampon (plus sûr qu'« new AudioBuffer » sur les vieux Safari).
+  const C = (window.OfflineAudioContext || (window as unknown as { webkitOfflineAudioContext?: OfflineCtor }).webkitOfflineAudioContext) as OfflineCtor;
+  const out = new C(1, len, SR).createBuffer(1, len, SR);
+  const d = out.getChannelData(0);
+  for (const p of parts) { const s = p.buffer.getChannelData(0); for (let i = 0; i < s.length; i++) d[i] += s[i]; }
+  return finish(out);
 }
 

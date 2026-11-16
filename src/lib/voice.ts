@@ -12,10 +12,19 @@ import REC from "../content/voix-enregistrements.json";
 import { voiceKey } from "./voice-key";
 import { audioOutput, duckAmbience } from "./sound";
 import { getState } from "./store";
-import { FRAME, robotize, type Filtre, type Ready } from "./robot";
+import { FRAME, mixReady, robotize, type Filtre, type Ready } from "./robot";
 
-interface Recording { fichier: string; voix: string; envoye: string; texte: string; date: string }
-type Personnage = { nom: string; voix: string | null; filtre: Filtre; dose?: number };
+interface Recording { fichier: string; voix: string; envoye: string; texte: string; date: string; duo?: { fichier: string; voix: string } }
+type Personnage = {
+  nom: string; voix: string | null; filtre: Filtre; dose?: number;
+  /** Effets superposés : noms de variantes, chacune appliquée à la voix, puis mélangées. */
+  effets?: string[]; variantes?: Record<string, { filtre: Filtre }>;
+};
+/** Les filtres d'un personnage : un seul, ou plusieurs variantes superposées. */
+function filtresOf(who: Personnage): Filtre[] {
+  const list = (who.effets ?? []).map((n) => who.variantes?.[n]?.filtre).filter((f): f is Filtre => !!f);
+  return list.length ? list : [who.filtre];
+}
 
 const PERSONNAGES = VOIX.personnages as unknown as Record<string, Personnage>;
 const RECORDINGS = (REC as unknown as { repliques: Record<string, Recording> }).repliques;
@@ -61,10 +70,16 @@ function prepare(speaker: Speaker, key: string): Promise<Ready | null> {
   if (!rec || !who || !io) return Promise.resolve(null);
   const job = (async () => {
     try {
-      const res = await fetch(voiceUrl(rec.fichier));
-      if (!res.ok) return null;
-      const raw = await decode(io.rt, await res.arrayBuffer());
-      const ready = await robotize(raw, who.filtre, who.dose ?? 1);
+      // Une ou deux voix (« duo » : deux voix disent la même réplique), un ou plusieurs effets superposés.
+      const files = [rec.fichier, ...(rec.duo ? [rec.duo.fichier] : [])];
+      const raws = await Promise.all(files.map(async (f) => {
+        const res = await fetch(voiceUrl(f));
+        if (!res.ok) throw new Error(`voix introuvable : ${f}`);
+        return decode(io.rt, await res.arrayBuffer());
+      }));
+      const parts: Ready[] = [];
+      for (const raw of raws) for (const f of filtresOf(who)) parts.push(await robotize(raw, f, who.dose ?? 1));
+      const ready = mixReady(parts);
       remember(key, ready);
       return ready;
     } catch { return null; } // une voix n'est jamais bloquante
@@ -77,6 +92,9 @@ function prepare(speaker: Speaker, key: string): Promise<Ready | null> {
 // ---------- Lecture : une seule voix à la fois ----------
 let current: { src: AudioBufferSourceNode; key: string; raf: number } | null = null;
 let loading = ""; // réplique en cours de préparation : elle compte déjà comme « en train de parler »
+// Lecture automatique : une seule fois par séance pour chaque réplique (revenir sur un écran ne la relance pas ;
+// le bouton « Réécouter » reste là).
+const autoDone = new Set<string>();
 let queue: { speaker: Speaker; md: string }[] = [];
 let bus: GainNode | null = null;
 
@@ -94,12 +112,13 @@ export function stopVoice() { queue = []; loading = ""; stopCurrent(); }
 
 function next() {
   const n = queue.shift();
-  if (n) void play(n.speaker, n.md);
+  if (n) void play(n.speaker, n.md, true);
 }
 
-async function play(speaker: Speaker, md: string): Promise<number | null> {
+async function play(speaker: Speaker, md: string, auto = false): Promise<number | null> {
   const key = voiceKey(speaker, md), io = audioOutput();
   if (!io) return null;
+  if (auto) autoDone.add(key);
   loading = key;
   const ready = await prepare(speaker, key);
   if (loading !== key) return null; // une autre réplique a été demandée entre-temps
@@ -131,13 +150,14 @@ async function play(speaker: Speaker, md: string): Promise<number | null> {
  */
 export function speak(speaker: Speaker, md: string, auto = false): Promise<number | null> {
   if (!getState().settings.voices || !hasVoice(speaker, md) || !audioOutput()) return Promise.resolve(null);
+  if (auto && autoDone.has(voiceKey(speaker, md))) return Promise.resolve(null);
   if (auto && (current || loading)) {
     const key = voiceKey(speaker, md);
     if (current?.key !== key && loading !== key && !queue.some((q) => voiceKey(q.speaker, q.md) === key)) queue = [...queue.slice(-1), { speaker, md }];
     return Promise.resolve(null);
   }
   queue = [];
-  return play(speaker, md);
+  return play(speaker, md, auto);
 }
 
 /** Volume des voix, appliqué tout de suite. */

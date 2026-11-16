@@ -35,6 +35,13 @@ export function checkVoices({ voix, recordings, rooms, crew, voixDir }) {
     if (p.voix !== r.voix) errors.push(`${key} : enregistré avec la voix ${r.voix}, mais la voix de ${p.nom} est ${p.voix ?? "(non choisie)"}`);
     if (r.fichier !== voiceFile(speaker, r.voix, r.envoye)) errors.push(`${key} : nom de fichier inattendu (${r.fichier})`);
     if (voixDir && !existsSync(join(voixDir, r.fichier))) errors.push(`${key} : fichier absent dans public/voix (${r.fichier})`);
+    // Deux voix pour un même personnage (« voixDuo ») : chaque réplique a sa seconde prise.
+    if (p.voixDuo && !r.duo) errors.push(`${key} : seconde voix (duo) manquante pour ${p.nom}`);
+    if (r.duo) {
+      if (r.duo.voix !== p.voixDuo) errors.push(`${key} : seconde voix ${r.duo.voix}, attendue ${p.voixDuo ?? "(aucune)"}`);
+      if (r.duo.fichier !== voiceFile(speaker, r.duo.voix, r.envoye)) errors.push(`${key} : nom de fichier inattendu pour la seconde voix (${r.duo.fichier})`);
+      if (voixDir && !existsSync(join(voixDir, r.duo.fichier))) errors.push(`${key} : fichier absent dans public/voix (${r.duo.fichier})`);
+    }
   }
   for (const line of requiredLines(rooms, crew)) {
     if (!recs[line.key]) warnings.push(`réplique sans voix : ${line.where} (${line.text.length} caractères à enregistrer)`);

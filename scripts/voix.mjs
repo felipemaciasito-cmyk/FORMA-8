@@ -5,13 +5,15 @@
 //       Liste les répliques qui devraient avoir une voix, avec le nombre de caractères (1 crédit ElevenLabs par
 //       caractère avec eleven_v4, vérifié le 16/11/2026 par une estimation).
 //
-//   node scripts/voix.mjs ajouter <personnage> <url-du-mp3> --texte "<réplique affichée>" [--envoye "<texte envoyé>"]
-//       Télécharge une prise générée avec ElevenLabs (adresse « full_res_url ») dans public/voix et l'inscrit dans
-//       src/content/voix-enregistrements.json, avec la voix choisie pour ce personnage.
+//   node scripts/voix.mjs ajouter <personnage> <url-ou-fichier> --texte "<réplique affichée>" [--envoye "<texte envoyé>"]
+//                                [--duo <url-ou-fichier>]
+//       Copie une prise générée avec ElevenLabs (adresse de téléchargement, ou fichier mp3 déjà téléchargé) dans
+//       public/voix et l'inscrit dans src/content/voix-enregistrements.json, avec la voix choisie pour ce personnage.
+//       --duo : la prise de la seconde voix, pour un personnage qui parle à deux voix (« voixDuo »).
 //
 // Les générations se font avec le connecteur ElevenLabs de Claude Code (jamais depuis l'appli, jamais avec une clé
 // écrite dans le dépôt).
-import { mkdirSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { voiceFile, voiceKey } from "../src/lib/voice-key.js";
@@ -41,15 +43,27 @@ if (cmd === "manquantes") {
   const voix = readJSON(join(content, "voix.json")).personnages[speaker];
   if (!voix) throw new Error(`personnage inconnu : ${speaker}`);
   if (!voix.voix) throw new Error(`aucune voix choisie pour ${voix.nom} dans src/content/voix.json`);
-  const file = voiceFile(speaker, voix.voix, envoye);
-  const res = await fetch(url);
-  if (!res.ok) throw new Error(`téléchargement refusé : ${res.status}`);
-  const buf = Buffer.from(await res.arrayBuffer());
-  if (buf.length < 2000) throw new Error(`fichier trop petit (${buf.length} octets) : ce n'est sans doute pas un mp3`);
+  const load = async (src) => {
+    let buf;
+    if (existsSync(src)) buf = readFileSync(src);
+    else { const res = await fetch(src); if (!res.ok) throw new Error(`téléchargement refusé : ${res.status}`); buf = Buffer.from(await res.arrayBuffer()); }
+    if (buf.length < 2000) throw new Error(`fichier trop petit (${buf.length} octets) : ce n'est sans doute pas un mp3`);
+    return buf;
+  };
   mkdirSync(voixDir, { recursive: true });
+  const file = voiceFile(speaker, voix.voix, envoye);
+  const buf = await load(url);
   writeFileSync(join(voixDir, file), buf);
+  const entry = { fichier: file, voix: voix.voix, envoye, texte, date: new Date().toISOString().slice(0, 10) };
+  const duoSrc = arg("--duo");
+  if (voix.voixDuo && !duoSrc) throw new Error(`${voix.nom} parle à deux voix : --duo manquant`);
+  if (duoSrc) {
+    const duoFile = voiceFile(speaker, voix.voixDuo, envoye);
+    writeFileSync(join(voixDir, duoFile), await load(duoSrc));
+    entry.duo = { fichier: duoFile, voix: voix.voixDuo };
+  }
   const rec = readJSON(recPath);
-  rec.repliques[voiceKey(speaker, texte)] = { fichier: file, voix: voix.voix, envoye, texte, date: new Date().toISOString().slice(0, 10) };
+  rec.repliques[voiceKey(speaker, texte)] = entry;
   rec.repliques = Object.fromEntries(Object.entries(rec.repliques).sort(([a], [b]) => a.localeCompare(b)));
   writeFileSync(recPath, JSON.stringify(rec, null, 1) + "\n");
   console.log(`Ajouté : ${file} (${Math.round(buf.length / 1024)} Ko) pour ${voix.nom}.`);

@@ -1,4 +1,72 @@
 {
  "_lisez-moi": "Répliques enregistrées avec ElevenLabs. Clé : « personnage:empreinte du texte dit » (src/lib/voice-key.js). « fichier » est dans public/voix ; « voix » est la voix ElevenLabs utilisée ; « envoye » est le texte exact envoyé (il peut différer du texte affiché : prénom retiré, prononciation aidée) ; « texte » est la réplique affichée ; « date » est le jour de l'enregistrement. Ajouter une entrée avec scripts/voix.mjs.",
- "repliques": {}
+ "repliques": {
+  "c01:ecf65907": {
+   "fichier": "c01-e6a37b24.mp3",
+   "voix": "EMuO6fFLrXKOryHzij6K",
+   "envoye": "Je suis l'Archiviste. Je garde la mémoire de chaque version de ton produit, pour que tu puisses toujours revenir en arrière.",
+   "texte": "Je suis l'Archiviste. Je garde la mémoire de chaque version de ton produit, pour que tu puisses toujours revenir en arrière.",
+   "date": "2026-11-16"
+  },
+  "c02:1a375926": {
+   "fichier": "c02-8f9575d6.mp3",
+   "voix": "5l4ttmr4SKNgi0HnOelT",
+   "envoye": "Je suis le Règlement de bord. J'écris les règles que toute l'équipe suit, à chaque séance de travail.",
+   "texte": "Je suis le Règlement de bord. J'écris les règles que toute l'équipe suit, à chaque séance de travail.",
+   "date": "2026-11-16"
+  },
+  "c03:c306ab7a": {
+   "fichier": "c03-fefef681.mp3",
+   "voix": "86fYoxrFeaJKXplThwSl",
+   "envoye": "Je suis le Scribe. Avant qu'on construise quoi que ce soit, je décris avec toi ce qu'il faut construire.",
+   "texte": "Je suis le Scribe. Avant qu'on construise quoi que ce soit, je décris avec toi ce qu'il faut construire.",
+   "date": "2026-11-16"
+  },
+  "c04:3b71b597": {
+   "fichier": "c04-7f1164a2.mp3",
+   "voix": "KSyQzmsYhFbuOhqj1Xxv",
+   "envoye": "Je suis la Boucle ! Je demande, je relis, je corrige, et je recommence jusqu'à ce que ça marche.",
+   "texte": "Je suis la Boucle ! Je demande, je relis, je corrige, et je recommence jusqu'à ce que ça marche.",
+   "date": "2026-11-16"
+  },
+  "c05:78bf4e31": {
+   "fichier": "c05-70dbcf09.mp3",
+   "voix": "fnoOtHjtLbYs6mOpUSdr",
+   "envoye": "Je suis l'Inspecteur. Je vérifie que tout fonctionne, à chaque changement. Sans exception.",
+   "texte": "Je suis l'Inspecteur. Je vérifie que tout fonctionne, à chaque changement. Sans exception.",
+   "date": "2026-11-16",
+   "duo": {
+    "fichier": "c05-b8b74f0b.mp3",
+    "voix": "Qrl71rx6Yg8RvyPYRGCQ"
+   }
+  },
+  "c06:d245a9f8": {
+   "fichier": "c06-293656c5.mp3",
+   "voix": "hv6gVog5LgtIUX88Nmq8",
+   "envoye": "Je suis le Messager ! Je mets ton produit en ligne, vite, et sans rien casser.",
+   "texte": "Je suis le Messager ! Je mets ton produit en ligne, vite, et sans rien casser.",
+   "date": "2026-11-16"
+  },
+  "c07:da412517": {
+   "fichier": "c07-76b23d2c.mp3",
+   "voix": "hFgOzpmS0CMtL2to8sAl",
+   "envoye": "Je suis la Mémoire. Je garde les données et les comptes de tes utilisateurs, et je n'oublie rien.",
+   "texte": "Je suis la Mémoire. Je garde les données et les comptes de tes utilisateurs, et je n'oublie rien.",
+   "date": "2026-11-16"
+  },
+  "c10:f4b291c3": {
+   "fichier": "c10-53260b99.mp3",
+   "voix": "t28pUgJnL2wUUQ8SOnaU",
+   "envoye": "Je suis le Lancement. Je présente ton produit au monde, et je t'aide à en faire ton métier.",
+   "texte": "Je suis le Lancement. Je présente ton produit au monde, et je t'aide à en faire ton métier.",
+   "date": "2026-11-16"
+  },
+  "ora:747439ca": {
+   "fichier": "ora-4659251e.mp3",
+   "voix": "t8BrjWUT5Z23DLLBzbuY",
+   "envoye": "Je suis ORA, ta guide. Je t'apprends les bases, et nous réveillons l'équipe ensemble.",
+   "texte": "Je suis ORA, ta guide. Je t'apprends les bases, et nous réveillons l'équipe ensemble.",
+   "date": "2026-11-16"
+  }
+ }
 }

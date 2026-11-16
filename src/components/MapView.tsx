@@ -26,7 +26,7 @@ export function MapView() {
   const greet = !roomReady(cur)
     ? `La réserve est sous tension${p.name ? `, ${p.name}` : ""}. Les protocoles de réveil du **${cur.code}** sont encore en préparation : ils arriveront avec les prochaines versions de l'appli.`
     : !Object.keys(p.steps).length
-      ? `La réserve est sous tension${p.name ? `, ${p.name}` : ""}. Commence par le **${ROOMS[0].code}** : ${ROOMS[0].member} t'y attend pour poser les bases.`
+      ? `La réserve est sous tension${p.name ? `, ${p.name}` : ""}. Commence par le **${ROOMS[0].code}** : je t'y attends pour poser les bases.`
       : awake === ROOMS.length
         ? "Toute l'équipe est réveillée. Reviens chaque jour pour la **maintenance** : c'est elle qui ancre tes connaissances."
         : `Prochain réveil : **${cur.code} · ${cur.member}**.${due.size ? ` Et ${due.size} notion${due.size > 1 ? "s" : ""} surchauffe${due.size > 1 ? "nt" : ""} : passe en maintenance.` : ""}`;
@@ -48,7 +48,7 @@ export function MapView() {
       <ProductTimeline />
 
       <div style={{ margin: "16px 0" }}><OraSays compact md={greet} mood={due.size ? "alert" : "happy"}
-        say={roomReady(cur) && !Object.keys(p.steps).length ? `La réserve est sous tension. Commence par le ${ROOMS[0].code} : ${ROOMS[0].member} t'y attend pour poser les bases.` : greet} /></div>
+        say={roomReady(cur) && !Object.keys(p.steps).length ? `La réserve est sous tension. Commence par le ${ROOMS[0].code} : je t'y attends pour poser les bases.` : greet} /></div>
 
       <QuartPanel />
 

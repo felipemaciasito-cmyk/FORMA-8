@@ -1,5 +1,5 @@
 {
- "_lisez-moi": "Voix de l'équipe (lot du 16/11/2026, choix du propriétaire : 5 femmes, 5 hommes, un chœur mixte). Chaque personnage lit ses propres répliques. Les voix sont générées une fois avec ElevenLabs (offre Starter depuis le 16/11/2026), téléchargées dans public/voix et listées dans src/content/voix-enregistrements.json. « voix » est la voix retenue (null tant que l'audition n'a pas tranché) ; « candidates » sont les voix auditionnées. « robot » règle la touche robotique ajoutée par l'appli (src/lib/voice.ts). Toute réplique modifiée doit être réenregistrée : le validateur le vérifie. « concue » : voix conçue sur mesure (creative_design_voice), à enregistrer dans la bibliothèque du compte si elle est retenue. « provisoire » : voix gardée en attendant mieux. « variantes » : touches robotiques à comparer. « dose » : densité de tous les effets (1 = réglage du filtre). « superposition » : deux voix dites ensemble (à l'essai).",
+ "_lisez-moi": "Voix de l'équipe (lot du 16/11/2026, choix du propriétaire : 5 femmes, 5 hommes, un chœur mixte). Chaque personnage lit ses propres répliques. Les voix sont générées une fois avec ElevenLabs (offre Starter depuis le 16/11/2026), téléchargées dans public/voix et listées dans src/content/voix-enregistrements.json. « voix » est la voix retenue (null tant que l'audition n'a pas tranché) ; « candidates » sont les voix auditionnées. « robot » règle la touche robotique ajoutée par l'appli (src/lib/voice.ts). Toute réplique modifiée doit être réenregistrée : le validateur le vérifie. « concue » : voix conçue sur mesure (creative_design_voice), à enregistrer dans la bibliothèque du compte si elle est retenue. « provisoire » : voix gardée en attendant mieux. « variantes » : touches robotiques à comparer. « dose » : densité de tous les effets (1 = réglage du filtre). « superposition » : deux voix dites ensemble (à l'essai). « effets » : variantes superposées sur la même voix. « voixDuo » : seconde voix dite en même temps (chaque réplique est enregistrée deux fois). Réglages choisis par le propriétaire le 16/11/2026 (3e tour d'audition).",
  "modele": "eleven_v4",
  "personnages": {
   "ora": {
@@ -14,7 +14,7 @@
     "toujours calme"
    ],
    "elocution": "Claire et posée, débit moyen, sourire dans la voix.",
-   "robot": "Trois styles à comparer : numérique (granuleux, haché), vocodeur (métallique), hologramme (voix légèrement dédoublée).",
+   "robot": "Vocodeur et hologramme superposés : timbre métallique, voix légèrement dédoublée.",
    "voix": "t8BrjWUT5Z23DLLBzbuY",
    "candidates": [
     {
@@ -63,7 +63,7 @@
      "prof": 0.6
     }
    },
-   "dose": 0.75,
+   "dose": 0.45,
    "variantes": {
     "numerique": {
      "nom": "Numérique",
@@ -147,7 +147,11 @@
       }
      }
     }
-   }
+   },
+   "effets": [
+    "vocodeur",
+    "hologramme"
+   ]
   },
   "c01": {
    "nom": "L'Archiviste",
@@ -161,7 +165,7 @@
     "minutieuse"
    ],
    "elocution": "Lente, avec de petites pauses, comme si elle feuilletait un album.",
-   "robot": "Grain de vieux phonographe : son étroit, léger crépitement.",
+   "robot": "Voix naturelle, seulement la couleur d'un vieux phonographe (son étroit).",
    "voix": "EMuO6fFLrXKOryHzij6K",
    "candidates": [
     {
@@ -197,7 +201,7 @@
      "mix": 0.04
     }
    },
-   "dose": 0.75
+   "dose": 0
   },
   "c02": {
    "nom": "Le Règlement de bord",
@@ -246,7 +250,7 @@
      "mix": 0.03
     }
    },
-   "dose": 0.75
+   "dose": 0.15
   },
   "c03": {
    "nom": "Le Scribe",
@@ -306,7 +310,7 @@
      "mix": 0.05
     }
    },
-   "dose": 0.75
+   "dose": 0.25
   },
   "c04": {
    "nom": "La Boucle",
@@ -369,8 +373,8 @@
     "pince-sans-rire"
    ],
    "elocution": "Lente, détache chaque syllabe.",
-   "robot": "À l'essai : deux voix superposées (Julien et Olivier), sèches et mécaniques.",
-   "voix": null,
+   "robot": "Deux voix superposées (Julien et Olivier), sèches et mécaniques.",
+   "voix": "fnoOtHjtLbYs6mOpUSdr",
    "candidates": [
     {
      "id": "fnoOtHjtLbYs6mOpUSdr",
@@ -415,11 +419,8 @@
      "prof": 0.8
     }
    },
-   "dose": 0.75,
-   "superposition": [
-    "fnoOtHjtLbYs6mOpUSdr",
-    "Qrl71rx6Yg8RvyPYRGCQ"
-   ]
+   "dose": 0.3,
+   "voixDuo": "Qrl71rx6Yg8RvyPYRGCQ"
   },
   "c06": {
    "nom": "Le Messager",
@@ -433,7 +434,7 @@
     "un peu impatient"
    ],
    "elocution": "Rapide et enjouée.",
-   "robot": "Talkie numérique : voix granuleuse et hachée (2 autres variantes à comparer : radio portative, transmission rapide).",
+   "robot": "Radio portative et transmission rapide superposées, très légères.",
    "voix": "hv6gVog5LgtIUX88Nmq8",
    "candidates": [
     {
@@ -530,7 +531,11 @@
      }
     }
    },
-   "dose": 0.75
+   "dose": 0.1,
+   "effets": [
+    "radio",
+    "transmission"
+   ]
   },
   "c07": {
    "nom": "La Mémoire",
@@ -578,7 +583,7 @@
      "mix": 0.14
     }
    },
-   "dose": 0.75
+   "dose": 0.8
   },
   "c08": {
    "nom": "La Sentinelle",
@@ -592,7 +597,7 @@
     "imperturbable"
    ],
    "elocution": "Courte et ferme.",
-   "robot": "Voix sous un casque, effets réduits de moitié.",
+   "robot": "Voix naturelle, sans effet (choix du propriétaire).",
    "voix": "E933WO9WB9GvOmNCycNW",
    "candidates": [
     {
@@ -646,7 +651,7 @@
      "prof": 0.7
     }
    },
-   "dose": 0.5
+   "dose": 0
   },
   "c09": {
    "nom": "Les Escouades et les Réflexes",
@@ -719,7 +724,7 @@
      "prof": 0.6
     }
    },
-   "dose": 0.6
+   "dose": 0.8
   },
   "c10": {
    "nom": "Le Lancement",
@@ -733,7 +738,7 @@
     "généreux"
    ],
    "elocution": "Ample, ton de compte à rebours.",
-   "robot": "Tour de contrôle : grande réverbération, voix de haut-parleur.",
+   "robot": "Tour de contrôle feutrée : voix ronde, peu d'écho.",
    "voix": "t28pUgJnL2wUUQ8SOnaU",
    "candidates": [
     {
@@ -754,29 +759,29 @@
     }
    ],
    "filtre": {
-    "hp": 180,
-    "lp": 6500,
-    "sature": 0.25,
+    "hp": 150,
+    "lp": 4200,
+    "sature": 0.1,
     "anneau": {
      "f": 40,
-     "mix": 0.14
+     "mix": 0.1
     },
     "peigne": {
      "ms": 4,
-     "retour": 0.4,
-     "mix": 0.2
+     "retour": 0.3,
+     "mix": 0.14
     },
     "hache": {
      "ms": 130,
-     "trou": 0.12,
-     "prof": 0.5
+     "trou": 0.1,
+     "prof": 0.4
     },
     "salle": {
-     "s": 2.8,
-     "mix": 0.15
+     "s": 1.4,
+     "mix": 0.08
     }
    },
-   "dose": 0.75
+   "dose": 0.7
   }
  }
 }
