@@ -115,7 +115,15 @@ export async function playStep(page: Page, roomId: string, step: Step, n: number
     if (i < step.blocks.length - 1) {
       const next = page.getByRole("button", { name: /^Continuer/ });
       await expect(next).toBeEnabled();
-      await next.click();
+      // Juste après certains exercices (remise en ordre), la page bouge encore un instant : un clic du robot peut
+      // tomber pendant ce mouvement et se perdre. On vérifie que le bloc suivant est bien apparu, et on reclique
+      // sinon, comme le ferait un joueur.
+      const counter = page.getByText(/^BLOC \d+ \/ \d+$/);
+      const before = await counter.innerText();
+      await expect(async () => {
+        if ((await counter.innerText()) === before) await next.click();
+        expect(await counter.innerText()).not.toBe(before);
+      }).toPass({ timeout: 15_000 });
     }
   }
   // Jamais de cérémonie de grade pendant un protocole : elle attend que le joueur quitte l'écran.

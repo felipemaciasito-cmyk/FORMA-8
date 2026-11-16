@@ -1,4 +1,4 @@
-# FORMA-8 · Réveille l'équipe : document de transfert (état au 16/11/2026, après le lot « Les voix de l'équipe »)
+# FORMA-8 · Réveille l'équipe : document de transfert (état au 16/11/2026, après la fusion du lot « Les voix de l'équipe », PR #16)
 
 > À lire en entier au démarrage de chaque nouvelle session (renvoi dans `CLAUDE.md`), **en commençant par la
 > section 0**. Ce document complète `CLAUDE.md`, `docs/CONCEPTION.md` et `docs/PROGRAMME.md`. En cas d'écart, le
@@ -199,8 +199,8 @@ npm run validate && npm run check:emoji && npm run check:parity && npm run typec
 ## 3. État actuel et éléments validés
 
 ### 3.1 Git, PR et mise en ligne
-- `origin/main` = **`bbbab68`** (« Merge pull request #15 », correctif « remise en ordre au doigt »), vérifié le
-  16/11/2026, puis la PR du lot « Les voix de l'équipe » (voir ci-dessous). Avant : `43928ea` (PR #14), `5f3f318` (PR #13, la centrale et l'arc), `1769e85` (PR #12, son et lumière), `ef21f29` (PR #11),
+- `origin/main` = **`7415ce3`** (« Merge pull request #16 », les voix de l'équipe), vérifié le 16/11/2026, puis la
+  petite PR de mise à jour de ce document (voir ci-dessous). Avant : `bbbab68` (PR #15), `43928ea` (PR #14), `5f3f318` (PR #13, la centrale et l'arc), `1769e85` (PR #12, son et lumière), `ef21f29` (PR #11),
   `f2af5ff` (PR #10), `b96f074` (PR #9, refonte de l'interface), `ccb28cf` (PR #8, caisson 01), `79c1061` (PR #7).
 - PR, toutes fusionnées par le propriétaire :
   - #1 socle ; #2 et #3 lots 2 et 3 (fusionnés par erreur dans des branches intermédiaires) ; #4 lots 2 et 3 vers
@@ -215,15 +215,19 @@ npm run validate && npm run check:emoji && npm run check:parity && npm run typec
     de Claude Code par le propriétaire et fusionnée tout de suite, avant la fin du robot de vérification ;
   - #14 mise à jour de ce document après « la centrale et l'arc » (15/11/2026, même branche repartie de `main`) ;
   - #15 correctif « remise en ordre au doigt » (15/11/2026, branche `claude/stoic-rubin-2cd33c`, voir 3.17) ;
-  - la PR suivante (même branche, repartie de `main`) : « Les voix de l'équipe » (16/11/2026, voir 3.18).
-- Branches distantes : `main` et `claude/stoic-rubin-2cd33c` (PR des voix) ; `claude/hopeful-bohr-241xx8` (PR #13 et
-  #14, fusionnées) est à supprimer par le propriétaire si elle existe encore.
+  - #16 « Les voix de l'équipe » (16/11/2026, même branche repartie de `main`, voir 3.18) : ouverte par le
+    propriétaire depuis Claude Code, titre et description remplis ensuite ; **fusionnée avant la fin du robot**
+    (robot vert ensuite, et déjà vert sur le commit précédent) ;
+  - la PR suivante (même branche, repartie de `main`) : mise à jour de ce document pour le changement de conversation.
+- Branches distantes au 16/11/2026, 04:45 UTC : `main` seulement (le propriétaire a supprimé les branches fusionnées) ;
+  plus `claude/stoic-rubin-2cd33c` tant que la PR de mise à jour de ce document est ouverte.
 - Workflows :
   - `.github/workflows/ci.yml` (« Vérifications FORMA-8 », job `verifier`, sur chaque PR, Node 22) : récupère FORMA-7
     dans `forma-7`, puis lance toutes les vérifications et les tests de bout en bout ;
   - `.github/workflows/deploy.yml` (sur envoi vers `main`) : construit l'appli et la publie sur GitHub Pages.
-- GitHub Pages : Source « GitHub Actions ». Dernière mise en ligne de l'appli : n° 11, réussie (15/11/2026, 23:02 UTC,
-  après la fusion de la #14 ; la centrale et l'arc sont en ligne depuis la n° 10).
+- GitHub Pages : Source « GitHub Actions ». Dernière mise en ligne de l'appli : n° 13, réussie (16/11/2026, 04:25 UTC,
+  après la fusion de la #16) : **les voix de l'équipe sont en ligne**. La n° 12 (00:05 UTC) a mis en ligne le correctif
+  « remise en ordre au doigt ».
 
 ### 3.2 Pile technique
 - Vite 8, React 19, TypeScript 6, motion 14 (`motion/react`), idb-keyval 6, vite-plugin-pwa 2.
@@ -486,7 +490,11 @@ npm run validate && npm run check:emoji && npm run check:parity && npm run typec
   la batterie à la fin, vérifie qu'aucune cérémonie de grade n'apparaît pendant le protocole), `plugBattery()` (vérifie
   aussi `expectCoversTop`), `closeGradeCeremony()` (après chaque `page.goto`, compte les cérémonies dans
   `ceremonies.grade`), `holdCentrale(page, ms)`, `sendArc()` (maintient le doigt 3,2 s sur la centrale),
-  `expectCoversTop(page, dialogue)`, `playMaintenance()`, `dismissCeremonies()`. Le banc du caisson 00 vérifie aussi
+  `expectCoversTop(page, dialogue)`, `playMaintenance()`, `dismissCeremonies()`. Depuis le 16/11/2026, `playStep`
+  vérifie après chaque « Continuer » que le compteur « BLOC n / N » a avancé, et reclique sinon : juste après une
+  remise en ordre, les lignes finissent leur animation et un clic du robot pouvait se perdre (banc du caisson 00
+  bloqué deux fois au bloc 14 du protocole 5 en local ; le même protocole isolé passait 4 fois sur 4, et la version
+  d'avant les voix passait aussi). Un vrai joueur peut aussi perdre un toucher dans ce court instant : à surveiller. Le banc du caisson 00 vérifie aussi
   qu'une tentative d'arc avant la réparation de la panne échoue.
 - Dernier passage complet : 16/11/2026 (lot « Les voix de l'équipe »), tout vert en local (Chromium). WebKit, même jour :
   6 relectures d'ORA d'affilée puis 5 membres (dont l'Inspecteur à deux voix et le Messager à effets superposés), sans
@@ -676,7 +684,20 @@ npm run validate && npm run check:emoji && npm run check:parity && npm run typec
 - Les deux voix conçues sont enregistrées dans la bibliothèque du compte ElevenLabs du propriétaire (2 emplacements
   sur 10). Pages d'audition et page d'essai : privées, adresses dans la conversation du 16/11/2026 (non reprises ici).
 - **Écouté par le propriétaire** : les trois tours d'audition. La page d'essai de la vraie appli lui a été donnée avant
-  la PR ; il a demandé d'ouvrir la PR sans autre retour.
+  la PR ; il a demandé d'ouvrir la PR sans autre retour. **Pas encore écouté sur la version en ligne** (première
+  question de la prochaine session).
+- **Abonnement ElevenLabs, question du propriétaire** (« j'ai besoin de garder l'abonnement pour que les voix
+  continuent de fonctionner ? ») : non. L'appli lit ses mp3 et ne contacte jamais ElevenLabs. D'après l'aide
+  d'ElevenLabs (lue le 16/11/2026 : « What happens to my content after my subscription ends? » et « Can I publish the
+  content I generate on the platform? », help.elevenlabs.io), ce qui est généré pendant un abonnement payant garde sa
+  licence commerciale après la résiliation, sans limite de durée ; résilier prend effet à la fin du mois payé, le
+  compte passe à l'offre gratuite et les crédits restants sont perdus ; ElevenLabs ne garantit pas que le contenu reste
+  accessible sur l'offre gratuite. L'abonnement ne sert donc qu'à **enregistrer de nouvelles répliques**. Risques
+  sans lui : l'offre gratuite du compte est désactivée (aucune génération possible) ; les 2 voix conçues sur mesure
+  (Sentinelle, Escouades) pourraient ne plus être utilisables (non vérifié). Conseil donné : résilier puis se
+  réabonner le temps d'enregistrer plusieurs caissons, ou garder l'abonnement pour la tranquillité. **Décision du
+  propriétaire : pas encore prise.** Avant toute génération, vérifier l'offre et les crédits avec `account_get_usage` ;
+  si l'abonnement est résilié, le lui dire et attendre son accord avant d'enregistrer.
 
 ---
 
@@ -769,9 +790,10 @@ npm run validate && npm run check:emoji && npm run check:parity && npm run typec
    `forma-7`, **en entier** (sans `--depth`), pour `check:parity` et l'étude de cas.
 4. `npm ci`, puis la commande complète de vérification. Annoncer le résultat en quelques lignes : l'état de départ
    doit être entièrement vert.
-5. Demander au propriétaire, en QCM : les voix de l'équipe sur son iPhone (version en ligne : volume, rythme, touche
-   robotique, personnage par personnage) ; à retoucher : `dose` ou `filtre` dans `voix.json` (sans régénérer), ou une
-   nouvelle prise (crédits). Puis : la remise en ordre se glisse-t-elle maintenant au doigt sur son iPhone ? Si non, passer à une poignée dédiée au glisser (`useDragControls` de
+5. Demander au propriétaire, en QCM avec possibilité de notes : les voix de l'équipe sur son iPhone (version en
+   ligne : se lancent-elles, volume, rythme, touche robotique, personnage par personnage) ; à retoucher : `dose` ou
+   `filtre` dans `voix.json` (sans régénérer), ou une nouvelle prise (crédits). Puis : la remise en ordre se
+   glisse-t-elle maintenant au doigt sur son iPhone ? Puis : garde-t-il l'abonnement ElevenLabs (voir fin de 3.18) ? Si non, passer à une poignée dédiée au glisser (`useDragControls` de
    motion) et le faire essayer dans une page privée avant la PR. Puis lui demander ses autres remarques : le 15/11/2026,
    il a répondu « Pas encore » au feu vert du caisson 02, ce qui laisse penser qu'il en a d'autres. La centrale et
    l'arc : « Ça marche bien » (15/11/2026). Corriger d'abord ce qu'il signale ; pour un changement visuel ou sonore
@@ -820,9 +842,8 @@ npm run validate && npm run check:emoji && npm run check:parity && npm run typec
 - **Écouter les voix de l'équipe** sur la version en ligne (bouton silencieux coupé ou écouteurs) et noter ce qui ne
   va pas, personnage par personnage.
 - **Abonnement ElevenLabs Starter** : facturé chaque mois tant qu'il n'est pas résilié. Il ne sert qu'à enregistrer de
-  nouvelles répliques (une par caisson écrit, environ) ; les voix déjà enregistrées restent dans l'appli. Avant de le
-  résilier, vérifier dans l'aide d'ElevenLabs que la licence commerciale des voix enregistrées pendant l'abonnement
-  est conservée (c'est ce que j'ai compris, non vérifié en détail).
+  nouvelles répliques (environ 2 par caisson écrit) ; les voix déjà enregistrées restent dans l'appli et gardent leur
+  licence commerciale (aide d'ElevenLabs, voir fin de 3.18). Sa décision (garder ou résilier) est attendue.
 - **Ne fusionner une PR qu'après l'annonce « robot vert »** dans la conversation (la PR #13 a été fusionnée avant).
 - Noter tout libellé de GitHub du caisson 01 qui ne correspond pas à l'appli.
 - **Créer la clé API Claude** : Console Claude, espace de travail dédié avec plafond de dépense mensuel, achat de
