@@ -14,6 +14,8 @@ import LINES from "../content/compagnon.json";
 export interface CompanionLines {
   reactions: { premier: string[]; perseverance: string[]; indice: string[]; serie: string[] };
   protocoles: Record<string, { debut?: string; blocs?: Record<string, string>; fin?: string }>;
+  /** Hors protocole : sur la carte, au début et à la fin de la panne, près de la livraison. */
+  carte?: string; panne?: string; panneFin?: string; livraison?: string;
 }
 export type ReactionKind = keyof CompanionLines["reactions"];
 export interface CompanionLine { id: number; md: string; kind: "debut" | "bloc" | "fin" | ReactionKind }

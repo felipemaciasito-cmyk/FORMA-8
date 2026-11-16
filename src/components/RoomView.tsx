@@ -20,8 +20,8 @@ import { fillBattery, getEnergyBar, startEnergyBar, stopEnergyBar, useEnergyBar 
 import { bigStrike, centerOf } from "./Bolts";
 import { ArcScene, PlugScene } from "./PlugScene";
 import { CrewCapsule, CrewFigure, MemberSays, type CrewState } from "./Crew";
-import { CompanionPort } from "./Companion";
-import { companionScript, companionSolved, onCompanion, startCompanion, stopCompanion } from "../lib/companion";
+import { CompanionPort, CompanionSays } from "./Companion";
+import { companionLines, companionScript, companionSolved, onCompanion, startCompanion, stopCompanion } from "../lib/companion";
 
 // ======================= Caisson (un niveau, un membre de l'équipe) =======================
 export function RoomView({ id }: { id: string }) {
@@ -92,6 +92,7 @@ export function RoomView({ id }: { id: string }) {
       )}
 
       {r.project && <ProjectCard r={r} />}
+      {r.delivery && roomComplete(p, r) && <div style={{ marginTop: 16 }}><CompanionSays r={r} md={companionLines(r.id)?.livraison} asleep={false} /></div>}
       {r.delivery && <DeliveryCard r={r} />}
 
       <button className="btn ghost block" style={{ marginTop: 18 }} onClick={() => exportRoomFiche(r, getState().progress)}>
@@ -564,6 +565,9 @@ export function IncidentView({ roomId }: { roomId: string }) {
         </div>
       </div>
 
+      {/* Le membre (endormi tant que la panne n'est pas réparée) commente la panne, puis réclame l'arc. */}
+      {state === "play" && i === 0 && !p.incidents[r.id] && <div style={{ marginBottom: 14 }}><CompanionSays r={r} md={companionLines(r.id)?.panne} asleep={r.id !== "c00"} /></div>}
+      {state === "won" && rearm && <div style={{ marginBottom: 14 }}><CompanionSays r={r} md={companionLines(r.id)?.panneFin} asleep={r.id !== "c00"} /></div>}
       <AnimatePresence mode="wait">
         {state === "play" && (
           <motion.div key={i} initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -30 }} className={shake ? "shake" : ""}>

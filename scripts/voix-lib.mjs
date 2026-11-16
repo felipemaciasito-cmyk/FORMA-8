@@ -11,8 +11,13 @@ export const speakerOf = (roomId) => (roomId === "c00" ? "ora" : roomId);
  * Répliques qui doivent avoir une voix : pour un caisson jouable, ses quatre répliques ; pour un caisson en
  * préparation, seulement « role » et « dort » (les autres sont provisoires et seront réécrites avec le caisson).
  */
-export function requiredLines(rooms, crew) {
+export function requiredLines(rooms, crew, compagnon) {
   const out = [];
+  // Répliques du compagnon (src/content/compagnon.json) : toutes, pour un caisson jouable.
+  for (const room of rooms) {
+    if (!room.steps?.length || !compagnon?.[room.id]) continue;
+    for (const l of companionTexts(compagnon[room.id])) out.push({ speaker: speakerOf(room.id), where: `${room.id}.compagnon.${l.where}`, text: l.text, key: voiceKey(speakerOf(room.id), l.text) });
+  }
   for (const room of rooms) {
     const c = crew?.[room.id]; if (!c) continue;
     const fields = room.steps?.length ? CREW_FIELDS : ["role", "dort"];
@@ -21,8 +26,21 @@ export function requiredLines(rooms, crew) {
   return out;
 }
 
+/** Toutes les répliques du compagnon d'un caisson, avec leur emplacement (pour les messages). */
+export function companionTexts(c) {
+  const out = [];
+  for (const [kind, list] of Object.entries(c.reactions ?? {})) list.forEach((text, i) => out.push({ where: `reactions.${kind}.${i}`, text }));
+  for (const [step, p] of Object.entries(c.protocoles ?? {})) {
+    if (p.debut) out.push({ where: `${step}.debut`, text: p.debut });
+    for (const [b, text] of Object.entries(p.blocs ?? {})) out.push({ where: `${step}.bloc${b}`, text });
+    if (p.fin) out.push({ where: `${step}.fin`, text: p.fin });
+  }
+  for (const k of ["carte", "panne", "panneFin", "livraison"]) if (c[k]) out.push({ where: k, text: c[k] });
+  return out;
+}
+
 /** Contrôle des enregistrements : renvoie { errors, warnings } (listes de messages). */
-export function checkVoices({ voix, recordings, rooms, crew, voixDir }) {
+export function checkVoices({ voix, recordings, rooms, crew, compagnon, voixDir }) {
   const errors = [], warnings = [];
   const persos = voix?.personnages ?? {};
   const recs = recordings?.repliques ?? {};
@@ -43,7 +61,7 @@ export function checkVoices({ voix, recordings, rooms, crew, voixDir }) {
       if (voixDir && !existsSync(join(voixDir, r.duo.fichier))) errors.push(`${key} : fichier absent dans public/voix (${r.duo.fichier})`);
     }
   }
-  for (const line of requiredLines(rooms, crew)) {
+  for (const line of requiredLines(rooms, crew, compagnon)) {
     if (!recs[line.key]) warnings.push(`réplique sans voix : ${line.where} (${line.text.length} caractères à enregistrer)`);
   }
   return { errors, warnings };

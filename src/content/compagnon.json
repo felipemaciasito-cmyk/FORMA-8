@@ -1,9 +1,9 @@
 {
-  "_lisez-moi": "Répliques du compagnon de protocole : le membre du caisson, visible en bas de l'écran, parle à l'ouverture d'un protocole (debut), à certains passages (blocs : numéro du bloc à partir de 0, la réplique part quand ce bloc apparaît), quand la fin du protocole apparaît (fin), et réagit à certaines réponses (reactions : premier, perseverance, indice, serie ; voir src/lib/companion.ts). À la première personne, le joueur tutoyé. Une réplique ne doit employer aucun mot technique pas encore défini à l'endroit où elle s'affiche. Les membres endormis parlent en dormant (points de suspension, voix chuchotée).",
+  "_lisez-moi": "Répliques du compagnon (demande du propriétaire, 16/11/2026) : le membre du caisson accompagne le joueur. Pendant un protocole, il parle à l'ouverture (debut), quand certains blocs apparaissent (blocs : numéro du bloc à partir de 0), quand la fin du protocole apparaît (fin), et réagit à certaines réponses (reactions : premier, perseverance, indice, serie ; règles dans src/lib/companion.ts). Hors protocole : carte (sur la carte, quand il est le prochain à réveiller), panne (au début de la panne), panneFin (panne réparée, avant l'arc), livraison (sur la page du caisson, une fois réveillé). À la première personne, le joueur tutoyé. Une réplique n'emploie que des notions déjà définies là où elle s'affiche (contrôlé par scripts/validate-content.mjs). Un membre endormi parle en dormant : il bafouille, avec des points de suspension ; sa voix est enregistrée « endormie » (choix du propriétaire, 16/11/2026). Toute réplique modifiée doit être réenregistrée.",
   "c00": {
     "reactions": {
       "premier": [
-        "Bonne réponse. Regarde la batterie : sa première cellule s'allume.",
+        "Bonne réponse. Regarde la batterie : une cellule s'allume.",
         "Exact. Mes voyants s'allument un à un."
       ],
       "perseverance": [
@@ -27,35 +27,109 @@
           "9": "Première vérification. Prends ton temps : une erreur ne coûte rien."
         },
         "fin": "Tu sais maintenant ce qui se passe quand tu ouvres une page. Termine le protocole pour remplir la batterie."
+      },
+      "p2": {
+        "debut": "Aujourd'hui, on ouvre le capot d'une page. Tu vas voir de quoi elle est faite, sans écrire une seule ligne.",
+        "blocs": {
+          "5": "Les murs, la peinture, l'électricité : avec cette image, tu ne confondras plus les trois langues.",
+          "6": "Ton tout premier code lu. Ne cherche pas à tout comprendre : repère seulement ce qui change."
+        },
+        "fin": "Tu sais reconnaître les trois langues d'une page. Termine le protocole, la batterie t'attend."
+      },
+      "p3": {
+        "debut": "Ce protocole me concerne un peu : on parle d'intelligence artificielle, et de celle qui va construire avec toi.",
+        "blocs": {
+          "7": "Décrire, laisser agir, vérifier : retiens ces trois temps, ils reviendront dans chaque caisson.",
+          "13": "Explique avec tes mots, comme à un ami. C'est le meilleur moyen de savoir si tu as compris."
+        },
+        "fin": "Tu sais maintenant comment on crée avec une IA. Termine le protocole pour charger la batterie."
+      },
+      "p4": {
+        "debut": "Un moment important : tu vas choisir le produit que toute l'équipe construira avec toi.",
+        "blocs": {
+          "2": "La serrure d'abord, la clé ensuite. Beaucoup de projets échouent pour avoir fait l'inverse.",
+          "7": "Prends ton temps. Note plusieurs idées avant de choisir : la première n'est pas toujours la meilleure."
+        },
+        "fin": "Ton produit a un nom. Toute l'équipe le portera jusqu'à son lancement. Termine le protocole."
+      },
+      "p5": {
+        "debut": "Dernier protocole avant ma pleine puissance. Aujourd'hui, ton produit va exister sur internet.",
+        "blocs": {
+          "3": "Suis les étapes une par une, et coche chacune. Si un écran ne ressemble pas à la description, touche « Je suis bloqué ».",
+          "6": "Ton premier ordre de mission. Copie-le tel quel dans Claude Code, puis reviens ici.",
+          "11": "Encore cette procédure, et ta page sera visible par tout le monde. On y est presque."
+        },
+        "fin": "Ta page est en ligne. Termine le protocole, puis répare la panne : ensuite, je serai à pleine puissance."
       }
-    }
+    },
+    "panne": "Une panne, juste avant la fin ! Lis bien chaque alerte avant de répondre : chaque erreur grille un fusible.",
+    "panneFin": "Panne réparée. Il ne reste qu'un geste : envoie l'arc dans ma capsule.",
+    "livraison": "Ta livraison, c'est la preuve que ta page existe vraiment. Je la vérifie directement sur GitHub."
   },
   "c01": {
     "reactions": {
       "premier": [
-        "… oui… c'est bien ça… je le note dans mon registre…",
+        "… oui… c'est bien ça… je le note… dans mon registre…",
         "… exact… une cellule s'allume… je la sens…"
       ],
       "perseverance": [
-        "… tu as recommencé… et tu as trouvé… je garde aussi les essais ratés, tu sais…"
+        "… tu as recommencé… et tu as trouvé… je garde aussi les essais ratés, tu sais…",
+        "… mmh… une erreur… puis la bonne réponse… c'est comme ça qu'on retient…"
       ],
       "indice": [
         "… pas tout à fait… relis un peu plus haut… tout y est noté…",
         "… doucement… reprends la définition… puis réessaie…"
       ],
       "serie": [
-        "… trois d'affilée… mes paupières bougent presque…"
+        "… trois d'affilée… mes paupières bougent presque…",
+        "… encore une… mmh… je vais finir par me réveiller…"
       ]
     },
     "protocoles": {
       "p1": {
-        "debut": "… tu es là ?… je dors encore, mais je t'entends… parlons de souvenirs…",
+        "debut": "… mmh… tu… tu es là ?… je dors encore… mais je t'entends… parlons de souvenirs…",
         "blocs": {
           "3": "… les photos du chantier… j'en ai des milliers… toutes rangées dans l'ordre…",
           "8": "… remonte le temps… vas-y… rien n'est jamais perdu…"
         },
         "fin": "… je sens le courant monter… termine le protocole… et branche la batterie sur ma capsule…"
+      },
+      "p2": {
+        "debut": "… mmh… aujourd'hui… on donne un nom à chaque photo… et une légende…",
+        "blocs": {
+          "4": "… une légende… courte… claire… sinon je ne retrouve plus rien…",
+          "7": "… ton ancien projet… six photos seulement… je m'en souviens…"
+        },
+        "fin": "… la batterie… elle est presque pleine… termine… et branche-la…"
+      },
+      "p3": {
+        "debut": "… une voie d'essai… oui… on essaie à côté… sans rien casser…",
+        "blocs": {
+          "2": "… les trains d'essai… ils ne gênent personne… c'est rassurant…",
+          "8": "… ta première branche… à la main… je regarde… doucement…"
+        },
+        "fin": "… encore un peu de courant… mmh… termine le protocole…"
+      },
+      "p4": {
+        "debut": "… mmh… relire avant de réunir… c'est ma règle… la plus importante…",
+        "blocs": {
+          "6": "… relis… ligne par ligne… je t'attends…",
+          "10": "… tu confies le travail… mais c'est toi qui relis… toujours…"
+        },
+        "fin": "… mes paupières… elles bougent… termine le protocole…"
+      },
+      "p5": {
+        "debut": "… revenir en arrière… sans rien effacer… c'est mon métier…",
+        "blocs": {
+          "2": "… à l'encre… jamais de gomme… on corrige en dessous…",
+          "8": "… deux versions qui se disputent… c'est toi qui choisis…"
+        },
+        "fin": "… presque réveillée… termine… puis la panne… et j'ouvrirai les yeux…"
       }
-    }
+    },
+    "carte": "… mmh… c'est toi ?… je dors dans le caisson 01… viens me réveiller… quand tu veux…",
+    "panne": "… des alertes… dans mes archives… réfléchis avant de toucher… les fusibles sont fragiles…",
+    "panneFin": "… le courant passe… envoie l'arc… maintenant…",
+    "livraison": "Je vérifie tes archives sur GitHub : cinq commits, une pull request fusionnée, et ton README. Montre-moi tout ça."
   }
 }

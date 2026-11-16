@@ -37,6 +37,12 @@ test("remise en ordre : une ligne se glisse au doigt, sans faire défiler l'écr
     await expect(next).toBeEnabled();
     await next.click();
   }
+  // Le compagnon vient peut-être de saluer la réponse précédente : sa bulle se ferme d'un toucher.
+  const bubble = page.locator(".companion-bubble");
+  await expect(async () => {
+    if (await bubble.count()) await bubble.last().click({ force: true, timeout: 1000 }).catch(() => {});
+    await expect(bubble).toHaveCount(0, { timeout: 1500 });
+  }).toPass({ timeout: 15_000 });
   const panel = page.locator(".panel", { hasText: "Vérification · Remise en ordre" }).first();
   await panel.evaluate((el) => el.scrollIntoView({ block: "center" }));
   await page.waitForTimeout(600);

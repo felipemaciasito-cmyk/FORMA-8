@@ -8,6 +8,8 @@ import { sfx } from "../lib/sound";
 import { useProgress, type Progress } from "../lib/store";
 import { Icon, type IconId } from "./Icon";
 import { OraSays } from "./Ora";
+import { CompanionSays } from "./Companion";
+import { companionLines } from "../lib/companion";
 import { CrewFigure } from "./Crew";
 
 // Carte de la réserve : les 11 caissons, reliés par des câbles qui s'allument
@@ -49,6 +51,11 @@ export function MapView() {
 
       <div style={{ margin: "16px 0" }}><OraSays compact md={greet} mood={due.size ? "alert" : "happy"}
         say={roomReady(cur) && !Object.keys(p.steps).length ? `La réserve est sous tension. Commence par le ${ROOMS[0].code} : je t'y attends pour poser les bases.` : greet} /></div>
+
+      {/* Le prochain membre à réveiller parle depuis sa capsule (ORA a déjà sa bulle au-dessus). */}
+      {cur.id !== "c00" && roomReady(cur) && roomUnlocked(p, cur) && !roomComplete(p, cur) && companionLines(cur.id)?.carte && (
+        <div style={{ margin: "-4px 0 16px" }}><CompanionSays r={cur} md={companionLines(cur.id)!.carte} asleep /></div>
+      )}
 
       <QuartPanel />
 

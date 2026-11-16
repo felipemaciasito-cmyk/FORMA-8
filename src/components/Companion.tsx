@@ -4,8 +4,8 @@ import type { Room } from "../content/types";
 import { currentCompanion, hideCompanion, onCompanion, type CompanionLine } from "../lib/companion";
 import { RichText } from "../lib/richtext";
 import { speakerOf, stopVoice } from "../lib/voice";
-import { CrewFigure, type CrewState } from "./Crew";
-import { OraDrone } from "./Ora";
+import { CrewFigure, MemberSays, type CrewState } from "./Crew";
+import { OraDrone, OraSays } from "./Ora";
 import { ReplayButton, useVoiceLine } from "./VoiceButton";
 
 /**
@@ -57,4 +57,11 @@ export function CompanionPort({ r, state }: { r: Room; state: CrewState }) {
       </AnimatePresence>
     </>
   );
+}
+
+/** Une réplique du compagnon hors protocole (carte, panne, livraison) : ORA au caisson 00, sinon le membre. */
+export function CompanionSays({ r, md, asleep }: { r: Room; md?: string; asleep: boolean }) {
+  if (!md) return null;
+  if (r.id === "c00") return <OraSays compact md={md} />;
+  return <MemberSays member={r.member} hue={r.hue} md={md} asleep={asleep} room={r.id} />;
 }
