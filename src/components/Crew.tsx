@@ -2,7 +2,7 @@ import { motion } from "motion/react";
 import { useEffect, useId, useState, type ReactNode } from "react";
 import { room as getRoom } from "../content";
 import { OraDrone } from "./Ora";
-import { speakerOf } from "../lib/voice";
+import { speakerOf, stopVoice } from "../lib/voice";
 import { ReplayButton, useVoiceLine } from "./VoiceButton";
 
 // L'équipe de FORMA-8 : un personnage par caisson, dessiné pour FORMA-8 dans le style d'ORA
@@ -414,7 +414,7 @@ export function MemberSays({ member, hue, md, asleep, room, also }: { member: st
   const voice = useVoiceLine(speaker, md);
   const lit = voice.speaking ? voice.level : intro.speaking ? intro.level : 0;
   return (
-    <motion.div key={md} initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
+    <motion.div key={md} onClick={() => { if (voice.speaking || intro.speaking) stopVoice(); }} initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
       style={{ marginTop: 12, padding: "10px 12px", borderRadius: "16px 16px 16px 4px", background: `linear-gradient(135deg, hsl(${hue} 90% 55% / ${asleep ? 0.06 : 0.14}), rgba(12,19,34,.5))`, border: `1px solid hsl(${hue} 90% 60% / ${asleep ? 0.2 : 0.4 + lit * 0.5})`, boxShadow: lit ? `0 0 ${8 + lit * 14}px hsl(${hue} 100% 60% / ${0.15 + lit * 0.3})` : undefined, transition: "box-shadow .08s linear, border-color .08s linear" }}>
       <div className="mono" style={{ fontSize: 10.5, letterSpacing: ".14em", color: `hsl(${hue} 100% 70%)`, marginBottom: 2, display: "flex", alignItems: "center", gap: 6 }}><span className="grow">{member.toUpperCase()}{asleep ? " · PARLE EN DORMANT" : ""}</span><ReplayButton voice={voice} who={member} color={`hsl(${hue} 100% 70%)`} /></div>
       <div style={{ fontStyle: asleep ? "italic" : undefined, color: asleep ? "var(--text-2)" : undefined }}>{md}</div>

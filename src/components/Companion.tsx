@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import type { Room } from "../content/types";
 import { currentCompanion, hideCompanion, onCompanion, type CompanionLine } from "../lib/companion";
 import { RichText } from "../lib/richtext";
-import { speakerOf } from "../lib/voice";
+import { speakerOf, stopVoice } from "../lib/voice";
 import { CrewFigure, type CrewState } from "./Crew";
 import { OraDrone } from "./Ora";
 import { ReplayButton, useVoiceLine } from "./VoiceButton";
@@ -45,7 +45,7 @@ export function CompanionPort({ r, state }: { r: Room; state: CrewState }) {
           <motion.div key={line.id} className="companion-bubble" role="status" aria-live="polite"
             initial={{ opacity: 0, y: 10, scale: 0.92 }} animate={{ opacity: 1, y: 0, scale: 1 }} exit={{ opacity: 0, y: 6, scale: 0.96 }}
             transition={{ type: "spring", stiffness: 420, damping: 30 }}
-            onClick={() => hideCompanion()}
+            onClick={() => { if (voice.speaking) stopVoice(); hideCompanion(); }}
             style={{ borderColor: `hsl(${hue} 90% 60% / ${0.45 + talk * 0.4})`, background: `linear-gradient(135deg, hsl(${hue} 55% 15%), #080d19 60%)` }}>
             <div className="mono companion-name" style={{ color: `hsl(${hue} 100% 72%)` }}>
               <span className="grow">{r.member.toUpperCase()}{asleep ? " · PARLE EN DORMANT" : ""}</span>

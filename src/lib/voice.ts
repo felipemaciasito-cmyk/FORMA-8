@@ -10,7 +10,7 @@
 import VOIX from "../content/voix.json";
 import REC from "../content/voix-enregistrements.json";
 import { voiceKey } from "./voice-key";
-import { audioOutput, duckAmbience } from "./sound";
+import { audioOutput, duckAmbience, duckSfx } from "./sound";
 import { getState } from "./store";
 import { FRAME, mixReady, robotize, type Filtre, type Ready } from "./robot";
 
@@ -104,7 +104,7 @@ function stopCurrent() {
   const c = current; current = null;
   cancelAnimationFrame(c.raf);
   try { c.src.onended = null; c.src.stop(); } catch { /* déjà arrêtée */ }
-  duckAmbience(false);
+  duckAmbience(false); duckSfx(false);
   emit({ key: c.key, speaking: false, level: 0 });
 }
 
@@ -144,7 +144,7 @@ async function play(speaker: Speaker, md: string, auto = false): Promise<number 
   current = { src, key, raf: requestAnimationFrame(tick), auto, speaker, md };
   if (hold) heardDuringHold.add(key);
   src.onended = () => { if (current?.src === src) { stopCurrent(); next(); } };
-  duckAmbience(true);
+  duckAmbience(true); duckSfx(true);
   src.start();
   return ready.buffer.duration;
 }

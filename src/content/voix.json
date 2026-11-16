@@ -14,7 +14,7 @@
     "toujours calme"
    ],
    "elocution": "Claire et posée, débit moyen, sourire dans la voix.",
-   "robot": "Vocodeur et hologramme superposés : timbre métallique, voix légèrement dédoublée.",
+   "robot": "« IA de bord » (choix du 16/11/2026, densité 150 %) : vocodeur et voix de machine qui résonne et ondule, superposés.",
    "voix": "t8BrjWUT5Z23DLLBzbuY",
    "candidates": [
     {
@@ -63,7 +63,7 @@
      "prof": 0.6
     }
    },
-   "dose": 0.45,
+   "dose": 1.35,
    "variantes": {
     "numerique": {
      "nom": "Numérique",
@@ -146,11 +146,33 @@
        "mix": 0.05
       }
      }
+    },
+    "machine": {
+     "nom": "IA de bord",
+     "filtre": {
+      "hp": 200,
+      "lp": 6500,
+      "peigne": {
+       "ms": 4.5,
+       "retour": 0.7,
+       "mix": 0.5
+      },
+      "tourne": {
+       "ms": 3,
+       "prof": 1.5,
+       "vitesse": 1.2,
+       "mix": 0.35
+      },
+      "anneau": {
+       "f": 45,
+       "mix": 0.3
+      }
+     }
     }
    },
    "effets": [
     "vocodeur",
-    "hologramme"
+    "machine"
    ]
   },
   "c01": {

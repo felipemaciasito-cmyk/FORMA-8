@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { RichText } from "../lib/richtext";
 import { Icon } from "./Icon";
 import { ReplayButton, useVoiceLine } from "./VoiceButton";
+import { stopVoice } from "../lib/voice";
 
 // ORA — Opérateur de Relance Automatique. Petit drone à visage LED.
 export type OraMood = "neutral" | "happy" | "alert" | "think";
@@ -64,7 +65,7 @@ export function OraSays({ md, mood = "neutral", compact, say }: { md: string; mo
   return (
     <div className="ora-says" style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
       <div style={{ flex: "none", marginTop: compact ? -4 : -8 }}><OraDrone mood={mood} size={compact ? 46 : 58} talk={voice.speaking ? voice.level : undefined} /></div>
-      <motion.div className="ora-bubble" initial={{ opacity: 0, x: -8 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.35 }}
+      <motion.div className="ora-bubble" onClick={() => { if (voice.speaking) stopVoice(); }} initial={{ opacity: 0, x: -8 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.35 }}
         style={{ flex: 1, position: "relative", padding: "12px 14px", borderRadius: "4px 16px 16px 16px", background: "linear-gradient(135deg, rgba(59,232,255,.12), rgba(167,139,250,.08))", border: "1px solid rgba(59,232,255,.25)" }}>
         <div className="mono" style={{ fontSize: 10.5, letterSpacing: ".14em", color: "var(--cyan)", marginBottom: 4, display: "flex", alignItems: "center", gap: 2 }}>ORA <Icon name="chevron-right" size={11} stroke={2.6} /><span style={{ flex: 1 }} /><ReplayButton voice={voice} who="ORA" color="var(--cyan)" /></div>
         <RichText md={md} />

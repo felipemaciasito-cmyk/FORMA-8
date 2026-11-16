@@ -514,8 +514,13 @@ export function syncAmbience() {
 export function syncSfxVolume() {
   if (!fxBus || !rt) return;
   const v = Math.max(0, Math.min(1, getState().settings.sfxVolume ?? 1));
-  fxBus.gain.setTargetAtTime(0.85 * v, rt.currentTime, 0.05);
+  fxBus.gain.setTargetAtTime(0.85 * v * (sfxDucked ? SFX_DUCK : 1), rt.currentTime, sfxDucked ? 0.03 : 0.35);
 }
+// Quand un personnage parle, tous les effets (badges, récompenses, touchers…) passent très bas (demande du
+// propriétaire, 16/11/2026 : « hyper atténués ») ; ils remontent doucement à la fin de la réplique.
+const SFX_DUCK = 0.1;
+let sfxDucked = false;
+export function duckSfx(on: boolean) { sfxDucked = on; syncSfxVolume(); }
 /** Énergie de la réserve (0 à 1) : plus elle est haute, plus la salle ronronne et s'anime. */
 export function setAmbienceLevel(x: number) {
   ambLevel = Math.max(0, Math.min(1, x));
