@@ -250,6 +250,9 @@ export function StepView({ roomId, stepId }: { roomId: string; stepId: string })
   const onSolved = (bi: number) => (attempts: number) => {
     setSolved((s) => ({ ...s, [bi]: true }));
     setCheer((c) => c + 1);
+    // Une vérification réussie fait grandir son encadré (« Séquence validée », explication…) : le bouton « Continuer »
+    // descend alors sous la batterie, posée en bas de l'écran, et un toucher tombe sur elle. On le ramène en vue.
+    window.setTimeout(() => bottom.current?.scrollIntoView({ behavior: "smooth", block: "end" }), 450);
     const exKey = `${key}#${bi}`;
     if (getState().progress.exercises[exKey] === undefined) {
       updateProgress((d) => { d.exercises[exKey] = attempts; });
