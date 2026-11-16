@@ -6,7 +6,7 @@ import { getEnergyBar, holdEnergy, landEnergy } from "../lib/energy";
 import { useReduceMotion } from "../lib/motion";
 import { go } from "../lib/router";
 import { key, LEVELUP_HIT, LEVELUP_LOCKS, sfx, WAKE_BEATS, WAKE_HIT, WAKE_SYSTEMS } from "../lib/sound";
-import { speak, speakerOf, stopVoice } from "../lib/voice";
+import { holdVoices, speak, speakerOf, stopSpeaking } from "../lib/voice";
 import { arcs, centerOf, sparks, strike, type Pt } from "./Bolts";
 import { ChargedCapsule } from "./Crew";
 import { Icon } from "./Icon";
@@ -89,6 +89,11 @@ export function RewardLayer() {
   );
 }
 
+/** Pendant une cérémonie plein écran, les personnages cachés dessous ne parlent pas (voir holdVoices). */
+function useHoldVoices() {
+  useEffect(() => { holdVoices(true); return () => holdVoices(false); }, []);
+}
+
 /** « +10 kW » qui s'élève de l'endroit frappé par l'éclair. */
 function KwPop({ p, onDone }: { p: Pop; onDone: () => void }) {
   return (
@@ -152,6 +157,7 @@ function busyRoute() {
 // Un faisceau te scanne de gauche à droite, quatre verrous lourds s'ouvrent l'un après l'autre, puis la puissance
 // s'installe et le nouveau grade apparaît (synchronisé sur le son « levelup »).
 function LevelUp({ e, onClose }: { e: Extract<FxEvent, { type: "levelup" }>; onClose: () => void }) {
+  useHoldVoices();
   const reduce = useReduceMotion();
   const [locks, setLocks] = useState(reduce ? 4 : 0);
   const [granted, setGranted] = useState(reduce);
@@ -222,6 +228,7 @@ function LevelUp({ e, onClose }: { e: Extract<FxEvent, { type: "levelup" }>; onC
 const START = 0.5; // la charge commence 0,5 s après l'ouverture
 
 function Awakening({ e, onClose }: { e: Extract<FxEvent, { type: "awaken" }>; onClose: () => void }) {
+  useHoldVoices();
   const r = getRoom(e.roomId);
   const reduce = useReduceMotion();
   const [phase, setPhase] = useState(reduce ? 5 : 0);
@@ -241,7 +248,7 @@ function Awakening({ e, onClose }: { e: Extract<FxEvent, { type: "awaken" }>; on
     });
     return () => { alive = false; };
   }, [phase === 4]); // eslint-disable-line react-hooks/exhaustive-deps
-  useEffect(() => () => stopVoice(), []);
+  useEffect(() => () => stopSpeaking(), []);
 
   useEffect(() => {
     if (reduce) { sfx("power"); return; }

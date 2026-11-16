@@ -90,8 +90,9 @@ function prepare(speaker: Speaker, key: string): Promise<Ready | null> {
 }
 
 // ---------- Lecture : une seule voix à la fois ----------
-let current: { src: AudioBufferSourceNode; key: string; raf: number } | null = null;
+let current: { src: AudioBufferSourceNode; key: string; raf: number; auto: boolean; speaker: Speaker; md: string } | null = null;
 let loading = ""; // réplique en cours de préparation : elle compte déjà comme « en train de parler »
+let loadingAuto: { speaker: Speaker; md: string } | null = null;
 // Lecture automatique : une seule fois par séance pour chaque réplique (revenir sur un écran ne la relance pas ;
 // le bouton « Réécouter » reste là).
 const autoDone = new Set<string>();
@@ -108,9 +109,13 @@ function stopCurrent() {
 }
 
 /** Arrête la voix en cours et vide la file (changement d'écran, réglage coupé). */
-export function stopVoice() { queue = []; loading = ""; stopCurrent(); }
+export function stopVoice() { queue = []; loading = ""; loadingAuto = null; stopCurrent(); }
+
+/** Arrête seulement la voix en cours (fin d'une cérémonie) : la file d'attente reste. */
+export function stopSpeaking() { if (current && !current.auto) stopCurrent(); }
 
 function next() {
+  if (hold) return; // une cérémonie couvre l'écran : la file attend qu'elle se ferme
   const n = queue.shift();
   if (n) void play(n.speaker, n.md, true);
 }
@@ -119,7 +124,7 @@ async function play(speaker: Speaker, md: string, auto = false): Promise<number 
   const key = voiceKey(speaker, md), io = audioOutput();
   if (!io) return null;
   if (auto) autoDone.add(key);
-  loading = key;
+  loading = key; loadingAuto = auto ? { speaker, md } : null;
   const ready = await prepare(speaker, key);
   if (loading !== key) return null; // une autre réplique a été demandée entre-temps
   loading = "";
@@ -136,11 +141,36 @@ async function play(speaker: Speaker, md: string, auto = false): Promise<number 
     emit({ key, speaking: true, level: ready.levels[Math.min(ready.levels.length - 1, Math.max(0, i))] ?? 0 });
     current.raf = requestAnimationFrame(tick);
   };
-  current = { src, key, raf: requestAnimationFrame(tick) };
+  current = { src, key, raf: requestAnimationFrame(tick), auto, speaker, md };
+  if (hold) heardDuringHold.add(key);
   src.onended = () => { if (current?.src === src) { stopCurrent(); next(); } };
   duckAmbience(true);
   src.start();
   return ready.buffer.duration;
+}
+
+// ---------- Cérémonies plein écran : personne d'autre ne parle derrière ----------
+// Remarque du propriétaire (16/11/2026) : pendant une cérémonie de grade, le personnage de la page suivante, encore
+// caché dessous, lisait déjà sa réplique. Règle : un personnage ne parle pas tant qu'il n'est pas visible. Pendant
+// une cérémonie, les lectures automatiques attendent donc dans la file ; elles partent à sa fermeture (sauf la
+// réplique que la cérémonie vient de faire entendre, comme celle du réveil).
+let hold = 0;
+const heardDuringHold = new Set<string>();
+export function holdVoices(on: boolean) {
+  if (on) {
+    if (hold++ === 0) {
+      heardDuringHold.clear();
+      // Une réplique automatique déjà lancée derrière la cérémonie s'arrête et reprendra à sa fermeture.
+      if (current?.auto) { const c = current; autoDone.delete(c.key); queue = [{ speaker: c.speaker, md: c.md }]; stopCurrent(); }
+      if (loading && loadingAuto) { autoDone.delete(loading); queue = [...queue, loadingAuto]; }
+      loading = ""; loadingAuto = null;
+    }
+    return;
+  }
+  hold = Math.max(0, hold - 1);
+  if (hold) return;
+  queue = queue.filter((q) => !heardDuringHold.has(voiceKey(q.speaker, q.md)));
+  if (!current) next();
 }
 
 /**
@@ -151,7 +181,7 @@ async function play(speaker: Speaker, md: string, auto = false): Promise<number 
 export function speak(speaker: Speaker, md: string, auto = false): Promise<number | null> {
   if (!getState().settings.voices || !hasVoice(speaker, md) || !audioOutput()) return Promise.resolve(null);
   if (auto && autoDone.has(voiceKey(speaker, md))) return Promise.resolve(null);
-  if (auto && (current || loading)) {
+  if (auto && (current || loading || hold)) {
     const key = voiceKey(speaker, md);
     if (current?.key !== key && loading !== key && !queue.some((q) => voiceKey(q.speaker, q.md) === key)) queue = [...queue.slice(-1), { speaker, md }];
     return Promise.resolve(null);
