@@ -1,4 +1,4 @@
-# FORMA-8 · Réveille l'équipe : document de transfert (état au 15/11/2026, après « la centrale et l'arc »)
+# FORMA-8 · Réveille l'équipe : document de transfert (état au 15/11/2026, après le correctif « remise en ordre au doigt »)
 
 > À lire en entier au démarrage de chaque nouvelle session (renvoi dans `CLAUDE.md`), **en commençant par la
 > section 0**. Ce document complète `CLAUDE.md`, `docs/CONCEPTION.md` et `docs/PROGRAMME.md`. En cas d'écart, le
@@ -18,9 +18,9 @@ faire est ci-dessous.
    `docs/PROGRAMME.md`. Ne rien écrire avant.
 2. Faire toutes les étapes de la section 5.1 : vérifier `main`, cloner FORMA-7 à côté, `npm ci`, commande complète de
    vérification. Puis résumer au propriétaire, en quelques lignes, l'état du projet et le résultat des vérifications.
-3. Lui poser, en QCM, les questions de la section 5.1 (étape 5) sur « la centrale et l'arc » joué sur son iPhone
-   (version en ligne). Corriger d'abord ce qu'il signale ; pour un changement visuel ou sonore important, maquette
-   jouable d'abord.
+3. Lui poser, en QCM, les questions de la section 5.1 (étape 5) : la remise en ordre au doigt (correctif 3.17) essayée
+   sur son iPhone (version en ligne), et ses autres remarques. Corriger d'abord ce qu'il signale ; pour un changement
+   visuel ou sonore important, maquette jouable d'abord.
 4. Lui demander son **feu vert** en QCM, puis écrire le caisson 02 en suivant la section 5.2 et `docs/PROGRAMME.md`.
    Ce qu'il attend : « Sois extrêmement ambitieux et rigoureux » ; un apprentissage très ludique, guidé pas à pas,
    cohérent et très esthétique ; chaque outil doit fonctionner parfaitement sur iPhone.
@@ -199,8 +199,8 @@ npm run validate && npm run check:emoji && npm run check:parity && npm run typec
 ## 3. État actuel et éléments validés
 
 ### 3.1 Git, PR et mise en ligne
-- `origin/main` = **`5f3f318`** (« Merge pull request #13 », la centrale et l'arc), vérifié le 15/11/2026, puis la
-  PR qui met ce document à jour (voir ci-dessous). Avant : `1769e85` (PR #12, son et lumière), `ef21f29` (PR #11),
+- `origin/main` = **`43928ea`** (« Merge pull request #14 », mise à jour de ce document), vérifié le 15/11/2026, puis
+  la PR du correctif « remise en ordre au doigt » (voir ci-dessous). Avant : `5f3f318` (PR #13, la centrale et l'arc), `1769e85` (PR #12, son et lumière), `ef21f29` (PR #11),
   `f2af5ff` (PR #10), `b96f074` (PR #9, refonte de l'interface), `ccb28cf` (PR #8, caisson 01), `79c1061` (PR #7).
 - PR, toutes fusionnées par le propriétaire :
   - #1 socle ; #2 et #3 lots 2 et 3 (fusionnés par erreur dans des branches intermédiaires) ; #4 lots 2 et 3 vers
@@ -213,15 +213,16 @@ npm run validate && npm run check:emoji && npm run check:parity && npm run typec
   - #12 son et lumière (15/11/2026, voir 3.15) ;
   - #13 la centrale et l'arc (15/11/2026, branche `claude/hopeful-bohr-241xx8`, voir 3.16) : créée depuis l'interface
     de Claude Code par le propriétaire et fusionnée tout de suite, avant la fin du robot de vérification ;
-  - la PR suivante, sur la même branche repartie de `main`, ne contient que la mise à jour de ce document.
-- Branches distantes : `main` et `claude/hopeful-bohr-241xx8` (à supprimer par le propriétaire après la fusion de la
-  PR de ce document) ; `claude/forma8-reveille-equipe-29srjv` (PR #12) aussi, si elle existe encore.
+  - #14 mise à jour de ce document après « la centrale et l'arc » (15/11/2026, même branche repartie de `main`) ;
+  - la PR suivante (branche `claude/stoic-rubin-2cd33c`) : correctif « remise en ordre au doigt » (voir 3.17).
+- Branches distantes au 15/11/2026, 23:35 UTC : `main` et `claude/hopeful-bohr-241xx8` (PR #13 et #14, fusionnées : à
+  supprimer par le propriétaire) ; plus `claude/stoic-rubin-2cd33c` une fois la PR du correctif envoyée.
 - Workflows :
   - `.github/workflows/ci.yml` (« Vérifications FORMA-8 », job `verifier`, sur chaque PR, Node 22) : récupère FORMA-7
     dans `forma-7`, puis lance toutes les vérifications et les tests de bout en bout ;
   - `.github/workflows/deploy.yml` (sur envoi vers `main`) : construit l'appli et la publie sur GitHub Pages.
-- GitHub Pages : Source « GitHub Actions ». Dernière mise en ligne de l'appli : n° 10, réussie (15/11/2026, 22:55 UTC,
-  après la fusion de la #13 : la centrale et l'arc sont en ligne).
+- GitHub Pages : Source « GitHub Actions ». Dernière mise en ligne de l'appli : n° 11, réussie (15/11/2026, 23:02 UTC,
+  après la fusion de la #14 ; la centrale et l'arc sont en ligne depuis la n° 10).
 
 ### 3.2 Pile technique
 - Vite 8, React 19, TypeScript 6, motion 14 (`motion/react`), idb-keyval 6, vite-plugin-pwa 2.
@@ -468,10 +469,12 @@ npm run validate && npm run check:emoji && npm run check:parity && npm run typec
 - Tests unitaires : **34** (`merge` 8, `garde-fous` 8, `livraisons` 9, `validateur` 7, `energie` 2 : la batterie). Garde-fous :
   aucune écriture sous `forma7:`, `progress.json` jamais touché, clés `forma8:` uniquement, substitutions documentées,
   aucun simulateur de FORMA-7, aucun usage de `Art`.
-- Tests de bout en bout : **11**, écran d'iPhone 13 (et iPad en paysage pour `affichage.spec.ts`), `vite preview` sur
+- Tests de bout en bout : **12**, écran d'iPhone 13 (et iPad en paysage pour `affichage.spec.ts`), `vite preview` sur
   `http://localhost:4173/FORMA-8/`. `affichage.spec.ts` (2) : l'écran de fin ne laisse rien apparaître en haut (iPhone,
   iPad). Les autres :
-  `socle.spec.ts` (5), `mecaniques.spec.ts` (2), `caisson00.spec.ts` (banc complet, environ 1,2 min),
+  `socle.spec.ts` (5), `mecaniques.spec.ts` (2), `tactile.spec.ts` (1 : la remise en ordre glissée **au doigt**, avec
+  de vrais touchers envoyés à Chromium par son protocole de débogage, `Input.dispatchTouchEvent` ; l'écran ne défile
+  pas pendant le geste, mais défile toujours ailleurs), `caisson00.spec.ts` (banc complet, environ 1,2 min),
   `caisson01.spec.ts` (banc complet, environ 2 min ; part d'un caisson 00 réveillé déposé dans
   `forma8:progress-secours` ; `E2E_TIMEOUT` règle sa durée maximale). `helpers.ts` : `boot()` (bouton « Mettre sous
   tension », « Non merci » au fond sonore), `solve()`, `playStep(page, caisson, protocole, numéro, onBlock?)` (branche
@@ -480,7 +483,10 @@ npm run validate && npm run check:emoji && npm run check:parity && npm run typec
   `ceremonies.grade`), `holdCentrale(page, ms)`, `sendArc()` (maintient le doigt 3,2 s sur la centrale),
   `expectCoversTop(page, dialogue)`, `playMaintenance()`, `dismissCeremonies()`. Le banc du caisson 00 vérifie aussi
   qu'une tentative d'arc avant la réparation de la panne échoue.
-- Dernier passage complet : 15/11/2026, tout vert en local (Chromium). WebKit : le caisson 00 passe la centrale, la
+- Dernier passage complet : 15/11/2026 (correctif « remise en ordre au doigt »), tout vert en local (Chromium).
+  **Limite** : les tests cliquent ; jusqu'au 15/11/2026, aucun ne glissait au doigt, d'où le défaut vu seulement par le
+  propriétaire. Playwright ne sait pas simuler un glisser au doigt dans WebKit ; `Input.synthesizeScrollGesture` ne
+  fait rien sans écran (essayé). WebKit (passage précédent) : le caisson 00 passe la centrale, la
   tentative refusée et l'arc, puis s'arrête à la livraison (GitHub simulé, limite connue du banc) ; le dernier protocole
   et la surcharge de l'arc passent sans plantage.
 
@@ -503,7 +509,10 @@ npm run validate && npm run check:emoji && npm run check:parity && npm run typec
 - Si le joueur quitte l'écran de la panne réparée sans réarmer le disjoncteur, la scène de réveil ne se joue pas ;
   elle reste visible depuis la fiche du membre (« Revoir son réveil »).
 - Durées des protocoles : estimation à 0,85 min par bloc, à ajuster avec l'usage réel.
-- **Centrale, à confirmer sur iPhone** (version en ligne) : fluidité du plasma et de la surcharge sur un ancien
+- **Remise en ordre au doigt, à confirmer sur iPhone** après la fusion du correctif (voir 3.17) : la cause retenue
+  (Safari qui prend le glisser pour un défilement de l'écran) est probable, pas prouvée ; non reproduite ici.
+- **Centrale** : jouée en ligne sur iPhone par le propriétaire le 15/11/2026, « Ça marche bien ». Restait **à
+  confirmer sur iPhone** (version en ligne) : fluidité du plasma et de la surcharge sur un ancien
   modèle, geste de la fiche jusqu'à la prise la plus éloignée, hauteur de la scène sur un petit écran (iPhone SE :
   elle dépasse probablement un peu et se fait défiler ; non vérifié).
 - Le tonnerre en fin de protocole, écarté le matin du 15/11, est revenu le soir à la demande du propriétaire (« un son
@@ -585,6 +594,17 @@ npm run validate && npm run check:emoji && npm run check:parity && npm run typec
 - **Retirés** : le banc de batteries et le socle à prises de la version du matin (`.socle`, `.bank`, `.vbatt`) ;
   `rearmBreaker` dans les tests (remplacé par `sendArc`).
 
+### 3.17 Correctif « remise en ordre au doigt » (15/11/2026)
+- **Signalé par le propriétaire** sur iPhone : « avec la souris pas de problème pour replacer les lignes, mais au doigt
+  ça ne fonctionne pas » (exercices `order`, `Exercises.tsx`, fonction `Order`, `Reorder` de motion).
+- **Cause probable** (non reproduite : le même geste marche au doigt dans Chromium) : l'exercice est dans `.screen`,
+  une zone qui défile (`overflow-y: auto`) ; dans ce cas, Safari sur iPhone peut prendre le glisser pour un défilement
+  et annuler le geste, malgré `touch-action: none`.
+- **Correctif** : un écouteur `touchmove` non passif (`preventDefault`) sur la liste (`.order-list`, espaces entre les
+  lignes compris : le doigt n'y fait pas défiler l'écran), tant que l'exercice n'est pas réussi ; classe `.order-item` (ni sélection de texte, ni loupe de Safari à l'appui). Les flèches restent.
+- Les autres glisser de l'appli (levier du démarrage, fiche de la centrale) sont hors de `.screen` : le propriétaire
+  les a utilisés sans problème.
+
 ---
 
 ## 4. Décisions prises et pistes écartées
@@ -665,17 +685,18 @@ npm run validate && npm run check:emoji && npm run check:parity && npm run typec
 
 ### 5.1 Au démarrage de la nouvelle session (avant toute écriture)
 1. Lire en entier `CLAUDE.md`, ce document, `docs/CONCEPTION.md` et `docs/PROGRAMME.md`.
-2. `git fetch origin`. Vérifier que `origin/main` contient `5f3f318` (PR #13) et la PR de ce document ; si autre chose
-   a changé, le dire au propriétaire.
+2. `git fetch origin`. Vérifier que `origin/main` contient `43928ea` (PR #14) et la PR du correctif « remise en ordre
+   au doigt » (3.17) ; si autre chose a changé, le dire au propriétaire.
 3. Attacher `felipemaciasito-cmyk/forma-7` (public, lecture seule) et le cloner **à côté** de FORMA-8, sous le nom
    `forma-7`, **en entier** (sans `--depth`), pour `check:parity` et l'étude de cas.
 4. `npm ci`, puis la commande complète de vérification. Annoncer le résultat en quelques lignes : l'état de départ
    doit être entièrement vert.
-5. Demander au propriétaire, en QCM, son retour sur « la centrale et l'arc » joué sur la version en ligne, sur son
-   iPhone : geste de la fiche (prise la plus éloignée comprise), électricité de la centrale, tentative refusée, arc et
-   surcharge après la panne, tonnerre et claquements, menu du son, cérémonie de grade en quittant le protocole,
-   fluidité et plantages éventuels. Corriger d'abord ce qu'il signale ; pour un changement visuel ou sonore important, maquette d'abord, et
-   test dans WebKit (2.3).
+5. Demander au propriétaire, en QCM : la remise en ordre se glisse-t-elle maintenant au doigt sur son iPhone (version
+   en ligne, après la fusion du correctif) ? Si non, passer à une poignée dédiée au glisser (`useDragControls` de
+   motion) et le faire essayer dans une page privée avant la PR. Puis lui demander ses autres remarques : le 15/11/2026,
+   il a répondu « Pas encore » au feu vert du caisson 02, ce qui laisse penser qu'il en a d'autres. La centrale et
+   l'arc : « Ça marche bien » (15/11/2026). Corriger d'abord ce qu'il signale ; pour un changement visuel ou sonore
+   important, maquette d'abord, et test dans WebKit (2.3).
 6. Attendre son **feu vert explicite** (QCM) pour le caisson 02.
 
 ### 5.2 Caisson 02 · Le Règlement de bord · « L'environnement de ton équipe » · v0.2 (après le feu vert)
@@ -712,8 +733,9 @@ npm run validate && npm run check:emoji && npm run check:parity && npm run typec
   attendre le robot vert ; annoncer ; ne plus rien pousser ensuite.
 
 ### 5.3 À faire côté propriétaire (à lui rappeler, sans urgence)
-- **Jouer « la centrale et l'arc »** sur https://felipemaciasito-cmyk.github.io/FORMA-8/ (si rien ne change, fermer
-  complètement l'appli et la rouvrir). Le fond sonore se règle avec le haut-parleur de la barre du haut.
+- **Essayer la remise en ordre au doigt** sur https://felipemaciasito-cmyk.github.io/FORMA-8/ après la fusion du
+  correctif (par exemple caisson 00, protocole 2, ou caisson 01) ; si rien ne change, fermer complètement l'appli et la
+  rouvrir. Le fond sonore se règle avec le haut-parleur de la barre du haut.
 - **Ne fusionner une PR qu'après l'annonce « robot vert »** dans la conversation (la PR #13 a été fusionnée avant).
 - Noter tout libellé de GitHub du caisson 01 qui ne correspond pas à l'appli.
 - **Créer la clé API Claude** : Console Claude, espace de travail dédié avec plafond de dépense mensuel, achat de
