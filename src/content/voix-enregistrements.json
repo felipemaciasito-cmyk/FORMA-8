@@ -1,6 +1,27 @@
 {
  "_lisez-moi": "Répliques enregistrées avec ElevenLabs. Clé : « personnage:empreinte du texte dit » (src/lib/voice-key.js). « fichier » est dans public/voix ; « voix » est la voix ElevenLabs utilisée ; « envoye » est le texte exact envoyé (il peut différer du texte affiché : prénom retiré, prononciation aidée) ; « texte » est la réplique affichée ; « date » est le jour de l'enregistrement. Ajouter une entrée avec scripts/voix.mjs.",
  "repliques": {
+  "c01:378acd53": {
+   "fichier": "c01-ff5cf086.mp3",
+   "voix": "EMuO6fFLrXKOryHzij6K",
+   "envoye": "Je me souviens… j'avais un album de chaque étape du chantier. Encore un effort, et je te le montre.",
+   "texte": "Je me souviens… j'avais un album de chaque étape du chantier. Encore un effort, et je te le montre.",
+   "date": "2026-11-16"
+  },
+  "c01:6c54bce2": {
+   "fichier": "c01-1d6d9501.mp3",
+   "voix": "EMuO6fFLrXKOryHzij6K",
+   "envoye": "Bonjour, chef. Me voilà réveillée. À partir d'aujourd'hui, aucune version de ton produit ne se perdra. Et si quelque chose casse, nous reviendrons en arrière ensemble, sans rien effacer.",
+   "texte": "Bonjour, chef. Me voilà réveillée. À partir d'aujourd'hui, aucune version de ton produit ne se perdra. Et si quelque chose casse, nous reviendrons en arrière ensemble, sans rien effacer.",
+   "date": "2026-11-16"
+  },
+  "c01:9d617ab8": {
+   "fichier": "c01-06e9fe29.mp3",
+   "voix": "EMuO6fFLrXKOryHzij6K",
+   "envoye": "[whispering] … photo numéro un… photo numéro deux… surtout, je ne jette rien…",
+   "texte": "… photo numéro un… photo numéro deux… surtout, je ne jette rien…",
+   "date": "2026-11-16"
+  },
   "c01:ecf65907": {
    "fichier": "c01-e6a37b24.mp3",
    "voix": "EMuO6fFLrXKOryHzij6K",
@@ -13,6 +34,20 @@
    "voix": "5l4ttmr4SKNgi0HnOelT",
    "envoye": "Je suis le Règlement de bord. J'écris les règles que toute l'équipe suit, à chaque séance de travail.",
    "texte": "Je suis le Règlement de bord. J'écris les règles que toute l'équipe suit, à chaque séance de travail.",
+   "date": "2026-11-16"
+  },
+  "c02:83dc6b01": {
+   "fichier": "c02-f7b6e765.mp3",
+   "voix": "5l4ttmr4SKNgi0HnOelT",
+   "envoye": "[whispering] … article premier : je vérifie avant de livrer… article deux…",
+   "texte": "… article premier : je vérifie avant de livrer… article deux…",
+   "date": "2026-11-16"
+  },
+  "c03:6bb04320": {
+   "fichier": "c03-b15574af.mp3",
+   "voix": "86fYoxrFeaJKXplThwSl",
+   "envoye": "[whispering] … il était une fois… une personne pressée… qui voulait un bouton…",
+   "texte": "… il était une fois… une personne pressée… qui voulait un bouton…",
    "date": "2026-11-16"
   },
   "c03:c306ab7a": {
@@ -29,6 +64,13 @@
    "texte": "Je suis la Boucle ! Je demande, je relis, je corrige, et je recommence jusqu'à ce que ça marche.",
    "date": "2026-11-16"
   },
+  "c04:3cb959b5": {
+   "fichier": "c04-056a17b4.mp3",
+   "voix": "KSyQzmsYhFbuOhqj1Xxv",
+   "envoye": "[whispering] … encore un tour… encore un petit tour…",
+   "texte": "… encore un tour… encore un petit tour…",
+   "date": "2026-11-16"
+  },
   "c05:78bf4e31": {
    "fichier": "c05-70dbcf09.mp3",
    "voix": "fnoOtHjtLbYs6mOpUSdr",
@@ -40,11 +82,36 @@
     "voix": "Qrl71rx6Yg8RvyPYRGCQ"
    }
   },
+  "c05:ce45f89d": {
+   "fichier": "c05-2c754fb9.mp3",
+   "voix": "fnoOtHjtLbYs6mOpUSdr",
+   "envoye": "[whispering] … tout est en ordre… vérifié… vérifié… revérifié…",
+   "texte": "… tout est en ordre… vérifié… vérifié… revérifié…",
+   "date": "2026-11-16",
+   "duo": {
+    "fichier": "c05-8400613f.mp3",
+    "voix": "Qrl71rx6Yg8RvyPYRGCQ"
+   }
+  },
+  "c06:0de61713": {
+   "fichier": "c06-7a223d64.mp3",
+   "voix": "hv6gVog5LgtIUX88Nmq8",
+   "envoye": "[whispering] … livraison express… adresse… confirmée…",
+   "texte": "… livraison express… adresse… confirmée…",
+   "date": "2026-11-16"
+  },
   "c06:d245a9f8": {
    "fichier": "c06-293656c5.mp3",
    "voix": "hv6gVog5LgtIUX88Nmq8",
    "envoye": "Je suis le Messager ! Je mets ton produit en ligne, vite, et sans rien casser.",
    "texte": "Je suis le Messager ! Je mets ton produit en ligne, vite, et sans rien casser.",
+   "date": "2026-11-16"
+  },
+  "c07:c41c2875": {
+   "fichier": "c07-ac7ada08.mp3",
+   "voix": "hFgOzpmS0CMtL2to8sAl",
+   "envoye": "[whispering] … je n'oublie rien… ni personne… ni rien…",
+   "texte": "… je n'oublie rien… ni personne… ni rien…",
    "date": "2026-11-16"
   },
   "c07:da412517": {
@@ -54,6 +121,41 @@
    "texte": "Je suis la Mémoire. Je garde les données et les comptes de tes utilisateurs, et je n'oublie rien.",
    "date": "2026-11-16"
   },
+  "c08:43067222": {
+   "fichier": "c08-6458b316.mp3",
+   "voix": "E933WO9WB9GvOmNCycNW",
+   "envoye": "[whispering] … halte… qui va là… ah, c'est toi…",
+   "texte": "… halte… qui va là… ah, c'est toi…",
+   "date": "2026-11-16"
+  },
+  "c08:5e8236d8": {
+   "fichier": "c08-3be975a8.mp3",
+   "voix": "E933WO9WB9GvOmNCycNW",
+   "envoye": "Je suis la Sentinelle. Je protège tes secrets, tes utilisateurs et ton budget.",
+   "texte": "Je suis la Sentinelle. Je protège tes secrets, tes utilisateurs et ton budget.",
+   "date": "2026-11-16"
+  },
+  "c09:0697a7c0": {
+   "fichier": "c09-12cc0c71.mp3",
+   "voix": "7t206LwybBCgHnAvOdtX",
+   "envoye": "Je mène l'escouade : mes drones travaillent en même temps, et mes réflexes veillent pour toi.",
+   "texte": "Je mène l'escouade : mes drones travaillent en même temps, et mes réflexes veillent pour toi.",
+   "date": "2026-11-16"
+  },
+  "c09:b2acc738": {
+   "fichier": "c09-621c4029.mp3",
+   "voix": "7t206LwybBCgHnAvOdtX",
+   "envoye": "[whispering] … un, deux, trois… chacun à son poste…",
+   "texte": "… un, deux, trois… chacun à son poste…",
+   "date": "2026-11-16"
+  },
+  "c10:cd78633e": {
+   "fichier": "c10-b0533e28.mp3",
+   "voix": "t28pUgJnL2wUUQ8SOnaU",
+   "envoye": "[whispering] … compte à rebours… dix… neuf… huit…",
+   "texte": "… compte à rebours… dix… neuf… huit…",
+   "date": "2026-11-16"
+  },
   "c10:f4b291c3": {
    "fichier": "c10-53260b99.mp3",
    "voix": "t28pUgJnL2wUUQ8SOnaU",
@@ -61,11 +163,32 @@
    "texte": "Je suis le Lancement. Je présente ton produit au monde, et je t'aide à en faire ton métier.",
    "date": "2026-11-16"
   },
+  "ora:227c5802": {
+   "fichier": "ora-6fd3cc3e.mp3",
+   "voix": "t8BrjWUT5Z23DLLBzbuY",
+   "envoye": "Systèmes en veille. Je suis prête à démarrer quand tu le seras.",
+   "texte": "Systèmes en veille. Je suis prête à démarrer quand tu le seras.",
+   "date": "2026-11-16"
+  },
+  "ora:3965236b": {
+   "fichier": "ora-dfa47c57.mp3",
+   "voix": "t8BrjWUT5Z23DLLBzbuY",
+   "envoye": "Mes circuits reviennent un par un. Continue : tu apprends vite, et j'en suis fière.",
+   "texte": "Mes circuits reviennent un par un. Continue : tu apprends vite, et j'en suis fière.",
+   "date": "2026-11-16"
+  },
   "ora:747439ca": {
    "fichier": "ora-4659251e.mp3",
    "voix": "t8BrjWUT5Z23DLLBzbuY",
    "envoye": "Je suis ORA, ta guide. Je t'apprends les bases, et nous réveillons l'équipe ensemble.",
    "texte": "Je suis ORA, ta guide. Je t'apprends les bases, et nous réveillons l'équipe ensemble.",
+   "date": "2026-11-16"
+  },
+  "ora:b478ab54": {
+   "fichier": "ora-e2ddcb30.mp3",
+   "voix": "t8BrjWUT5Z23DLLBzbuY",
+   "envoye": "Pleine puissance. Grâce à toi, les bases sont posées et ton produit a sa première page en ligne. Allons réveiller le reste de l'équipe.",
+   "texte": "Pleine puissance. Grâce à toi, les bases sont posées et ton produit a sa première page en ligne. Allons réveiller le reste de l'équipe.",
    "date": "2026-11-16"
   }
  }
