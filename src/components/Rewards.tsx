@@ -6,6 +6,7 @@ import { getEnergyBar, holdEnergy, landEnergy } from "../lib/energy";
 import { useReduceMotion } from "../lib/motion";
 import { go } from "../lib/router";
 import { key, LEVELUP_HIT, LEVELUP_LOCKS, sfx, WAKE_BEATS, WAKE_HIT, WAKE_SYSTEMS } from "../lib/sound";
+import { speak, speakerOf, stopVoice } from "../lib/voice";
 import { arcs, centerOf, sparks, strike, type Pt } from "./Bolts";
 import { ChargedCapsule } from "./Crew";
 import { Icon } from "./Icon";
@@ -226,8 +227,21 @@ function Awakening({ e, onClose }: { e: Extract<FxEvent, { type: "awaken" }>; on
   const [phase, setPhase] = useState(reduce ? 5 : 0);
   const [beat, setBeat] = useState(0);
   const [typed, setTyped] = useState(0);
+  // Rythme de l'écriture : 26 ms pour deux lettres, ou calé sur la voix du membre quand il dit sa réplique.
+  const [pace, setPace] = useState<{ ms: number; voiced: boolean }>({ ms: 26, voiced: false });
   const capRef = useRef<HTMLDivElement>(null);
   const line = crewLines(e.roomId)?.reveil ?? "";
+
+  // Le membre réveillé dit sa réplique de sa propre voix (si elle est enregistrée et que les voix sont activées).
+  useEffect(() => {
+    if (phase !== 4 || !line) return;
+    let alive = true;
+    void speak(speakerOf(e.roomId), line).then((sec) => {
+      if (alive && sec) setPace({ ms: Math.max(26, Math.min(110, (sec * 1000 * 0.92) / Math.ceil(line.length / 2))), voiced: true });
+    });
+    return () => { alive = false; };
+  }, [phase === 4]); // eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(() => () => stopVoice(), []);
 
   useEffect(() => {
     if (reduce) { sfx("power"); return; }
@@ -245,9 +259,9 @@ function Awakening({ e, onClose }: { e: Extract<FxEvent, { type: "awaken" }>; on
   useEffect(() => {
     if (phase !== 4) return;
     if (typed >= line.length) { const t = window.setTimeout(() => setPhase(5), 400); return () => window.clearTimeout(t); }
-    const t = window.setTimeout(() => { setTyped((n) => Math.min(line.length, n + 2)); if (typed % 6 === 0) key("char"); }, 26);
+    const t = window.setTimeout(() => { setTyped((n) => Math.min(line.length, n + 2)); if (!pace.voiced && typed % 6 === 0) key("char"); }, pace.ms);
     return () => window.clearTimeout(t);
-  }, [phase, typed, line]);
+  }, [phase, typed, line, pace]);
 
   if (!r) return null;
   const hue = r.hue;

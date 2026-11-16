@@ -41,6 +41,13 @@ prochaine action), et le mettre à jour à la fin de chaque lot.
    `src/components/Crew.tsx` (le composant `Art` de FORMA-7 a été retiré).
    Les répliques de l'équipe (`src/content/equipe.json`) suivent la même règle et passent par le validateur.
    Chaque caisson doit passer le banc d'essai de bout en bout (`tests/e2e/caisson01.spec.ts` en est le modèle).
+10. **Voix de l'équipe** : chaque personnage lit ses répliques avec sa voix (`src/content/voix.json` : sexe, personnalité,
+   voix ElevenLabs, filtre robotique et densité choisis par le propriétaire). Les voix sont des mp3 enregistrés une fois
+   (`public/voix`, liste dans `src/content/voix-enregistrements.json`), jamais générés dans l'appli. **Toute réplique
+   modifiée ou nouvelle se réenregistre** avec le connecteur ElevenLabs, puis `node scripts/voix.mjs ajouter …`
+   (`node scripts/voix.mjs manquantes` liste ce qui manque ; le validateur bloque une prise qui ne correspond plus au
+   texte). Les répliques restent à la première personne et tutoient le joueur. Aucun changement de voix ou de filtre
+   sans écoute et accord du propriétaire.
 
 ## Méthode de travail
 
@@ -61,7 +68,8 @@ npm run validate && npm run check:emoji && npm run check:parity && npm run typec
 - `src/content/glossary.json` : les notions ; `src/content/equipe.json` : les répliques des 11 membres.
 - `src/lib/` : stockage (`store.ts`), fusion (`merge.ts`), synchronisation (`sync.ts`), GitHub
   (`github.ts`), héritage FORMA-7 en lecture seule (`forma7.ts`), Claude (`claude.ts`), jeu (`game.ts`),
-  barre d'énergie d'un protocole (`energy.ts`).
+  barre d'énergie d'un protocole (`energy.ts`), voix de l'équipe (`voice.ts`, `voice-key.js`) et touche robotique
+  (`robot.ts`).
 - `src/components/` : écrans et couche visuelle (voir règle 3) ; personnages (`Crew.tsx`) ; jaillissements de kW,
   cérémonies de grade et scènes de réveil (`Rewards.tsx`).
 - `scripts/` : validateur, contrôle zéro emoji, contrôle de l'identité visuelle (`check:parity`), génération des icônes.

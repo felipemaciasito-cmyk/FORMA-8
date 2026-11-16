@@ -1,4 +1,4 @@
-# FORMA-8 · Réveille l'équipe : document de transfert (état au 15/11/2026, après le correctif « remise en ordre au doigt »)
+# FORMA-8 · Réveille l'équipe : document de transfert (état au 16/11/2026, après le lot « Les voix de l'équipe »)
 
 > À lire en entier au démarrage de chaque nouvelle session (renvoi dans `CLAUDE.md`), **en commençant par la
 > section 0**. Ce document complète `CLAUDE.md`, `docs/CONCEPTION.md` et `docs/PROGRAMME.md`. En cas d'écart, le
@@ -18,8 +18,8 @@ faire est ci-dessous.
    `docs/PROGRAMME.md`. Ne rien écrire avant.
 2. Faire toutes les étapes de la section 5.1 : vérifier `main`, cloner FORMA-7 à côté, `npm ci`, commande complète de
    vérification. Puis résumer au propriétaire, en quelques lignes, l'état du projet et le résultat des vérifications.
-3. Lui poser, en QCM, les questions de la section 5.1 (étape 5) : la remise en ordre au doigt (correctif 3.17) essayée
-   sur son iPhone (version en ligne), et ses autres remarques. Corriger d'abord ce qu'il signale ; pour un changement
+3. Lui poser, en QCM, les questions de la section 5.1 (étape 5) : les voix de l'équipe (lot 3.18) écoutées sur son
+   iPhone (version en ligne), la remise en ordre au doigt (correctif 3.17), et ses autres remarques. Corriger d'abord ce qu'il signale ; pour un changement
    visuel ou sonore important, maquette jouable d'abord.
 4. Lui demander son **feu vert** en QCM, puis écrire le caisson 02 en suivant la section 5.2 et `docs/PROGRAMME.md`.
    Ce qu'il attend : « Sois extrêmement ambitieux et rigoureux » ; un apprentissage très ludique, guidé pas à pas,
@@ -199,8 +199,8 @@ npm run validate && npm run check:emoji && npm run check:parity && npm run typec
 ## 3. État actuel et éléments validés
 
 ### 3.1 Git, PR et mise en ligne
-- `origin/main` = **`43928ea`** (« Merge pull request #14 », mise à jour de ce document), vérifié le 15/11/2026, puis
-  la PR du correctif « remise en ordre au doigt » (voir ci-dessous). Avant : `5f3f318` (PR #13, la centrale et l'arc), `1769e85` (PR #12, son et lumière), `ef21f29` (PR #11),
+- `origin/main` = **`bbbab68`** (« Merge pull request #15 », correctif « remise en ordre au doigt »), vérifié le
+  16/11/2026, puis la PR du lot « Les voix de l'équipe » (voir ci-dessous). Avant : `43928ea` (PR #14), `5f3f318` (PR #13, la centrale et l'arc), `1769e85` (PR #12, son et lumière), `ef21f29` (PR #11),
   `f2af5ff` (PR #10), `b96f074` (PR #9, refonte de l'interface), `ccb28cf` (PR #8, caisson 01), `79c1061` (PR #7).
 - PR, toutes fusionnées par le propriétaire :
   - #1 socle ; #2 et #3 lots 2 et 3 (fusionnés par erreur dans des branches intermédiaires) ; #4 lots 2 et 3 vers
@@ -214,9 +214,10 @@ npm run validate && npm run check:emoji && npm run check:parity && npm run typec
   - #13 la centrale et l'arc (15/11/2026, branche `claude/hopeful-bohr-241xx8`, voir 3.16) : créée depuis l'interface
     de Claude Code par le propriétaire et fusionnée tout de suite, avant la fin du robot de vérification ;
   - #14 mise à jour de ce document après « la centrale et l'arc » (15/11/2026, même branche repartie de `main`) ;
-  - la PR suivante (branche `claude/stoic-rubin-2cd33c`) : correctif « remise en ordre au doigt » (voir 3.17).
-- Branches distantes au 15/11/2026, 23:35 UTC : `main` et `claude/hopeful-bohr-241xx8` (PR #13 et #14, fusionnées : à
-  supprimer par le propriétaire) ; plus `claude/stoic-rubin-2cd33c` une fois la PR du correctif envoyée.
+  - #15 correctif « remise en ordre au doigt » (15/11/2026, branche `claude/stoic-rubin-2cd33c`, voir 3.17) ;
+  - la PR suivante (même branche, repartie de `main`) : « Les voix de l'équipe » (16/11/2026, voir 3.18).
+- Branches distantes : `main` et `claude/stoic-rubin-2cd33c` (PR des voix) ; `claude/hopeful-bohr-241xx8` (PR #13 et
+  #14, fusionnées) est à supprimer par le propriétaire si elle existe encore.
 - Workflows :
   - `.github/workflows/ci.yml` (« Vérifications FORMA-8 », job `verifier`, sur chaque PR, Node 22) : récupère FORMA-7
     dans `forma-7`, puis lance toutes les vérifications et les tests de bout en bout ;
@@ -371,7 +372,8 @@ npm run validate && npm run check:emoji && npm run check:parity && npm run typec
 - `src/content/equipe.json` : pour chaque caisson, `role` et `dort` (affichés dès le début du jeu), `demi` (après le
   premier protocole), `reveil` (caisson terminé). Le validateur (règle 10) vérifie chaque réplique au moment où elle
   s'affiche. Pour c02 à c10, `demi` et `reveil` sont provisoires : les réécrire avec le vocabulaire du caisson quand il
-  est écrit.
+  est écrit. Depuis le 16/11/2026, toutes les répliques sont à la première personne et chaque personnage les lit avec
+  sa voix (voir 3.18) : une réplique réécrite doit être réenregistrée.
 - `src/components/Rewards.tsx` (`RewardLayer`, monté dans `App.tsx`) :
   - jaillissements de kW (`JetView`) : pendant un protocole, un petit « +10 kW » jaillit du doigt et file dans la
     barre d'énergie ; en fin de protocole, le total jaillit en grand (`payout`) et rejoint le compteur ; ailleurs
@@ -465,14 +467,17 @@ npm run validate && npm run check:emoji && npm run check:parity && npm run typec
 - `scripts/validate-content.mjs` (variable `FORMA8_CONTENT_DIR` pour les tests) : notions complètes ; ordre
   d'introduction et références `[[id]]` ; mots surveillés (`watch`) ; exercices ; champs des caissons ; blocs FORMA-8 ;
   simulateur existant et mode reconnu (`GitBranches` : `commits`, `branches`) ; illustrations connues ; livraisons et
-  `teamFile` ; **règle 10 : répliques de l'équipe** ; zéro emoji. Un caisson vide donne un avertissement.
-- Tests unitaires : **34** (`merge` 8, `garde-fous` 8, `livraisons` 9, `validateur` 7, `energie` 2 : la batterie). Garde-fous :
+  `teamFile` ; **règle 10 : répliques de l'équipe** ; **règle 11 : voix de l'équipe** (voir 3.18) ; zéro emoji. Un caisson vide donne un avertissement.
+- Tests unitaires : **40** (`merge` 8, `garde-fous` 8, `livraisons` 9, `validateur` 7, `energie` 2 : la batterie,
+  `voix` 6 : clés des répliques et contrôle des enregistrements). Garde-fous :
   aucune écriture sous `forma7:`, `progress.json` jamais touché, clés `forma8:` uniquement, substitutions documentées,
   aucun simulateur de FORMA-7, aucun usage de `Art`.
-- Tests de bout en bout : **12**, écran d'iPhone 13 (et iPad en paysage pour `affichage.spec.ts`), `vite preview` sur
+- Tests de bout en bout : **14**, écran d'iPhone 13 (et iPad en paysage pour `affichage.spec.ts`), `vite preview` sur
   `http://localhost:4173/FORMA-8/`. `affichage.spec.ts` (2) : l'écran de fin ne laisse rien apparaître en haut (iPhone,
   iPad). Les autres :
-  `socle.spec.ts` (5), `mecaniques.spec.ts` (2), `tactile.spec.ts` (1 : la remise en ordre glissée **au doigt**, avec
+  `socle.spec.ts` (5), `mecaniques.spec.ts` (2), `voix.spec.ts` (2 : ORA lit sa première bulle après le premier
+  toucher, le bouton « Réécouter » la relance ; l'interrupteur « Voix » du menu du son retire les boutons ; indicateur
+  `window.__forma8Voice`), `tactile.spec.ts` (1 : la remise en ordre glissée **au doigt**, avec
   de vrais touchers envoyés à Chromium par son protocole de débogage, `Input.dispatchTouchEvent` ; l'écran ne défile
   pas pendant le geste, mais défile toujours ailleurs), `caisson00.spec.ts` (banc complet, environ 1,2 min),
   `caisson01.spec.ts` (banc complet, environ 2 min ; part d'un caisson 00 réveillé déposé dans
@@ -483,7 +488,9 @@ npm run validate && npm run check:emoji && npm run check:parity && npm run typec
   `ceremonies.grade`), `holdCentrale(page, ms)`, `sendArc()` (maintient le doigt 3,2 s sur la centrale),
   `expectCoversTop(page, dialogue)`, `playMaintenance()`, `dismissCeremonies()`. Le banc du caisson 00 vérifie aussi
   qu'une tentative d'arc avant la réparation de la panne échoue.
-- Dernier passage complet : 15/11/2026 (correctif « remise en ordre au doigt »), tout vert en local (Chromium).
+- Dernier passage complet : 16/11/2026 (lot « Les voix de l'équipe »), tout vert en local (Chromium). WebKit, même jour :
+  6 relectures d'ORA d'affilée puis 5 membres (dont l'Inspecteur à deux voix et le Messager à effets superposés), sans
+  plantage ni erreur (test temporaire `zz-*`, non gardé).
   **Limite** : les tests cliquent ; jusqu'au 15/11/2026, aucun ne glissait au doigt, d'où le défaut vu seulement par le
   propriétaire. Playwright ne sait pas simuler un glisser au doigt dans WebKit ; `Input.synthesizeScrollGesture` ne
   fait rien sans écran (essayé). WebKit (passage précédent) : le caisson 00 passe la centrale, la
@@ -495,6 +502,10 @@ npm run validate && npm run check:emoji && npm run check:parity && npm run typec
   Haiku 5.5 : 0,10 / 0,50. Usage estimé du joueur : environ 8 $ par mois avec Opus, 4 $ avec Sonnet, moins de 0,50 $
   avec Haiku (estimation).
 - Max et Ultra incluent 100 $ et 200 $ de crédits API ; Pro n'en inclut pas (peut avoir évolué).
+- ElevenLabs (voix de l'équipe, payé par le propriétaire) : offre **Starter**, lue le 16/11/2026 sur la page des tarifs
+  d'ElevenLabs : 6 $ par mois (1 $ le premier mois selon une bannière), 30 000 crédits par mois (le compte affichait
+  38 472 ce mois-ci), licence commerciale. Environ 1 crédit par caractère avec `eleven_v4` (estimation de l'outil).
+  Utilisés au 16/11/2026 : 8 500 (auditions et enregistrements). Les écoutes dans l'appli ne coûtent rien.
 
 ### 3.14 Dettes et incertitudes connues
 - Refonte de l'interface jouée par le propriétaire sur iPhone le 15/11/2026 : animations fluides, textes et
@@ -508,6 +519,10 @@ npm run validate && npm run check:emoji && npm run check:parity && npm run typec
   sa vraie valeur) ; la prise apparaîtra branchée à la prochaine visite.
 - Si le joueur quitte l'écran de la panne réparée sans réarmer le disjoncteur, la scène de réveil ne se joue pas ;
   elle reste visible depuis la fiche du membre (« Revoir son réveil »).
+- **Voix de l'équipe, à confirmer sur iPhone** (version en ligne) : volume face aux effets et au fond sonore, mémoire
+  prise par les voix préparées (6 répliques gardées au plus), délai avant la première parole (préparation hors temps
+  réel, environ une demi-seconde à une seconde dans Chromium, non mesuré sur iPhone). WebKit sur serveur n'est pas un
+  vrai iPhone.
 - Durées des protocoles : estimation à 0,85 min par bloc, à ajuster avec l'usage réel.
 - **Remise en ordre au doigt, à confirmer sur iPhone** après la fusion du correctif (voir 3.17) : la cause retenue
   (Safari qui prend le glisser pour un défilement de l'écran) est probable, pas prouvée ; non reproduite ici.
@@ -605,6 +620,64 @@ npm run validate && npm run check:emoji && npm run check:parity && npm run typec
 - Les autres glisser de l'appli (levier du démarrage, fiche de la centrale) sont hors de `.screen` : le propriétaire
   les a utilisés sans problème.
 
+### 3.18 Les voix de l'équipe (lot du 16/11/2026, choisi par le propriétaire sur trois tours d'audition)
+- **Demande** : « donner une voix à chaque personnage » : un sexe, une personnalité cohérente, des traits de caractère,
+  une voix, une élocution et un rythme qui collent à son identité, « en gardant toujours un aspect robotique » ; chacun
+  lit ses textes ; textes à la première personne (« je »), le joueur tutoyé ; connecteur ElevenLabs.
+- **Fait** :
+  - `src/content/equipe.json` : les 44 répliques réécrites à la première personne (accords selon le sexe) ; quelques
+    bulles fixes d'ORA aussi (`Boot.tsx`, `MapView.tsx`, `RoomView.tsx`, `Views.tsx`) ; encadré ORA de `c01.json`.
+  - `src/content/voix.json` : pour ORA et les 10 membres, `sexe`, `personnalite`, `traits`, `elocution`, `voix`
+    (identifiant ElevenLabs), `candidates` (voix auditionnées), `filtre` (touche robotique), `dose` (densité de
+    l'effet, 0 à 1), et selon le cas `effets` + `variantes` (effets superposés) ou `voixDuo` (deux voix mêlées).
+  - Enregistrements : 44 mp3 (environ 5,8 Mo) dans `public/voix`, listés dans `src/content/voix-enregistrements.json`
+    sous la clé `personnage:empreinte du texte dit` (`src/lib/voice-key.js`). Requises : les 4 répliques des caissons
+    jouables (00 et 01), `role` et `dort` des autres ; plus 18 bulles fixes d'ORA. Bulles à texte variable (prénom,
+    scores) : pas de voix ; l'accueil du démarrage est dit **sans** le prénom (champ `envoye` distinct de `texte`).
+    Répliques des membres endormis dites avec la balise `[whispering]` d'`eleven_v4`.
+  - `src/lib/robot.ts` : touche robotique calculée **hors temps réel** (`OfflineAudioContext`, comme les sons de
+    3.15) : passe-haut et passe-bas, saturation, modulation en anneau, peigne, chœur, salle, grain, `hache` (petites
+    coupures régulières), `glitch` (petites répétitions) ; `robotize(source, filtre, dose)` ; `mixReady` mélange
+    plusieurs versions (effets superposés, voix en duo). Corrigé le 16/11/2026 : `hache` ignorait la densité (la page
+    du 3e tour d'audition avait donc des coupures à fond).
+  - `src/lib/voice.ts` : une seule voix à la fois ; lecture automatique **une fois par séance** pour chaque réplique,
+    350 ms après l'apparition de la bulle, si le son est débloqué ; file d'attente d'une réplique ; le fond sonore
+    baisse pendant qu'un personnage parle ; 6 répliques préparées gardées en mémoire ; arrêt au changement d'écran.
+  - Interface : `VoiceButton.tsx` (`useVoiceLine`, `ReplayButton` : haut-parleur et trois barres, « Réécouter » ou
+    « Arrêter ») dans `OraSays` et `MemberSays` ; ORA et les membres s'animent pendant qu'ils parlent ; la scène de
+    réveil écrit la réplique au rythme de la voix ; réglages « Voix » (interrupteur et volume) dans le menu du son de la
+    barre du haut et dans Réglages ; mention ElevenLabs dans Réglages › À propos.
+  - PWA : les mp3 ne sont pas préchargés ; mis en cache à la première écoute (`CacheFirst`, cache `forma8:voix`).
+  - Contrôles : validateur, règle 11 (`scripts/voix-lib.mjs`) : une prise doit correspondre au texte, à la voix du
+    personnage et à un fichier présent ; une réplique requise sans voix donne un avertissement. Outil :
+    `node scripts/voix.mjs manquantes` et `node scripts/voix.mjs ajouter <personnage> <url-ou-fichier> --texte "…"
+    [--envoye "…"] [--duo <url-ou-fichier>]`.
+- **Méthode d'enregistrement** (connecteur ElevenLabs de Claude Code, jamais depuis l'appli, aucune clé dans le
+  dépôt) : `creative_generate_speech` avec `eleven_v4`, la voix de `voix.json`, `generations_count: 1` ; attendre
+  avec `creative_get_flow_run_status` ; télécharger l'adresse donnée ; `scripts/voix.mjs ajouter` ; écouter ; vérifier
+  les crédits avec `account_get_usage` avant une série. Ne jamais relancer une génération pour « réessayer » (chaque
+  appel est facturé).
+- **Choix finaux du propriétaire** (QCM avec notes, pages d'audition privées ; densité = force de la touche robotique) :
+
+| Personnage | Sexe | Voix ElevenLabs | Densité | Particularité |
+|---|---|---|---|---|
+| ORA | femme | Clara (voix modulée) | 45 % | effets Vocodeur + Hologramme superposés |
+| L'Archiviste | femme | Grandma Clo | 0 % | |
+| Le Règlement de bord | homme | Paul K | 15 % | |
+| Le Scribe | homme | Julien (conteur) | 25 % | moins d'écho, plus feutré |
+| La Boucle | femme | Lea | 75 % | |
+| L'Inspecteur | homme | Julien + Olivier | 30 % | deux voix superposées (`voixDuo`) |
+| Le Messager | homme | Tristan | 10 % | effets Radio + Transmission rapide superposés |
+| La Mémoire | femme | Camille Martin | 80 % | |
+| La Sentinelle | femme | voix conçue sur mesure (n° 3) | 0 % | autoritaire, ferme |
+| Les Escouades et les Réflexes | meneuse | voix conçue sur mesure (n° 2) | 80 % | « voix de leader » |
+| Le Lancement | homme | Lucas | 70 % | plus feutré |
+
+- Les deux voix conçues sont enregistrées dans la bibliothèque du compte ElevenLabs du propriétaire (2 emplacements
+  sur 10). Pages d'audition et page d'essai : privées, adresses dans la conversation du 16/11/2026 (non reprises ici).
+- **Écouté par le propriétaire** : les trois tours d'audition. La page d'essai de la vraie appli lui a été donnée avant
+  la PR ; il a demandé d'ouvrir la PR sans autre retour.
+
 ---
 
 ## 4. Décisions prises et pistes écartées
@@ -645,6 +718,11 @@ npm run validate && npm run check:emoji && npm run check:parity && npm run typec
   bleus » ; une fin « très chargée en arcs électriques » ; la page ne doit pas « dénoter » du reste de l'appli.
 - Grades : annoncés en quittant l'écran du protocole, sans encadré sur l'écran de fin.
 - Bouton du son dans la barre du haut, en petit menu discret.
+- **Voix de l'équipe (16/11/2026)** : sexes proposés acceptés (5 femmes, 5 hommes, une meneuse pour les Escouades) ;
+  seules leurs répliques sont lues (pas les leçons) ; lecture automatique plus bouton « Réécouter », interrupteur dans
+  le menu du son ; offre ElevenLabs Starter (après la désactivation de l'offre gratuite par ElevenLabs) ; « plus
+  robotique » pour tous puis « un peu trop » : densité réglée personnage par personnage ; « trop d'écho/réverbe en
+  règle générale » : salle divisée par deux ; voix et densités du tableau de 3.18.
   Ses mots : des sons « plus réalistes, plus stimulants », « sur le thème de l'électricité » ; pour les kW, « moins de
   couleurs », « un gros éclair » ; la batterie « se charge à chaque bonne réponse », « je dois la brancher à la
   capsule moi-même », le membre « se réveille quand tous les câbles ont été branchés et que le courant passe » ;
@@ -685,14 +763,15 @@ npm run validate && npm run check:emoji && npm run check:parity && npm run typec
 
 ### 5.1 Au démarrage de la nouvelle session (avant toute écriture)
 1. Lire en entier `CLAUDE.md`, ce document, `docs/CONCEPTION.md` et `docs/PROGRAMME.md`.
-2. `git fetch origin`. Vérifier que `origin/main` contient `43928ea` (PR #14) et la PR du correctif « remise en ordre
-   au doigt » (3.17) ; si autre chose a changé, le dire au propriétaire.
+2. `git fetch origin`. Vérifier que `origin/main` contient `bbbab68` (PR #15) et la PR « Les voix de l'équipe »
+   (3.18) ; si autre chose a changé, le dire au propriétaire.
 3. Attacher `felipemaciasito-cmyk/forma-7` (public, lecture seule) et le cloner **à côté** de FORMA-8, sous le nom
    `forma-7`, **en entier** (sans `--depth`), pour `check:parity` et l'étude de cas.
 4. `npm ci`, puis la commande complète de vérification. Annoncer le résultat en quelques lignes : l'état de départ
    doit être entièrement vert.
-5. Demander au propriétaire, en QCM : la remise en ordre se glisse-t-elle maintenant au doigt sur son iPhone (version
-   en ligne, après la fusion du correctif) ? Si non, passer à une poignée dédiée au glisser (`useDragControls` de
+5. Demander au propriétaire, en QCM : les voix de l'équipe sur son iPhone (version en ligne : volume, rythme, touche
+   robotique, personnage par personnage) ; à retoucher : `dose` ou `filtre` dans `voix.json` (sans régénérer), ou une
+   nouvelle prise (crédits). Puis : la remise en ordre se glisse-t-elle maintenant au doigt sur son iPhone ? Si non, passer à une poignée dédiée au glisser (`useDragControls` de
    motion) et le faire essayer dans une page privée avant la PR. Puis lui demander ses autres remarques : le 15/11/2026,
    il a répondu « Pas encore » au feu vert du caisson 02, ce qui laisse penser qu'il en a d'autres. La centrale et
    l'arc : « Ça marche bien » (15/11/2026). Corriger d'abord ce qu'il signale ; pour un changement visuel ou sonore
@@ -723,7 +802,9 @@ npm run validate && npm run check:emoji && npm run check:parity && npm run typec
 - **Centrale** : le caisson 02 a 6 protocoles, donc 6 prises sur sa centrale (angles calculés par `socketAngle`) ;
   vérifier la scène avec 6 prises sur un écran d'iPhone (prise la plus éloignée de la jauge, repères P1 à P6).
 - **Répliques** : réécrire `demi` et `reveil` du Règlement de bord dans `src/content/equipe.json` avec le vocabulaire
-  du caisson 02 ; ajouter au champ `watch` les mots techniques nouveaux que le caisson 01 n'emploie pas.
+  du caisson 02 (première personne, « tu ») ; ajouter au champ `watch` les mots techniques nouveaux que le caisson 01
+  n'emploie pas. **Puis les enregistrer** avec la voix de Paul K (3.18, méthode d'enregistrement ; `demi` et `dort`
+  chuchotés) : dès que le caisson a des protocoles, le validateur les demande. Vérifier les crédits avant.
 - **Méthode qui a marché** : ouvrir chaque source (`curl -L`) pour relever l'adresse finale et le titre exact, puis la
   lire ; libellés anglais dans les pages `/en/` ; captures à la taille d'un iPhone ; donner un mode aux simulateurs
   pour ne jamais montrer un geste avant sa notion ; regarder chaque écran en capture.
@@ -736,6 +817,12 @@ npm run validate && npm run check:emoji && npm run check:parity && npm run typec
 - **Essayer la remise en ordre au doigt** sur https://felipemaciasito-cmyk.github.io/FORMA-8/ après la fusion du
   correctif (par exemple caisson 00, protocole 2, ou caisson 01) ; si rien ne change, fermer complètement l'appli et la
   rouvrir. Le fond sonore se règle avec le haut-parleur de la barre du haut.
+- **Écouter les voix de l'équipe** sur la version en ligne (bouton silencieux coupé ou écouteurs) et noter ce qui ne
+  va pas, personnage par personnage.
+- **Abonnement ElevenLabs Starter** : facturé chaque mois tant qu'il n'est pas résilié. Il ne sert qu'à enregistrer de
+  nouvelles répliques (une par caisson écrit, environ) ; les voix déjà enregistrées restent dans l'appli. Avant de le
+  résilier, vérifier dans l'aide d'ElevenLabs que la licence commerciale des voix enregistrées pendant l'abonnement
+  est conservée (c'est ce que j'ai compris, non vérifié en détail).
 - **Ne fusionner une PR qu'après l'annonce « robot vert »** dans la conversation (la PR #13 a été fusionnée avant).
 - Noter tout libellé de GitHub du caisson 01 qui ne correspond pas à l'appli.
 - **Créer la clé API Claude** : Console Claude, espace de travail dédié avec plafond de dépense mensuel, achat de

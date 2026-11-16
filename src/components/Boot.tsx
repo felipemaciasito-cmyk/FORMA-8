@@ -136,7 +136,8 @@ export function Boot({ power, onDone }: { power: number; onDone: () => void }) {
           )}
           {phase === "ambience" && (
             <motion.div key="amb" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} style={{ marginTop: 28 }}>
-              <OraSays md={`Une question avant d'envoyer le courant${progress.name ? `, ${progress.name}` : ""} : veux-tu entendre la réserve ? Un **fond sonore** discret : le ronronnement des transformateurs, la ventilation, quelques grésillements au loin. Avec des écouteurs, c'est encore mieux. Tu pourras le changer à tout moment dans **Réglages**.`} />
+              <OraSays md={`Une question avant d'envoyer le courant${progress.name ? `, ${progress.name}` : ""} : veux-tu entendre la réserve ? Un **fond sonore** discret : le ronronnement des transformateurs, la ventilation, quelques grésillements au loin. Avec des écouteurs, c'est encore mieux. Tu pourras le changer à tout moment dans **Réglages**.`}
+                say={"Une question avant d'envoyer le courant : veux-tu entendre la réserve ? Un fond sonore discret : le ronronnement des transformateurs, la ventilation, quelques grésillements au loin. Avec des écouteurs, c'est encore mieux. Tu pourras le changer à tout moment dans Réglages."} />
               <div className="stack" style={{ marginTop: 18, gap: 10 }}>
                 <button className="btn block" onClick={() => chooseAmbience(true)}>Oui, allume le fond sonore</button>
                 <button className="btn ghost block" onClick={() => chooseAmbience(false)}>Non merci</button>
@@ -145,7 +146,8 @@ export function Boot({ power, onDone }: { power: number; onDone: () => void }) {
           )}
           {phase === "lever" && (
             <motion.div key="lever" initial={{ opacity: 0 }} animate={{ opacity: 1 }} style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 18 }}>
-              <OraSays compact md={`Parfait${progress.name ? `, ${progress.name}` : ""}. Abaisse le **levier principal** pour envoyer le courant dans la réserve.`} />
+              <OraSays compact md={`Parfait${progress.name ? `, ${progress.name}` : ""}. Abaisse le **levier principal** pour envoyer le courant dans la réserve.`}
+                say="Parfait. Abaisse le levier principal pour envoyer le courant dans la réserve." />
               <Lever onPulled={pull} />
             </motion.div>
           )}

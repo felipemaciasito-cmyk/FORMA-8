@@ -33,6 +33,13 @@ export default defineConfig({
         navigateFallback: "index.html",
         // Les données privées (API GitHub) et l'API Claude ne sont jamais mises en cache par le service worker.
         navigateFallbackDenylist: [/^\/api/],
+        // Voix de l'équipe : pas de pré-chargement (plusieurs Mo) ; chaque réplique est gardée à sa première écoute,
+        // puis disponible hors ligne.
+        runtimeCaching: [{
+          urlPattern: ({ url }) => url.pathname.includes("/voix/") && url.pathname.endsWith(".mp3"),
+          handler: "CacheFirst",
+          options: { cacheName: "forma8:voix", expiration: { maxEntries: 400 } },
+        }],
       },
     }),
   ],

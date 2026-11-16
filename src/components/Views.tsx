@@ -393,7 +393,7 @@ function MemberSheet({ r }: { r: Room }) {
           <div className="small muted">{lines?.role}</div>
         </div>
       </div>
-      {lines && <MemberSays member={r.member} hue={r.hue} md={done ? lines.reveil : lines.dort} asleep={!done} />}
+      {lines && <MemberSays member={r.member} hue={r.hue} md={done ? lines.reveil : lines.dort} asleep={!done} room={r.id} also={lines.role} />}
       <div style={{ marginTop: 12 }}><TeamCard r={r} awake={done} /></div>
       <div className="stack" style={{ marginTop: 12 }}>
         {done && <button className="btn block" onClick={() => { sfx("power"); fx({ type: "awaken", roomId: r.id, replay: true }); }}><Icon name="play" size={18} /> Revoir son réveil</button>}

@@ -76,6 +76,9 @@ export interface Settings {
   /** Fond sonore de la réserve (coupé tant que le joueur ne l'a pas choisi) et son volume, de 0 à 1. */
   ambience: boolean;
   ambienceVolume: number;
+  /** Voix de l'équipe : chaque membre lit ses répliques (activé par défaut), et leur volume, de 0 à 1. */
+  voices: boolean;
+  voiceVolume: number;
   reduceMotion: "auto" | "on" | "off";
   ghOwner: string;
   ghRepo: string;
@@ -119,6 +122,8 @@ export const DEFAULT_SETTINGS: Settings = {
   sfxVolume: 1,
   ambience: false,
   ambienceVolume: 0.6,
+  voices: true,
+  voiceVolume: 1,
   reduceMotion: "auto",
   ghOwner: "felipemaciasito-cmyk",
   ghRepo: "FORMA-7-data",

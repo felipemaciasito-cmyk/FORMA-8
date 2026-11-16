@@ -1,0 +1,787 @@
+{
+ "_lisez-moi": "Voix de l'équipe (lot du 16/11/2026, choix du propriétaire : 5 femmes, 5 hommes, un chœur mixte). Chaque personnage lit ses propres répliques. Les voix sont générées une fois avec ElevenLabs (offre Starter depuis le 16/11/2026), téléchargées dans public/voix et listées dans src/content/voix-enregistrements.json. « voix » est la voix retenue (null tant que l'audition n'a pas tranché) ; « candidates » sont les voix auditionnées. « robot » règle la touche robotique ajoutée par l'appli (src/lib/voice.ts). Toute réplique modifiée doit être réenregistrée : le validateur le vérifie. « concue » : voix conçue sur mesure (creative_design_voice), à enregistrer dans la bibliothèque du compte si elle est retenue. « provisoire » : voix gardée en attendant mieux. « variantes » : touches robotiques à comparer. « dose » : densité de tous les effets (1 = réglage du filtre). « superposition » : deux voix dites ensemble (à l'essai). « effets » : variantes superposées sur la même voix. « voixDuo » : seconde voix dite en même temps (chaque réplique est enregistrée deux fois). Réglages choisis par le propriétaire le 16/11/2026 (3e tour d'audition).",
+ "modele": "eleven_v4",
+ "personnages": {
+  "ora": {
+   "nom": "ORA",
+   "caisson": "c00",
+   "sexe": "femme",
+   "personnalite": "La guide de l'équipe : chaleureuse et précise, rassurante, fière de chacun de tes progrès.",
+   "traits": [
+    "bienveillante",
+    "méthodique",
+    "encourageante",
+    "toujours calme"
+   ],
+   "elocution": "Claire et posée, débit moyen, sourire dans la voix.",
+   "robot": "Vocodeur et hologramme superposés : timbre métallique, voix légèrement dédoublée.",
+   "voix": "t8BrjWUT5Z23DLLBzbuY",
+   "candidates": [
+    {
+     "id": "t8BrjWUT5Z23DLLBzbuY",
+     "nom": "Clara (voix modulée)"
+    },
+    {
+     "id": "O31r762Gb3WFygrEOGh0",
+     "nom": "Victoire"
+    },
+    {
+     "id": "ye1afbpMxJ9Mg7iQlUBV",
+     "nom": "Voix sur mesure 1",
+     "concue": true
+    },
+    {
+     "id": "nwCVCu9eX6is4d8CLTxC",
+     "nom": "Voix sur mesure 2",
+     "concue": true
+    },
+    {
+     "id": "J36Oc5NiPlhSA5NgewUv",
+     "nom": "Voix sur mesure 3",
+     "concue": true
+    }
+   ],
+   "filtre": {
+    "hp": 140,
+    "lp": 8500,
+    "grain": {
+     "pas": 3,
+     "bits": 9
+    },
+    "peigne": {
+     "ms": 3.6,
+     "retour": 0.35,
+     "mix": 0.2
+    },
+    "glitch": {
+     "ms": 45,
+     "prob": 0.05
+    },
+    "hache": {
+     "ms": 90,
+     "trou": 0.18,
+     "prof": 0.6
+    }
+   },
+   "dose": 0.45,
+   "variantes": {
+    "numerique": {
+     "nom": "Numérique",
+     "filtre": {
+      "hp": 140,
+      "lp": 8500,
+      "grain": {
+       "pas": 3,
+       "bits": 9
+      },
+      "peigne": {
+       "ms": 3.6,
+       "retour": 0.35,
+       "mix": 0.2
+      },
+      "glitch": {
+       "ms": 45,
+       "prob": 0.05
+      },
+      "hache": {
+       "ms": 90,
+       "trou": 0.18,
+       "prof": 0.6
+      }
+     }
+    },
+    "vocodeur": {
+     "nom": "Vocodeur",
+     "filtre": {
+      "hp": 160,
+      "lp": 8000,
+      "anneau": {
+       "f": 140,
+       "mix": 0.25
+      },
+      "peigne": {
+       "ms": 2.2,
+       "retour": 0.45,
+       "mix": 0.25
+      },
+      "hache": {
+       "ms": 100,
+       "trou": 0.15,
+       "prof": 0.55
+      },
+      "salle": {
+       "s": 0.5,
+       "mix": 0.04
+      }
+     }
+    },
+    "hologramme": {
+     "nom": "Hologramme",
+     "filtre": {
+      "hp": 150,
+      "lp": 9000,
+      "choeur": {
+       "voix": 2,
+       "ms": 10,
+       "prof": 2,
+       "mix": 0.35
+      },
+      "tourne": {
+       "ms": 2.5,
+       "prof": 1.2,
+       "vitesse": 0.6,
+       "mix": 0.3
+      },
+      "anneau": {
+       "f": 60,
+       "mix": 0.15
+      },
+      "hache": {
+       "ms": 120,
+       "trou": 0.12,
+       "prof": 0.45
+      },
+      "salle": {
+       "s": 0.5,
+       "mix": 0.05
+      }
+     }
+    }
+   },
+   "effets": [
+    "vocodeur",
+    "hologramme"
+   ]
+  },
+  "c01": {
+   "nom": "L'Archiviste",
+   "caisson": "c01",
+   "sexe": "femme",
+   "personnalite": "La plus ancienne de l'équipe : nostalgique et méticuleuse, elle ne jette jamais rien et se souvient de tout.",
+   "traits": [
+    "douce",
+    "patiente",
+    "un peu rêveuse",
+    "minutieuse"
+   ],
+   "elocution": "Lente, avec de petites pauses, comme si elle feuilletait un album.",
+   "robot": "Voix naturelle, seulement la couleur d'un vieux phonographe (son étroit).",
+   "voix": "EMuO6fFLrXKOryHzij6K",
+   "candidates": [
+    {
+     "id": "EMuO6fFLrXKOryHzij6K",
+     "nom": "Grandma Clo"
+    },
+    {
+     "id": "1T2MOlQA0Xp3hNv1dBxp",
+     "nom": "Loulou"
+    }
+   ],
+   "filtre": {
+    "hp": 300,
+    "lp": 3800,
+    "sature": 0.35,
+    "crepite": 0.012,
+    "anneau": {
+     "f": 38,
+     "mix": 0.12
+    },
+    "peigne": {
+     "ms": 7,
+     "retour": 0.3,
+     "mix": 0.22
+    },
+    "hache": {
+     "ms": 140,
+     "trou": 0.12,
+     "prof": 0.5
+    },
+    "salle": {
+     "s": 0.6,
+     "mix": 0.04
+    }
+   },
+   "dose": 0
+  },
+  "c02": {
+   "nom": "Le Règlement de bord",
+   "caisson": "c02",
+   "sexe": "homme",
+   "personnalite": "Un officier de bord rigoureux : formel, exigeant, mais juste. Il aime que chacun connaisse les règles.",
+   "traits": [
+    "droit",
+    "ordonné",
+    "solennel",
+    "loyal"
+   ],
+   "elocution": "Phrases courtes et nettes, ton de rapport.",
+   "robot": "Interphone de bord : voix serrée, légèrement saturée.",
+   "voix": "5l4ttmr4SKNgi0HnOelT",
+   "candidates": [
+    {
+     "id": "DbbNuBL7lf62XwY7arQb",
+     "nom": "Hugo from Paris"
+    },
+    {
+     "id": "5l4ttmr4SKNgi0HnOelT",
+     "nom": "Paul K"
+    }
+   ],
+   "filtre": {
+    "hp": 380,
+    "lp": 4200,
+    "sature": 0.55,
+    "anneau": {
+     "f": 48,
+     "mix": 0.2
+    },
+    "peigne": {
+     "ms": 2.4,
+     "retour": 0.45,
+     "mix": 0.25
+    },
+    "hache": {
+     "ms": 120,
+     "trou": 0.15,
+     "prof": 0.6
+    },
+    "salle": {
+     "s": 0.4,
+     "mix": 0.03
+    }
+   },
+   "dose": 0.15
+  },
+  "c03": {
+   "nom": "Le Scribe",
+   "caisson": "c03",
+   "sexe": "homme",
+   "personnalite": "Un conteur lettré : patient, il cherche toujours le mot juste avant d'écrire.",
+   "traits": [
+    "posé",
+    "précis",
+    "imaginatif",
+    "un brin poète"
+   ],
+   "elocution": "Lente, très articulée, ton de conteur.",
+   "robot": "Feutré, presque sans écho, comme dans une bibliothèque capitonnée.",
+   "voix": "86fYoxrFeaJKXplThwSl",
+   "candidates": [
+    {
+     "id": "ohItIVrXTBI80RrUECOD",
+     "nom": "Guillaume"
+    },
+    {
+     "id": "TTtB1x9U8PF0Vgf20IAP",
+     "nom": "Adrien"
+    },
+    {
+     "id": "86fYoxrFeaJKXplThwSl",
+     "nom": "Julien (conteur)"
+    },
+    {
+     "id": "kSNoLVC4Ox0vkBz1IKux",
+     "nom": "Damien Doré"
+    },
+    {
+     "id": "3BZLNrQEzQVYs6kPOW4S",
+     "nom": "Justin Doré"
+    }
+   ],
+   "filtre": {
+    "hp": 120,
+    "lp": 4200,
+    "anneau": {
+     "f": 30,
+     "mix": 0.08
+    },
+    "peigne": {
+     "ms": 5.5,
+     "retour": 0.25,
+     "mix": 0.12
+    },
+    "hache": {
+     "ms": 150,
+     "trou": 0.1,
+     "prof": 0.35
+    },
+    "salle": {
+     "s": 0.8,
+     "mix": 0.05
+    }
+   },
+   "dose": 0.25
+  },
+  "c04": {
+   "nom": "La Boucle",
+   "caisson": "c04",
+   "sexe": "femme",
+   "personnalite": "Énergique et joueuse : infatigable, elle recommence autant qu'il le faut, sans jamais se décourager.",
+   "traits": [
+    "vive",
+    "persévérante",
+    "optimiste",
+    "taquine"
+   ],
+   "elocution": "Rapide, enjouée, enchaîne les phrases.",
+   "robot": "Modulation tournante, comme une voix qui fait des tours.",
+   "voix": "KSyQzmsYhFbuOhqj1Xxv",
+   "candidates": [
+    {
+     "id": "KSyQzmsYhFbuOhqj1Xxv",
+     "nom": "Lea"
+    },
+    {
+     "id": "d3AXX0BlgJHYFCuH9X88",
+     "nom": "Emilie"
+    }
+   ],
+   "filtre": {
+    "hp": 140,
+    "lp": 8500,
+    "tourne": {
+     "ms": 3,
+     "prof": 2.2,
+     "vitesse": 0.9,
+     "mix": 0.55
+    },
+    "anneau": {
+     "f": 80,
+     "mix": 0.18
+    },
+    "peigne": {
+     "ms": 3,
+     "retour": 0.4,
+     "mix": 0.2
+    },
+    "glitch": {
+     "ms": 40,
+     "prob": 0.08
+    }
+   },
+   "dose": 0.75
+  },
+  "c05": {
+   "nom": "L'Inspecteur",
+   "caisson": "c05",
+   "sexe": "homme",
+   "personnalite": "Pointilleux et sceptique : rien ne lui échappe, et il ne se satisfait jamais d'un « ça devrait marcher ».",
+   "traits": [
+    "flegmatique",
+    "exigeant",
+    "sérieux",
+    "pince-sans-rire"
+   ],
+   "elocution": "Lente, détache chaque syllabe.",
+   "robot": "Deux voix superposées (Julien et Olivier), sèches et mécaniques.",
+   "voix": "fnoOtHjtLbYs6mOpUSdr",
+   "candidates": [
+    {
+     "id": "fnoOtHjtLbYs6mOpUSdr",
+     "nom": "Julien"
+    },
+    {
+     "id": "Qrl71rx6Yg8RvyPYRGCQ",
+     "nom": "Olivier"
+    },
+    {
+     "id": "X79PkZE4sUJaUOQBlYPp",
+     "nom": "Eric (grave, autorité naturelle)"
+    },
+    {
+     "id": "t2969wgUwHbBoVCZNHRU",
+     "nom": "Zion Aquila (mûr, autoritaire)"
+    },
+    {
+     "id": "AYfOkr1hDQYbhigmRZ16",
+     "nom": "Kevan (froid, cinématique)"
+    }
+   ],
+   "filtre": {
+    "hp": 160,
+    "lp": 7600,
+    "grain": {
+     "pas": 3,
+     "bits": 8
+    },
+    "anneau": {
+     "f": 55,
+     "mix": 0.2
+    },
+    "peigne": {
+     "ms": 2.6,
+     "retour": 0.55,
+     "mix": 0.3
+    },
+    "hache": {
+     "ms": 85,
+     "trou": 0.2,
+     "prof": 0.8
+    }
+   },
+   "dose": 0.3,
+   "voixDuo": "Qrl71rx6Yg8RvyPYRGCQ"
+  },
+  "c06": {
+   "nom": "Le Messager",
+   "caisson": "c06",
+   "sexe": "homme",
+   "personnalite": "Jeune et vif : toujours pressé de livrer, enthousiaste à chaque départ.",
+   "traits": [
+    "rapide",
+    "serviable",
+    "enthousiaste",
+    "un peu impatient"
+   ],
+   "elocution": "Rapide et enjouée.",
+   "robot": "Radio portative et transmission rapide superposées, très légères.",
+   "voix": "hv6gVog5LgtIUX88Nmq8",
+   "candidates": [
+    {
+     "id": "5Qfm4RqcAer0xoyWtoHC",
+     "nom": "Maxime"
+    },
+    {
+     "id": "hv6gVog5LgtIUX88Nmq8",
+     "nom": "Tristan"
+    }
+   ],
+   "filtre": {
+    "hp": 300,
+    "lp": 4800,
+    "grain": {
+     "pas": 4,
+     "bits": 7
+    },
+    "peigne": {
+     "ms": 2,
+     "retour": 0.5,
+     "mix": 0.3
+    },
+    "hache": {
+     "ms": 70,
+     "trou": 0.25,
+     "prof": 0.9
+    }
+   },
+   "variantes": {
+    "radio": {
+     "nom": "Radio portative",
+     "filtre": {
+      "hp": 450,
+      "lp": 3600,
+      "sature": 0.45,
+      "souffle": 0.01,
+      "anneau": {
+       "f": 45,
+       "mix": 0.15
+      },
+      "hache": {
+       "ms": 100,
+       "trou": 0.15,
+       "prof": 0.5
+      }
+     }
+    },
+    "talkie": {
+     "nom": "Talkie numérique",
+     "filtre": {
+      "hp": 300,
+      "lp": 4800,
+      "grain": {
+       "pas": 4,
+       "bits": 7
+      },
+      "peigne": {
+       "ms": 2,
+       "retour": 0.5,
+       "mix": 0.3
+      },
+      "hache": {
+       "ms": 70,
+       "trou": 0.25,
+       "prof": 0.9
+      }
+     }
+    },
+    "transmission": {
+     "nom": "Transmission rapide",
+     "filtre": {
+      "hp": 200,
+      "lp": 7000,
+      "anneau": {
+       "f": 90,
+       "mix": 0.3
+      },
+      "tourne": {
+       "ms": 2,
+       "prof": 1.5,
+       "vitesse": 2.5,
+       "mix": 0.4
+      },
+      "glitch": {
+       "ms": 35,
+       "prob": 0.12
+      },
+      "hache": {
+       "ms": 60,
+       "trou": 0.2,
+       "prof": 0.7
+      }
+     }
+    }
+   },
+   "dose": 0.1,
+   "effets": [
+    "radio",
+    "transmission"
+   ]
+  },
+  "c07": {
+   "nom": "La Mémoire",
+   "caisson": "c07",
+   "sexe": "femme",
+   "personnalite": "Calme et profonde : fiable en toutes circonstances, elle garde chaque chose à sa place.",
+   "traits": [
+    "sereine",
+    "bienveillante",
+    "constante",
+    "discrète"
+   ],
+   "elocution": "Lente et grave.",
+   "robot": "Réverbération d'une grande salle des serveurs.",
+   "voix": "hFgOzpmS0CMtL2to8sAl",
+   "candidates": [
+    {
+     "id": "hFgOzpmS0CMtL2to8sAl",
+     "nom": "Camille Martin"
+    },
+    {
+     "id": "ucMmKRQbfDEYyb2IIGax",
+     "nom": "Aurore"
+    }
+   ],
+   "filtre": {
+    "hp": 80,
+    "lp": 7800,
+    "anneau": {
+     "f": 30,
+     "mix": 0.12
+    },
+    "peigne": {
+     "ms": 6.5,
+     "retour": 0.42,
+     "mix": 0.24
+    },
+    "hache": {
+     "ms": 160,
+     "trou": 0.1,
+     "prof": 0.4
+    },
+    "salle": {
+     "s": 2.4,
+     "mix": 0.14
+    }
+   },
+   "dose": 0.8
+  },
+  "c08": {
+   "nom": "La Sentinelle",
+   "caisson": "c08",
+   "sexe": "femme",
+   "personnalite": "Vigilante et protectrice : brève, ferme, d'une autorité calme. Elle ne baisse jamais la garde.",
+   "traits": [
+    "attentive",
+    "loyale",
+    "directe",
+    "imperturbable"
+   ],
+   "elocution": "Courte et ferme.",
+   "robot": "Voix naturelle, sans effet (choix du propriétaire).",
+   "voix": "E933WO9WB9GvOmNCycNW",
+   "candidates": [
+    {
+     "id": "m5U7XCsc8v988k2RJAqN",
+     "nom": "Manon"
+    },
+    {
+     "id": "3C1zYzXNXNzrB66ON8rj",
+     "nom": "Jade"
+    },
+    {
+     "id": "iEWE65QDYbLsZumEBvcx",
+     "nom": "Charlène"
+    },
+    {
+     "id": "pVsdIxxCbRrbiwOhiRwg",
+     "nom": "French Darling"
+    },
+    {
+     "id": "xfQcP5TzNz8LO1bxO9Mk",
+     "nom": "Voix sur mesure 1",
+     "concue": true
+    },
+    {
+     "id": "T4a3dS35N7cR9U9SV0Qy",
+     "nom": "Voix sur mesure 2",
+     "concue": true
+    },
+    {
+     "id": "E933WO9WB9GvOmNCycNW",
+     "nom": "Voix sur mesure 3",
+     "concue": true
+    }
+   ],
+   "filtre": {
+    "hp": 320,
+    "lp": 5200,
+    "sature": 0.3,
+    "anneau": {
+     "f": 62,
+     "mix": 0.16
+    },
+    "peigne": {
+     "ms": 1.8,
+     "retour": 0.55,
+     "mix": 0.32
+    },
+    "hache": {
+     "ms": 90,
+     "trou": 0.18,
+     "prof": 0.7
+    }
+   },
+   "dose": 0
+  },
+  "c09": {
+   "nom": "Les Escouades et les Réflexes",
+   "caisson": "c09",
+   "sexe": "chœur mixte",
+   "personnalite": "Une meneuse et ses drones : esprit d'équipe, toujours en mouvement, chacun à son poste.",
+   "traits": [
+    "soudés",
+    "réactifs",
+    "disciplinés",
+    "entraînants"
+   ],
+   "elocution": "Rythmée, presque scandée.",
+   "robot": "Voix doublée : plusieurs drones répètent avec un léger décalage.",
+   "voix": "7t206LwybBCgHnAvOdtX",
+   "candidates": [
+    {
+     "id": "ZYOBieLaunTiQrTrvNQq",
+     "nom": "Morgane"
+    },
+    {
+     "id": "glDtoWIoIgk38YbycCwG",
+     "nom": "Clara Dupont"
+    },
+    {
+     "id": "OhWejZm6c7D8CIm5epRM",
+     "nom": "Irène"
+    },
+    {
+     "id": "giIJ3T4FGCkpLu9G0qZK",
+     "nom": "Audiobooks Lady"
+    },
+    {
+     "id": "9s0wOC9YwsAyCgobhYWt",
+     "nom": "Voix sur mesure 1",
+     "concue": true
+    },
+    {
+     "id": "7t206LwybBCgHnAvOdtX",
+     "nom": "Voix sur mesure 2",
+     "concue": true
+    },
+    {
+     "id": "eWhRed1L579Y69qUzwZm",
+     "nom": "Voix sur mesure 3",
+     "concue": true
+    }
+   ],
+   "filtre": {
+    "hp": 150,
+    "lp": 8000,
+    "choeur": {
+     "voix": 3,
+     "ms": 18,
+     "prof": 4,
+     "mix": 0.6
+    },
+    "anneau": {
+     "f": 50,
+     "mix": 0.16
+    },
+    "peigne": {
+     "ms": 3.2,
+     "retour": 0.4,
+     "mix": 0.2
+    },
+    "hache": {
+     "ms": 110,
+     "trou": 0.15,
+     "prof": 0.6
+    }
+   },
+   "dose": 0.8
+  },
+  "c10": {
+   "nom": "Le Lancement",
+   "caisson": "c10",
+   "sexe": "homme",
+   "personnalite": "Charismatique et solennel : il sait faire monter l'attente, puis tout donner le grand jour.",
+   "traits": [
+    "confiant",
+    "enthousiaste",
+    "théâtral",
+    "généreux"
+   ],
+   "elocution": "Ample, ton de compte à rebours.",
+   "robot": "Tour de contrôle feutrée : voix ronde, peu d'écho.",
+   "voix": "t28pUgJnL2wUUQ8SOnaU",
+   "candidates": [
+    {
+     "id": "UBXZKOKbt62aLQHhc1Jm",
+     "nom": "François-Louis"
+    },
+    {
+     "id": "4TfTGcPwoefWe878B0rm",
+     "nom": "ThunderBlade"
+    },
+    {
+     "id": "t28pUgJnL2wUUQ8SOnaU",
+     "nom": "Lucas (grave, charismatique)"
+    },
+    {
+     "id": "wQjKP9DkO6pDLKdaqFn6",
+     "nom": "Bass (grave, captivant)"
+    }
+   ],
+   "filtre": {
+    "hp": 150,
+    "lp": 4200,
+    "sature": 0.1,
+    "anneau": {
+     "f": 40,
+     "mix": 0.1
+    },
+    "peigne": {
+     "ms": 4,
+     "retour": 0.3,
+     "mix": 0.14
+    },
+    "hache": {
+     "ms": 130,
+     "trou": 0.1,
+     "prof": 0.4
+    },
+    "salle": {
+     "s": 1.4,
+     "mix": 0.08
+    }
+   },
+   "dose": 0.7
+  }
+ }
+}

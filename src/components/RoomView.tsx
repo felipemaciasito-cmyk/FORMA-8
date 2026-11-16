@@ -117,7 +117,7 @@ function CaissonHero({ r, power, stepsDone, awake }: { r: Room; power: number; s
           <div className="progress" style={{ marginTop: 6, height: 8 }}><motion.i initial={{ width: 0 }} animate={{ width: `${power}%` }} transition={{ duration: 0.9 }} /></div>
         </div>
       </div>
-      {say && <MemberSays member={r.member} hue={r.hue} md={say} asleep={!awake} />}
+      {say && <MemberSays member={r.member} hue={r.hue} md={say} asleep={!awake} room={r.id} />}
     </motion.div>
   );
 }
@@ -347,7 +347,7 @@ export function StepView({ roomId, stepId }: { roomId: string; stepId: string })
   
                 </>)}
                 {(!finished.plug || plugged) && (<>
-                {crewLines(r.id) && !roomComplete(p, r) && <div style={{ textAlign: "left" }}><MemberSays member={r.member} hue={r.hue} md={crewLines(r.id)!.demi} asleep /></div>}
+                {crewLines(r.id) && !roomComplete(p, r) && <div style={{ textAlign: "left" }}><MemberSays member={r.member} hue={r.hue} md={crewLines(r.id)!.demi} asleep room={r.id} /></div>}
                 {step.introduces.length > 0 && (
                   <>
                     <div className="small muted" style={{ margin: "10px 0" }}>Modules ajoutés à ta Base de connaissances :</div>

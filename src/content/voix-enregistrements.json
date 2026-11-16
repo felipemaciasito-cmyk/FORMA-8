@@ -1,0 +1,321 @@
+{
+ "_lisez-moi": "Répliques enregistrées avec ElevenLabs. Clé : « personnage:empreinte du texte dit » (src/lib/voice-key.js). « fichier » est dans public/voix ; « voix » est la voix ElevenLabs utilisée ; « envoye » est le texte exact envoyé (il peut différer du texte affiché : prénom retiré, prononciation aidée) ; « texte » est la réplique affichée ; « date » est le jour de l'enregistrement. Ajouter une entrée avec scripts/voix.mjs.",
+ "repliques": {
+  "c01:378acd53": {
+   "fichier": "c01-ff5cf086.mp3",
+   "voix": "EMuO6fFLrXKOryHzij6K",
+   "envoye": "Je me souviens… j'avais un album de chaque étape du chantier. Encore un effort, et je te le montre.",
+   "texte": "Je me souviens… j'avais un album de chaque étape du chantier. Encore un effort, et je te le montre.",
+   "date": "2026-11-16"
+  },
+  "c01:6c54bce2": {
+   "fichier": "c01-1d6d9501.mp3",
+   "voix": "EMuO6fFLrXKOryHzij6K",
+   "envoye": "Bonjour, chef. Me voilà réveillée. À partir d'aujourd'hui, aucune version de ton produit ne se perdra. Et si quelque chose casse, nous reviendrons en arrière ensemble, sans rien effacer.",
+   "texte": "Bonjour, chef. Me voilà réveillée. À partir d'aujourd'hui, aucune version de ton produit ne se perdra. Et si quelque chose casse, nous reviendrons en arrière ensemble, sans rien effacer.",
+   "date": "2026-11-16"
+  },
+  "c01:9d617ab8": {
+   "fichier": "c01-06e9fe29.mp3",
+   "voix": "EMuO6fFLrXKOryHzij6K",
+   "envoye": "[whispering] … photo numéro un… photo numéro deux… surtout, je ne jette rien…",
+   "texte": "… photo numéro un… photo numéro deux… surtout, je ne jette rien…",
+   "date": "2026-11-16"
+  },
+  "c01:ecf65907": {
+   "fichier": "c01-e6a37b24.mp3",
+   "voix": "EMuO6fFLrXKOryHzij6K",
+   "envoye": "Je suis l'Archiviste. Je garde la mémoire de chaque version de ton produit, pour que tu puisses toujours revenir en arrière.",
+   "texte": "Je suis l'Archiviste. Je garde la mémoire de chaque version de ton produit, pour que tu puisses toujours revenir en arrière.",
+   "date": "2026-11-16"
+  },
+  "c02:1a375926": {
+   "fichier": "c02-8f9575d6.mp3",
+   "voix": "5l4ttmr4SKNgi0HnOelT",
+   "envoye": "Je suis le Règlement de bord. J'écris les règles que toute l'équipe suit, à chaque séance de travail.",
+   "texte": "Je suis le Règlement de bord. J'écris les règles que toute l'équipe suit, à chaque séance de travail.",
+   "date": "2026-11-16"
+  },
+  "c02:83dc6b01": {
+   "fichier": "c02-f7b6e765.mp3",
+   "voix": "5l4ttmr4SKNgi0HnOelT",
+   "envoye": "[whispering] … article premier : je vérifie avant de livrer… article deux…",
+   "texte": "… article premier : je vérifie avant de livrer… article deux…",
+   "date": "2026-11-16"
+  },
+  "c03:6bb04320": {
+   "fichier": "c03-b15574af.mp3",
+   "voix": "86fYoxrFeaJKXplThwSl",
+   "envoye": "[whispering] … il était une fois… une personne pressée… qui voulait un bouton…",
+   "texte": "… il était une fois… une personne pressée… qui voulait un bouton…",
+   "date": "2026-11-16"
+  },
+  "c03:c306ab7a": {
+   "fichier": "c03-fefef681.mp3",
+   "voix": "86fYoxrFeaJKXplThwSl",
+   "envoye": "Je suis le Scribe. Avant qu'on construise quoi que ce soit, je décris avec toi ce qu'il faut construire.",
+   "texte": "Je suis le Scribe. Avant qu'on construise quoi que ce soit, je décris avec toi ce qu'il faut construire.",
+   "date": "2026-11-16"
+  },
+  "c04:3b71b597": {
+   "fichier": "c04-7f1164a2.mp3",
+   "voix": "KSyQzmsYhFbuOhqj1Xxv",
+   "envoye": "Je suis la Boucle ! Je demande, je relis, je corrige, et je recommence jusqu'à ce que ça marche.",
+   "texte": "Je suis la Boucle ! Je demande, je relis, je corrige, et je recommence jusqu'à ce que ça marche.",
+   "date": "2026-11-16"
+  },
+  "c04:3cb959b5": {
+   "fichier": "c04-056a17b4.mp3",
+   "voix": "KSyQzmsYhFbuOhqj1Xxv",
+   "envoye": "[whispering] … encore un tour… encore un petit tour…",
+   "texte": "… encore un tour… encore un petit tour…",
+   "date": "2026-11-16"
+  },
+  "c05:78bf4e31": {
+   "fichier": "c05-70dbcf09.mp3",
+   "voix": "fnoOtHjtLbYs6mOpUSdr",
+   "envoye": "Je suis l'Inspecteur. Je vérifie que tout fonctionne, à chaque changement. Sans exception.",
+   "texte": "Je suis l'Inspecteur. Je vérifie que tout fonctionne, à chaque changement. Sans exception.",
+   "date": "2026-11-16",
+   "duo": {
+    "fichier": "c05-b8b74f0b.mp3",
+    "voix": "Qrl71rx6Yg8RvyPYRGCQ"
+   }
+  },
+  "c05:ce45f89d": {
+   "fichier": "c05-2c754fb9.mp3",
+   "voix": "fnoOtHjtLbYs6mOpUSdr",
+   "envoye": "[whispering] … tout est en ordre… vérifié… vérifié… revérifié…",
+   "texte": "… tout est en ordre… vérifié… vérifié… revérifié…",
+   "date": "2026-11-16",
+   "duo": {
+    "fichier": "c05-8400613f.mp3",
+    "voix": "Qrl71rx6Yg8RvyPYRGCQ"
+   }
+  },
+  "c06:0de61713": {
+   "fichier": "c06-7a223d64.mp3",
+   "voix": "hv6gVog5LgtIUX88Nmq8",
+   "envoye": "[whispering] … livraison express… adresse… confirmée…",
+   "texte": "… livraison express… adresse… confirmée…",
+   "date": "2026-11-16"
+  },
+  "c06:d245a9f8": {
+   "fichier": "c06-293656c5.mp3",
+   "voix": "hv6gVog5LgtIUX88Nmq8",
+   "envoye": "Je suis le Messager ! Je mets ton produit en ligne, vite, et sans rien casser.",
+   "texte": "Je suis le Messager ! Je mets ton produit en ligne, vite, et sans rien casser.",
+   "date": "2026-11-16"
+  },
+  "c07:c41c2875": {
+   "fichier": "c07-ac7ada08.mp3",
+   "voix": "hFgOzpmS0CMtL2to8sAl",
+   "envoye": "[whispering] … je n'oublie rien… ni personne… ni rien…",
+   "texte": "… je n'oublie rien… ni personne… ni rien…",
+   "date": "2026-11-16"
+  },
+  "c07:da412517": {
+   "fichier": "c07-76b23d2c.mp3",
+   "voix": "hFgOzpmS0CMtL2to8sAl",
+   "envoye": "Je suis la Mémoire. Je garde les données et les comptes de tes utilisateurs, et je n'oublie rien.",
+   "texte": "Je suis la Mémoire. Je garde les données et les comptes de tes utilisateurs, et je n'oublie rien.",
+   "date": "2026-11-16"
+  },
+  "c08:43067222": {
+   "fichier": "c08-6458b316.mp3",
+   "voix": "E933WO9WB9GvOmNCycNW",
+   "envoye": "[whispering] … halte… qui va là… ah, c'est toi…",
+   "texte": "… halte… qui va là… ah, c'est toi…",
+   "date": "2026-11-16"
+  },
+  "c08:5e8236d8": {
+   "fichier": "c08-3be975a8.mp3",
+   "voix": "E933WO9WB9GvOmNCycNW",
+   "envoye": "Je suis la Sentinelle. Je protège tes secrets, tes utilisateurs et ton budget.",
+   "texte": "Je suis la Sentinelle. Je protège tes secrets, tes utilisateurs et ton budget.",
+   "date": "2026-11-16"
+  },
+  "c09:0697a7c0": {
+   "fichier": "c09-12cc0c71.mp3",
+   "voix": "7t206LwybBCgHnAvOdtX",
+   "envoye": "Je mène l'escouade : mes drones travaillent en même temps, et mes réflexes veillent pour toi.",
+   "texte": "Je mène l'escouade : mes drones travaillent en même temps, et mes réflexes veillent pour toi.",
+   "date": "2026-11-16"
+  },
+  "c09:b2acc738": {
+   "fichier": "c09-621c4029.mp3",
+   "voix": "7t206LwybBCgHnAvOdtX",
+   "envoye": "[whispering] … un, deux, trois… chacun à son poste…",
+   "texte": "… un, deux, trois… chacun à son poste…",
+   "date": "2026-11-16"
+  },
+  "c10:cd78633e": {
+   "fichier": "c10-b0533e28.mp3",
+   "voix": "t28pUgJnL2wUUQ8SOnaU",
+   "envoye": "[whispering] … compte à rebours… dix… neuf… huit…",
+   "texte": "… compte à rebours… dix… neuf… huit…",
+   "date": "2026-11-16"
+  },
+  "c10:f4b291c3": {
+   "fichier": "c10-53260b99.mp3",
+   "voix": "t28pUgJnL2wUUQ8SOnaU",
+   "envoye": "Je suis le Lancement. Je présente ton produit au monde, et je t'aide à en faire ton métier.",
+   "texte": "Je suis le Lancement. Je présente ton produit au monde, et je t'aide à en faire ton métier.",
+   "date": "2026-11-16"
+  },
+  "ora:0c13563d": {
+   "fichier": "ora-3befc1f1.mp3",
+   "voix": "t8BrjWUT5Z23DLLBzbuY",
+   "envoye": "Ce caisson est encore verrouillé. Réveille d'abord le membre de l'équipe précédent.",
+   "texte": "Ce caisson est encore verrouillé. Réveille d'abord le membre de l'équipe précédent.",
+   "date": "2026-11-16"
+  },
+  "ora:227c5802": {
+   "fichier": "ora-6fd3cc3e.mp3",
+   "voix": "t8BrjWUT5Z23DLLBzbuY",
+   "envoye": "Systèmes en veille. Je suis prête à démarrer quand tu le seras.",
+   "texte": "Systèmes en veille. Je suis prête à démarrer quand tu le seras.",
+   "date": "2026-11-16"
+  },
+  "ora:2bd26d4f": {
+   "fichier": "ora-497c4d7b.mp3",
+   "voix": "t8BrjWUT5Z23DLLBzbuY",
+   "envoye": "Chaque membre de l'équipe correspond à un vrai fichier de ton produit. Touche un membre pour voir sa fiche ; une fois réveillé, vérifie qu'il est bien au travail dans ton dépôt.",
+   "texte": "Chaque membre de l'équipe correspond à un **vrai fichier** de ton produit. Touche un membre pour voir sa fiche ; une fois réveillé, vérifie qu'il est bien au travail dans ton dépôt.",
+   "date": "2026-11-16"
+  },
+  "ora:310d9517": {
+   "fichier": "ora-0ef790db.mp3",
+   "voix": "t8BrjWUT5Z23DLLBzbuY",
+   "envoye": "Caisson zéro un. Ici dort l'Archiviste. Elle n'oublie rien : avec elle, tu ne perdras plus jamais un état de ton produit, et tu pourras toujours revenir en arrière. Avant de la réveiller, une question : que se passe-t-il le jour où un changement casse tout ?",
+   "texte": "Caisson 01. Ici dort **l'Archiviste**. Elle n'oublie rien : avec elle, tu ne perdras plus jamais un état de ton produit, et tu pourras toujours revenir en arrière. Avant de la réveiller, une question : que se passe-t-il le jour où un changement casse tout ?",
+   "date": "2026-11-16"
+  },
+  "ora:3965236b": {
+   "fichier": "ora-dfa47c57.mp3",
+   "voix": "t8BrjWUT5Z23DLLBzbuY",
+   "envoye": "Mes circuits reviennent un par un. Continue : tu apprends vite, et j'en suis fière.",
+   "texte": "Mes circuits reviennent un par un. Continue : tu apprends vite, et j'en suis fière.",
+   "date": "2026-11-16"
+  },
+  "ora:3d9854d4": {
+   "fichier": "ora-fda7b168.mp3",
+   "voix": "t8BrjWUT5Z23DLLBzbuY",
+   "envoye": "Parfait. Abaisse le levier principal pour envoyer le courant dans la réserve.",
+   "texte": "Parfait. Abaisse le levier principal pour envoyer le courant dans la réserve.",
+   "date": "2026-11-16"
+  },
+  "ora:40a36a72": {
+   "fichier": "ora-cd1b32de.mp3",
+   "voix": "t8BrjWUT5Z23DLLBzbuY",
+   "envoye": "Bonne nouvelle : tu n'as pas besoin d'apprendre à écrire ces trois langues. Ton équipe va le faire pour toi. Mais pour bien la diriger, tu dois comprendre comment elle travaille.",
+   "texte": "Bonne nouvelle : tu n'as pas besoin d'apprendre à écrire ces trois langues. Ton équipe va le faire pour toi. Mais pour bien la diriger, tu dois comprendre **comment elle travaille**.",
+   "date": "2026-11-16"
+  },
+  "ora:4bc5f70a": {
+   "fichier": "ora-356f05fe.mp3",
+   "voix": "t8BrjWUT5Z23DLLBzbuY",
+   "envoye": "Jusqu'ici, chaque commit s'ajoutait à la suite, sur une seule ligne. Mais ta page est en ligne : un essai raté serait vu par tout le monde. Il te faut un endroit pour essayer à côté.",
+   "texte": "Jusqu'ici, chaque [[commit]] s'ajoutait à la suite, sur une seule ligne. Mais ta page est en ligne : un essai raté serait vu par tout le monde. Il te faut un endroit pour essayer **à côté**.",
+   "date": "2026-11-16"
+  },
+  "ora:59fb2e26": {
+   "fichier": "ora-cb7cf772.mp3",
+   "voix": "t8BrjWUT5Z23DLLBzbuY",
+   "envoye": "Termine d'abord tous les protocoles du caisson.",
+   "texte": "Termine d'abord tous les protocoles du caisson.",
+   "date": "2026-11-16"
+  },
+  "ora:62a9755a": {
+   "fichier": "ora-086e4f96.mp3",
+   "voix": "t8BrjWUT5Z23DLLBzbuY",
+   "envoye": "Un jour, tu fusionneras une erreur. Cela arrive à tout le monde, experts compris. Ce qui distingue un expert, c'est qu'il sait revenir en arrière en deux minutes, calmement, sans rien perdre. C'est le dernier secret de l'Archiviste.",
+   "texte": "Un jour, tu fusionneras une erreur. Cela arrive à tout le monde, experts compris. Ce qui distingue un expert, c'est qu'il sait revenir en arrière en deux minutes, calmement, sans rien perdre. C'est le dernier secret de l'Archiviste.",
+   "date": "2026-11-16"
+  },
+  "ora:6f397b29": {
+   "fichier": "ora-a31c9705.mp3",
+   "voix": "t8BrjWUT5Z23DLLBzbuY",
+   "envoye": "Disjonction ! Les trois fusibles ont grillé. Pas de panique : relis les explications ci-dessus ou la Base de connaissances, puis réarme le tableau.",
+   "texte": "**Disjonction !** Les trois fusibles ont grillé. Pas de panique : relis les explications ci-dessus ou la Base de connaissances, puis réarme le tableau.",
+   "date": "2026-11-16"
+  },
+  "ora:747439ca": {
+   "fichier": "ora-4659251e.mp3",
+   "voix": "t8BrjWUT5Z23DLLBzbuY",
+   "envoye": "Je suis ORA, ta guide. Je t'apprends les bases, et nous réveillons l'équipe ensemble.",
+   "texte": "Je suis ORA, ta guide. Je t'apprends les bases, et nous réveillons l'équipe ensemble.",
+   "date": "2026-11-16"
+  },
+  "ora:75a57cd2": {
+   "fichier": "ora-e492e170.mp3",
+   "voix": "t8BrjWUT5Z23DLLBzbuY",
+   "envoye": "Ta branche essai-readme attend sur sa voie d'essai. Pour que son contenu rejoigne main, il faut deux gestes, dans cet ordre : relire, puis fusionner. La pull request que tu as découverte au caisson zéro zéro sert exactement à cela.",
+   "texte": "Ta branche essai-readme attend sur sa voie d'essai. Pour que son contenu rejoigne main, il faut deux gestes, dans cet ordre : **relire**, puis **fusionner**. La [[pull-request]] que tu as découverte au caisson 00 sert exactement à cela.",
+   "date": "2026-11-16"
+  },
+  "ora:76b47fdc": {
+   "fichier": "ora-417fc8a0.mp3",
+   "voix": "t8BrjWUT5Z23DLLBzbuY",
+   "envoye": "Ici, tu t'entraînes à rédiger des ordres de mission pour ton équipe. Claude note chaque consigne sur cinq critères : contexte, objectif, critères de réussite, contraintes, vérification.",
+   "texte": "Ici, tu t'entraînes à rédiger des **ordres de mission** pour ton équipe. Claude note chaque consigne sur cinq critères : contexte, objectif, critères de réussite, contraintes, vérification.",
+   "date": "2026-11-16"
+  },
+  "ora:78c76d7d": {
+   "fichier": "ora-d26417c1.mp3",
+   "voix": "t8BrjWUT5Z23DLLBzbuY",
+   "envoye": "Une question avant d'envoyer le courant : veux-tu entendre la réserve ? Un fond sonore discret : le ronronnement des transformateurs, la ventilation, quelques grésillements au loin. Avec des écouteurs, c'est encore mieux. Tu pourras le changer à tout moment dans Réglages.",
+   "texte": "Une question avant d'envoyer le courant : veux-tu entendre la réserve ? Un fond sonore discret : le ronronnement des transformateurs, la ventilation, quelques grésillements au loin. Avec des écouteurs, c'est encore mieux. Tu pourras le changer à tout moment dans Réglages.",
+   "date": "2026-11-16"
+  },
+  "ora:95c0beb0": {
+   "fichier": "ora-a22fc33e.mp3",
+   "voix": "t8BrjWUT5Z23DLLBzbuY",
+   "envoye": "La réserve est sous tension. Commence par le caisson zéro zéro : je t'y attends pour poser les bases.",
+   "texte": "La réserve est sous tension. Commence par le CAISSON 00 : je t'y attends pour poser les bases.",
+   "date": "2026-11-16"
+  },
+  "ora:b1165524": {
+   "fichier": "ora-ce52b518.mp3",
+   "voix": "t8BrjWUT5Z23DLLBzbuY",
+   "envoye": "Dernier protocole du caisson. Tu vas publier la page de présentation de ton produit, avec ton premier ordre de mission à Claude Code. Prévois deux quarts : un pour préparer, un pour publier.",
+   "texte": "Dernier protocole du caisson. Tu vas **publier la page de présentation de ton produit**, avec ton premier ordre de mission à [[claude-code]]. Prévois deux quarts : un pour préparer, un pour publier.",
+   "date": "2026-11-16"
+  },
+  "ora:b478ab54": {
+   "fichier": "ora-e2ddcb30.mp3",
+   "voix": "t8BrjWUT5Z23DLLBzbuY",
+   "envoye": "Pleine puissance. Grâce à toi, les bases sont posées et ton produit a sa première page en ligne. Allons réveiller le reste de l'équipe.",
+   "texte": "Pleine puissance. Grâce à toi, les bases sont posées et ton produit a sa première page en ligne. Allons réveiller le reste de l'équipe.",
+   "date": "2026-11-16"
+  },
+  "ora:b4c67e0d": {
+   "fichier": "ora-251c5df9.mp3",
+   "voix": "t8BrjWUT5Z23DLLBzbuY",
+   "envoye": "Chaque membre de l'équipe que tu réveilleras t'aidera à construire le même produit, version après version, jusqu'à son lancement public. Prends le temps de bien le choisir : tu vas vivre avec lui pendant des mois.",
+   "texte": "Chaque membre de l'équipe que tu réveilleras t'aidera à construire **le même produit**, version après version, jusqu'à son lancement public. Prends le temps de bien le choisir : tu vas vivre avec lui pendant des mois.",
+   "date": "2026-11-16"
+  },
+  "ora:cee2866b": {
+   "fichier": "ora-62557c9f.mp3",
+   "voix": "t8BrjWUT5Z23DLLBzbuY",
+   "envoye": "Bonjour. Je suis ORA, Opérateur de Relance Automatique. Le datacenter est rallumé. Dans sa réserve dorment 11 membres d'équipe : chacun maîtrise une partie du métier de créateur d'applications. Réveille-les un par un, et ensemble vous construirez ton propre produit, jusqu'à son lancement. Je t'accompagnerai. Comment dois-je t'appeler ?",
+   "texte": "Bonjour. Je suis **ORA**, Opérateur de Relance Automatique.\n\nLe datacenter est rallumé. Dans sa réserve dorment **11 membres d'équipe** : chacun maîtrise une partie du métier de créateur d'applications. Réveille-les un par un, et ensemble vous construirez **ton propre produit**, jusqu'à son lancement. Je t'accompagnerai.\n\nComment dois-je t'appeler ?",
+   "date": "2026-11-16"
+  },
+  "ora:ed587add": {
+   "fichier": "ora-b8ac9ae9.mp3",
+   "voix": "t8BrjWUT5Z23DLLBzbuY",
+   "envoye": "Ce protocole n'est pas encore ouvert. Termine le précédent.",
+   "texte": "Ce protocole n'est pas encore ouvert. Termine le précédent.",
+   "date": "2026-11-16"
+  },
+  "ora:ff1f8dee": {
+   "fichier": "ora-01897b1a.mp3",
+   "voix": "t8BrjWUT5Z23DLLBzbuY",
+   "envoye": "Bienvenue dans ton premier protocole de réveil. Avant de diriger une équipe qui construit des applications, il faut savoir ce qu'est une application, et d'où elle vient quand elle s'affiche sur ton écran.",
+   "texte": "Bienvenue dans ton premier **protocole de réveil**. Avant de diriger une équipe qui construit des applications, il faut savoir ce qu'est une application, et d'où elle vient quand elle s'affiche sur ton écran.",
+   "date": "2026-11-16"
+  }
+ }
+}
