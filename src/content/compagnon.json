@@ -1,0 +1,61 @@
+{
+  "_lisez-moi": "Répliques du compagnon de protocole : le membre du caisson, visible en bas de l'écran, parle à l'ouverture d'un protocole (debut), à certains passages (blocs : numéro du bloc à partir de 0, la réplique part quand ce bloc apparaît), quand la fin du protocole apparaît (fin), et réagit à certaines réponses (reactions : premier, perseverance, indice, serie ; voir src/lib/companion.ts). À la première personne, le joueur tutoyé. Une réplique ne doit employer aucun mot technique pas encore défini à l'endroit où elle s'affiche. Les membres endormis parlent en dormant (points de suspension, voix chuchotée).",
+  "c00": {
+    "reactions": {
+      "premier": [
+        "Bonne réponse. Regarde la batterie : sa première cellule s'allume.",
+        "Exact. Mes voyants s'allument un à un."
+      ],
+      "perseverance": [
+        "Tu as cherché, et tu as trouvé. C'est exactement comme ça qu'on apprend.",
+        "Une erreur, puis la bonne réponse : c'est ce qui grave une notion dans la mémoire."
+      ],
+      "indice": [
+        "Pas encore. Relis les définitions juste au-dessus : la réponse s'y trouve.",
+        "Se tromper ne coûte rien ici. Remonte d'un ou deux blocs, puis réessaie."
+      ],
+      "serie": [
+        "Trois bonnes réponses d'affilée. Quelle série !",
+        "Encore une. Trois sans te tromper : mes circuits tournent à plein régime."
+      ]
+    },
+    "protocoles": {
+      "p1": {
+        "debut": "Je reste avec toi pendant tout le protocole. Je réagirai à tes réponses, et si tu bloques, je te donnerai une piste.",
+        "blocs": {
+          "6": "Garde bien cette image du client et du magasin : on la retrouvera souvent.",
+          "9": "Première vérification. Prends ton temps : une erreur ne coûte rien."
+        },
+        "fin": "Tu sais maintenant ce qui se passe quand tu ouvres une page. Termine le protocole pour remplir la batterie."
+      }
+    }
+  },
+  "c01": {
+    "reactions": {
+      "premier": [
+        "… oui… c'est bien ça… je le note dans mon registre…",
+        "… exact… une cellule s'allume… je la sens…"
+      ],
+      "perseverance": [
+        "… tu as recommencé… et tu as trouvé… je garde aussi les essais ratés, tu sais…"
+      ],
+      "indice": [
+        "… pas tout à fait… relis un peu plus haut… tout y est noté…",
+        "… doucement… reprends la définition… puis réessaie…"
+      ],
+      "serie": [
+        "… trois d'affilée… mes paupières bougent presque…"
+      ]
+    },
+    "protocoles": {
+      "p1": {
+        "debut": "… tu es là ?… je dors encore, mais je t'entends… parlons de souvenirs…",
+        "blocs": {
+          "3": "… les photos du chantier… j'en ai des milliers… toutes rangées dans l'ordre…",
+          "8": "… remonte le temps… vas-y… rien n'est jamais perdu…"
+        },
+        "fin": "… je sens le courant monter… termine le protocole… et branche la batterie sur ma capsule…"
+      }
+    }
+  }
+}

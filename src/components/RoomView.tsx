@@ -19,7 +19,9 @@ import { Rays, Shockwave, Sparks } from "./Rewards";
 import { fillBattery, getEnergyBar, startEnergyBar, stopEnergyBar, useEnergyBar } from "../lib/energy";
 import { bigStrike, centerOf } from "./Bolts";
 import { ArcScene, PlugScene } from "./PlugScene";
-import { CrewCapsule, CrewFigure, MemberSays } from "./Crew";
+import { CrewCapsule, CrewFigure, MemberSays, type CrewState } from "./Crew";
+import { CompanionPort } from "./Companion";
+import { companionScript, companionSolved, onCompanion, startCompanion, stopCompanion } from "../lib/companion";
 
 // ======================= Caisson (un niveau, un membre de l'équipe) =======================
 export function RoomView({ id }: { id: string }) {
@@ -229,6 +231,36 @@ export function StepView({ roomId, stepId }: { roomId: string; stepId: string })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [key]);
 
+  // Compagnon : le membre du caisson accompagne le protocole (ouverture, passages clés, certaines réponses, fin).
+  useEffect(() => {
+    if (!r || !step || wasDone) return;
+    startCompanion(r.id, step.id);
+    const t = window.setTimeout(() => companionScript("debut"), 1400);
+    return () => { window.clearTimeout(t); stopCompanion(); };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [key]);
+  const opened = useRef(revealed);
+  useEffect(() => {
+    if (wasDone || revealed <= opened.current) return; // à l'ouverture (ou à la reprise), rien : seuls les nouveaux blocs comptent
+    const t = window.setTimeout(() => companionScript(revealed >= total ? "fin" : "bloc", revealed - 1), 700);
+    return () => window.clearTimeout(t);
+  }, [revealed, total, wasDone]);
+
+  // Quand la bulle du compagnon sort, la page remonte un peu pour lui faire de la place : elle ne cache jamais le
+  // bouton « Continuer » (seulement si le joueur est déjà en bas de la page).
+  const [room4bubble, setRoom4bubble] = useState(0);
+  useEffect(() => onCompanion((l) => {
+    if (!l) return;
+    window.setTimeout(() => {
+      const el = document.querySelector<HTMLElement>(".companion-bubble"), b = bottom.current;
+      if (!el || !b) return;
+      const h = el.offsetHeight + 12;
+      setRoom4bubble(h);
+      const r = b.getBoundingClientRect();
+      if (r.top < window.innerHeight + 40) window.setTimeout(() => b.scrollIntoView({ behavior: "smooth", block: "end" }), 30);
+    }, 60);
+  }), []);
+
   const blocks = useMemo(() => step?.blocks ?? [], [step]);
   if (!r || !step) return <div className="wrap"><p>Protocole introuvable.</p></div>;
   if (!stepUnlocked(p, r, idx)) return <div className="wrap"><TopBar title={step.title} onBack={() => go(`caisson/${r.id}`)} /><OraSays mood="alert" md="Ce protocole n'est pas encore ouvert. Termine le précédent." /></div>;
@@ -254,6 +286,7 @@ export function StepView({ roomId, stepId }: { roomId: string; stepId: string })
     // descend alors sous la batterie, posée en bas de l'écran, et un toucher tombe sur elle. On le ramène en vue.
     window.setTimeout(() => bottom.current?.scrollIntoView({ behavior: "smooth", block: "end" }), 450);
     const exKey = `${key}#${bi}`;
+    companionSolved(exKey);
     if (getState().progress.exercises[exKey] === undefined) {
       updateProgress((d) => { d.exercises[exKey] = attempts; });
       const e = attempts <= 1 ? REWARD.exerciseFirst : REWARD.exerciseRetry;
@@ -306,8 +339,8 @@ export function StepView({ roomId, stepId }: { roomId: string; stepId: string })
           ))}
         </AnimatePresence>
       </div>
-      {!finished && <Battery />}
-      <div ref={bottom} style={{ marginTop: 22, paddingBottom: 28, scrollMarginBottom: "calc(var(--tabbar-h) + var(--safe-bottom) + 20px)" }}>
+      {!finished && <Battery r={r} state={roomComplete(p, r) ? "awake" : "asleep"} />}
+      <div ref={bottom} style={{ marginTop: 22, paddingBottom: 28 + room4bubble, scrollMarginBottom: "calc(var(--tabbar-h) + var(--safe-bottom) + 20px)" }}>
         {!finished && !atEnd && (
           <motion.button className="btn block" whileTap={{ scale: 0.97 }} disabled={blockedByExercise} onClick={revealNext}>
             {blockedByExercise ? "Réussis la vérification pour continuer" : <>Continuer <Icon name="chevron-right" size={18} stroke={2.2} /></>}
@@ -381,13 +414,14 @@ export function StepView({ roomId, stepId }: { roomId: string; stepId: string })
 }
 
 /** La batterie du protocole, posée au-dessus des onglets : chaque bonne réponse y charge une cellule (éclair). */
-function Battery() {
+function Battery({ r, state }: { r: Room; state: CrewState }) {
   const bar = useEnergyBar();
   if (!bar.max || !bar.cells) return null;
   const pct = Math.round((bar.lit / bar.cells) * 100);
   return (
     <div className="battery-dock no-print" role="status" aria-label={`Batterie du protocole : ${pct} %`}>
       <div>
+        <CompanionPort r={r} state={state} />
         <span className="mono" style={{ fontSize: 9.5, letterSpacing: ".12em", color: "var(--text-3)" }}>BATTERIE</span>
         <div className={`battery ${bar.lit >= bar.cells ? "full" : ""}`} aria-hidden="true">
           {Array.from({ length: bar.cells }, (_, i) => <i key={i} data-cell={i} className={`${i === bar.cells - 1 ? "final" : ""} ${i < bar.lit ? "on" : ""}`} />)}
