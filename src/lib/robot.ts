@@ -10,6 +10,11 @@ export interface Filtre {
   choeur?: { voix: number; ms: number; prof: number; mix: number };
   salle?: { s: number; mix: number };
   grain?: { pas: number; bits: number };
+  /** Élocution hachée : le son est coupé brièvement à intervalles réguliers (ms : longueur d'un morceau ; trou : part
+   *  coupée, de 0 à 1 ; prof : profondeur de la coupure, de 0 à 1). */
+  hache?: { ms: number; trou: number; prof: number };
+  /** Petites répétitions de robot : de temps en temps, un court morceau est rejoué (prob : chance par morceau). */
+  glitch?: { ms: number; prob: number };
 }
 
 export const SR = 24000; // suffisant pour une voix, et deux fois moins de mémoire qu'en 48 kHz
@@ -87,6 +92,26 @@ export async function robotize(src: AudioBuffer, f: Filtre): Promise<Ready> {
   }
   if (f.crepite) for (let i = 0; i < d.length; i++) if (Math.random() < f.crepite * 0.02) d[i] += (Math.random() * 2 - 1) * 0.25;
   if (f.souffle) for (let i = 0; i < d.length; i++) d[i] += (Math.random() * 2 - 1) * f.souffle;
+  if (f.glitch) {
+    // Un tirage fixe (pseudo-aléatoire) : la même réplique sonne toujours pareil.
+    let seed = 7; const rnd = () => ((seed = (seed * 16807) % 2147483647) / 2147483647);
+    const n = Math.max(32, Math.floor((f.glitch.ms / 1000) * SR));
+    for (let start = n * 4; start + 2 * n < d.length; start += n) {
+      if (rnd() >= f.glitch.prob) continue;
+      for (let i = 0; i < n; i++) d[start + n + i] = d[start + i];
+      start += n * 3;
+    }
+  }
+  if (f.hache) {
+    const n = Math.max(64, Math.floor((f.hache.ms / 1000) * SR)), cut = Math.floor(n * f.hache.trou), ramp = Math.floor(0.002 * SR);
+    for (let i = 0; i < d.length; i++) {
+      const k = i % n, from = n - cut;
+      if (k < from) continue;
+      // Rampe de 2 ms à l'entrée et à la sortie du trou : pas de clic.
+      const edge = Math.min(k - from, n - 1 - k), g = edge < ramp ? edge / ramp : 1;
+      d[i] *= 1 - f.hache.prof * g;
+    }
+  }
   let peak = 0; for (let i = 0; i < d.length; i++) peak = Math.max(peak, Math.abs(d[i]));
   if (peak > 0) { const k = 0.9 / peak; for (let i = 0; i < d.length; i++) d[i] *= k; }
   const step = Math.floor(FRAME * SR), levels = new Float32Array(Math.ceil(d.length / step));
