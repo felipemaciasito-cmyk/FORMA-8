@@ -1,5 +1,5 @@
 {
- "_lisez-moi": "Voix de l'équipe (lot du 16/11/2026, choix du propriétaire : 5 femmes, 5 hommes, un chœur mixte). Chaque personnage lit ses propres répliques. Les voix sont générées une fois avec ElevenLabs (offre Starter depuis le 16/11/2026), téléchargées dans public/voix et listées dans src/content/voix-enregistrements.json. « voix » est la voix retenue (null tant que l'audition n'a pas tranché) ; « candidates » sont les voix auditionnées. « robot » règle la touche robotique ajoutée par l'appli (src/lib/voice.ts). Toute réplique modifiée doit être réenregistrée : le validateur le vérifie. « concue » : voix conçue sur mesure (creative_design_voice), à enregistrer dans la bibliothèque du compte si elle est retenue. « provisoire » : voix gardée en attendant mieux. « variantes » : touches robotiques à comparer.",
+ "_lisez-moi": "Voix de l'équipe (lot du 16/11/2026, choix du propriétaire : 5 femmes, 5 hommes, un chœur mixte). Chaque personnage lit ses propres répliques. Les voix sont générées une fois avec ElevenLabs (offre Starter depuis le 16/11/2026), téléchargées dans public/voix et listées dans src/content/voix-enregistrements.json. « voix » est la voix retenue (null tant que l'audition n'a pas tranché) ; « candidates » sont les voix auditionnées. « robot » règle la touche robotique ajoutée par l'appli (src/lib/voice.ts). Toute réplique modifiée doit être réenregistrée : le validateur le vérifie. « concue » : voix conçue sur mesure (creative_design_voice), à enregistrer dans la bibliothèque du compte si elle est retenue. « provisoire » : voix gardée en attendant mieux. « variantes » : touches robotiques à comparer. « dose » : densité de tous les effets (1 = réglage du filtre). « superposition » : deux voix dites ensemble (à l'essai).",
  "modele": "eleven_v4",
  "personnages": {
   "ora": {
@@ -14,8 +14,8 @@
     "toujours calme"
    ],
    "elocution": "Claire et posée, débit moyen, sourire dans la voix.",
-   "robot": "Très robotique : timbre métallique, élocution hachée, petites répétitions de machine.",
-   "voix": null,
+   "robot": "Trois styles à comparer : numérique (granuleux, haché), vocodeur (métallique), hologramme (voix légèrement dédoublée).",
+   "voix": "t8BrjWUT5Z23DLLBzbuY",
    "candidates": [
     {
      "id": "t8BrjWUT5Z23DLLBzbuY",
@@ -44,31 +44,108 @@
    "filtre": {
     "hp": 140,
     "lp": 8500,
-    "anneau": {
-     "f": 70,
-     "mix": 0.3
+    "grain": {
+     "pas": 3,
+     "bits": 9
     },
     "peigne": {
      "ms": 3.6,
-     "retour": 0.5,
-     "mix": 0.35
-    },
-    "grain": {
-     "pas": 2,
-     "bits": 10
-    },
-    "hache": {
-     "ms": 95,
-     "trou": 0.22,
-     "prof": 0.85
+     "retour": 0.35,
+     "mix": 0.2
     },
     "glitch": {
      "ms": 45,
-     "prob": 0.06
+     "prob": 0.05
     },
-    "salle": {
-     "s": 0.8,
-     "mix": 0.08
+    "hache": {
+     "ms": 90,
+     "trou": 0.18,
+     "prof": 0.6
+    }
+   },
+   "dose": 0.75,
+   "variantes": {
+    "numerique": {
+     "nom": "Numérique",
+     "filtre": {
+      "hp": 140,
+      "lp": 8500,
+      "grain": {
+       "pas": 3,
+       "bits": 9
+      },
+      "peigne": {
+       "ms": 3.6,
+       "retour": 0.35,
+       "mix": 0.2
+      },
+      "glitch": {
+       "ms": 45,
+       "prob": 0.05
+      },
+      "hache": {
+       "ms": 90,
+       "trou": 0.18,
+       "prof": 0.6
+      }
+     }
+    },
+    "vocodeur": {
+     "nom": "Vocodeur",
+     "filtre": {
+      "hp": 160,
+      "lp": 8000,
+      "anneau": {
+       "f": 140,
+       "mix": 0.25
+      },
+      "peigne": {
+       "ms": 2.2,
+       "retour": 0.45,
+       "mix": 0.25
+      },
+      "hache": {
+       "ms": 100,
+       "trou": 0.15,
+       "prof": 0.55
+      },
+      "salle": {
+       "s": 0.5,
+       "mix": 0.04
+      }
+     }
+    },
+    "hologramme": {
+     "nom": "Hologramme",
+     "filtre": {
+      "hp": 150,
+      "lp": 9000,
+      "choeur": {
+       "voix": 2,
+       "ms": 10,
+       "prof": 2,
+       "mix": 0.35
+      },
+      "tourne": {
+       "ms": 2.5,
+       "prof": 1.2,
+       "vitesse": 0.6,
+       "mix": 0.3
+      },
+      "anneau": {
+       "f": 60,
+       "mix": 0.15
+      },
+      "hache": {
+       "ms": 120,
+       "trou": 0.12,
+       "prof": 0.45
+      },
+      "salle": {
+       "s": 0.5,
+       "mix": 0.05
+      }
+     }
     }
    }
   },
@@ -117,9 +194,10 @@
     },
     "salle": {
      "s": 0.6,
-     "mix": 0.08
+     "mix": 0.04
     }
-   }
+   },
+   "dose": 0.75
   },
   "c02": {
    "nom": "Le Règlement de bord",
@@ -165,9 +243,10 @@
     },
     "salle": {
      "s": 0.4,
-     "mix": 0.06
+     "mix": 0.03
     }
-   }
+   },
+   "dose": 0.75
   },
   "c03": {
    "nom": "Le Scribe",
@@ -181,8 +260,8 @@
     "un brin poète"
    ],
    "elocution": "Lente, très articulée, ton de conteur.",
-   "robot": "Écho feutré, comme dans une bibliothèque.",
-   "voix": null,
+   "robot": "Feutré, presque sans écho, comme dans une bibliothèque capitonnée.",
+   "voix": "86fYoxrFeaJKXplThwSl",
    "candidates": [
     {
      "id": "ohItIVrXTBI80RrUECOD",
@@ -206,27 +285,28 @@
     }
    ],
    "filtre": {
-    "hp": 90,
-    "lp": 7000,
+    "hp": 120,
+    "lp": 4200,
     "anneau": {
-     "f": 36,
-     "mix": 0.14
+     "f": 30,
+     "mix": 0.08
     },
     "peigne": {
      "ms": 5.5,
-     "retour": 0.4,
-     "mix": 0.25
+     "retour": 0.25,
+     "mix": 0.12
     },
     "hache": {
      "ms": 150,
-     "trou": 0.12,
-     "prof": 0.45
+     "trou": 0.1,
+     "prof": 0.35
     },
     "salle": {
-     "s": 1.6,
-     "mix": 0.18
+     "s": 0.8,
+     "mix": 0.05
     }
-   }
+   },
+   "dose": 0.75
   },
   "c04": {
    "nom": "La Boucle",
@@ -274,7 +354,8 @@
      "ms": 40,
      "prob": 0.08
     }
-   }
+   },
+   "dose": 0.75
   },
   "c05": {
    "nom": "L'Inspecteur",
@@ -288,7 +369,7 @@
     "pince-sans-rire"
    ],
    "elocution": "Lente, détache chaque syllabe.",
-   "robot": "Sec et mécanique, timbre numérique granuleux.",
+   "robot": "À l'essai : deux voix superposées (Julien et Olivier), sèches et mécaniques.",
    "voix": null,
    "candidates": [
     {
@@ -333,7 +414,12 @@
      "trou": 0.2,
      "prof": 0.8
     }
-   }
+   },
+   "dose": 0.75,
+   "superposition": [
+    "fnoOtHjtLbYs6mOpUSdr",
+    "Qrl71rx6Yg8RvyPYRGCQ"
+   ]
   },
   "c06": {
    "nom": "Le Messager",
@@ -443,7 +529,8 @@
       }
      }
     }
-   }
+   },
+   "dose": 0.75
   },
   "c07": {
    "nom": "La Mémoire",
@@ -488,9 +575,10 @@
     },
     "salle": {
      "s": 2.4,
-     "mix": 0.28
+     "mix": 0.14
     }
-   }
+   },
+   "dose": 0.75
   },
   "c08": {
    "nom": "La Sentinelle",
@@ -504,8 +592,8 @@
     "imperturbable"
    ],
    "elocution": "Courte et ferme.",
-   "robot": "Voix sous un casque : son serré, timbre métallique.",
-   "voix": null,
+   "robot": "Voix sous un casque, effets réduits de moitié.",
+   "voix": "E933WO9WB9GvOmNCycNW",
    "candidates": [
     {
      "id": "m5U7XCsc8v988k2RJAqN",
@@ -558,7 +646,7 @@
      "prof": 0.7
     }
    },
-   "provisoire": "3C1zYzXNXNzrB66ON8rj"
+   "dose": 0.5
   },
   "c09": {
    "nom": "Les Escouades et les Réflexes",
@@ -573,7 +661,7 @@
    ],
    "elocution": "Rythmée, presque scandée.",
    "robot": "Voix doublée : plusieurs drones répètent avec un léger décalage.",
-   "voix": null,
+   "voix": "7t206LwybBCgHnAvOdtX",
    "candidates": [
     {
      "id": "ZYOBieLaunTiQrTrvNQq",
@@ -630,7 +718,8 @@
      "trou": 0.15,
      "prof": 0.6
     }
-   }
+   },
+   "dose": 0.6
   },
   "c10": {
    "nom": "Le Lancement",
@@ -645,7 +734,7 @@
    ],
    "elocution": "Ample, ton de compte à rebours.",
    "robot": "Tour de contrôle : grande réverbération, voix de haut-parleur.",
-   "voix": null,
+   "voix": "t28pUgJnL2wUUQ8SOnaU",
    "candidates": [
     {
      "id": "UBXZKOKbt62aLQHhc1Jm",
@@ -684,9 +773,10 @@
     },
     "salle": {
      "s": 2.8,
-     "mix": 0.3
+     "mix": 0.15
     }
-   }
+   },
+   "dose": 0.75
   }
  }
 }

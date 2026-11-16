@@ -30,7 +30,12 @@ function impulse(oc: BaseAudioContext, sec: number) {
 type OfflineCtor = new (channels: number, length: number, rate: number) => OfflineAudioContext;
 
 /** Applique le filtre d'un personnage, hors temps réel. */
-export async function robotize(src: AudioBuffer, f: Filtre): Promise<Ready> {
+/**
+ * `dose` règle la densité de tous les effets à la fois (1 = réglage du personnage, 0,5 = moitié moins, 0 = voix brute
+ * filtrée) : le propriétaire peut ainsi doser la touche robotique sans tout réécrire.
+ */
+export async function robotize(src: AudioBuffer, f: Filtre, dose = 1): Promise<Ready> {
+  const k = Math.max(0, dose);
   const C = (window.OfflineAudioContext || (window as unknown as { webkitOfflineAudioContext?: OfflineCtor }).webkitOfflineAudioContext) as OfflineCtor | undefined;
   if (!C) throw new Error("OfflineAudioContext indisponible");
   const tail = (f.salle?.s ?? 0) + 0.1;
@@ -40,15 +45,16 @@ export async function robotize(src: AudioBuffer, f: Filtre): Promise<Ready> {
   const chain = (n: AudioNode) => { head.connect(n); head = n; };
   if (f.hp) { const b = oc.createBiquadFilter(); b.type = "highpass"; b.frequency.value = f.hp; b.Q.value = 0.7; chain(b); }
   if (f.lp) { const b = oc.createBiquadFilter(); b.type = "lowpass"; b.frequency.value = f.lp; b.Q.value = 0.7; chain(b); }
-  if (f.sature) {
-    const k = 2 + f.sature * 30, n = 1024, c = new Float32Array(n);
-    for (let i = 0; i < n; i++) { const x = (i * 2) / n - 1; c[i] = ((1 + k) * x) / (1 + k * Math.abs(x)); }
+  if (f.sature && k > 0) {
+    const sat = f.sature * k, drive = 2 + sat * 30, n = 1024, c = new Float32Array(n);
+    for (let i = 0; i < n; i++) { const x = (i * 2) / n - 1; c[i] = ((1 + drive) * x) / (1 + drive * Math.abs(x)); }
     const w = oc.createWaveShaper(); w.curve = c; chain(w);
-    const g = oc.createGain(); g.gain.value = 1 / (1 + f.sature); chain(g);
+    const g = oc.createGain(); g.gain.value = 1 / (1 + sat); chain(g);
   }
   const sum = oc.createGain(); sum.connect(oc.destination);
   let wet = 0;
-  const send = (mix: number, build: (input: AudioNode) => AudioNode) => {
+  const send = (raw: number, build: (input: AudioNode) => AudioNode) => {
+    const mix = raw * k; if (mix <= 0) return;
     const g = oc.createGain(); g.gain.value = mix; build(head).connect(g); g.connect(sum); wet += mix;
   };
   if (f.anneau) send(f.anneau.mix, (input) => {
@@ -88,16 +94,16 @@ export async function robotize(src: AudioBuffer, f: Filtre): Promise<Ready> {
   const d = out.getChannelData(0);
   if (f.grain) {
     const q = Math.pow(2, f.grain.bits - 1); let held = 0;
-    for (let i = 0; i < d.length; i++) { if (i % f.grain.pas === 0) held = Math.round(d[i] * q) / q; d[i] = d[i] * 0.55 + held * 0.45; }
+    for (let i = 0; i < d.length; i++) { if (i % f.grain.pas === 0) held = Math.round(d[i] * q) / q; d[i] = d[i] * (1 - 0.45 * Math.min(1, k)) + held * 0.45 * Math.min(1, k); }
   }
-  if (f.crepite) for (let i = 0; i < d.length; i++) if (Math.random() < f.crepite * 0.02) d[i] += (Math.random() * 2 - 1) * 0.25;
-  if (f.souffle) for (let i = 0; i < d.length; i++) d[i] += (Math.random() * 2 - 1) * f.souffle;
+  if (f.crepite) for (let i = 0; i < d.length; i++) if (Math.random() < f.crepite * 0.02 * k) d[i] += (Math.random() * 2 - 1) * 0.25;
+  if (f.souffle) for (let i = 0; i < d.length; i++) d[i] += (Math.random() * 2 - 1) * f.souffle * k;
   if (f.glitch) {
     // Un tirage fixe (pseudo-aléatoire) : la même réplique sonne toujours pareil.
     let seed = 7; const rnd = () => ((seed = (seed * 16807) % 2147483647) / 2147483647);
     const n = Math.max(32, Math.floor((f.glitch.ms / 1000) * SR));
     for (let start = n * 4; start + 2 * n < d.length; start += n) {
-      if (rnd() >= f.glitch.prob) continue;
+      if (rnd() >= f.glitch.prob * k) continue;
       for (let i = 0; i < n; i++) d[start + n + i] = d[start + i];
       start += n * 3;
     }
@@ -109,7 +115,7 @@ export async function robotize(src: AudioBuffer, f: Filtre): Promise<Ready> {
       if (k < from) continue;
       // Rampe de 2 ms à l'entrée et à la sortie du trou : pas de clic.
       const edge = Math.min(k - from, n - 1 - k), g = edge < ramp ? edge / ramp : 1;
-      d[i] *= 1 - f.hache.prof * g;
+      d[i] *= 1 - Math.min(1, f.hache.prof * k) * g;
     }
   }
   let peak = 0; for (let i = 0; i < d.length; i++) peak = Math.max(peak, Math.abs(d[i]));

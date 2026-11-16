@@ -15,7 +15,7 @@ import { getState } from "./store";
 import { FRAME, robotize, type Filtre, type Ready } from "./robot";
 
 interface Recording { fichier: string; voix: string; envoye: string; texte: string; date: string }
-type Personnage = { nom: string; voix: string | null; filtre: Filtre };
+type Personnage = { nom: string; voix: string | null; filtre: Filtre; dose?: number };
 
 const PERSONNAGES = VOIX.personnages as unknown as Record<string, Personnage>;
 const RECORDINGS = (REC as unknown as { repliques: Record<string, Recording> }).repliques;
@@ -64,7 +64,7 @@ function prepare(speaker: Speaker, key: string): Promise<Ready | null> {
       const res = await fetch(voiceUrl(rec.fichier));
       if (!res.ok) return null;
       const raw = await decode(io.rt, await res.arrayBuffer());
-      const ready = await robotize(raw, who.filtre);
+      const ready = await robotize(raw, who.filtre, who.dose ?? 1);
       remember(key, ready);
       return ready;
     } catch { return null; } // une voix n'est jamais bloquante
