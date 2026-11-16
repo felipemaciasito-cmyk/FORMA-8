@@ -60,7 +60,7 @@ export function Hud() {
 function SoundButton() {
   const s = useSettings();
   const [open, setOpen] = useState(false);
-  const on = s.sound || s.ambience;
+  const on = s.sound || s.ambience || (s.voices ?? true);
   useEffect(() => {
     if (!open) return;
     const k = (e: KeyboardEvent) => { if (e.key === "Escape") setOpen(false); };
@@ -82,6 +82,9 @@ function SoundButton() {
               onVolume={(v) => { updateSettings({ sfxVolume: v }); window.setTimeout(() => sfx("cell"), 30); }} />
             <SoundRow label="Fond sonore" on={s.ambience} volume={s.ambienceVolume ?? 0.6}
               onToggle={(v) => updateSettings({ ambience: v })} onVolume={(v) => updateSettings({ ambienceVolume: v })} />
+            <SoundRow label="Voix" on={s.voices ?? true} volume={s.voiceVolume ?? 1}
+              onToggle={(v) => { updateSettings({ voices: v }); if (!v) stopVoice(); }}
+              onVolume={(v) => { updateSettings({ voiceVolume: v }); syncVoiceVolume(); }} />
           </motion.div>
         </>)}
       </AnimatePresence>

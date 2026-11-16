@@ -159,7 +159,7 @@ export function SettingsView() {
           Claude, Claude Code et GitHub sont des marques de leurs propriétaires respectifs.
         </p>
         <p className="small muted" style={{ margin: "10px 0 0" }}>
-          Voix de l'équipe générées avec elevenlabs.io (offre gratuite, usage personnel et non commercial), puis rendues robotiques par l'appli.
+          Voix de l'équipe enregistrées avec elevenlabs.io (offre payante Starter, licence commerciale), puis rendues robotiques par l'appli.
         </p>
         <button className="btn subtle block small" style={{ marginTop: 12 }} onClick={() => { sfx("open"); go("icones"); }}>
           <Icon name="neural-chip" size={18} /> Bibliothèque d'icônes de l'appli
