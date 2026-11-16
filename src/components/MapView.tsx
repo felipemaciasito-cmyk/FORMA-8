@@ -47,7 +47,8 @@ export function MapView() {
 
       <ProductTimeline />
 
-      <div style={{ margin: "16px 0" }}><OraSays compact md={greet} mood={due.size ? "alert" : "happy"} /></div>
+      <div style={{ margin: "16px 0" }}><OraSays compact md={greet} mood={due.size ? "alert" : "happy"}
+        say={roomReady(cur) && !Object.keys(p.steps).length ? `La réserve est sous tension. Commence par le ${ROOMS[0].code} : ${ROOMS[0].member} t'y attend pour poser les bases.` : greet} /></div>
 
       <QuartPanel />
 

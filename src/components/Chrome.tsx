@@ -3,6 +3,7 @@ import { useEffect, useRef, useState, type ReactNode } from "react";
 import { dueNotions, levelOf, onFx, uptime, type FxEvent } from "../lib/game";
 import { go } from "../lib/router";
 import { sfx } from "../lib/sound";
+import { stopVoice, syncVoiceVolume } from "../lib/voice";
 import { useEnergyBar } from "../lib/energy";
 import { updateSettings, useProgress, useSettings } from "../lib/store";
 import { BadgeEmblem } from "./Emblems";
@@ -109,6 +110,8 @@ export function SoundControls() {
       {s.sound && <Volume label="Volume des effets" value={s.sfxVolume ?? 1} onChange={(v) => { updateSettings({ sfxVolume: v }); window.setTimeout(() => sfx("cell"), 30); }} />}
       <Toggle label="Fond sonore de la réserve" on={s.ambience} onChange={(v) => updateSettings({ ambience: v })} />
       {s.ambience && <Volume label="Volume du fond sonore" value={s.ambienceVolume ?? 0.6} onChange={(v) => updateSettings({ ambienceVolume: v })} />}
+      <Toggle label="Voix de l'équipe" on={s.voices ?? true} onChange={(v) => { updateSettings({ voices: v }); if (!v) stopVoice(); }} />
+      {(s.voices ?? true) && <Volume label="Volume des voix" value={s.voiceVolume ?? 1} onChange={(v) => { updateSettings({ voiceVolume: v }); syncVoiceVolume(); }} />}
     </div>
   );
 }

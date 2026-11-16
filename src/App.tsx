@@ -6,6 +6,7 @@ import { roomsDoneCount, totalPower } from "./lib/progress";
 import { setLabelResolver } from "./lib/richtext";
 import { installAudioUnlock, setAmbienceLevel, syncAmbience, syncSfxVolume } from "./lib/sound";
 import { useRoute } from "./lib/router";
+import { stopVoice } from "./lib/voice";
 import { useProgress, useSettings, useStore } from "./lib/store";
 import { useProgressSync } from "./lib/sync";
 import { useHeritageLoader } from "./lib/forma7";
@@ -39,6 +40,9 @@ export function App() {
   useEffect(() => { installAudioUnlock(); }, []);
   useEffect(() => { if (ready) syncAmbience(); }, [ready, settings.ambience, settings.ambienceVolume]);
   useEffect(() => { if (ready) syncSfxVolume(); }, [ready, settings.sfxVolume]);
+  // Voix de l'équipe : un membre se tait quand le joueur change d'écran.
+  const routeKey = route.join("/");
+  useEffect(() => { stopVoice(); }, [routeKey]);
   const power = totalPower(p);
   useEffect(() => { setAmbienceLevel(0.15 + 0.85 * power / 100); }, [power]);
 

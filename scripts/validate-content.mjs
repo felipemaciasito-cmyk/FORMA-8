@@ -22,6 +22,9 @@
 //     Un simulateur doit exister, et son mode éventuel être reconnu.
 // 10. Les répliques de l'équipe (src/content/equipe.json) n'emploient que des notions déjà
 //     connues au moment où elles s'affichent.
+// 11. Voix de l'équipe : chaque enregistrement (src/content/voix-enregistrements.json) a son fichier dans
+//     public/voix, la voix choisie pour son personnage, et correspond au texte actuel ; une réplique qui devrait
+//     être dite sans voix enregistrée est signalée (avertissement).
 //  8. Zéro emoji : aucun emoji ni symbole décoratif dans le glossaire et les
 //     caissons ; le champ « icon » d'une notion est un identifiant de
 //     src/content/icon-ids.json.
@@ -32,6 +35,7 @@ import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { codepoint, findEmoji } from "../src/lib/emoji-rules.js";
+import { checkVoices } from "./voix-lib.mjs";
 
 const here = dirname(fileURLToPath(import.meta.url));
 const root = join(here, "..");
@@ -337,6 +341,17 @@ for (const room of rooms) {
 }
 
 for (const n of glossary) if (!introducedWhere.has(n.id)) warn("glossaire", `notion jamais introduite dans un caisson : ${n.id}`);
+
+// ---------- 11. Voix de l'équipe ----------
+{
+  const voixPath = join(contentDir, "voix.json"), recPath = join(contentDir, "voix-enregistrements.json");
+  if (existsSync(voixPath) && existsSync(recPath)) {
+    const voixDir = process.env.FORMA8_VOIX_DIR ?? join(here, "..", "public", "voix");
+    const res = checkVoices({ voix: readJSON(voixPath), recordings: readJSON(recPath), rooms, crew, voixDir });
+    for (const e of res.errors) err("voix", e);
+    for (const w of res.warnings) warn("voix", w);
+  }
+}
 
 // ---------- Rapport ----------
 const nNotions = glossary.length;

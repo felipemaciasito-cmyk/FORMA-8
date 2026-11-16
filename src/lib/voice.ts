@@ -171,6 +171,7 @@ function prepare(speaker: Speaker, key: string): Promise<Ready | null> {
 
 // ---------- Lecture : une seule voix à la fois ----------
 let current: { src: AudioBufferSourceNode; key: string; raf: number } | null = null;
+let loading = ""; // réplique en cours de préparation : elle compte déjà comme « en train de parler »
 let queue: { speaker: Speaker; md: string }[] = [];
 let bus: GainNode | null = null;
 
@@ -184,7 +185,7 @@ function stopCurrent() {
 }
 
 /** Arrête la voix en cours et vide la file (changement d'écran, réglage coupé). */
-export function stopVoice() { queue = []; stopCurrent(); }
+export function stopVoice() { queue = []; loading = ""; stopCurrent(); }
 
 function next() {
   const n = queue.shift();
@@ -194,7 +195,10 @@ function next() {
 async function play(speaker: Speaker, md: string): Promise<number | null> {
   const key = voiceKey(speaker, md), io = audioOutput();
   if (!io) return null;
+  loading = key;
   const ready = await prepare(speaker, key);
+  if (loading !== key) return null; // une autre réplique a été demandée entre-temps
+  loading = "";
   if (!ready) { next(); return null; }
   stopCurrent();
   if (!bus || bus.context !== io.rt) { bus = io.rt.createGain(); bus.connect(io.out); }
@@ -222,9 +226,9 @@ async function play(speaker: Speaker, md: string): Promise<number | null> {
  */
 export function speak(speaker: Speaker, md: string, auto = false): Promise<number | null> {
   if (!getState().settings.voices || !hasVoice(speaker, md) || !audioOutput()) return Promise.resolve(null);
-  if (auto && current) {
+  if (auto && (current || loading)) {
     const key = voiceKey(speaker, md);
-    if (current.key !== key && !queue.some((q) => voiceKey(q.speaker, q.md) === key)) queue = [...queue.slice(-1), { speaker, md }];
+    if (current?.key !== key && loading !== key && !queue.some((q) => voiceKey(q.speaker, q.md) === key)) queue = [...queue.slice(-1), { speaker, md }];
     return Promise.resolve(null);
   }
   queue = [];
