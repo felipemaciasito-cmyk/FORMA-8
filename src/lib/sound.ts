@@ -18,6 +18,7 @@ type Ctx = BaseAudioContext;
 let rt: AudioContext | null = null;
 let fxBus: GainNode | null = null;
 let ambBus: GainNode | null = null;
+let mixOut: AudioNode | null = null; // compresseur commun, juste avant les haut-parleurs
 // Contexte de fabrication en cours (hors temps réel pendant la préparation, réel pour le ronronnement du fond).
 let ctx: Ctx | null = null;
 let master: AudioNode | null = null;
@@ -536,6 +537,7 @@ export function unlockAudio() {
       const comp = rt.createDynamicsCompressor();
       comp.threshold.value = -16; comp.knee.value = 12; comp.ratio.value = 5; comp.attack.value = 0.002; comp.release.value = 0.25;
       comp.connect(rt.destination);
+      mixOut = comp;
       fxBus = rt.createGain(); fxBus.gain.value = 0.85 * Math.max(0, Math.min(1, getState().settings.sfxVolume ?? 1)); fxBus.connect(comp);
       ambBus = rt.createGain(); ambBus.gain.value = 0.85; ambBus.connect(comp);
     }
@@ -545,14 +547,24 @@ export function unlockAudio() {
     void prepare();
   } catch { /* le son n'est jamais bloquant */ }
 }
+/** Le contexte audio et la sortie commune, une fois le son débloqué par un geste (sinon null). Sert aux voix. */
+export function audioOutput(): { rt: AudioContext; out: AudioNode } | null {
+  return unlocked && rt && mixOut ? { rt, out: mixOut } : null;
+}
+/** Baisse le fond sonore pendant qu'un membre de l'équipe parle, puis le remonte. */
+export function duckAmbience(on: boolean) {
+  if (!ambBus || !rt) return;
+  ambBus.gain.setTargetAtTime(on ? 0.3 : 0.85, rt.currentTime, on ? 0.08 : 0.4);
+}
+const anySound = () => { const s = getState().settings; return s.sound || s.ambience || s.voices; };
 /** Débloque le son au premier geste (Safari), et coupe tout quand l'appli passe en arrière-plan. */
 export function installAudioUnlock() {
-  const unlock = () => { if (getState().settings.sound || getState().settings.ambience) { unlockAudio(); syncAmbience(); } };
+  const unlock = () => { if (anySound()) { unlockAudio(); syncAmbience(); } };
   // Gestes qui comptent pour Safari : relâcher le doigt, « click », une touche du clavier.
   for (const ev of ["pointerup", "touchend", "click", "keydown"]) window.addEventListener(ev, unlock, { capture: true });
   document.addEventListener("visibilitychange", () => {
     if (!rt) return;
     if (document.visibilityState === "hidden") rt.suspend().catch(() => {});
-    else if (getState().settings.sound || getState().settings.ambience) rt.resume().catch(() => {});
+    else if (anySound()) rt.resume().catch(() => {});
   });
 }
