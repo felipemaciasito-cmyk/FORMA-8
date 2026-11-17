@@ -144,3 +144,23 @@ toucher.c03.sommeil.1 BlNIdTVw5Y76N3cGt3bH
 toucher.c04.sommeil.1 LKwet45W3j9IGd9le76Q
 toucher.c05.sommeil.1 xsNQ6qA8sxLl3pZk8KkJ duo:fly40LDcGxqjL2PJ3IKN
 toucher.c06.sommeil.1 E0zFuSEaDVMVGQsdwfNa
+toucher.c07.sommeil.1 fQUffkNNSjpv5EhrWUzH
+toucher.c08.sommeil.1 ZPARD2ufViLPwtxPPOue
+toucher.c09.sommeil.1 IiPHFJ9M2l3iLbesYHJ2
+toucher.c10.sommeil.1 kjdGL9OFfYdV22CK1fwz
+defi.ora.1.q jj6fqAkyuZTL2xAN96JI
+defi.ora.1.piste kFQCEXsNd30hWOVsE94q
+defi.ora.2.q xD8JCPtWwQYhTM9171gN
+defi.ora.2.piste ZnIDB65sNDQqOpp7waeT
+defi.ora.3.q ACKecCtHc4liFTKc5P05
+defi.ora.3.piste VDpru51lQXJdI11IDVMI
+defi.ora.4.q JrxXKsD4GRwkmHblqcJd
+defi.ora.4.piste tDFPDm8cY1Dx5x3z9dBv
+defi.c01.1.q oH28A1NOwHw4u2YN8M9Z
+defi.c01.1.piste V6YgLyFiTGE0Lp2r9el8
+defi.c01.2.q flGIZ0gylvh0dL5UPScZ
+defi.c01.2.piste tHMtErdprzGeT0g3l4Lj
+defi.c01.3.q awd75uatB8fbgV4bId31
+defi.c01.3.piste qY2IM7ohCAtGqxfx4rEO
+defi.c01.4.q uPdlibLrNhF55CNMD4UG
+defi.c01.4.piste HDEPvkyDxcZe585FGNWr
