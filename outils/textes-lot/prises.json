@@ -53,5 +53,21 @@
 "c00.reac.demi.indice.1": true,
 "c00.reac.demi.indice.2": true,
 "c00.reac.demi.serie.1": true,
-"c00.reac.demi.serie.2": true
+"c00.reac.demi.serie.2": true,
+"scene.c00.1": true,
+"scene.c00.2": true,
+"scene.c00.3": true,
+"c01.role": true,
+"c01.dort": true,
+"c01.demi": true,
+"c01.reveil": true,
+"c01.p1.debut": true,
+"c01.p1.3": true,
+"c01.p1.8": true,
+"c01.p1.fin": true,
+"c01.p2.debut": true,
+"c01.p2.4": true,
+"c01.p2.6": true,
+"c01.p2.fin": true,
+"c01.p3.debut": true
 }

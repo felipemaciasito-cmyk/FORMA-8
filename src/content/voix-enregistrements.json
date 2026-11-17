@@ -43,12 +43,19 @@
    "texte": "Je vérifie tes archives sur GitHub : cinq commits, une pull request fusionnée, et ton README. Montre-moi tout ça.",
    "date": "2026-11-16"
   },
+  "c01:1d7e36d1": {
+   "fichier": "c01-64321b09.mp3",
+   "voix": "EMuO6fFLrXKOryHzij6K",
+   "envoye": "[sleepy] [mumbling] [slowly] … je sens un courant… termine… branche la batterie… sur ma capsule…",
+   "texte": "… je sens un courant… termine… branche la batterie… sur ma capsule…",
+   "date": "2026-11-17"
+  },
   "c01:284b1367": {
    "fichier": "c01-d0438d5f.mp3",
    "voix": "EMuO6fFLrXKOryHzij6K",
    "envoye": "[sleepy] [mumbling] [slowly] … ton ancien projet… six photos seulement… je m'en souviens…",
    "texte": "… ton ancien projet… six photos seulement… je m'en souviens…",
-   "date": "2026-11-16"
+   "date": "2026-11-17"
   },
   "c01:2c9c7ffe": {
    "fichier": "c01-0be9d706.mp3",
@@ -62,7 +69,7 @@
    "voix": "EMuO6fFLrXKOryHzij6K",
    "envoye": "[sleepy] [mumbling] [slowly] … remonte le temps… vas-y… rien n'est jamais perdu…",
    "texte": "… remonte le temps… vas-y… rien n'est jamais perdu…",
-   "date": "2026-11-16"
+   "date": "2026-11-17"
   },
   "c01:3003ae54": {
    "fichier": "c01-bfa11afc.mp3",
@@ -78,12 +85,26 @@
    "texte": "Je me souviens… j'avais un album de chaque étape du chantier. Encore un effort, et je te le montre.",
    "date": "2026-11-16"
   },
+  "c01:53548cc6": {
+   "fichier": "c01-0e570631.mp3",
+   "voix": "EMuO6fFLrXKOryHzij6K",
+   "envoye": "[sleepy] Mmh… une voie d'essai. On essaie à côté, sans rien casser. Pardon, je bâille.",
+   "texte": "Mmh… une voie d'essai. On essaie à côté, sans rien casser. Pardon, je bâille.",
+   "date": "2026-11-17"
+  },
   "c01:5c8510b0": {
    "fichier": "c01-06f4d788.mp3",
    "voix": "EMuO6fFLrXKOryHzij6K",
    "envoye": "[sleepy] [mumbling] [slowly] … mmh… aujourd'hui… on donne un nom à chaque photo… et une légende…",
    "texte": "… mmh… aujourd'hui… on donne un nom à chaque photo… et une légende…",
    "date": "2026-11-16"
+  },
+  "c01:5cd95dc3": {
+   "fichier": "c01-ead5288b.mp3",
+   "voix": "EMuO6fFLrXKOryHzij6K",
+   "envoye": "[sleepy] [mumbling] [slowly] … aujourd'hui… une légende sous chaque photo… sinon je confonds tout…",
+   "texte": "… aujourd'hui… une légende sous chaque photo… sinon je confonds tout…",
+   "date": "2026-11-17"
   },
   "c01:60541f7f": {
    "fichier": "c01-f94679f7.mp3",
@@ -106,6 +127,13 @@
    "texte": "Bonjour, chef. Me voilà réveillée. À partir d'aujourd'hui, aucune version de ton produit ne se perdra. Et si quelque chose casse, nous reviendrons en arrière ensemble, sans rien effacer.",
    "date": "2026-11-16"
   },
+  "c01:6d038a55": {
+   "fichier": "c01-d385959d.mp3",
+   "voix": "EMuO6fFLrXKOryHzij6K",
+   "envoye": "[sleepy] [mumbling] [slowly] … les photos du chantier… des milliers… toutes dans l'ordre… sauf la girafe…",
+   "texte": "… les photos du chantier… des milliers… toutes dans l'ordre… sauf la girafe…",
+   "date": "2026-11-17"
+  },
   "c01:711eb08e": {
    "fichier": "c01-47ed8f66.mp3",
    "voix": "EMuO6fFLrXKOryHzij6K",
@@ -126,6 +154,13 @@
    "envoye": "[sleepy] [mumbling] [slowly] … mmh… tu… tu es là ?… je dors encore… mais je t'entends… parlons de souvenirs…",
    "texte": "… mmh… tu… tu es là ?… je dors encore… mais je t'entends… parlons de souvenirs…",
    "date": "2026-11-16"
+  },
+  "c01:95c2a4e9": {
+   "fichier": "c01-f3c969a1.mp3",
+   "voix": "EMuO6fFLrXKOryHzij6K",
+   "envoye": "[sleepy] [mumbling] [slowly] … mmh… je me souviens d'un album… chaque étape du chantier… encore un effort…",
+   "texte": "… mmh… je me souviens d'un album… chaque étape du chantier… encore un effort…",
+   "date": "2026-11-17"
   },
   "c01:96c27b9d": {
    "fichier": "c01-6dbb3a55.mp3",
@@ -162,6 +197,13 @@
    "texte": "… presque réveillée… termine… puis la panne… et j'ouvrirai les yeux…",
    "date": "2026-11-16"
   },
+  "c01:a41fa40a": {
+   "fichier": "c01-237e0962.mp3",
+   "voix": "EMuO6fFLrXKOryHzij6K",
+   "envoye": "[sleepy] [mumbling] [slowly] … la batterie est presque pleine… termine… et branche-la…",
+   "texte": "… la batterie est presque pleine… termine… et branche-la…",
+   "date": "2026-11-17"
+  },
   "c01:a6613ce6": {
    "fichier": "c01-f65603fe.mp3",
    "voix": "EMuO6fFLrXKOryHzij6K",
@@ -175,6 +217,13 @@
    "envoye": "[sleepy] [mumbling] [slowly] … oui… c'est bien ça… je le note… dans mon registre…",
    "texte": "… oui… c'est bien ça… je le note… dans mon registre…",
    "date": "2026-11-16"
+  },
+  "c01:aef3eaf7": {
+   "fichier": "c01-fdb5cdcf.mp3",
+   "voix": "EMuO6fFLrXKOryHzij6K",
+   "envoye": "[sleepy] [mumbling] [slowly] … une légende courte… claire… pas « truc »… ni « bidule »…",
+   "texte": "… une légende courte… claire… pas « truc »… ni « bidule »…",
+   "date": "2026-11-17"
   },
   "c01:b4d39480": {
    "fichier": "c01-fc88f3c8.mp3",
@@ -225,12 +274,26 @@
    "texte": "… encore un peu de courant… mmh… termine le protocole…",
    "date": "2026-11-16"
   },
+  "c01:d97f9d5d": {
+   "fichier": "c01-8a049295.mp3",
+   "voix": "EMuO6fFLrXKOryHzij6K",
+   "envoye": "[sleepy] [mumbling] [slowly] … mmh… tu es là ?… je rêvais de photos… de chantier… parlons souvenirs…",
+   "texte": "… mmh… tu es là ?… je rêvais de photos… de chantier… parlons souvenirs…",
+   "date": "2026-11-17"
+  },
   "c01:d9d77bf1": {
    "fichier": "c01-12a04cd9.mp3",
    "voix": "EMuO6fFLrXKOryHzij6K",
    "envoye": "[sleepy] [mumbling] [slowly] … revenir en arrière… sans rien effacer… c'est mon métier…",
    "texte": "… revenir en arrière… sans rien effacer… c'est mon métier…",
    "date": "2026-11-16"
+  },
+  "c01:dc5e04e0": {
+   "fichier": "c01-81ab5dc7.mp3",
+   "voix": "EMuO6fFLrXKOryHzij6K",
+   "envoye": "Bonjour, chef. Me voilà réveillée. Plus aucune version de ton produit ne se perdra. Et si quelque chose casse, on reviendra en arrière, sans rien effacer.",
+   "texte": "Bonjour, chef. Me voilà réveillée. Plus aucune version de ton produit ne se perdra. Et si quelque chose casse, on reviendra en arrière, sans rien effacer.",
+   "date": "2026-11-17"
   },
   "c01:dd38f07d": {
    "fichier": "c01-c0bd5b25.mp3",
@@ -253,12 +316,33 @@
    "texte": "… relis… ligne par ligne… je t'attends…",
    "date": "2026-11-16"
   },
+  "c01:e8b04fbd": {
+   "fichier": "c01-e4028015.mp3",
+   "voix": "EMuO6fFLrXKOryHzij6K",
+   "envoye": "[sleepy] [mumbling] [slowly] … encore cinq minutes…",
+   "texte": "… encore cinq minutes…",
+   "date": "2026-11-17"
+  },
+  "c01:e9e1b2ca": {
+   "fichier": "c01-8bcafcd2.mp3",
+   "voix": "EMuO6fFLrXKOryHzij6K",
+   "envoye": "[sleepy] [mumbling] [slowly] … qui a rangé la girafe dans le tiroir B ?… je ne jette rien… même pas la girafe…",
+   "texte": "… qui a rangé la girafe dans le tiroir B ?… je ne jette rien… même pas la girafe…",
+   "date": "2026-11-17"
+  },
   "c01:ecf65907": {
    "fichier": "c01-e6a37b24.mp3",
    "voix": "EMuO6fFLrXKOryHzij6K",
    "envoye": "Je suis l'Archiviste. Je garde la mémoire de chaque version de ton produit, pour que tu puisses toujours revenir en arrière.",
    "texte": "Je suis l'Archiviste. Je garde la mémoire de chaque version de ton produit, pour que tu puisses toujours revenir en arrière.",
    "date": "2026-11-16"
+  },
+  "c01:f93dedc4": {
+   "fichier": "c01-14aedef3.mp3",
+   "voix": "EMuO6fFLrXKOryHzij6K",
+   "envoye": "Je suis Mme Larchive, l'archiviste. Je garde chaque version de ton produit, pour que tu puisses toujours revenir en arrière.",
+   "texte": "Je suis Mme Larchive, l'archiviste. Je garde chaque version de ton produit, pour que tu puisses toujours revenir en arrière.",
+   "date": "2026-11-17"
   },
   "c02:1a375926": {
    "fichier": "c02-8f9575d6.mp3",
@@ -490,6 +574,13 @@
    "voix": "t8BrjWUT5Z23DLLBzbuY",
    "envoye": "[sleepy] Note plusieurs idées avant de choisir. La première n'est pas toujours la bonne.",
    "texte": "Note plusieurs idées avant de choisir. La première n'est pas toujours la bonne.",
+   "date": "2026-11-17"
+  },
+  "ora:28b6d1d5": {
+   "fichier": "ora-f4f703a1.mp3",
+   "voix": "t8BrjWUT5Z23DLLBzbuY",
+   "envoye": "Mme Larchive ? Debout, on a du travail !",
+   "texte": "Mme Larchive ? Debout, on a du travail !",
    "date": "2026-11-17"
   },
   "ora:298510aa": {
@@ -1022,6 +1113,13 @@
    "voix": "t8BrjWUT5Z23DLLBzbuY",
    "envoye": "[sleepy] Mmh… ce protocole parle un peu de moi : l'intelligence artificielle. Je me réveille, promis.",
    "texte": "Mmh… ce protocole parle un peu de moi : l'intelligence artificielle. Je me réveille, promis.",
+   "date": "2026-11-17"
+  },
+  "ora:d3dffc4c": {
+   "fichier": "ora-23f25090.mp3",
+   "voix": "t8BrjWUT5Z23DLLBzbuY",
+   "envoye": "Elle dort profondément. À toi de la réveiller, au caisson 01.",
+   "texte": "Elle dort profondément. À toi de la réveiller, au caisson 01.",
    "date": "2026-11-17"
   },
   "ora:d50215a0": {
