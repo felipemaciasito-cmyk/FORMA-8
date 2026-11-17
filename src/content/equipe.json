@@ -1,68 +1,68 @@
 {
  "_lisez-moi": "Répliques des membres de l'équipe, dites par chacun à la première personne (« je ») et adressées au joueur (« tu »). « role » et « dort » s'affichent dès le début du jeu : aucun mot technique encore inconnu. « demi » s'affiche après le premier protocole du caisson, « reveil » quand le caisson est terminé. Contrôlé par scripts/validate-content.mjs. Chaque réplique enregistrée a sa voix dans public/voix (voir src/content/voix.json) : toute réplique modifiée doit être réenregistrée.",
  "c00": {
-  "role": "Je suis ORA, ta guide. Je t'apprends les bases, et nous réveillons l'équipe ensemble.",
-  "dort": "Systèmes en veille. Je suis prête à démarrer quand tu le seras.",
-  "demi": "Mes circuits reviennent un par un. Continue : tu apprends vite, et j'en suis fière.",
-  "reveil": "Pleine puissance. Grâce à toi, les bases sont posées et ton produit a sa première page en ligne. Allons réveiller le reste de l'équipe."
+  "role": "Je suis Forma Trisse, ta formatrice. Je t'apprends les bases, et je t'aide à réveiller l'équipe.",
+  "dort": "… zzz… formatrice en veille… le premier protocole… il me réveillera…",
+  "demi": "Mmh… mes circuits reviennent, un par un. Continue : tu apprends vite.",
+  "reveil": "Pleine puissance ! Les bases sont posées, et ta page est en ligne. Allons réveiller les autres."
  },
  "c01": {
-  "role": "Je suis l'Archiviste. Je garde la mémoire de chaque version de ton produit, pour que tu puisses toujours revenir en arrière.",
-  "dort": "… photo numéro un… photo numéro deux… surtout, je ne jette rien…",
-  "demi": "Je me souviens… j'avais un album de chaque étape du chantier. Encore un effort, et je te le montre.",
-  "reveil": "Bonjour, chef. Me voilà réveillée. À partir d'aujourd'hui, aucune version de ton produit ne se perdra. Et si quelque chose casse, nous reviendrons en arrière ensemble, sans rien effacer."
+  "role": "Je suis Mme Larchive, l'archiviste. Je garde chaque version de ton produit, pour que tu puisses toujours revenir en arrière.",
+  "dort": "… qui a rangé la girafe dans le tiroir B ?… je ne jette rien… même pas la girafe…",
+  "demi": "… mmh… je me souviens d'un album… chaque étape du chantier… encore un effort…",
+  "reveil": "Bonjour, chef. Me voilà réveillée. Plus aucune version de ton produit ne se perdra. Et si quelque chose casse, on reviendra en arrière, sans rien effacer."
  },
  "c02": {
-  "role": "Je suis le Règlement de bord. J'écris les règles que toute l'équipe suit, à chaque séance de travail.",
-  "dort": "… article premier : je vérifie avant de livrer… article deux…",
+  "role": "Je suis le Général Calpin, le règlement de bord. J'écris les règles que toute l'équipe suit, à chaque séance de travail.",
+  "dort": "… article douze… il est interdit… de ronfler en service… repos !…",
   "demi": "Au rapport… presque. Mes règlements se remettent en ordre.",
   "reveil": "Au rapport. Écris tes règles une seule fois : je veillerai à ce que toute l'équipe les applique, à chaque séance."
  },
  "c03": {
-  "role": "Je suis le Scribe. Avant qu'on construise quoi que ce soit, je décris avec toi ce qu'il faut construire.",
-  "dort": "… il était une fois… une personne pressée… qui voulait un bouton…",
+  "role": "Je suis M. Laplume, le scribe. Avant de construire quoi que ce soit, je décris avec toi ce qu'il faut construire.",
+  "dort": "… il était une fois… un bouton… qui rêvait de devenir… une fusée…",
   "demi": "Mon encre revient. Bientôt, nous écrirons ensemble ce que ton produit doit faire.",
   "reveil": "Me voici. Avant chaque chantier, nous écrirons noir sur blanc ce que tu veux, puis je t'aiderai à le découper en petites tâches."
  },
  "c04": {
-  "role": "Je suis la Boucle ! Je demande, je relis, je corrige, et je recommence jusqu'à ce que ça marche.",
-  "dort": "… encore un tour… encore un petit tour…",
+  "role": "Je suis Mme Bonna Bitude, la boucle ! Je demande, je relis, je corrige, et je recommence jusqu'à ce que ça marche.",
+  "dort": "… encore un tour… et encore un… qui a mis un manège dans mon rêve ?…",
   "demi": "Je tourne de plus en plus vite ! Un dernier tour de piste, et j'y suis.",
   "reveil": "Je tourne à plein régime ! Demander, relire, corriger, recommencer : c'est comme ça que nous avançons, toi et moi, un tour après l'autre."
  },
  "c05": {
-  "role": "Je suis l'Inspecteur. Je vérifie que tout fonctionne, à chaque changement. Sans exception.",
-  "dort": "… tout est en ordre… vérifié… vérifié… revérifié…",
+  "role": "Nous sommes Dupond et Dupont, les inspecteurs. Nous vérifions que tout fonctionne, à chaque changement. Sans exception.",
+  "dort": "… vérifié… revérifié… re-revérifié… ronfle moins fort, toi…",
   "demi": "Ma loupe se rallume. Je vois déjà plus net. Pas encore assez.",
   "reveil": "Inspection terminée : je suis en service. Plus rien ne partira chez tes utilisateurs sans que je l'aie vérifié."
  },
  "c06": {
-  "role": "Je suis le Messager ! Je mets ton produit en ligne, vite, et sans rien casser.",
-  "dort": "… livraison express… adresse… confirmée…",
+  "role": "Je suis Hermès Coursier, le messager ! Je mets ton produit en ligne, vite, et sans rien casser.",
+  "dort": "… colis pour la lune… signez ici… attention, c'est fragile…",
   "demi": "Mes ailerons frémissent ! Je suis bientôt prêt à décoller.",
   "reveil": "Messager en ligne ! Je livrerai chaque nouvelle version de ton produit à bon port, et nous pourrons toujours revenir à la précédente."
  },
  "c07": {
-  "role": "Je suis la Mémoire. Je garde les données et les comptes de tes utilisateurs, et je n'oublie rien.",
-  "dort": "… je n'oublie rien… ni personne… ni rien…",
+  "role": "Je suis Fabienne, la dame du CDI : la mémoire de l'équipe. Je garde les données et les comptes de tes utilisateurs.",
+  "dort": "… chut… on est au CDI… rendez vos souvenirs… avant mardi…",
   "demi": "Mes disques se remettent à tourner. Je retrouve mes souvenirs, un à un.",
   "reveil": "Me voilà en service. Tes utilisateurs pourront revenir demain et tout retrouver, chacun avec ses propres affaires. J'y veillerai."
  },
  "c08": {
-  "role": "Je suis la Sentinelle. Je protège tes secrets, tes utilisateurs et ton budget.",
-  "dort": "… halte… qui va là… ah, c'est toi…",
+  "role": "Je suis Senty Nell, la sentinelle. Je protège tes secrets, tes utilisateurs et ton budget.",
+  "dort": "… halte… mot de passe ?… « pistache »… non… c'était hier…",
   "demi": "Ma visière s'allume. Je reprends ma ronde.",
   "reveil": "Sentinelle en poste. Je garde les portes pour toi : tes secrets restent secrets, et tes dépenses restent sous contrôle."
  },
  "c09": {
-  "role": "Je mène l'escouade : mes drones travaillent en même temps, et mes réflexes veillent pour toi.",
-  "dort": "… un, deux, trois… chacun à son poste…",
+  "role": "Je suis Lana Mageuse. Je mène l'escouade : mes drones travaillent en même temps, et mes réflexes veillent pour toi.",
+  "dort": "… drone numéro trois… arrête de chanter… on est en formation…",
   "demi": "Mes petits drones se réveillent. Je les mets en formation.",
   "reveil": "Escouade au complet ! Confie-moi plusieurs tâches à la fois : mes drones s'en chargent ensemble, et mes réflexes surveillent le reste pendant ton absence."
  },
  "c10": {
-  "role": "Je suis le Lancement. Je présente ton produit au monde, et je t'aide à en faire ton métier.",
-  "dort": "… compte à rebours… dix… neuf… huit…",
+  "role": "Je suis Alex Pédition, le lancement. Je présente ton produit au monde, et je t'aide à en faire ton métier.",
+  "dort": "… dix… neuf… huit… j'ai oublié la suite… on recommence…",
   "demi": "Mes moteurs chauffent. Le grand jour approche.",
   "reveil": "Allumage ! Ton produit est prêt pour son lancement. Et toi, te voilà en mesure d'en faire ton métier. Je t'emmène."
  }

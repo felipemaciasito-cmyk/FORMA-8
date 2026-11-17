@@ -34,7 +34,8 @@ const [cmd, speaker, url] = process.argv.slice(2);
 if (cmd === "manquantes") {
   const recs = readJSON(recPath).repliques;
   const comp = existsSync(join(content, "compagnon.json")) ? readJSON(join(content, "compagnon.json")) : null;
-  const todo = requiredLines(rooms(), readJSON(join(content, "equipe.json")), comp).filter((l) => !recs[l.key]);
+  const inter = existsSync(join(content, "interactions.json")) ? readJSON(join(content, "interactions.json")) : null;
+  const todo = requiredLines(rooms(), readJSON(join(content, "equipe.json")), comp, inter).filter((l) => !recs[l.key]);
   let total = 0;
   const json = process.argv.includes("--json");
   for (const l of todo) { total += l.text.length; if (!json) console.log(`${l.where.padEnd(10)} ${String(l.text.length).padStart(4)}  ${l.text}`); }

@@ -2,7 +2,9 @@
  "id": "c00",
  "index": 0,
  "code": "CAISSON 00",
- "member": "ORA",
+ "member": "Forma Trisse",
+ "metier": "la formatrice",
+ "genre": "f",
  "name": "Les bases du logiciel, sans coder",
  "version": "v0.0",
  "tagline": "Comprendre ce qu'est une application avant d'en construire une, et choisir ton produit.",
@@ -23,8 +25,7 @@
    "uses": [],
    "blocks": [
     {
-     "type": "callout",
-     "tone": "ora",
+     "type": "text",
      "md": "Bienvenue dans ton premier **protocole de réveil**. Avant de diriger une équipe qui construit des applications, il faut savoir ce qu'est une application, et d'où elle vient quand elle s'affiche sur ton écran."
     },
     {
@@ -283,8 +284,7 @@
    ],
    "blocks": [
     {
-     "type": "callout",
-     "tone": "ora",
+     "type": "text",
      "md": "Bonne nouvelle : tu n'as pas besoin d'apprendre à écrire ces trois langues. Ton équipe va le faire pour toi. Mais pour bien la diriger, tu dois comprendre **comment elle travaille**."
     },
     {
@@ -422,8 +422,7 @@
    "uses": [],
    "blocks": [
     {
-     "type": "callout",
-     "tone": "ora",
+     "type": "text",
      "md": "Chaque membre de l'équipe que tu réveilleras t'aidera à construire **le même produit**, version après version, jusqu'à son lancement public. Prends le temps de bien le choisir : tu vas vivre avec lui pendant des mois."
     },
     {
@@ -550,8 +549,7 @@
    ],
    "blocks": [
     {
-     "type": "callout",
-     "tone": "ora",
+     "type": "text",
      "md": "Dernier protocole du caisson. Tu vas **publier la page de présentation de ton produit**, avec ton premier ordre de mission à [[claude-code]]. Prévois deux quarts : un pour préparer, un pour publier."
     },
     {
@@ -708,7 +706,7 @@
     {
      "type": "callout",
      "tone": "volatile",
-     "md": "Les menus de GitHub et de Claude Code évoluent souvent. Si un libellé a changé, cherche le mot le plus proche, ou utilise **Demander à ORA** (en haut de l'écran)."
+     "md": "Les menus de GitHub et de Claude Code évoluent souvent. Si un libellé a changé, cherche le mot le plus proche, ou utilise **Demander à Forma Trisse** (en haut de l'écran)."
     },
     {
      "type": "exercise",

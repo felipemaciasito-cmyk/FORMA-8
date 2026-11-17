@@ -2,7 +2,9 @@
  "id": "c01",
  "index": 1,
  "code": "CAISSON 01",
- "member": "L'Archiviste",
+ "member": "Mme Larchive",
+ "metier": "l'Archiviste",
+ "genre": "f",
  "name": "Garder chaque version",
  "version": "v0.1",
  "tagline": "Garder la trace de chaque version de ton produit, et revenir en arrière sans rien perdre.",
@@ -27,9 +29,8 @@
    ],
    "blocks": [
     {
-     "type": "callout",
-     "tone": "ora",
-     "md": "Caisson 01. Ici dort **l'Archiviste**. Elle n'oublie rien : avec elle, tu ne perdras plus jamais un état de ton produit, et tu pourras toujours revenir en arrière. Avant de la réveiller, une question : que se passe-t-il le jour où un changement casse tout ?"
+     "type": "text",
+     "md": "Caisson 01. Ici dort **Mme Larchive**, l'archiviste. Elle n'oublie rien : avec elle, tu ne perdras plus jamais un état de ton produit, et tu pourras toujours revenir en arrière. Avant de la réveiller, une question : que se passe-t-il le jour où un changement casse tout ?"
     },
     {
      "type": "example",
@@ -389,8 +390,7 @@
    ],
    "blocks": [
     {
-     "type": "callout",
-     "tone": "ora",
+     "type": "text",
      "md": "Jusqu'ici, chaque [[commit]] s'ajoutait à la suite, sur une seule ligne. Mais ta page est en ligne : un essai raté serait vu par tout le monde. Il te faut un endroit pour essayer **à côté**."
     },
     {
@@ -469,7 +469,7 @@
     {
      "type": "callout",
      "tone": "volatile",
-     "md": "Les menus de GitHub s'affichent en anglais et changent parfois de place. Les libellés en gras ont été relevés le 14 novembre 2026, dans la documentation de GitHub et sur github.com affiché à la taille d'un iPhone. Si un bouton a bougé, cherche le mot le plus proche, ou utilise **Demander à ORA** (en haut de l'écran)."
+     "md": "Les menus de GitHub s'affichent en anglais et changent parfois de place. Les libellés en gras ont été relevés le 14 novembre 2026, dans la documentation de GitHub et sur github.com affiché à la taille d'un iPhone. Si un bouton a bougé, cherche le mot le plus proche, ou utilise **Demander à Forma Trisse** (en haut de l'écran)."
     },
     {
      "type": "exercise",
@@ -585,8 +585,7 @@
    ],
    "blocks": [
     {
-     "type": "callout",
-     "tone": "ora",
+     "type": "text",
      "md": "Ta branche essai-readme attend sur sa voie d'essai. Pour que son contenu rejoigne main, il faut deux gestes, dans cet ordre : **relire**, puis **fusionner**. La [[pull-request]] que tu as découverte au caisson 00 sert exactement à cela."
     },
     {
@@ -837,9 +836,8 @@
    ],
    "blocks": [
     {
-     "type": "callout",
-     "tone": "ora",
-     "md": "Un jour, tu fusionneras une erreur. Cela arrive à tout le monde, experts compris. Ce qui distingue un expert, c'est qu'il sait revenir en arrière en deux minutes, calmement, sans rien perdre. C'est le dernier secret de l'Archiviste."
+     "type": "text",
+     "md": "Un jour, tu fusionneras une erreur. Cela arrive à tout le monde, experts compris. Ce qui distingue un expert, c'est qu'il sait revenir en arrière en deux minutes, calmement, sans rien perdre. C'est le dernier secret de Mme Larchive."
     },
     {
      "type": "definition",
@@ -985,7 +983,7 @@
     {
      "type": "callout",
      "tone": "volatile",
-     "md": "Les menus de GitHub s'affichent en anglais et changent parfois de place. Les libellés en gras ont été relevés le 14 novembre 2026, dans la documentation de GitHub et sur github.com affiché à la taille d'un iPhone. Si un bouton a bougé, cherche le mot le plus proche, ou utilise **Demander à ORA** (en haut de l'écran)."
+     "md": "Les menus de GitHub s'affichent en anglais et changent parfois de place. Les libellés en gras ont été relevés le 14 novembre 2026, dans la documentation de GitHub et sur github.com affiché à la taille d'un iPhone. Si un bouton a bougé, cherche le mot le plus proche, ou utilise **Demander à Forma Trisse** (en haut de l'écran)."
     },
     {
      "type": "source",
@@ -1028,7 +1026,7 @@
  ],
  "incident": {
   "title": "Alerte aux archives",
-  "brief": "Trois alertes arrivent en même temps sur le dépôt de ton produit. L'Archiviste te regarde faire : trouve la bonne réponse avant de griller tes trois fusibles.",
+  "brief": "Trois alertes arrivent en même temps sur le dépôt de ton produit. Mme Larchive te regarde faire : trouve la bonne réponse avant de griller tes trois fusibles.",
   "scenarios": [
    {
     "alert": "Tu as fusionné la pull request « Nouveau bouton ». Dix minutes plus tard, un ami t'écrit : le bouton Contact a disparu de ta page.",

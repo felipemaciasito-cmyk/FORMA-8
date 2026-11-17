@@ -1,0 +1,332 @@
+{
+ "_lisez-moi": "Répliques des interactions avec l'équipe (lot du 17/11/2026, textes validés par le propriétaire) : premier lancement (boot), carte, scènes de réveil où l'équipe se parle, phrases de retour (une phrase très courte quand on revient sur une page), réactions au toucher, défi du jour, questions aux membres (sans clé Claude) et bulles des autres pages. Les personnages sont désignés par leur identifiant de voix (ora = Forma Trisse, c01 = Mme Larchive…). « sommeil » : le personnage dort encore ; « eveil » : il est réveillé. Chaque réplique a sa voix (src/content/voix-enregistrements.json) ; toute réplique modifiée doit être réenregistrée.",
+ "boot": {
+  "accueil": "… mmh… qui a rallumé la lune ?… je suis Forma Trisse… je crois… onze dormeurs dans la réserve… réveille-nous… et on construira ton produit… ton prénom ?…",
+  "ambiance": {
+   "texte": "… les machines ronronnent… comme un gros chat… tu veux les entendre ?… tu pourras changer d'avis… dans Réglages…",
+   "choix": [
+    "Oui, allume le fond sonore",
+    "Non merci"
+   ]
+  },
+  "levier": "… abaisse le grand levier… le courant réveillera tout le monde… enfin… presque…"
+ },
+ "carte": {
+  "premiere": "… zzz… caisson 00… c'est mon lit… viens me réveiller…",
+  "surchauffe": {
+   "sommeil": {
+    "question": "… ça sent le chaud… des notions surchauffent… on les refroidit ?…",
+    "choix": [
+     "Oui, en maintenance",
+     "Plus tard"
+    ],
+    "oui": "… bonne idée… je te suis… zzz…",
+    "non": "… plus tard… oui… moi aussi… plus tard…"
+   },
+   "eveil": {
+    "question": "Des notions surchauffent. On les refroidit d'abord ?",
+    "choix": [
+     "Oui, en maintenance",
+     "Plus tard"
+    ],
+    "oui": "Allons-y. Quelques minutes suffisent.",
+    "non": "D'accord. Elles t'attendront."
+   }
+  }
+ },
+ "scenes": {
+  "c00": [
+   {
+    "qui": "ora",
+    "reveil": true
+   },
+   {
+    "qui": "ora",
+    "texte": "Mme Larchive ? Debout, on a du travail !"
+   },
+   {
+    "qui": "c01",
+    "texte": "… encore cinq minutes…"
+   },
+   {
+    "qui": "ora",
+    "texte": "Elle dort profondément. À toi de la réveiller, au caisson 01."
+   }
+  ],
+  "c01": [
+   {
+    "qui": "ora",
+    "texte": "Bienvenue parmi nous, Mme Larchive. Bien dormi ?"
+   },
+   {
+    "qui": "c01",
+    "texte": "Comme une bûche. Merci, Forma Trisse."
+   },
+   {
+    "qui": "c01",
+    "reveil": true
+   },
+   {
+    "qui": "ora",
+    "texte": "Tu es entre de bonnes mains. Allons réveiller la suite."
+   }
+  ]
+ },
+ "retours": {
+  "ora": {
+   "sommeil": [
+    "… te revoilà… zzz…",
+    "… mmh… déjà ?…",
+    "… on reprend… je crois…",
+    "… c'est toi ?… bien…"
+   ],
+   "eveil": [
+    "Te revoilà.",
+    "On reprend ?",
+    "Contente de te revoir.",
+    "La réserve t'attendait."
+   ]
+  },
+  "c01": {
+   "sommeil": [
+    "… mmh… re-bonjour…",
+    "… je t'ai gardé ta place…",
+    "… zzz… on en était où ?…",
+    "… tu reviens… je le note…"
+   ],
+   "eveil": [
+    "Te revoilà, chef.",
+    "J'ai tout gardé en ordre.",
+    "On reprend où on en était ?",
+    "Rien ne s'est perdu en ton absence."
+   ]
+  }
+ },
+ "toucher": {
+  "ora": {
+   "sommeil": [
+    "… hein ?… qui me chatouille ?…",
+    "… encore cinq minutes…",
+    "… mes voyants… laisse mes voyants…",
+    "… non… je ne suis pas un bouton…"
+   ],
+   "eveil": [
+    "Oui ? Je suis là.",
+    "Ça chatouille les circuits.",
+    "Une question ? Touche « Demander à Forma Trisse ».",
+    "Toujours en service."
+   ]
+  },
+  "c01": {
+   "sommeil": [
+    "… qui frappe au tiroir ?…",
+    "… cinq minutes… encore cinq…",
+    "… non… les mardis se classent par taille…",
+    "… je rêve d'un historique tout propre…"
+   ],
+   "eveil": [
+    "Oui, chef ?",
+    "Attention, mes tiroirs sont rangés.",
+    "Je garde tout, même ce toucher.",
+    "Un souvenir à retrouver ?"
+   ]
+  },
+  "c02": {
+   "sommeil": [
+    "… qui a touché… au règlement ?…"
+   ]
+  },
+  "c03": {
+   "sommeil": [
+    "… ne froisse pas… ma page…"
+   ]
+  },
+  "c04": {
+   "sommeil": [
+    "… ça tourne… ça tourne… hop…"
+   ]
+  },
+  "c05": {
+   "sommeil": [
+    "… suspect… très suspect…"
+   ]
+  },
+  "c06": {
+   "sommeil": [
+    "… je pars… dans cinq minutes…"
+   ]
+  },
+  "c07": {
+   "sommeil": [
+    "… chut… bibliothèque…"
+   ]
+  },
+  "c08": {
+   "sommeil": [
+    "… halte… ah… c'est toi…"
+   ]
+  },
+  "c09": {
+   "sommeil": [
+    "… drones… au repos…"
+   ]
+  },
+  "c10": {
+   "sommeil": [
+    "… pas encore… le décollage…"
+   ]
+  }
+ },
+ "defis": {
+  "ora": {
+   "questions": [
+    {
+     "question": "Défi du jour ! Où attendent les fichiers d'un site, avant que tu les demandes ?",
+     "choix": [
+      "Sur un serveur",
+      "Dans ton navigateur",
+      "Dans l'App Store"
+     ],
+     "bonne": 0,
+     "piste": "Pas tout à fait. Pense au magasin, pas au client."
+    },
+    {
+     "question": "Défi du jour ! Quelle langue décide des couleurs d'une page ?",
+     "choix": [
+      "HTML",
+      "CSS",
+      "JavaScript"
+     ],
+     "bonne": 1,
+     "piste": "Pas tout à fait. Pense à la peinture de la maison."
+    },
+    {
+     "question": "Défi du jour ! Qu'est-ce qu'un agent ?",
+     "choix": [
+      "Une IA qui agit, puis vérifie son travail",
+      "Une IA qui répond, sans rien faire",
+      "Une personne qui code à ta place"
+     ],
+     "bonne": 0,
+     "piste": "Pas tout à fait. Pense au chantier : qui fait le travail ?"
+    },
+    {
+     "question": "Défi du jour ! À quoi sert une pull request ?",
+     "choix": [
+      "À effacer un dépôt",
+      "À publier la page",
+      "À proposer un changement, à relire avant de l'accepter"
+     ],
+     "bonne": 2,
+     "piste": "Pas tout à fait. On propose d'abord, on accepte ensuite."
+    }
+   ],
+   "bravo": [
+    "Exact ! Quinze kilowatts pour toi. À demain.",
+    "Bravo. Défi réussi : quinze kilowatts."
+   ],
+   "fait": "Défi du jour relevé. Reviens demain."
+  },
+  "c01": {
+   "questions": [
+    {
+     "question": "Défi du jour ! À quoi sert le message d'un commit ?",
+     "choix": [
+      "À nommer le dépôt",
+      "À dire ce qui a changé",
+      "À publier la page"
+     ],
+     "bonne": 1,
+     "piste": "Pas tout à fait. Pense à la légende au dos de la photo."
+    },
+    {
+     "question": "Défi du jour ! Une branche, c'est…",
+     "choix": [
+      "Une copie de travail, pour essayer sans rien casser",
+      "Une sauvegarde sur l'iPhone",
+      "Un deuxième dépôt"
+     ],
+     "bonne": 0,
+     "piste": "Pas tout à fait. Pense aux trains d'essai."
+    },
+    {
+     "question": "Défi du jour ! Une erreur a été fusionnée. Que fais-tu ?",
+     "choix": [
+      "J'efface l'historique",
+      "Je l'annule, sans rien effacer",
+      "Je supprime le dépôt"
+     ],
+     "bonne": 1,
+     "piste": "Pas tout à fait. À l'encre, jamais à la gomme."
+    },
+    {
+     "question": "Défi du jour ! Un conflit, c'est…",
+     "choix": [
+      "Un dépôt en panne",
+      "Une branche supprimée",
+      "Deux changements différents au même endroit"
+     ],
+     "bonne": 2,
+     "piste": "Pas tout à fait. Deux versions qui se disputent."
+    }
+   ],
+   "bravo": [
+    "Exact ! Quinze kilowatts pour toi. À demain.",
+    "Je l'inscris au registre : défi réussi."
+   ],
+   "fait": "Défi relevé. Je te garde le suivant pour demain."
+  }
+ },
+ "question": {
+  "ora": {
+   "cle": "Pour me poser une question, il me faut ta clé Claude. Ajoute-la dans Réglages."
+  },
+  "c01": {
+   "cle": "Pour me questionner, il faut ta clé Claude, dans Réglages. Je t'attends."
+  }
+ },
+ "annexes": {
+  "atelier": {
+   "sommeil": "… l'atelier… on y écrit des ordres de mission… Claude les note… mmh…",
+   "eveil": "Ici, tu écris des ordres de mission. Claude les note sur cinq critères."
+  },
+  "equipe": {
+   "sommeil": "… chaque dormeur… un vrai fichier de ton produit… touche-les… doucement…",
+   "eveil": "Chaque membre correspond à un vrai fichier de ton produit. Touche-le pour voir sa fiche."
+  },
+  "maint.chaud": {
+   "sommeil": "… ça chauffe… quelques notions à refroidir… vite fait…",
+   "eveil": "Des notions surchauffent. Quelques minutes suffisent à les refroidir."
+  },
+  "maint.calme": {
+   "sommeil": "… rien ne chauffe… dors… euh… reviens demain…",
+   "eveil": "Aucune surchauffe aujourd'hui. Entraîne-toi, ou reviens demain."
+  },
+  "maint.fin": {
+   "sommeil": "… bien refroidi… les ratées reviendront demain…",
+   "eveil": "Maintenance terminée. Les ratées reviendront demain : c'est ce rythme qui ancre."
+  },
+  "verrou.caisson": {
+   "sommeil": "… fermé… réveille d'abord… celui d'avant…",
+   "eveil": "Ce caisson est verrouillé. Réveille d'abord le membre précédent."
+  },
+  "verrou.protocole": {
+   "sommeil": "… pas encore… termine le précédent… zzz…",
+   "eveil": "Pas encore ouvert. Termine le protocole précédent."
+  },
+  "verrou.panne": {
+   "sommeil": "… la panne… après tous les protocoles…",
+   "eveil": "Termine d'abord tous les protocoles du caisson."
+  },
+  "disjonction": {
+   "sommeil": "… boum… trois fusibles… pas de panique… relis… puis réarme…",
+   "eveil": "Disjonction ! Trois fusibles grillés. Relis les explications, puis réarme le tableau."
+  },
+  "maint.vide": {
+   "sommeil": "… rien à réviser… termine d'abord un protocole…"
+  },
+  "preparation": {
+   "eveil": "Ses protocoles sont en préparation. Ils arriveront dans une prochaine version."
+  }
+ }
+}
