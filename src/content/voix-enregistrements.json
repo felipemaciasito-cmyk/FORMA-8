@@ -8,6 +8,13 @@
    "texte": "… une légende… courte… claire… sinon je ne retrouve plus rien…",
    "date": "2026-11-16"
   },
+  "c01:04eae32a": {
+   "fichier": "c01-b002b211.mp3",
+   "voix": "EMuO6fFLrXKOryHzij6K",
+   "envoye": "[sleepy] Encore une. Mes yeux s'ouvrent.",
+   "texte": "Encore une. Mes yeux s'ouvrent.",
+   "date": "2026-11-17"
+  },
   "c01:077e9a03": {
    "fichier": "c01-4e481cc6.mp3",
    "voix": "EMuO6fFLrXKOryHzij6K",
@@ -71,6 +78,20 @@
    "texte": "Relis ligne par ligne. Je t'attends.",
    "date": "2026-11-17"
   },
+  "c01:23d49bb4": {
+   "fichier": "c01-2cb393dc.mp3",
+   "voix": "EMuO6fFLrXKOryHzij6K",
+   "envoye": "[sleepy] [mumbling] [slowly] … une erreur… puis la bonne… c'est l'ordre normal…",
+   "texte": "… une erreur… puis la bonne… c'est l'ordre normal…",
+   "date": "2026-11-17"
+  },
+  "c01:258e5083": {
+   "fichier": "c01-ef3f127b.mp3",
+   "voix": "EMuO6fFLrXKOryHzij6K",
+   "envoye": "[sleepy] [mumbling] [slowly] … la réponse… elle est rangée… un peu plus haut…",
+   "texte": "… la réponse… elle est rangée… un peu plus haut…",
+   "date": "2026-11-17"
+  },
   "c01:284b1367": {
    "fichier": "c01-d0438d5f.mp3",
    "voix": "EMuO6fFLrXKOryHzij6K",
@@ -83,6 +104,13 @@
    "voix": "EMuO6fFLrXKOryHzij6K",
    "envoye": "[sleepy] Des alertes dans mes archives ! Réfléchis avant de toucher : les fusibles sont fragiles.",
    "texte": "Des alertes dans mes archives ! Réfléchis avant de toucher : les fusibles sont fragiles.",
+   "date": "2026-11-17"
+  },
+  "c01:2c211ad2": {
+   "fichier": "c01-69214fba.mp3",
+   "voix": "EMuO6fFLrXKOryHzij6K",
+   "envoye": "[sleepy] [mumbling] [slowly] … encore une… mes paupières dansent…",
+   "texte": "… encore une… mes paupières dansent…",
    "date": "2026-11-17"
   },
   "c01:2c9c7ffe": {
@@ -141,6 +169,27 @@
    "texte": "Ta première branche, à la main. Je regarde, les yeux mi-clos.",
    "date": "2026-11-17"
   },
+  "c01:591fa820": {
+   "fichier": "c01-c780e243.mp3",
+   "voix": "EMuO6fFLrXKOryHzij6K",
+   "envoye": "[sleepy] Trois d'affilée. Je suis presque réveillée.",
+   "texte": "Trois d'affilée. Je suis presque réveillée.",
+   "date": "2026-11-17"
+  },
+  "c01:598a4b72": {
+   "fichier": "c01-8efcec3f.mp3",
+   "voix": "EMuO6fFLrXKOryHzij6K",
+   "envoye": "[sleepy] Exact. Je l'inscris au registre.",
+   "texte": "Exact. Je l'inscris au registre.",
+   "date": "2026-11-17"
+  },
+  "c01:5bf2d8ec": {
+   "fichier": "c01-5248b65d.mp3",
+   "voix": "EMuO6fFLrXKOryHzij6K",
+   "envoye": "[sleepy] Doucement. Tout est noté un peu plus haut.",
+   "texte": "Doucement. Tout est noté un peu plus haut.",
+   "date": "2026-11-17"
+  },
   "c01:5c8510b0": {
    "fichier": "c01-06f4d788.mp3",
    "voix": "EMuO6fFLrXKOryHzij6K",
@@ -197,12 +246,40 @@
    "texte": "… deux versions qui se disputent… c'est toi qui choisis…",
    "date": "2026-11-16"
   },
+  "c01:8025174d": {
+   "fichier": "c01-356cc105.mp3",
+   "voix": "EMuO6fFLrXKOryHzij6K",
+   "envoye": "[sleepy] [mumbling] [slowly] … trois d'affilée… je fais un très beau rêve…",
+   "texte": "… trois d'affilée… je fais un très beau rêve…",
+   "date": "2026-11-17"
+  },
+  "c01:850b5a11": {
+   "fichier": "c01-026517f9.mp3",
+   "voix": "EMuO6fFLrXKOryHzij6K",
+   "envoye": "[sleepy] [mumbling] [slowly] … raté… puis trouvé… je garde aussi les brouillons…",
+   "texte": "… raté… puis trouvé… je garde aussi les brouillons…",
+   "date": "2026-11-17"
+  },
+  "c01:87d06295": {
+   "fichier": "c01-fc76fe98.mp3",
+   "voix": "EMuO6fFLrXKOryHzij6K",
+   "envoye": "[sleepy] Une erreur, puis la bonne réponse. Je garde les deux : c'est précieux.",
+   "texte": "Une erreur, puis la bonne réponse. Je garde les deux : c'est précieux.",
+   "date": "2026-11-17"
+  },
   "c01:908c1882": {
    "fichier": "c01-f1c39d9a.mp3",
    "voix": "EMuO6fFLrXKOryHzij6K",
    "envoye": "[sleepy] [mumbling] [slowly] … mmh… tu… tu es là ?… je dors encore… mais je t'entends… parlons de souvenirs…",
    "texte": "… mmh… tu… tu es là ?… je dors encore… mais je t'entends… parlons de souvenirs…",
    "date": "2026-11-16"
+  },
+  "c01:908f759e": {
+   "fichier": "c01-678152f1.mp3",
+   "voix": "EMuO6fFLrXKOryHzij6K",
+   "envoye": "[sleepy] Bonne réponse. Une cellule de plus.",
+   "texte": "Bonne réponse. Une cellule de plus.",
+   "date": "2026-11-17"
   },
   "c01:95c2a4e9": {
    "fichier": "c01-f3c969a1.mp3",
@@ -288,6 +365,13 @@
    "texte": "… une légende courte… claire… pas « truc »… ni « bidule »…",
    "date": "2026-11-17"
   },
+  "c01:aef8b2dc": {
+   "fichier": "c01-436f5947.mp3",
+   "voix": "EMuO6fFLrXKOryHzij6K",
+   "envoye": "[sleepy] Pas tout à fait. Reprends la définition, puis réessaie.",
+   "texte": "Pas tout à fait. Reprends la définition, puis réessaie.",
+   "date": "2026-11-17"
+  },
   "c01:b4d39480": {
    "fichier": "c01-fc88f3c8.mp3",
    "voix": "EMuO6fFLrXKOryHzij6K",
@@ -321,6 +405,13 @@
    "voix": "EMuO6fFLrXKOryHzij6K",
    "envoye": "[sleepy] Presque réveillée. Termine, répare la panne, et j'ouvre les yeux.",
    "texte": "Presque réveillée. Termine, répare la panne, et j'ouvre les yeux.",
+   "date": "2026-11-17"
+  },
+  "c01:bc763e85": {
+   "fichier": "c01-9347a98d.mp3",
+   "voix": "EMuO6fFLrXKOryHzij6K",
+   "envoye": "[sleepy] [mumbling] [slowly] … les chaussettes… mmh… relis la définition… juste au-dessus…",
+   "texte": "… les chaussettes… mmh… relis la définition… juste au-dessus…",
    "date": "2026-11-17"
   },
   "c01:bca9ab11": {
@@ -364,6 +455,13 @@
    "envoye": "[sleepy] [mumbling] [slowly] … mmh… c'est toi ?… je dors dans le caisson 01… viens me réveiller… quand tu veux…",
    "texte": "… mmh… c'est toi ?… je dors dans le caisson 01… viens me réveiller… quand tu veux…",
    "date": "2026-11-16"
+  },
+  "c01:c88dcea2": {
+   "fichier": "c01-99da5493.mp3",
+   "voix": "EMuO6fFLrXKOryHzij6K",
+   "envoye": "Comme une bûche. Merci, Forma Trisse.",
+   "texte": "Comme une bûche. Merci, Forma Trisse.",
+   "date": "2026-11-17"
   },
   "c01:ce16e005": {
    "fichier": "c01-40f57fcd.mp3",
@@ -454,6 +552,13 @@
    "voix": "EMuO6fFLrXKOryHzij6K",
    "envoye": "Je suis Mme Larchive, l'archiviste. Je garde chaque version de ton produit, pour que tu puisses toujours revenir en arrière.",
    "texte": "Je suis Mme Larchive, l'archiviste. Je garde chaque version de ton produit, pour que tu puisses toujours revenir en arrière.",
+   "date": "2026-11-17"
+  },
+  "c01:f95aadeb": {
+   "fichier": "c01-3b8fd644.mp3",
+   "voix": "EMuO6fFLrXKOryHzij6K",
+   "envoye": "[sleepy] Tu as recommencé, et tu as trouvé. Bravo.",
+   "texte": "Tu as recommencé, et tu as trouvé. Bravo.",
    "date": "2026-11-17"
   },
   "c02:1a375926": {
@@ -758,6 +863,13 @@
    "texte": "Ton produit a un nom. Toute l'équipe le portera. Termine le protocole.",
    "date": "2026-11-17"
   },
+  "ora:31369c05": {
+   "fichier": "ora-81461df9.mp3",
+   "voix": "t8BrjWUT5Z23DLLBzbuY",
+   "envoye": "Bienvenue parmi nous, Mme Larchive. Bien dormi ?",
+   "texte": "Bienvenue parmi nous, Mme Larchive. Bien dormi ?",
+   "date": "2026-11-17"
+  },
   "ora:352a85bd": {
    "fichier": "ora-5e3febc9.mp3",
    "voix": "t8BrjWUT5Z23DLLBzbuY",
@@ -862,6 +974,13 @@
    "envoye": "Une panne, juste avant la fin ! Lis bien chaque alerte avant de répondre : chaque erreur grille un fusible.",
    "texte": "Une panne, juste avant la fin ! Lis bien chaque alerte avant de répondre : chaque erreur grille un fusible.",
    "date": "2026-11-16"
+  },
+  "ora:51b7a44c": {
+   "fichier": "ora-c48d2950.mp3",
+   "voix": "t8BrjWUT5Z23DLLBzbuY",
+   "envoye": "Tu es entre de bonnes mains. Allons réveiller la suite.",
+   "texte": "Tu es entre de bonnes mains. Allons réveiller la suite.",
+   "date": "2026-11-17"
   },
   "ora:59fb2e26": {
    "fichier": "ora-cb7cf772.mp3",
