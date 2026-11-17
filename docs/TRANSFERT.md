@@ -31,6 +31,9 @@ branche `claude/beautiful-cori-sz6dxq`, poussée sur GitHub. Ce document-ci est 
    - **Tout d'un coup** : écrire, enregistrer, construire, puis maquette jouable complète ;
    - **Caisson 00 d'abord** : tout pour Forma Trisse et le caisson 00, maquette, puis le caisson 01.
    Vérifier les crédits avec `account_get_usage` avant tout enregistrement (environ 20 500 restants au 17/11/2026).
+   **Réponse du 17/11/2026 (2e session) : « Textes d'abord ».** Brouillon dans `outils/textes-lot/` (207 répliques,
+   environ 11 400 caractères), page de lecture https://claude.ai/artifact/Ujhw3XDdoT2oN83ttjKfky ; en attente de ses
+   corrections avant tout enregistrement. Banc du compagnon rendu stable (clic normal sur la bonne réponse).
 4. Construire le lot 3.19 selon sa réponse ; **maquette jouable** (vraie appli dans un cadre, méthode 3.3) et son accord
    avant la PR. Penser à renommer ORA en Forma Trisse partout, et les membres (noms en 3.19).
 5. Fin de lot : commande complète verte, ce document mis à jour (section 0 comprise), **une seule PR** de la branche de
