@@ -248,7 +248,7 @@ export function ProductForm({ compact }: { compact?: boolean }) {
 
 // ======================= Livraison vérifiée =======================
 const KIND_LABEL: Record<DeliveryCheck["kind"], string> = {
-  manual: "à cocher", file: "fichier", commits: "historique", pullsMerged: "pull requests", workflow: "robot", pages: "en ligne",
+  manual: "à cocher", file: "fichier", folder: "dossier", commits: "historique", pullsMerged: "pull requests", workflow: "robot", pages: "en ligne",
 };
 
 export function DeliveryCard({ r }: { r: Room }) {

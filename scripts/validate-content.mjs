@@ -235,7 +235,7 @@ function checkMechanicBlock(b, where) {
       break;
   }
 }
-const CHECK_KINDS = { manual: [], file: ["path"], commits: ["min"], pullsMerged: ["min"], workflow: [], pages: [] };
+const CHECK_KINDS = { manual: [], file: ["path"], folder: ["path"], commits: ["min"], pullsMerged: ["min"], workflow: [], pages: [] };
 function checkDelivery(room) {
   const d = room.delivery;
   if (!d) return;

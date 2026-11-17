@@ -21,6 +21,7 @@ const Widgets = {
   ProductLab: lazy(() => import("./widgets/ProductLab")),
   TimeMachine: lazy(() => import("./widgets/TimeMachine")),
   ConflictLab: lazy(() => import("./widgets/ConflictLab")),
+  SkillForge: lazy(() => import("./widgets/SkillForge")),
 } satisfies Record<WidgetId, unknown>;
 
 export function BlockView({ block, exKey, solvedBefore, onSolved }: { block: Block; exKey: string; solvedBefore: boolean; onSolved: (attempts: number) => void }) {

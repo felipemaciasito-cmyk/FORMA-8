@@ -123,7 +123,7 @@ export const BADGES: { id: string; icon: IconId; title: string; desc: string; te
   { id: "maint", icon: "toolbox", title: "Maintenance assidue", desc: "10 révisions de notions.", test: (p) => p.stats.reviews >= 10 },
   { id: "base20", icon: "books", title: "Base bien remplie", desc: "20 notions collectées.", test: (p) => Object.keys(p.notions).length >= 20 },
   { id: "feyn", icon: "mic", title: "Pédagogue", desc: "Une explication « avec tes mots » notée 80 ou plus.", test: (p) => Object.values(p.feynman).some((s) => s >= 80) },
-  { id: "skill", icon: "forge", title: "Forgeron de Skills", desc: "Un Skill finalisé dans l'Atelier.", test: (p) => p.skills.some((s) => s.finalized) },
+  { id: "skill", icon: "forge", title: "Forgeron de Skills", desc: "Un Skill finalisé dans la Forge de Skills (caisson 02).", test: (p) => p.skills.some((s) => s.finalized) },
 ];
 
 // Badges propres à FORMA-8 (mécaniques du code).

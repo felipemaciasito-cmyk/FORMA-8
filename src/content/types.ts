@@ -41,7 +41,8 @@ export type WidgetId =
   | "AgentCycle"
   | "ProductLab"
   | "TimeMachine"
-  | "ConflictLab";
+  | "ConflictLab"
+  | "SkillForge";
 
 export type Block =
   | { type: "text"; md: string }
@@ -120,6 +121,8 @@ export interface Room {
 export type DeliveryCheck =
   | { id: string; kind: "manual"; label: string }
   | { id: string; kind: "file"; label: string; path: string }
+  /** Un dossier du dépôt qui contient au moins un sous-dossier (ex. .claude/skills : au moins un skill). */
+  | { id: string; kind: "folder"; label: string; path: string }
   | { id: string; kind: "commits"; label: string; min: number }
   | { id: string; kind: "pullsMerged"; label: string; min: number }
   | { id: string; kind: "workflow"; label: string; file?: string }

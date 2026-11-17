@@ -7,7 +7,8 @@ import { Icon } from "../Icon";
 // remplit (règles, demande, fichiers lus, résultats de commandes, échanges).
 // Près de la limite, la conversation est résumée (compaction) : le fichier de
 // règles est relu, mais une consigne donnée seulement dans la conversation peut
-// se perdre. Source : code.claude.com/docs/fr/how-claude-code-works (vérifiée le 14/11/2026).
+// se perdre. Source : code.claude.com/docs/fr/how-claude-code-works et context-window (vérifiées le 17/11/2026).
+// Le nom « CLAUDE.md » n'apparaît pas ici : il n'est défini qu'au protocole suivant (règle zéro zone de flou).
 
 type Kind = "regles" | "demande" | "fichier" | "commande" | "echange" | "resume";
 interface Item { id: number; label: string; size: number; kind: Kind; pinned?: boolean }
@@ -24,7 +25,7 @@ const ADDS: { label: string; size: number; kind: Kind }[] = [
 export default function ContextView() {
   const [inRules, setInRules] = useState(false);
   const start = (): Item[] => [
-    { id: 1, label: "Règles du projet (fichier CLAUDE.md)", size: 6, kind: "regles", pinned: true },
+    { id: 1, label: "Règles du projet (fichier de règles)", size: 6, kind: "regles", pinned: true },
     ...(inRules ? [] : [{ id: 2, label: "Consigne dite au début : « réponds toujours en français »", size: 3, kind: "echange" as Kind }]),
     { id: 3, label: "Ta demande : « ajoute un bouton Contact »", size: 4, kind: "demande" },
   ];
@@ -53,7 +54,7 @@ export default function ContextView() {
     } else setSay(`${a.label} : ${a.size} unités de plus dans la fenêtre.`);
     setItems(list);
   };
-  const reset = (rules = inRules) => { setInRules(rules); setItems(() => { const s: Item[] = [{ id: 1, label: "Règles du projet (fichier CLAUDE.md)", size: rules ? 7 : 6, kind: "regles", pinned: true }]; if (!rules) s.push({ id: 2, label: "Consigne dite au début : « réponds toujours en français »", size: 3, kind: "echange" }); s.push({ id: 3, label: "Ta demande : « ajoute un bouton Contact »", size: 4, kind: "demande" }); return s; }); setCompacted(0); setSay(rules ? "La consigne est maintenant écrite dans le fichier de règles. Remplis la fenêtre pour voir la différence." : "Remplis la fenêtre pour voir ce qui se passe près de la limite."); };
+  const reset = (rules = inRules) => { setInRules(rules); setItems(() => { const s: Item[] = [{ id: 1, label: "Règles du projet (fichier de règles)", size: rules ? 7 : 6, kind: "regles", pinned: true }]; if (!rules) s.push({ id: 2, label: "Consigne dite au début : « réponds toujours en français »", size: 3, kind: "echange" }); s.push({ id: 3, label: "Ta demande : « ajoute un bouton Contact »", size: 4, kind: "demande" }); return s; }); setCompacted(0); setSay(rules ? "La consigne est maintenant écrite dans le fichier de règles. Remplis la fenêtre pour voir la différence." : "Remplis la fenêtre pour voir ce qui se passe près de la limite."); };
 
   return (
     <div>
