@@ -1,4 +1,4 @@
-# FORMA-8 · Réveille l'équipe : document de transfert (état au 16/11/2026, après la fusion du lot « Les voix de l'équipe », PR #16)
+# FORMA-8 · Réveille l'équipe : document de transfert (état au 17/11/2026 : lot « compagnon et règles de parole » en cours sur la branche claude/beautiful-cori-sz6dxq)
 
 > À lire en entier au démarrage de chaque nouvelle session (renvoi dans `CLAUDE.md`), **en commençant par la
 > section 0**. Ce document complète `CLAUDE.md`, `docs/CONCEPTION.md` et `docs/PROGRAMME.md`. En cas d'écart, le
@@ -13,20 +13,32 @@ Le propriétaire ouvre une nouvelle conversation Claude Code et envoie le prompt
 ici. Ce document doit donc suffire seul : tout ce qu'il faut savoir est dans les sections 1 à 5, tout ce qu'il faut
 faire est ci-dessous.
 
-### 0.1 Dans l'ordre
-1. Lire en entier, dans cet ordre : `CLAUDE.md`, ce document (sections 0 à 5), `docs/CONCEPTION.md`,
+### 0.1 Dans l'ordre (mis à jour le 17/11/2026 : un lot est EN COURS, pas encore fusionné)
+**Le lot du compagnon et des règles de parole (section 3.19) n'est pas fusionné dans `main`.** Tout le travail est sur la
+branche `claude/beautiful-cori-sz6dxq`, poussée sur GitHub. Ce document-ci est la version de cette branche.
+1. Lire en entier, dans cet ordre : `CLAUDE.md`, ce document (sections 0 à 5, **surtout 3.19**), `docs/CONCEPTION.md`,
    `docs/PROGRAMME.md`. Ne rien écrire avant.
-2. Faire toutes les étapes de la section 5.1 : vérifier `main`, cloner FORMA-7 à côté, `npm ci`, commande complète de
-   vérification. Puis résumer au propriétaire, en quelques lignes, l'état du projet et le résultat des vérifications.
-3. Lui poser, en QCM, les questions de la section 5.1 (étape 5) : les voix de l'équipe (lot 3.18) écoutées sur son
-   iPhone (version en ligne), la remise en ordre au doigt (correctif 3.17), et ses autres remarques. Corriger d'abord ce qu'il signale ; pour un changement
-   visuel ou sonore important, maquette jouable d'abord.
-4. Lui demander son **feu vert** en QCM, puis écrire le caisson 02 en suivant la section 5.2 et `docs/PROGRAMME.md`.
+2. Préparer le poste : `git fetch origin` ; créer la branche imposée par la session **à partir de
+   `origin/claude/beautiful-cori-sz6dxq`** (pas de `main`) ; vérifier que `main` n'a pas bougé depuis `d8f624e` (sinon
+   fusionner `main` dans la branche et le dire au propriétaire) ; cloner FORMA-7 à côté (`../forma-7`, en entier) ;
+   `npm ci` ; commande complète de vérification. Résumer au propriétaire, en quelques lignes, l'état et le résultat.
+   Ne pas supprimer `claude/beautiful-cori-sz6dxq` : c'est le propriétaire qui la supprimera après la fusion.
+3. Lui poser **la question en attente** (QCM), restée sans réponse à la fin de la session du 17/11/2026 :
+   « Comment veux-tu que je mène la construction de ce lot ? »
+   - **Textes d'abord (recommandé)** : écrire toutes les nouvelles répliques (Forma Trisse endormie au début, endormis
+     absurdes, répliques raccourcies, interactions) et les lui montrer sur une page à lire avant tout enregistrement ;
+     il corrige, puis enregistrement (environ 130 répliques, environ 9 000 crédits, estimation) et construction ;
+   - **Tout d'un coup** : écrire, enregistrer, construire, puis maquette jouable complète ;
+   - **Caisson 00 d'abord** : tout pour Forma Trisse et le caisson 00, maquette, puis le caisson 01.
+   Vérifier les crédits avec `account_get_usage` avant tout enregistrement (environ 20 500 restants au 17/11/2026).
+4. Construire le lot 3.19 selon sa réponse ; **maquette jouable** (vraie appli dans un cadre, méthode 3.3) et son accord
+   avant la PR. Penser à renommer ORA en Forma Trisse partout, et les membres (noms en 3.19).
+5. Fin de lot : commande complète verte, ce document mis à jour (section 0 comprise), **une seule PR** de la branche de
+   la session vers `main` (elle contient tous les commits du lot), attendre le robot vert, annoncer, ne plus rien
+   pousser.
+6. Ensuite seulement : le caisson 02 (section 5.2), avec les nouvelles règles de parole et le nom « Général Calpin ».
    Ce qu'il attend : « Sois extrêmement ambitieux et rigoureux » ; un apprentissage très ludique, guidé pas à pas,
    cohérent et très esthétique ; chaque outil doit fonctionner parfaitement sur iPhone.
-5. Fin de lot : commande complète verte, ce document mis à jour (section 0 comprise si la prochaine action change),
-   une seule PR vers `main`, attendre le robot vert, annoncer, ne plus rien pousser. Si le propriétaire veut changer
-   de conversation, lui redonner le prompt de la section 0.3.
 
 ### 0.2 Ses règles non négociables (détail en section 2)
 - Français, tutoiement, explications simples. Les questions se posent en **QCM**.
@@ -43,14 +55,15 @@ faire est ci-dessous.
 
 ### 0.3 Le prompt de reprise (à lui redonner tel quel à chaque changement de conversation)
 
-Paramètres à lui rappeler : dépôt `felipemaciasito-cmyk/FORMA-8`, branche `main` ; environnement « Par défaut »
+Paramètres à lui rappeler : dépôt `felipemaciasito-cmyk/FORMA-8` ; environnement « Par défaut »
 (accès réseau illimité, nécessaire pour les sources officielles et FORMA-7) ; mode Auto ; une nouvelle conversation.
-Lui dire de fusionner la dernière PR **avant** d'envoyer le prompt.
+Lui dire de fusionner la dernière PR **avant** d'envoyer le prompt, s'il y en a une. **Si un lot est en cours sur une
+branche non fusionnée** (cas du 17/11/2026), le prompt nomme cette branche à la place de `main`.
 
 ```text
 Tu reprends le projet FORMA-8 · « Réveille l'équipe ». Je ne suis pas développeur et je travaille uniquement depuis Safari sur iPhone.
 
-Lis en entier le fichier docs/TRANSFERT.md de la branche main, puis suis à la lettre sa section 0 « Démarrage d'une nouvelle session ». Ce fichier contient tout : l'état exact du projet, mes règles non négociables, les décisions prises et la prochaine action.
+Lis en entier le fichier docs/TRANSFERT.md de la branche claude/beautiful-cori-sz6dxq (un lot est en cours, pas encore fusionné dans main), puis suis à la lettre sa section 0 « Démarrage d'une nouvelle session ». Ce fichier contient tout : l'état exact du projet, mes règles non négociables, les décisions prises et la prochaine action.
 ```
 
 ---
@@ -704,7 +717,7 @@ npm run validate && npm run check:emoji && npm run check:parity && npm run typec
 ### 3.19 Lot en cours (16-17/11/2026) : le compagnon et les règles de parole, PAS ENCORE FUSIONNÉ
 Branche `claude/beautiful-cori-sz6dxq` (poussée). Pages d'essai privées : labo des voix d'ORA
 https://claude.ai/artifact/SoBrMYqEUKgW96svoba1rp ; maquette du compagnon https://claude.ai/artifact/UmHohA7Kc2ykEZsUAFC3jm ;
-labo des personnages https://claude.ai/artifact/Fj3TcAq1S3v6QvicnrAzr5 (source : `zz-labo/`, non suivi par Git).
+labo des personnages https://claude.ai/artifact/Fj3TcAq1S3v6QvicnrAzr5 (source : `outils/labo-personnages/`).
 - **Déjà fait et poussé** : banc du caisson 00 réparé (« Continuer » ramené en vue après une vérification) ; aucune voix
   derrière une cérémonie (`holdVoices`) ; ORA en « IA de bord » à 150 % ; toucher une bulle coupe la parole ; effets à
   10 % pendant qu'un personnage parle ; compagnon de protocole (`Companion.tsx`, `companion.ts`, `compagnon.json`, 76 voix,
