@@ -1,4 +1,4 @@
-# FORMA-8 · Réveille l'équipe : document de transfert (état au 17/11/2026 : lot « compagnon et règles de parole » validé par le propriétaire sur maquette jouable, PR ouverte depuis la branche claude/ecstatic-keller-i9o3gk)
+# FORMA-8 · Réveille l'équipe : document de transfert (état au 17/11/2026 : caisson 02 construit sur la branche claude/ecstatic-keller-i9o3gk, en attente de l'accord du propriétaire sur la maquette jouable)
 
 > À lire en entier au démarrage de chaque nouvelle session (renvoi dans `CLAUDE.md`), **en commençant par la
 > section 0**. Ce document complète `CLAUDE.md`, `docs/CONCEPTION.md` et `docs/PROGRAMME.md`. En cas d'écart, le
@@ -13,46 +13,21 @@ Le propriétaire ouvre une nouvelle conversation Claude Code et envoie le prompt
 ici. Ce document doit donc suffire seul : tout ce qu'il faut savoir est dans les sections 1 à 5, tout ce qu'il faut
 faire est ci-dessous.
 
-### 0.1 Dans l'ordre (mis à jour le 17/11/2026 : un lot est EN COURS, pas encore fusionné)
-**Le lot du compagnon et des règles de parole (section 3.19) n'est pas fusionné dans `main`.** Tout le travail est sur la
-branche `claude/ecstatic-keller-i9o3gk` (partie de `claude/beautiful-cori-sz6dxq`, qu'elle contient en entier), poussée
-sur GitHub. Ce document-ci est la version de cette branche. Partir de `origin/claude/ecstatic-keller-i9o3gk`.
-1. Lire en entier, dans cet ordre : `CLAUDE.md`, ce document (sections 0 à 5, **surtout 3.19**), `docs/CONCEPTION.md`,
+### 0.1 Dans l'ordre (mis à jour le 17/11/2026, 4e session : le caisson 02 est EN COURS, pas encore fusionné)
+**Le lot « compagnon et règles de parole » (3.19) est fusionné dans `main` (PR #18, commit `87d615b`).** Le caisson 02
+(section 3.20) est construit sur la branche `claude/ecstatic-keller-i9o3gk`, repartie de `main` après cette fusion et
+poussée sur GitHub. Ce document-ci est la version de cette branche.
+1. Lire en entier, dans cet ordre : `CLAUDE.md`, ce document (sections 0 à 5, **surtout 3.20**), `docs/CONCEPTION.md`,
    `docs/PROGRAMME.md`. Ne rien écrire avant.
-2. Préparer le poste : `git fetch origin` ; créer la branche imposée par la session **à partir de
-   `origin/claude/beautiful-cori-sz6dxq`** (pas de `main`) ; vérifier que `main` n'a pas bougé depuis `d8f624e` (sinon
-   fusionner `main` dans la branche et le dire au propriétaire) ; cloner FORMA-7 à côté (`../forma-7`, en entier) ;
-   `npm ci` ; commande complète de vérification. Résumer au propriétaire, en quelques lignes, l'état et le résultat.
-   Ne pas supprimer `claude/beautiful-cori-sz6dxq` : c'est le propriétaire qui la supprimera après la fusion.
-3. Lui poser **la question en attente** (QCM), restée sans réponse à la fin de la session du 17/11/2026 :
-   « Comment veux-tu que je mène la construction de ce lot ? »
-   - **Textes d'abord (recommandé)** : écrire toutes les nouvelles répliques (Forma Trisse endormie au début, endormis
-     absurdes, répliques raccourcies, interactions) et les lui montrer sur une page à lire avant tout enregistrement ;
-     il corrige, puis enregistrement (environ 130 répliques, environ 9 000 crédits, estimation) et construction ;
-   - **Tout d'un coup** : écrire, enregistrer, construire, puis maquette jouable complète ;
-   - **Caisson 00 d'abord** : tout pour Forma Trisse et le caisson 00, maquette, puis le caisson 01.
-   Vérifier les crédits avec `account_get_usage` avant tout enregistrement (environ 20 500 restants au 17/11/2026).
-   **Réponse du 17/11/2026 (2e session) : « Textes d'abord ».** Brouillon dans `outils/textes-lot/` (207 répliques,
-   environ 11 400 caractères), page de lecture https://claude.ai/artifact/Ujhw3XDdoT2oN83ttjKfky ; en attente de ses
-   corrections avant tout enregistrement. Banc du compagnon rendu stable (clic normal sur la bonne réponse).
-   **Textes validés par le propriétaire (« Valide, enregistre ») et les 207 répliques enregistrées le 17/11/2026**
-   (14 630 crédits, il en reste environ 6 000 jusqu'au 16/12/2026). Prises dans `public/voix`, inscrites dans
-   `voix-enregistrements.json` ; suivi dans `outils/textes-lot/prises.json` (toutes présentes). Indications de ton :
-   `[sleepy] [mumbling] [slowly]` pour « sommeil », `[sleepy]` pour « demi », rien pour « éveil » (comptées dans les
-   crédits). Senty Nell : présentation « Senty Nell, la sentinelle » ; le surnom « Agent Nell » reviendra en jeu de mots
-   au caisson 08 (choix du propriétaire). **Prochaine étape : construire le lot dans l'appli** (textes de
-   `outils/textes-lot/brouillon.json` vers `src/content/`, règles de parole, Forma Trisse, interactions), retirer les
-   anciennes prises inutilisées, maquette jouable, puis PR.
-   **Construit le 17/11/2026 (3e session)**, commande complète verte (15 tests de bout en bout en Chromium ; WebKit voir
-   3.19). Maquette jouable : https://claude.ai/artifact/EKesPUvJczHo36aYU5cbJx (cinq départs). **Accord du propriétaire
-   le 17/11/2026 (« Valide, fais la PR »)** ; commande complète verte, PR ouverte vers `main`. Prochaine session :
-   vérifier si la PR est fusionnée ; si oui, passer à l'étape 6 (caisson 02) depuis `origin/main`.
-4. Construire le lot 3.19 selon sa réponse ; **maquette jouable** (vraie appli dans un cadre, méthode 3.3) et son accord
-   avant la PR. Penser à renommer ORA en Forma Trisse partout, et les membres (noms en 3.19).
-5. Fin de lot : commande complète verte, ce document mis à jour (section 0 comprise), **une seule PR** de la branche de
-   la session vers `main` (elle contient tous les commits du lot), attendre le robot vert, annoncer, ne plus rien
-   pousser.
-6. Ensuite seulement : le caisson 02 (section 5.2), avec les nouvelles règles de parole et le nom « Général Calpin ».
+2. Préparer le poste : `git fetch origin` ; regarder si une PR du caisson 02 existe et si elle est fusionnée.
+   - Pas encore de PR : créer la branche imposée par la session **à partir de `origin/claude/ecstatic-keller-i9o3gk`** ;
+     vérifier que `main` n'a pas bougé depuis `87d615b` (sinon fusionner `main` dans la branche et le dire).
+   - PR fusionnée : partir de `origin/main` pour la suite (section 5.4, caisson 03).
+   Cloner FORMA-7 à côté (`../forma-7`, en entier) ; `npm ci` ; commande complète. Résumer l'état en quelques lignes.
+3. Si la PR n'est pas ouverte : demander au propriétaire, en QCM, son avis sur la maquette jouable du caisson 02
+   (https://claude.ai/artifact/4jpbEUCauoMPwbA3QnVkQU, sept départs) ; corriger ce qu'il signale (maquette mise à jour
+   à chaque correction), puis, avec son accord, **une seule PR** vers `main`, robot vert, annonce, plus rien poussé.
+4. Ensuite seulement : le caisson 03 (M. Laplume, section 5.4), méthode à lui demander en QCM.
    Ce qu'il attend : « Sois extrêmement ambitieux et rigoureux » ; un apprentissage très ludique, guidé pas à pas,
    cohérent et très esthétique ; chaque outil doit fonctionner parfaitement sur iPhone.
 
@@ -730,7 +705,7 @@ npm run validate && npm run check:emoji && npm run check:parity && npm run typec
 
 ---
 
-### 3.19 Lot en cours (16-17/11/2026) : le compagnon et les règles de parole, PAS ENCORE FUSIONNÉ
+### 3.19 Le compagnon et les règles de parole (16-17/11/2026), fusionné le 17/11/2026 (PR #18)
 Branche `claude/beautiful-cori-sz6dxq` (poussée). Pages d'essai privées : labo des voix d'ORA
 https://claude.ai/artifact/SoBrMYqEUKgW96svoba1rp ; maquette du compagnon https://claude.ai/artifact/UmHohA7Kc2ykEZsUAFC3jm ;
 labo des personnages https://claude.ai/artifact/Fj3TcAq1S3v6QvicnrAzr5 (source : `outils/labo-personnages/`).
@@ -791,6 +766,41 @@ labo des personnages https://claude.ai/artifact/Fj3TcAq1S3v6QvicnrAzr5 (source :
   PR ouverte vers `main`. Le caisson 02 attend sa fusion.
 
 ---
+
+### 3.20 Caisson 02 · Général Calpin · « L'environnement de ton équipe » (17/11/2026), PAS ENCORE FUSIONNÉ
+Branche `claude/ecstatic-keller-i9o3gk` (repartie de `main` `87d615b`). Maquette jouable :
+https://claude.ai/artifact/4jpbEUCauoMPwbA3QnVkQU (sept départs : début du caisson, protocoles 2, 3, 5, 6, panne et
+réveil, après le réveil). **En attente de l'accord du propriétaire.**
+- **Choix du propriétaire (17/11/2026, QCM)** : méthode « Tout d'un coup » ; le **mode auto est expliqué** (protocole 4 ;
+  AGENTS.md seulement cité dans la fiche « mémoire du projet ») ; **répliques courtes** pour tenir dans les crédits ;
+  enregistrement accepté après annonce du coût.
+- **Sources ouvertes le 17/11/2026** (titres exacts, toutes en français, citées dans les blocs « source ») :
+  `code.claude.com/docs/fr/` memory, context-window, permissions, permission-modes, settings, skills, mcp,
+  cloud-environments, claude-code-on-the-web, features-overview, plugins/overview ; GitHub « Gestion de vos jetons
+  d'accès personnels ». Points notables : dans les séances cloud, le menu propose **Accept edits, Plan et Auto** ;
+  le mode auto « réduit les demandes mais ne garantit pas la sécurité » ; règles deny > ask > allow, appliquées par
+  Claude Code et non par le modèle ; CLAUDE.md conseillé sous 200 lignes ; seule la `description` d'un skill est
+  recommandée (« ce que fait le skill et quand l'utiliser »). La page GitHub ne dit pas clairement si l'on peut
+  modifier après coup la liste des dépôts d'un jeton : le contenu conseille de créer un nouveau jeton si besoin.
+- **Contenu** (`src/content/caissons/c02.json`, construit par les scripts rejouables de `outils/contenu-c02/` : notions, protocoles, répliques, et la préparation) :
+  6 protocoles (15, 14, 14, 15, 18 et 11 blocs), **21 notions** : session, environnement-cloud, terminal, commande ;
+  token, contexte, fenetre-contexte, compaction ; markdown (**déplacé au protocole 3**, car CLAUDE.md en est un),
+  claude-md, memoire-projet ; permission, mode-permission, mode-plan, **mode-auto** (ajout) ; skill, mcp, connecteur,
+  plugin ; jeton-acces, moindre-privilege. Trois ordres de mission (CLAUDE.md, `.claude/settings.json` avec deux règles
+  deny, le skill forgé), deux consignes, cinq procédures (visite d'une séance, lire le règlement, essayer le mode
+  plan, créer le jeton, activer la synchronisation), panne « Alerte au règlement de bord » (règles trop longues et
+  contradictoires, permission refusée, consigne perdue après compaction).
+- **Forge de Skills** (`src/components/widgets/SkillForge.tsx`, nouveau) : deux savoir-faire au choix, quatre
+  contrôles (nom, « quoi », « quand », règle importante en tête), essai sur trois demandes, finalisation (badge
+  « Forgeron de Skills », +80 kW la première fois), copie du SKILL.md pour l'ordre de mission.
+- **Livraison v0.2** : CLAUDE.md, `.claude/settings.json`, un skill dans `.claude/skills` (nouveau contrôle
+  `folder` : le dossier contient au moins un sous-dossier, `src/lib/checks.ts`), synchronisation cochée à la main.
+- Le simulateur de la fenêtre de contexte ne nomme plus « CLAUDE.md » (défini au protocole suivant).
+- **Voix** : 72 répliques courtes (compagnon, carte, panne, livraison, retours, toucher, trois défis du jour,
+  question, scène du réveil) enregistrées le 17/11/2026, une prise chacune : **4 205 crédits** ; il en reste
+  **1 822 jusqu'au 16/12/2026**. Outils : `outils/voix-c02/` (liste de travail, sessions, rangement).
+- **Banc d'essai** `tests/e2e/caisson02.spec.ts` (3,7 min en Chromium) ; bancs 00 et 01 mis à jour (compteurs de
+  notions). Commande complète verte le 17/11/2026 (16 tests de bout en bout, 41 tests rapides). WebKit : voir ci-dessous.
 
 ## 4. Décisions prises et pistes écartées
 
@@ -891,7 +901,7 @@ labo des personnages https://claude.ai/artifact/Fj3TcAq1S3v6QvicnrAzr5 (source :
    important, maquette d'abord, et test dans WebKit (2.3).
 6. Attendre son **feu vert explicite** (QCM) pour le caisson 02.
 
-### 5.2 Caisson 02 · Le Règlement de bord · « L'environnement de ton équipe » · v0.2 (après le feu vert)
+### 5.2 Caisson 02 · Le Règlement de bord · « L'environnement de ton équipe » · v0.2 (construit le 17/11/2026, voir 3.20)
 - **Branche** : celle qu'impose l'environnement, créée depuis `origin/main`.
 - **Plan** (`docs/PROGRAMME.md`) : 6 protocoles, environ 20 notions :
   1. Une séance de travail dans le navigateur : `session`, `environnement-cloud`, `terminal`, `commande` ;
