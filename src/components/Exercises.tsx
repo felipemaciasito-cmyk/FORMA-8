@@ -8,6 +8,7 @@ import { updateProgress, useSettings } from "../lib/store";
 import { loadClaude } from "../lib/models";
 import type { FeynmanGrade } from "../lib/claude";
 import { Icon } from "./Icon";
+import { companionMiss } from "../lib/companion";
 
 export interface ExProps { ex: Exercise; exKey: string; solvedBefore: boolean; onSolved: (attempts: number) => void }
 
@@ -23,7 +24,7 @@ function good(e?: { clientX: number; clientY: number }) {
   fx({ type: "burst", x: e?.clientX, y: e?.clientY, color: "#3be8ff" });
   setStreak(streak + 1);
 }
-function bad() { sfx("ko"); setStreak(0); }
+function bad(exKey: string) { sfx("ko"); setStreak(0); companionMiss(exKey); }
 
 export function ExerciseView(outer: ExProps) {
   const { ex } = outer;
@@ -65,7 +66,7 @@ export function ExerciseView(outer: ExProps) {
 }
 
 // ---------------- QCM ----------------
-export function Qcm({ ex, onSolved }: ExProps & { ex: Extract<Exercise, { kind: "qcm" }> }) {
+export function Qcm({ ex, exKey, onSolved }: ExProps & { ex: Extract<Exercise, { kind: "qcm" }> }) {
   const options = useMemo(() => shuffle(ex.options), [ex]);
   const [tried, setTried] = useState<number[]>([]);
   const [done, setDone] = useState(false);
@@ -77,7 +78,7 @@ export function Qcm({ ex, onSolved }: ExProps & { ex: Extract<Exercise, { kind: 
     setTried(t);
     recordAnswer(o.ok);
     if (o.ok) { setDone(true); good(e); onSolved(t.length); }
-    else { bad(); setShakeI(i); setTimeout(() => setShakeI(-1), 450); }
+    else { bad(exKey); setShakeI(i); setTimeout(() => setShakeI(-1), 450); }
   };
   const last = tried[tried.length - 1];
   return (
@@ -106,7 +107,7 @@ export function Qcm({ ex, onSolved }: ExProps & { ex: Extract<Exercise, { kind: 
 }
 
 // ---------------- Vrai / faux ----------------
-function TrueFalse({ ex, onSolved }: ExProps & { ex: Extract<Exercise, { kind: "truefalse" }> }) {
+function TrueFalse({ ex, exKey, onSolved }: ExProps & { ex: Extract<Exercise, { kind: "truefalse" }> }) {
   const [ans, setAns] = useState<Record<number, boolean>>({});
   const [wrong, setWrong] = useState<Record<number, boolean>>({});
   const [attempts, setAttempts] = useState(0);
@@ -120,7 +121,7 @@ function TrueFalse({ ex, onSolved }: ExProps & { ex: Extract<Exercise, { kind: "
       setAns(next); setWrong((w) => ({ ...w, [i]: false }));
       sfx("ok");
       if (ex.items.every((it, k) => next[k] === it.ok)) { good(e); onSolved(Math.max(1, a - ex.items.length + 1)); }
-    } else { setWrong((w) => ({ ...w, [i]: true })); bad(); }
+    } else { setWrong((w) => ({ ...w, [i]: true })); bad(exKey); }
   };
   return (
     <div>
@@ -148,7 +149,7 @@ function TrueFalse({ ex, onSolved }: ExProps & { ex: Extract<Exercise, { kind: "
 }
 
 // ---------------- Texte à trous ----------------
-function Cloze({ ex, onSolved }: ExProps & { ex: Extract<Exercise, { kind: "cloze" }> }) {
+function Cloze({ ex, exKey, onSolved }: ExProps & { ex: Extract<Exercise, { kind: "cloze" }> }) {
   const parts = useMemo(() => ex.text.split(/(\{\{[^}]+\}\})/g), [ex]);
   const answers = useMemo(() => parts.filter((p) => p.startsWith("{{")).map((p) => p.slice(2, -2)), [parts]);
   const pool = useMemo(() => shuffle([...answers, ...ex.distractors]), [answers, ex]);
@@ -170,7 +171,7 @@ function Cloze({ ex, onSolved }: ExProps & { ex: Extract<Exercise, { kind: "cloz
     const ok = res.every(Boolean);
     recordAnswer(ok);
     if (ok) { setDone(true); good(e); onSolved(a); }
-    else { bad(); setTimeout(() => { setFill((f) => f.map((v, i) => (res[i] ? v : null))); setChecked(null); }, 1100); }
+    else { bad(exKey); setTimeout(() => { setFill((f) => f.map((v, i) => (res[i] ? v : null))); setChecked(null); }, 1100); }
   };
   let bi = -1;
   return (
@@ -196,7 +197,7 @@ function Cloze({ ex, onSolved }: ExProps & { ex: Extract<Exercise, { kind: "cloz
 }
 
 // ---------------- Remise en ordre ----------------
-function Order({ ex, onSolved }: ExProps & { ex: Extract<Exercise, { kind: "order" }> }) {
+function Order({ ex, exKey, onSolved }: ExProps & { ex: Extract<Exercise, { kind: "order" }> }) {
   const [items, setItems] = useState(() => { let s = shuffle(ex.items); while (s.every((x, i) => x === ex.items[i])) s = shuffle(ex.items); return s; });
   const [checked, setChecked] = useState<boolean[] | null>(null);
   const [attempts, setAttempts] = useState(0);
@@ -220,7 +221,7 @@ function Order({ ex, onSolved }: ExProps & { ex: Extract<Exercise, { kind: "orde
     const res = items.map((x, i) => x === ex.items[i]);
     const a = attempts + 1; setAttempts(a); setChecked(res);
     const ok = res.every(Boolean); recordAnswer(ok);
-    if (ok) { setDone(true); good(e); onSolved(a); } else bad();
+    if (ok) { setDone(true); good(e); onSolved(a); } else bad(exKey);
   };
   return (
     <div>
@@ -253,7 +254,7 @@ function Order({ ex, onSolved }: ExProps & { ex: Extract<Exercise, { kind: "orde
 }
 
 // ---------------- Câblage ----------------
-function Wiring({ ex, onSolved }: ExProps & { ex: Extract<Exercise, { kind: "wiring" }> }) {
+function Wiring({ ex, exKey, onSolved }: ExProps & { ex: Extract<Exercise, { kind: "wiring" }> }) {
   const rights = useMemo(() => shuffle(ex.pairs.map((p, i) => ({ t: p.r, i }))), [ex]);
   const [sel, setSel] = useState<number | null>(null);
   const [links, setLinks] = useState<Record<number, number>>({}); // gauche -> index dans rights
@@ -300,7 +301,7 @@ function Wiring({ ex, onSolved }: ExProps & { ex: Extract<Exercise, { kind: "wir
     const ok = ex.pairs.every((_p, i) => nl[i]);
     recordAnswer(ok);
     if (ok) { setDone(true); good(e); onSolved(a); }
-    else { bad(); setTimeout(() => { setLinks(next); setFlash({}); }, 700); }
+    else { bad(exKey); setTimeout(() => { setLinks(next); setFlash({}); }, 700); }
   };
   const usedR = new Set(Object.values(links));
   return (

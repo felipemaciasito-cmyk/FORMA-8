@@ -105,9 +105,9 @@ export function TermCard({ id, onBack, inline }: { id: string; onBack?: () => vo
 
       <div style={{ marginTop: 16 }}>
         <button className="btn subtle block" onClick={reexplain} disabled={alt.loading}>
-          {alt.loading ? "ORA reformule…" : <><Icon name="help" size={18} /> Je n'ai toujours pas compris</>}
+          {alt.loading ? "Forma Trisse reformule…" : <><Icon name="help" size={18} /> Je n'ai toujours pas compris</>}
         </button>
-        {alt.text && <div className="feedback info"><span className="tag">ORA reformule</span><RichText md={alt.text} /></div>}
+        {alt.text && <div className="feedback info"><span className="tag">Forma Trisse reformule</span><RichText md={alt.text} /></div>}
         {alt.error && <div className="feedback ko"><span className="tag">Erreur</span>{alt.error}</div>}
       </div>
     </div>

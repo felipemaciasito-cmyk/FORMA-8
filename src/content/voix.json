@@ -3,7 +3,7 @@
  "modele": "eleven_v4",
  "personnages": {
   "ora": {
-   "nom": "ORA",
+   "nom": "Forma Trisse",
    "caisson": "c00",
    "sexe": "femme",
    "personnalite": "La guide de l'équipe : chaleureuse et précise, rassurante, fière de chacun de tes progrès.",
@@ -14,7 +14,7 @@
     "toujours calme"
    ],
    "elocution": "Claire et posée, débit moyen, sourire dans la voix.",
-   "robot": "Vocodeur et hologramme superposés : timbre métallique, voix légèrement dédoublée.",
+   "robot": "« IA de bord » (choix du 16/11/2026, densité 150 %) : vocodeur et voix de machine qui résonne et ondule, superposés.",
    "voix": "t8BrjWUT5Z23DLLBzbuY",
    "candidates": [
     {
@@ -63,7 +63,7 @@
      "prof": 0.6
     }
    },
-   "dose": 0.45,
+   "dose": 1.35,
    "variantes": {
     "numerique": {
      "nom": "Numérique",
@@ -146,15 +146,37 @@
        "mix": 0.05
       }
      }
+    },
+    "machine": {
+     "nom": "IA de bord",
+     "filtre": {
+      "hp": 200,
+      "lp": 6500,
+      "peigne": {
+       "ms": 4.5,
+       "retour": 0.7,
+       "mix": 0.5
+      },
+      "tourne": {
+       "ms": 3,
+       "prof": 1.5,
+       "vitesse": 1.2,
+       "mix": 0.35
+      },
+      "anneau": {
+       "f": 45,
+       "mix": 0.3
+      }
+     }
     }
    },
    "effets": [
     "vocodeur",
-    "hologramme"
+    "machine"
    ]
   },
   "c01": {
-   "nom": "L'Archiviste",
+   "nom": "Mme Larchive",
    "caisson": "c01",
    "sexe": "femme",
    "personnalite": "La plus ancienne de l'équipe : nostalgique et méticuleuse, elle ne jette jamais rien et se souvient de tout.",
@@ -204,7 +226,7 @@
    "dose": 0
   },
   "c02": {
-   "nom": "Le Règlement de bord",
+   "nom": "Général Calpin",
    "caisson": "c02",
    "sexe": "homme",
    "personnalite": "Un officier de bord rigoureux : formel, exigeant, mais juste. Il aime que chacun connaisse les règles.",
@@ -253,7 +275,7 @@
    "dose": 0.15
   },
   "c03": {
-   "nom": "Le Scribe",
+   "nom": "M. Laplume",
    "caisson": "c03",
    "sexe": "homme",
    "personnalite": "Un conteur lettré : patient, il cherche toujours le mot juste avant d'écrire.",
@@ -313,7 +335,7 @@
    "dose": 0.25
   },
   "c04": {
-   "nom": "La Boucle",
+   "nom": "Mme Bonna Bitude",
    "caisson": "c04",
    "sexe": "femme",
    "personnalite": "Énergique et joueuse : infatigable, elle recommence autant qu'il le faut, sans jamais se décourager.",
@@ -362,7 +384,7 @@
    "dose": 0.75
   },
   "c05": {
-   "nom": "L'Inspecteur",
+   "nom": "Dupond et Dupont",
    "caisson": "c05",
    "sexe": "homme",
    "personnalite": "Pointilleux et sceptique : rien ne lui échappe, et il ne se satisfait jamais d'un « ça devrait marcher ».",
@@ -423,7 +445,7 @@
    "voixDuo": "Qrl71rx6Yg8RvyPYRGCQ"
   },
   "c06": {
-   "nom": "Le Messager",
+   "nom": "Hermès Coursier",
    "caisson": "c06",
    "sexe": "homme",
    "personnalite": "Jeune et vif : toujours pressé de livrer, enthousiaste à chaque départ.",
@@ -538,7 +560,7 @@
    ]
   },
   "c07": {
-   "nom": "La Mémoire",
+   "nom": "Fabienne du CDI",
    "caisson": "c07",
    "sexe": "femme",
    "personnalite": "Calme et profonde : fiable en toutes circonstances, elle garde chaque chose à sa place.",
@@ -586,7 +608,7 @@
    "dose": 0.8
   },
   "c08": {
-   "nom": "La Sentinelle",
+   "nom": "Senty Nell",
    "caisson": "c08",
    "sexe": "femme",
    "personnalite": "Vigilante et protectrice : brève, ferme, d'une autorité calme. Elle ne baisse jamais la garde.",
@@ -654,7 +676,7 @@
    "dose": 0
   },
   "c09": {
-   "nom": "Les Escouades et les Réflexes",
+   "nom": "Lana Mageuse",
    "caisson": "c09",
    "sexe": "chœur mixte",
    "personnalite": "Une meneuse et ses drones : esprit d'équipe, toujours en mouvement, chacun à son poste.",
@@ -727,7 +749,7 @@
    "dose": 0.8
   },
   "c10": {
-   "nom": "Le Lancement",
+   "nom": "Alex Pédition",
    "caisson": "c10",
    "sexe": "homme",
    "personnalite": "Charismatique et solennel : il sait faire monter l'attente, puis tout donner le grand jour.",

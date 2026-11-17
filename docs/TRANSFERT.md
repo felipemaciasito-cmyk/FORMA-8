@@ -1,4 +1,4 @@
-# FORMA-8 · Réveille l'équipe : document de transfert (état au 16/11/2026, après la fusion du lot « Les voix de l'équipe », PR #16)
+# FORMA-8 · Réveille l'équipe : document de transfert (état au 17/11/2026 : lot « compagnon et règles de parole » validé par le propriétaire sur maquette jouable, PR ouverte depuis la branche claude/ecstatic-keller-i9o3gk)
 
 > À lire en entier au démarrage de chaque nouvelle session (renvoi dans `CLAUDE.md`), **en commençant par la
 > section 0**. Ce document complète `CLAUDE.md`, `docs/CONCEPTION.md` et `docs/PROGRAMME.md`. En cas d'écart, le
@@ -13,20 +13,48 @@ Le propriétaire ouvre une nouvelle conversation Claude Code et envoie le prompt
 ici. Ce document doit donc suffire seul : tout ce qu'il faut savoir est dans les sections 1 à 5, tout ce qu'il faut
 faire est ci-dessous.
 
-### 0.1 Dans l'ordre
-1. Lire en entier, dans cet ordre : `CLAUDE.md`, ce document (sections 0 à 5), `docs/CONCEPTION.md`,
+### 0.1 Dans l'ordre (mis à jour le 17/11/2026 : un lot est EN COURS, pas encore fusionné)
+**Le lot du compagnon et des règles de parole (section 3.19) n'est pas fusionné dans `main`.** Tout le travail est sur la
+branche `claude/ecstatic-keller-i9o3gk` (partie de `claude/beautiful-cori-sz6dxq`, qu'elle contient en entier), poussée
+sur GitHub. Ce document-ci est la version de cette branche. Partir de `origin/claude/ecstatic-keller-i9o3gk`.
+1. Lire en entier, dans cet ordre : `CLAUDE.md`, ce document (sections 0 à 5, **surtout 3.19**), `docs/CONCEPTION.md`,
    `docs/PROGRAMME.md`. Ne rien écrire avant.
-2. Faire toutes les étapes de la section 5.1 : vérifier `main`, cloner FORMA-7 à côté, `npm ci`, commande complète de
-   vérification. Puis résumer au propriétaire, en quelques lignes, l'état du projet et le résultat des vérifications.
-3. Lui poser, en QCM, les questions de la section 5.1 (étape 5) : les voix de l'équipe (lot 3.18) écoutées sur son
-   iPhone (version en ligne), la remise en ordre au doigt (correctif 3.17), et ses autres remarques. Corriger d'abord ce qu'il signale ; pour un changement
-   visuel ou sonore important, maquette jouable d'abord.
-4. Lui demander son **feu vert** en QCM, puis écrire le caisson 02 en suivant la section 5.2 et `docs/PROGRAMME.md`.
+2. Préparer le poste : `git fetch origin` ; créer la branche imposée par la session **à partir de
+   `origin/claude/beautiful-cori-sz6dxq`** (pas de `main`) ; vérifier que `main` n'a pas bougé depuis `d8f624e` (sinon
+   fusionner `main` dans la branche et le dire au propriétaire) ; cloner FORMA-7 à côté (`../forma-7`, en entier) ;
+   `npm ci` ; commande complète de vérification. Résumer au propriétaire, en quelques lignes, l'état et le résultat.
+   Ne pas supprimer `claude/beautiful-cori-sz6dxq` : c'est le propriétaire qui la supprimera après la fusion.
+3. Lui poser **la question en attente** (QCM), restée sans réponse à la fin de la session du 17/11/2026 :
+   « Comment veux-tu que je mène la construction de ce lot ? »
+   - **Textes d'abord (recommandé)** : écrire toutes les nouvelles répliques (Forma Trisse endormie au début, endormis
+     absurdes, répliques raccourcies, interactions) et les lui montrer sur une page à lire avant tout enregistrement ;
+     il corrige, puis enregistrement (environ 130 répliques, environ 9 000 crédits, estimation) et construction ;
+   - **Tout d'un coup** : écrire, enregistrer, construire, puis maquette jouable complète ;
+   - **Caisson 00 d'abord** : tout pour Forma Trisse et le caisson 00, maquette, puis le caisson 01.
+   Vérifier les crédits avec `account_get_usage` avant tout enregistrement (environ 20 500 restants au 17/11/2026).
+   **Réponse du 17/11/2026 (2e session) : « Textes d'abord ».** Brouillon dans `outils/textes-lot/` (207 répliques,
+   environ 11 400 caractères), page de lecture https://claude.ai/artifact/Ujhw3XDdoT2oN83ttjKfky ; en attente de ses
+   corrections avant tout enregistrement. Banc du compagnon rendu stable (clic normal sur la bonne réponse).
+   **Textes validés par le propriétaire (« Valide, enregistre ») et les 207 répliques enregistrées le 17/11/2026**
+   (14 630 crédits, il en reste environ 6 000 jusqu'au 16/12/2026). Prises dans `public/voix`, inscrites dans
+   `voix-enregistrements.json` ; suivi dans `outils/textes-lot/prises.json` (toutes présentes). Indications de ton :
+   `[sleepy] [mumbling] [slowly]` pour « sommeil », `[sleepy]` pour « demi », rien pour « éveil » (comptées dans les
+   crédits). Senty Nell : présentation « Senty Nell, la sentinelle » ; le surnom « Agent Nell » reviendra en jeu de mots
+   au caisson 08 (choix du propriétaire). **Prochaine étape : construire le lot dans l'appli** (textes de
+   `outils/textes-lot/brouillon.json` vers `src/content/`, règles de parole, Forma Trisse, interactions), retirer les
+   anciennes prises inutilisées, maquette jouable, puis PR.
+   **Construit le 17/11/2026 (3e session)**, commande complète verte (15 tests de bout en bout en Chromium ; WebKit voir
+   3.19). Maquette jouable : https://claude.ai/artifact/EKesPUvJczHo36aYU5cbJx (cinq départs). **Accord du propriétaire
+   le 17/11/2026 (« Valide, fais la PR »)** ; commande complète verte, PR ouverte vers `main`. Prochaine session :
+   vérifier si la PR est fusionnée ; si oui, passer à l'étape 6 (caisson 02) depuis `origin/main`.
+4. Construire le lot 3.19 selon sa réponse ; **maquette jouable** (vraie appli dans un cadre, méthode 3.3) et son accord
+   avant la PR. Penser à renommer ORA en Forma Trisse partout, et les membres (noms en 3.19).
+5. Fin de lot : commande complète verte, ce document mis à jour (section 0 comprise), **une seule PR** de la branche de
+   la session vers `main` (elle contient tous les commits du lot), attendre le robot vert, annoncer, ne plus rien
+   pousser.
+6. Ensuite seulement : le caisson 02 (section 5.2), avec les nouvelles règles de parole et le nom « Général Calpin ».
    Ce qu'il attend : « Sois extrêmement ambitieux et rigoureux » ; un apprentissage très ludique, guidé pas à pas,
    cohérent et très esthétique ; chaque outil doit fonctionner parfaitement sur iPhone.
-5. Fin de lot : commande complète verte, ce document mis à jour (section 0 comprise si la prochaine action change),
-   une seule PR vers `main`, attendre le robot vert, annoncer, ne plus rien pousser. Si le propriétaire veut changer
-   de conversation, lui redonner le prompt de la section 0.3.
 
 ### 0.2 Ses règles non négociables (détail en section 2)
 - Français, tutoiement, explications simples. Les questions se posent en **QCM**.
@@ -43,14 +71,15 @@ faire est ci-dessous.
 
 ### 0.3 Le prompt de reprise (à lui redonner tel quel à chaque changement de conversation)
 
-Paramètres à lui rappeler : dépôt `felipemaciasito-cmyk/FORMA-8`, branche `main` ; environnement « Par défaut »
+Paramètres à lui rappeler : dépôt `felipemaciasito-cmyk/FORMA-8` ; environnement « Par défaut »
 (accès réseau illimité, nécessaire pour les sources officielles et FORMA-7) ; mode Auto ; une nouvelle conversation.
-Lui dire de fusionner la dernière PR **avant** d'envoyer le prompt.
+Lui dire de fusionner la dernière PR **avant** d'envoyer le prompt, s'il y en a une. **Si un lot est en cours sur une
+branche non fusionnée** (cas du 17/11/2026), le prompt nomme cette branche à la place de `main`.
 
 ```text
 Tu reprends le projet FORMA-8 · « Réveille l'équipe ». Je ne suis pas développeur et je travaille uniquement depuis Safari sur iPhone.
 
-Lis en entier le fichier docs/TRANSFERT.md de la branche main, puis suis à la lettre sa section 0 « Démarrage d'une nouvelle session ». Ce fichier contient tout : l'état exact du projet, mes règles non négociables, les décisions prises et la prochaine action.
+Lis en entier le fichier docs/TRANSFERT.md de la branche claude/beautiful-cori-sz6dxq (un lot est en cours, pas encore fusionné dans main), puis suis à la lettre sa section 0 « Démarrage d'une nouvelle session ». Ce fichier contient tout : l'état exact du projet, mes règles non négociables, les décisions prises et la prochaine action.
 ```
 
 ---
@@ -698,6 +727,68 @@ npm run validate && npm run check:emoji && npm run check:parity && npm run typec
   réabonner le temps d'enregistrer plusieurs caissons, ou garder l'abonnement pour la tranquillité. **Décision du
   propriétaire : pas encore prise.** Avant toute génération, vérifier l'offre et les crédits avec `account_get_usage` ;
   si l'abonnement est résilié, le lui dire et attendre son accord avant d'enregistrer.
+
+---
+
+### 3.19 Lot en cours (16-17/11/2026) : le compagnon et les règles de parole, PAS ENCORE FUSIONNÉ
+Branche `claude/beautiful-cori-sz6dxq` (poussée). Pages d'essai privées : labo des voix d'ORA
+https://claude.ai/artifact/SoBrMYqEUKgW96svoba1rp ; maquette du compagnon https://claude.ai/artifact/UmHohA7Kc2ykEZsUAFC3jm ;
+labo des personnages https://claude.ai/artifact/Fj3TcAq1S3v6QvicnrAzr5 (source : `outils/labo-personnages/`).
+- **Déjà fait et poussé** : banc du caisson 00 réparé (« Continuer » ramené en vue après une vérification) ; aucune voix
+  derrière une cérémonie (`holdVoices`) ; ORA en « IA de bord » à 150 % ; toucher une bulle coupe la parole ; effets à
+  10 % pendant qu'un personnage parle ; compagnon de protocole (`Companion.tsx`, `companion.ts`, `compagnon.json`, 76 voix,
+  voix endormie « A2 » `[sleepy] [mumbling] [slowly]`) ; validateur des répliques du compagnon au bloc près ; banc
+  `compagnon.spec.ts`. Commande complète verte au 16/11/2026 (15 tests de bout en bout).
+- **Règles de parole décidées (à construire)** :
+  - un personnage n'apparaît jamais en double ; une seule file de parole : les bulles s'ouvrent l'une après l'autre,
+    dans un ordre cohérent ; quand un personnage questionne un autre, celui-ci lui répond avant de s'adresser à quelqu'un
+    d'autre ; peu de temps entre deux répliques d'un échange ;
+  - texte écrit lettre par lettre au rythme de la voix ; toute bulle est lue à voix haute ; bulles au premier plan,
+    fermées une fois lues ; toucher le personnage (pas de survol sur iPhone) rouvre la bulle et relit ;
+  - au retour sur une page : une phrase très courte, différente à chaque fois ; la réplique complète seulement s'il y a
+    du nouveau ;
+  - répliques plus courtes, surtout quand elles n'aident pas à avancer ;
+  - membre endormi : « parle en dormant » discret, texte en italique, discours absurde et bafouillé ; il se réveille peu
+    à peu (protocole 1 très absurde, pistes glissées dans le demi-sommeil sans changer de ton, de plus en plus clair) ;
+  - **grésillement commun à tous les endormis**, réglé à 35 %, discret (souffle et petits craquements sous la voix), qui
+    baisse quand le personnage se réveille (0 une fois réveillé) ;
+  - textes écrits sur le moment par Claude (reformulation, questions aux membres) : **babillage robotique**.
+- **ORA → renommée « Forma Trisse »** (17/11/2026, « tant pis s'il n'y a pas de rapport avec FORMA-7 »). Choix B :
+  elle est **endormie au début**, comme les autres, et se réveille au fil du caisson 00 ; elle devient ensuite la guide.
+  À renommer partout (bulles, bouton « Demander à ORA », réglages, scènes) et à réenregistrer chaque réplique qui
+  dit « ORA ». L'identifiant interne `ora` peut rester.
+- **Noms des membres** (17/11/2026) : Mme Larchive (Archiviste) ; Général Calpin (Règlement de bord) ; M. Laplume
+  (Scribe) ; Mme Bonna Bitude (La Boucle) ; Dupond et Dupont, frères (Inspecteur, deux voix ; **risque signalé** :
+  personnages de Tintin protégés, gardés par choix du propriétaire, à revoir avant un lancement public) ; Hermès
+  Coursier (Messager ; Hermès est aussi une marque, risque jugé faible, non vérifié) ; Fabienne du CDI, « la dame CDI »
+  (Mémoire) ; Senty Nell, « Agent Nell » (Sentinelle) ; Lana Mageuse (Escouades et Réflexes) ; Alex Pédition
+  (Lancement). Le métier reste en sous-titre (« Mme Larchive · l'Archiviste »).
+- **Interactions retenues** (aperçus validés dans le labo) : toucher un personnage (il réagit) ; dialogues à choix
+  (réponses dans la bulle, bulle fermée quand il n'y a plus de question) ; défi du jour sur la carte (pareil) ; l'équipe
+  qui se parle (réveil) ; poser une question à un membre (Claude, clé API ; babillage).
+- **Crédits ElevenLabs** : environ 20 500 restants au 17/11/2026 (offre Starter, gardée par le propriétaire).
+- **Construit le 17/11/2026** (branche `claude/ecstatic-keller-i9o3gk`) :
+  - `src/lib/eveil.ts` : qui dort, niveau de réveil (protocoles faits / (protocoles + 1)), grésillement
+    `0,35 × (1 − réveil)`, phrases de retour et réactions au toucher tirées sans répétition, pages annexes, accords
+    (féminin, masculin, pluriel pour Dupond et Dupont). Textes : `src/content/interactions.json`.
+  - `src/lib/voice.ts` : une seule file de parole ; son coupé, la bulle s'écrit quand même au rythme de lecture
+    (55 ms par caractère) ; une bulle qui disparaît fait taire sa voix ; babillage pour les textes de Claude
+    (`src/lib/robot.ts`) ; mémoire des répliques entendues (`forma8:entendu`).
+  - `src/components/Bulle.tsx` : la bulle unique (nom, « parle en dormant », italique, texte au rythme de la voix,
+    choix dans la bulle). Premier toucher du personnage : il relit ; les suivants : il réagit. Le bouton « Réécouter »
+    (`VoiceButton.tsx`) est retiré.
+  - `src/components/Defi.tsx` : défi du jour sur la carte (dernier membre réveillé, +15 kW, `forma8:defi`).
+  - Scène du réveil (`Rewards.tsx`) : l'équipe se parle (`interactions.json` → `scenes`) ; « Revoir son réveil » ne
+    rejoue que la réplique du membre.
+  - Fiche d'un membre (`Views.tsx`) : toucher sa capsule le fait parler ; un membre réveillé accepte une question
+    (`askMember` dans `claude.ts`, réponse en babillage ; sans clé, sa réplique enregistrée le dit).
+  - Maintenance, Atelier, Équipe : répliques fixes enregistrées ; chiffres affichés à part.
+  - 98 anciennes prises remplacées retirées de `public/voix` (dans l'historique git).
+  - WebKit (17/11/2026) : socle, voix, compagnon, mécaniques verts ; scène du réveil du caisson 00 vérifiée par un test
+    temporaire (`zz-*`, non gardé) sans erreur. Le banc complet du caisson 00 dépasse ses 5 minutes dans WebKit
+    (lenteur connue), il passe en Chromium.
+- **Accord du propriétaire** sur la maquette (https://claude.ai/artifact/EKesPUvJczHo36aYU5cbJx) le 17/11/2026 ;
+  PR ouverte vers `main`. Le caisson 02 attend sa fusion.
 
 ---
 

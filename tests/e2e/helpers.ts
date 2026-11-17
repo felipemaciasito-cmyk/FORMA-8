@@ -7,11 +7,12 @@ export async function boot(page: Page, name = "Alex") {
   await page.getByRole("button", { name: "Mettre sous tension" }).click();
   await expect(page.getByText("FORMA-8 · BIOS v8.0.26")).toBeVisible();
   await page.locator(".boot").click(); // accélère le BIOS
-  await expect(page.getByText("11 membres d'équipe")).toBeVisible({ timeout: 15_000 });
+  // Forma Trisse se réveille à moitié et demande le prénom (le champ suit sa bulle).
+  await expect(page.getByLabel("Ton prénom")).toBeVisible({ timeout: 15_000 });
   await page.getByLabel("Ton prénom").fill(name);
   await page.getByRole("button", { name: "Prendre mon poste" }).click();
-  // ORA propose le fond sonore de la réserve avant le levier.
-  await page.getByRole("button", { name: "Non merci" }).click();
+  // Forma Trisse propose le fond sonore : les choix apparaissent dans sa bulle, une fois sa phrase écrite.
+  await page.getByRole("button", { name: "Non merci" }).click({ timeout: 20_000 });
   await page.getByRole("button", { name: "Abaisser le levier principal" }).click();
   await expect(page.getByText("Réserve de FORMA-8")).toBeVisible({ timeout: 15_000 });
 }

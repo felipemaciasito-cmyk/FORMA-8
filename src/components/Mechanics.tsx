@@ -10,6 +10,7 @@ import { go } from "../lib/router";
 import { copyText } from "../lib/share";
 import { sfx } from "../lib/sound";
 import { getState, updateProgress, useProgress, useSettings } from "../lib/store";
+import { ReponseBabil } from "./Bulle";
 import { Sheet } from "./Chrome";
 import { Icon } from "./Icon";
 
@@ -343,8 +344,8 @@ export function ProcedureBlock({ block }: { block: Extract<Block, { type: "proce
   );
 }
 
-// ======================= Demander à ORA =======================
-/** Question libre pendant un protocole : Claude (ORA) répond avec la leçon en cours et les notions déjà connues. */
+// ======================= Demander à Forma Trisse =======================
+/** Question libre pendant un protocole : Claude (Forma Trisse) répond avec la leçon en cours et les notions déjà connues. */
 export function AskOra({ lesson, known }: { lesson: string; known: string[] }) {
   const s = useSettings();
   const [open, setOpen] = useState(false);
@@ -365,22 +366,23 @@ export function AskOra({ lesson, known }: { lesson: string; known: string[] }) {
   };
   return (
     <>
-      <button className="icon-btn" onClick={() => { sfx("open"); setOpen(true); }} aria-label="Demander à ORA"><Icon name="chat" size={20} /></button>
-      <Sheet open={open} onClose={() => setOpen(false)} label="Demander à ORA">
-        <div className="panel-title" style={{ color: "var(--cyan)" }}><Icon name="chat" size={16} /> Demander à ORA</div>
-        <div className="small muted" style={{ marginBottom: 10 }}>Une question sur ce protocole ? ORA te répond avec des mots simples, en partant de ce que tu sais déjà.</div>
+      <button className="icon-btn" onClick={() => { sfx("open"); setOpen(true); }} aria-label="Demander à Forma Trisse"><Icon name="chat" size={20} /></button>
+      <Sheet open={open} onClose={() => setOpen(false)} label="Demander à Forma Trisse">
+        <div className="panel-title" style={{ color: "var(--cyan)" }}><Icon name="chat" size={16} /> Demander à Forma Trisse</div>
+        <div className="small muted" style={{ marginBottom: 10 }}>Une question sur ce protocole ? Forma Trisse te répond avec des mots simples, en partant de ce que tu sais déjà.</div>
         <div className="stack" style={{ maxHeight: "45vh", overflowY: "auto" }}>
           {log.map((m, i) => (
             <div key={i}>
               <div className="choice sel" style={{ cursor: "default" }}><span className="grow">{m.q}</span></div>
-              <div className="feedback info" style={{ marginTop: 6 }}><span className="tag">ORA</span><RichText md={m.a} /></div>
+              {/* La dernière réponse est « dite » en babillage, au rythme de son écriture ; les précédentes restent écrites. */}
+              <div style={{ marginTop: 6 }}>{i === log.length - 1 ? <ReponseBabil speaker="ora" md={m.a} /> : <div className="feedback info"><span className="tag">Forma Trisse</span><RichText md={m.a} /></div>}</div>
             </div>
           ))}
         </div>
         {!s.apiKey ? <NeedKey /> : (
           <>
             <textarea className="input" rows={3} style={{ marginTop: 10 }} value={q} onChange={(e) => setQ(e.target.value)} placeholder="Par exemple : à quoi sert le navigateur, exactement ?" />
-            <button className="btn block" style={{ marginTop: 8 }} disabled={q.trim().length < 5 || loading} onClick={send}>{loading ? "ORA réfléchit…" : "Envoyer ma question"}</button>
+            <button className="btn block" style={{ marginTop: 8 }} disabled={q.trim().length < 5 || loading} onClick={send}>{loading ? "Forma Trisse réfléchit…" : "Envoyer ma question"}</button>
           </>
         )}
         {error && <div className="feedback ko"><span className="tag">Erreur</span>{error}</div>}

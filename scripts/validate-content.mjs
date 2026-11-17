@@ -20,6 +20,8 @@
 //  9. Blocs propres à FORMA-8 (ordre de mission, consigne, rapport de bug,
 //     lecture de modification, source datée) et livraisons bien formés.
 //     Un simulateur doit exister, et son mode éventuel être reconnu.
+// 12. Les répliques du compagnon (src/content/compagnon.json) suivent la même règle, à l'endroit où elles s'affichent.
+// 13. Les répliques des interactions (src/content/interactions.json) aussi, selon le moment où elles peuvent s'afficher.
 // 10. Les répliques de l'équipe (src/content/equipe.json) n'emploient que des notions déjà
 //     connues au moment où elles s'affichent.
 // 11. Voix de l'équipe : chaque enregistrement (src/content/voix-enregistrements.json) a son fichier dans
@@ -35,7 +37,7 @@ import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { codepoint, findEmoji } from "../src/lib/emoji-rules.js";
-import { checkVoices } from "./voix-lib.mjs";
+import { checkVoices, interactionTexts } from "./voix-lib.mjs";
 
 const here = dirname(fileURLToPath(import.meta.url));
 const root = join(here, "..");
@@ -59,6 +61,12 @@ const iconIds = readJSON(join(contentDir, "icon-ids.json"));
 // Répliques des membres de l'équipe (facultatif dans les contenus de test).
 const crewPath = join(contentDir, "equipe.json");
 const crew = existsSync(crewPath) ? readJSON(crewPath) : null;
+// Répliques du compagnon (facultatif dans les contenus de test).
+const compPath = join(contentDir, "compagnon.json");
+const compagnon = existsSync(compPath) ? readJSON(compPath) : null;
+// Répliques des interactions (facultatif dans les contenus de test).
+const interPath = join(contentDir, "interactions.json");
+const interactions = existsSync(interPath) ? readJSON(interPath) : null;
 const ICONS = new Set([...Object.keys(iconIds.notions), ...Object.keys(iconIds.interface)]);
 
 // ---------- 8. Zéro emoji ----------
@@ -140,6 +148,8 @@ for (const n of glossary) {
 
 checkNoEmoji(glossary, "glossaire");
 if (crew) checkNoEmoji(crew, "equipe.json");
+if (compagnon) checkNoEmoji(compagnon, "compagnon.json");
+if (interactions) checkNoEmoji(interactions, "interactions.json");
 for (const room of rooms) checkNoEmoji(room, room.file);
 
 // ---------- 6. Exercices ----------
@@ -276,6 +286,20 @@ function checkTexts(texts, where, allowed) {
   }
 }
 
+/** Comme checkTexts, mais avec un ensemble de notions connues donné (au bloc près). */
+function checkTextsAt(texts, where, knownHere) {
+  for (const t of texts) {
+    for (const r of refsIn(t)) {
+      if (!byId.has(r)) err(where, `référence inconnue [[${r}]]`);
+      else if (!knownHere.has(r)) err(where, `[[${r}]] utilisée avant d'être définie`);
+    }
+    for (const n of glossary) {
+      if (knownHere.has(n.id)) continue;
+      for (const w of n.watch ?? []) if (containsWord(t, w)) err(where, `le mot « ${w} » apparaît avant que la notion « ${n.id} » soit définie : « ${t.slice(0, 90)}… »`);
+    }
+  }
+}
+
 // ---------- 10. Répliques de l'équipe ----------
 // « role » et « dort » s'affichent dès le début du jeu ; « demi » après le premier protocole du
 // caisson ; « reveil » quand le caisson est terminé. Chacune ne peut employer que les notions connues à ce moment.
@@ -304,6 +328,23 @@ for (const room of rooms) {
   for (const req of room.requires ?? []) if (!roomIds.has(req)) err(rw, `caisson requis inconnu : ${req}`);
   // Le titre d'un caisson annonce son sujet : il peut nommer les notions que le caisson va définir.
   checkTexts([room.member, room.name, room.tagline], rw, new Set(room.steps.flatMap((s) => s.introduces)));
+  // ---------- 12. Compagnon (src/content/compagnon.json) ----------
+  // Sur la carte et dans ses réactions, le membre ne peut employer que les notions connues avant son caisson.
+  const comp = compagnon?.[room.id];
+  const cw = (what) => `compagnon.json/${room.id} (${what})`;
+  if (comp) {
+    for (const k of Object.keys(comp.protocoles ?? {})) if (!room.steps.some((st) => st.id === k)) err(cw(k), `protocole inconnu : ${k}`);
+    if (comp.carte) checkTexts([comp.carte], cw("carte"), new Set());
+    // Réactions : par sorte (ancienne forme) ou par état de sommeil (« sommeil », « demi ») puis par sorte.
+    for (const [k1, v1] of Object.entries(comp.reactions ?? {})) {
+      if (Array.isArray(v1)) checkTexts(v1, cw(`réactions ${k1}`), new Set());
+      else {
+        if (!["sommeil", "demi"].includes(k1)) err(cw("réactions"), `état inconnu : ${k1} (attendu : sommeil ou demi)`);
+        for (const [k2, list] of Object.entries(v1)) checkTexts(list, cw(`réactions ${k1} ${k2}`), new Set());
+      }
+    }
+    for (const [k, p] of Object.entries(comp.protocoles ?? {})) if (p.etat && !["sommeil", "demi"].includes(p.etat)) err(cw(k), `état inconnu : ${p.etat}`);
+  }
   for (const [si, step] of room.steps.entries()) {
     const where = `${room.id}/${step.id}`;
     const stepIntro = new Set(step.introduces);
@@ -316,6 +357,16 @@ for (const room of rooms) {
     const defined = new Set(step.blocks.filter((b) => b.type === "definition").map((b) => b.notion));
     for (const id of step.introduces) if (!defined.has(id)) err(where, `la notion « ${id} » est introduite sans bloc de définition`);
     checkTexts([step.title, step.kicker, ...step.blocks.flatMap((b) => textsOf(b))], where, new Set());
+    const cp = comp?.protocoles?.[step.id];
+    if (cp) {
+      // Une réplique s'affiche quand son bloc apparaît : seules les notions définies jusqu'à ce bloc sont connues.
+      const before = new Set([...known].filter((id) => !stepIntro.has(id)));
+      const upTo = (k) => new Set([...before, ...step.blocks.slice(0, k + 1).filter((b) => b.type === "definition").map((b) => b.notion)]);
+      if (cp.debut) checkTextsAt([cp.debut], cw(`${step.id} début`), upTo(0));
+      for (const [b, t] of Object.entries(cp.blocs ?? {})) checkTextsAt([t], cw(`${step.id} bloc ${b}`), upTo(+b));
+      if (cp.fin) checkTextsAt([cp.fin], cw(`${step.id} fin`), upTo(step.blocks.length));
+      for (const b of Object.keys(cp.blocs ?? {})) if (!(+b >= 0 && +b < step.blocks.length)) err(cw(step.id), `bloc ${b} inexistant (le protocole a ${step.blocks.length} blocs)`);
+    } else if (comp) warn(cw(step.id), "aucune réplique du compagnon pour ce protocole");
     step.blocks.forEach((b, i) => {
       if (b.type === "exercise") checkExercise(b.ex, `${where} bloc ${i}`);
       if (b.type === "definition" && !byId.has(b.notion)) err(where, `définition d'une notion inconnue : ${b.notion}`);
@@ -333,6 +384,7 @@ for (const room of rooms) {
   }
   if (room.project) checkTexts(textsOf(room.project), `${room.id}/projet`, new Set());
   if (room.delivery) { checkDelivery(room); checkTexts(textsOf(room.delivery), `${room.id}/livraison`, new Set()); }
+  if (comp) checkTexts([comp.panne ?? "", comp.panneFin ?? "", comp.livraison ?? ""], cw("panne, livraison"), new Set());
   // La fiche de l'équipe s'affiche une fois le caisson terminé : elle peut nommer ses notions.
   if (room.teamFile) {
     if (!room.teamFile.label || !room.teamFile.path || !room.teamFile.role) err(rw, "fiche de l'équipe incomplète (label, path, role)");
@@ -342,12 +394,31 @@ for (const room of rooms) {
 
 for (const n of glossary) if (!introducedWhere.has(n.id)) warn("glossaire", `notion jamais introduite dans un caisson : ${n.id}`);
 
+// ---------- 13. Interactions (src/content/interactions.json) ----------
+// Chaque réplique n'emploie que les notions connues au moment où elle peut s'afficher : dès le début du jeu, ou une
+// fois un caisson terminé (toutes les notions de ce caisson et des précédents).
+if (interactions) {
+  const knownAfter = (roomId) => {
+    const k = new Set();
+    for (const room of rooms) { for (const st of room.steps) for (const id of st.introduces) k.add(id); if (room.id === roomId) break; }
+    return k;
+  };
+  for (const l of interactionTexts(interactions)) {
+    const knownHere = l.quand?.startsWith("apres:") ? knownAfter(l.quand.slice(6)) : new Set();
+    checkTextsAt([l.text], `interactions.json (${l.where})`, knownHere);
+  }
+  for (const [qui, d] of Object.entries(interactions.defis ?? {})) (d.questions ?? []).forEach((q, i) => {
+    if (!Array.isArray(q.choix) || q.choix.length < 2 || !(q.bonne >= 0 && q.bonne < q.choix.length)) err(`interactions.json (defis.${qui}.${i})`, "choix ou bonne réponse invalide");
+    else checkTextsAt(q.choix, `interactions.json (defis.${qui}.${i}.choix)`, knownAfter(qui === "ora" ? "c00" : qui));
+  });
+}
+
 // ---------- 11. Voix de l'équipe ----------
 {
   const voixPath = join(contentDir, "voix.json"), recPath = join(contentDir, "voix-enregistrements.json");
   if (existsSync(voixPath) && existsSync(recPath)) {
     const voixDir = process.env.FORMA8_VOIX_DIR ?? join(here, "..", "public", "voix");
-    const res = checkVoices({ voix: readJSON(voixPath), recordings: readJSON(recPath), rooms, crew, voixDir });
+    const res = checkVoices({ voix: readJSON(voixPath), recordings: readJSON(recPath), rooms, crew, compagnon, interactions, voixDir });
     for (const e of res.errors) err("voix", e);
     for (const w of res.warnings) warn("voix", w);
   }

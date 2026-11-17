@@ -92,8 +92,12 @@ export interface Room {
   id: string; // ex. "c01"
   index: number;
   code: string; // ex. "CAISSON 01"
-  /** Membre de l'équipe qui dort dans ce caisson (ex. « L'Archiviste »). */
+  /** Nom du membre de l'équipe qui dort dans ce caisson (ex. « Mme Larchive »). */
   member: string;
+  /** Son métier, affiché en sous-titre (ex. « l'Archiviste »). */
+  metier?: string;
+  /** Accord grammatical : féminin, masculin, ou masculin pluriel (Dupond et Dupont). */
+  genre?: "f" | "m" | "mp";
   /** Sujet du niveau (ex. « Git et GitHub »). */
   name: string;
   /** Version du produit fil rouge livrée à la fin du caisson (ex. « v0.1 »). */

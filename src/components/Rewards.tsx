@@ -1,12 +1,14 @@
 import { AnimatePresence, motion } from "motion/react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { crewLines, room as getRoom } from "../content";
 import { fx, LEVELS, onFx, REWARD, type FxEvent } from "../lib/game";
 import { getEnergyBar, holdEnergy, landEnergy } from "../lib/energy";
 import { useReduceMotion } from "../lib/motion";
 import { go } from "../lib/router";
 import { key, LEVELUP_HIT, LEVELUP_LOCKS, sfx, WAKE_BEATS, WAKE_HIT, WAKE_SYSTEMS } from "../lib/sound";
-import { speak, speakerOf, stopVoice } from "../lib/voice";
+import { holdVoices, nomDe, speak, speakerOf, stopSpeaking } from "../lib/voice";
+import { INTERACTIONS } from "../lib/eveil";
+import { hueDe } from "./Bulle";
 import { arcs, centerOf, sparks, strike, type Pt } from "./Bolts";
 import { ChargedCapsule } from "./Crew";
 import { Icon } from "./Icon";
@@ -89,6 +91,11 @@ export function RewardLayer() {
   );
 }
 
+/** Pendant une cérémonie plein écran, les personnages cachés dessous ne parlent pas (voir holdVoices). */
+function useHoldVoices() {
+  useEffect(() => { holdVoices(true); return () => holdVoices(false); }, []);
+}
+
 /** « +10 kW » qui s'élève de l'endroit frappé par l'éclair. */
 function KwPop({ p, onDone }: { p: Pop; onDone: () => void }) {
   return (
@@ -152,6 +159,7 @@ function busyRoute() {
 // Un faisceau te scanne de gauche à droite, quatre verrous lourds s'ouvrent l'un après l'autre, puis la puissance
 // s'installe et le nouveau grade apparaît (synchronisé sur le son « levelup »).
 function LevelUp({ e, onClose }: { e: Extract<FxEvent, { type: "levelup" }>; onClose: () => void }) {
+  useHoldVoices();
   const reduce = useReduceMotion();
   const [locks, setLocks] = useState(reduce ? 4 : 0);
   const [granted, setGranted] = useState(reduce);
@@ -222,26 +230,37 @@ function LevelUp({ e, onClose }: { e: Extract<FxEvent, { type: "levelup" }>; onC
 const START = 0.5; // la charge commence 0,5 s après l'ouverture
 
 function Awakening({ e, onClose }: { e: Extract<FxEvent, { type: "awaken" }>; onClose: () => void }) {
+  useHoldVoices();
   const r = getRoom(e.roomId);
   const reduce = useReduceMotion();
   const [phase, setPhase] = useState(reduce ? 5 : 0);
   const [beat, setBeat] = useState(0);
   const [typed, setTyped] = useState(0);
-  // Rythme de l'écriture : 26 ms pour deux lettres, ou calé sur la voix du membre quand il dit sa réplique.
-  const [pace, setPace] = useState<{ ms: number; voiced: boolean }>({ ms: 26, voiced: false });
+  // L'équipe se parle au réveil (lot du 17/11/2026) : une courte scène, réplique après réplique, chacune avec sa voix ;
+  // la réplique de réveil du membre y a sa place. En souvenir (« Revoir son réveil »), seule sa réplique est rejouée.
+  const scene = useMemo(() => {
+    const reveil = crewLines(e.roomId)?.reveil ?? "";
+    const raw = e.replay ? undefined : INTERACTIONS.scenes[e.roomId];
+    const list = (raw ?? [{ qui: speakerOf(e.roomId), reveil: true }]).map((l) => ({ qui: l.qui, texte: l.reveil ? reveil : l.texte ?? "" }));
+    return list.filter((l) => l.texte);
+  }, [e.roomId, e.replay]);
+  const [idx, setIdx] = useState(0);
+  // Rythme de l'écriture : 26 ms pour deux lettres, ou calé sur la voix quand la réplique est dite.
+  const [pace, setPace] = useState<{ ms: number; voiced: boolean; end: number }>({ ms: 26, voiced: false, end: 0 });
   const capRef = useRef<HTMLDivElement>(null);
-  const line = crewLines(e.roomId)?.reveil ?? "";
+  const line = scene[idx]?.texte ?? "";
 
-  // Le membre réveillé dit sa réplique de sa propre voix (si elle est enregistrée et que les voix sont activées).
+  // Chaque réplique est dite par son personnage (voix enregistrée ; en silence, au rythme de lecture).
   useEffect(() => {
     if (phase !== 4 || !line) return;
     let alive = true;
-    void speak(speakerOf(e.roomId), line).then((sec) => {
-      if (alive && sec) setPace({ ms: Math.max(26, Math.min(110, (sec * 1000 * 0.92) / Math.ceil(line.length / 2))), voiced: true });
+    setTyped(0); setPace({ ms: 26, voiced: false, end: 0 });
+    void speak(scene[idx].qui, line).then((sec) => {
+      if (alive && sec) setPace({ ms: Math.max(26, Math.min(110, (sec * 1000 * 0.92) / Math.ceil(line.length / 2))), voiced: true, end: performance.now() + sec * 1000 });
     });
     return () => { alive = false; };
-  }, [phase === 4]); // eslint-disable-line react-hooks/exhaustive-deps
-  useEffect(() => () => stopVoice(), []);
+  }, [phase === 4, idx]); // eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(() => () => stopSpeaking(), []);
 
   useEffect(() => {
     if (reduce) { sfx("power"); return; }
@@ -258,15 +277,19 @@ function Awakening({ e, onClose }: { e: Extract<FxEvent, { type: "awaken" }>; on
 
   useEffect(() => {
     if (phase !== 4) return;
-    if (typed >= line.length) { const t = window.setTimeout(() => setPhase(5), 400); return () => window.clearTimeout(t); }
+    if (typed >= line.length) {
+      // La réplique suivante attend que la voix ait fini.
+      const wait = Math.max(400, pace.end - performance.now() + 250);
+      const t = window.setTimeout(() => (idx < scene.length - 1 ? setIdx(idx + 1) : setPhase(5)), wait);
+      return () => window.clearTimeout(t);
+    }
     const t = window.setTimeout(() => { setTyped((n) => Math.min(line.length, n + 2)); if (!pace.voiced && typed % 6 === 0) key("char"); }, pace.ms);
     return () => window.clearTimeout(t);
-  }, [phase, typed, line, pace]);
+  }, [phase, typed, line, pace, idx, scene.length]);
 
   if (!r) return null;
-  const hue = r.hue;
-  const skip = () => { if (phase < 5) { setPhase(5); setTyped(line.length); setBeat(4); } };
-  const shown = phase >= 5 ? line : line.slice(0, typed);
+  const last = scene.length - 1;
+  const skip = () => { if (phase < 5) { stopSpeaking(); setPhase(5); setIdx(last); setTyped(scene[last]?.texte.length ?? 0); setBeat(4); } };
   const awake = phase >= 3;
 
   return (
@@ -299,12 +322,18 @@ function Awakening({ e, onClose }: { e: Extract<FxEvent, { type: "awaken" }>; on
           <div className="kicker" style={{ color: "var(--cyan)", marginTop: 4 }}>{e.replay ? "Souvenir du réveil" : "Membre de l'équipe réveillé"}</div>
         </motion.div>
         <div style={{ minHeight: 96, maxWidth: 360, marginTop: 10 }}>
-          {phase >= 4 && (
-            <div style={{ textAlign: "left", padding: "12px 14px", borderRadius: "4px 16px 16px 16px", background: `linear-gradient(135deg, hsl(${hue} 90% 55% / .12), rgba(12,19,34,.6))`, border: `1px solid hsl(${hue} 90% 60% / .3)` }}>
-              <div className="mono" style={{ fontSize: 10.5, letterSpacing: ".14em", color: `hsl(${hue} 100% 70%)`, marginBottom: 4 }}>{r.member.toUpperCase()}</div>
-              <span>{shown}</span>{phase === 4 && <span className="caret" />}
-            </div>
-          )}
+          {phase >= 4 && scene.slice(0, idx + 1).map((l, i) => {
+            const h = hueDe(l.qui);
+            const cur = i === idx;
+            const txt = cur && phase < 5 ? l.texte.slice(0, typed) : l.texte;
+            return (
+              <motion.div key={i} initial={{ opacity: 0, y: 6 }} animate={{ opacity: cur ? 1 : 0.6, y: 0 }}
+                style={{ textAlign: "left", padding: "10px 14px", marginTop: i ? 8 : 0, borderRadius: "4px 16px 16px 16px", background: `linear-gradient(135deg, hsl(${h} 90% 55% / .12), rgba(12,19,34,.6))`, border: `1px solid hsl(${h} 90% 60% / .3)` }}>
+                <div className="mono" style={{ fontSize: 10.5, letterSpacing: ".14em", color: `hsl(${h} 100% 70%)`, marginBottom: 4 }}>{nomDe(l.qui).toUpperCase()}</div>
+                <span>{txt}</span>{cur && phase === 4 && <span className="caret" />}
+              </motion.div>
+            );
+          })}
         </div>
         <AnimatePresence>
           {phase >= 5 && (

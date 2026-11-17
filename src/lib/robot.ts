@@ -153,3 +153,66 @@ export function mixReady(parts: Ready[]): Ready {
   return finish(out);
 }
 
+
+function offline(): OfflineCtor {
+  return (window.OfflineAudioContext || (window as unknown as { webkitOfflineAudioContext?: OfflineCtor }).webkitOfflineAudioContext) as OfflineCtor;
+}
+
+/**
+ * Grésillement de radio mal réglée, ajouté sous la voix d'un personnage endormi (lot du 17/11/2026, choix du
+ * propriétaire : 35 % au plus profond du sommeil, moins à mesure qu'il se réveille) : souffle discret et petits
+ * craquements. k = 0 : aucun. Les niveaux d'animation restent ceux de la voix.
+ */
+export function gresille(r: Ready, k: number): Ready {
+  if (k <= 0) return r;
+  const src = r.buffer.getChannelData(0), C = offline();
+  const out = new C(1, src.length, r.buffer.sampleRate).createBuffer(1, src.length, r.buffer.sampleRate), d = out.getChannelData(0);
+  let lp = 0, pop = 0, seed = 11;
+  const rnd = () => ((seed = (seed * 16807) % 2147483647) / 2147483647);
+  const hiss = 0.05 * k, pops = 0.32 * k, prob = 0.0009 * Math.min(1, k * 2.5);
+  for (let i = 0; i < src.length; i++) {
+    lp = lp * 0.82 + (rnd() * 2 - 1) * 0.18; // souffle adouci
+    if (rnd() < prob) pop = (rnd() * 2 - 1) * pops; else pop *= 0.86; // craquement qui s'éteint vite
+    d[i] = src[i] + lp * hiss + pop;
+  }
+  return { buffer: out, levels: r.levels };
+}
+
+/** Sorte de babillage : la voix vive de Forma Trisse, celle d'un membre réveillé, ou celle d'un dormeur. */
+export type Babil = "vif" | "grave" | "dort";
+
+/**
+ * Babillage robotique : un petit son électronique par syllabe, des silences aux ponctuations. Il « dit » les textes
+ * écrits sur le moment par Claude (personne ne peut les enregistrer à l'avance), au rythme de leur écriture.
+ * Fabriqué hors temps réel, comme les voix.
+ */
+export async function babil(text: string, kind: Babil): Promise<Ready> {
+  const step = kind === "dort" ? 0.085 : 0.06;
+  const base = kind === "vif" ? [560, 920] : kind === "grave" ? [300, 470] : [190, 300];
+  const events: { t: number; f: number }[] = [];
+  let t = 0.05, n = 0, seed = text.length * 7919 + 1;
+  const rnd = () => ((seed = (seed * 16807) % 2147483647) / 2147483647);
+  for (const ch of text.slice(0, 900)) {
+    if ("…".includes(ch)) { t += 0.32; continue; }
+    if (".!?".includes(ch)) { t += 0.28; continue; }
+    if (",:;".includes(ch)) { t += 0.14; continue; }
+    if (/\s/.test(ch)) { t += step * 0.4; continue; }
+    if (/[*_#[\]|()]/.test(ch)) continue;
+    if (n++ % 2 === 0) events.push({ t, f: base[0] + rnd() * (base[1] - base[0]) });
+    t += step;
+  }
+  const C = offline();
+  const oc = new C(1, Math.ceil((t + 0.3) * SR), SR);
+  const lp = oc.createBiquadFilter(); lp.type = "lowpass"; lp.frequency.value = kind === "vif" ? 3200 : 1800; lp.connect(oc.destination);
+  for (const e of events) {
+    const o = oc.createOscillator(); o.type = kind === "vif" ? "square" : "triangle";
+    o.frequency.setValueAtTime(e.f, e.t); o.frequency.linearRampToValueAtTime(e.f * (kind === "dort" ? 0.8 : 1.15), e.t + 0.05);
+    const g = oc.createGain(); g.gain.setValueAtTime(0, e.t); g.gain.linearRampToValueAtTime(kind === "dort" ? 0.18 : 0.22, e.t + 0.008);
+    g.gain.exponentialRampToValueAtTime(0.001, e.t + (kind === "dort" ? 0.09 : 0.055));
+    o.connect(g); g.connect(lp); o.start(e.t); o.stop(e.t + 0.12);
+  }
+  const buf = await new Promise<AudioBuffer>((res) => { oc.oncomplete = (ev) => res(ev.renderedBuffer); void oc.startRendering(); });
+  const r = finish(buf);
+  const d = r.buffer.getChannelData(0); for (let i = 0; i < d.length; i++) d[i] *= 0.45; // discret, sous une vraie voix
+  return r;
+}

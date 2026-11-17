@@ -1,0 +1,1718 @@
+[
+ {
+  "section": "1. Premier lancement : Forma Trisse dort encore",
+  "id": "boot.accueil",
+  "qui": "ora",
+  "etat": "sommeil",
+  "ou": "Après le BIOS, avec le champ du prénom (remplace l'accueil d'ORA)",
+  "texte": "… mmh… qui a rallumé la lune ?… je suis Forma Trisse… je crois… onze dormeurs dans la réserve… réveille-nous… et on construira ton produit… ton prénom ?…"
+ },
+ {
+  "section": "1. Premier lancement : Forma Trisse dort encore",
+  "id": "boot.ambiance",
+  "qui": "ora",
+  "etat": "sommeil",
+  "ou": "Question du fond sonore, réponses dans la bulle",
+  "texte": "… les machines ronronnent… comme un gros chat… tu veux les entendre ?… tu pourras changer d'avis… dans Réglages…",
+  "choix": [
+   "Oui, allume le fond sonore",
+   "Non merci"
+  ]
+ },
+ {
+  "section": "1. Premier lancement : Forma Trisse dort encore",
+  "id": "boot.levier",
+  "qui": "ora",
+  "etat": "sommeil",
+  "ou": "Devant le levier",
+  "texte": "… abaisse le grand levier… le courant réveillera tout le monde… enfin… presque…"
+ },
+ {
+  "section": "2. La carte",
+  "id": "carte.premiere",
+  "qui": "ora",
+  "etat": "sommeil",
+  "ou": "Première visite de la carte (aucun protocole fait)",
+  "texte": "… zzz… caisson 00… c'est mon lit… viens me réveiller…"
+ },
+ {
+  "section": "2. La carte",
+  "id": "carte.surchauffe.q.sommeil",
+  "qui": "ora",
+  "etat": "sommeil",
+  "ou": "Retour sur la carte, des notions à réviser (Forma pas encore réveillée)",
+  "texte": "… ça sent le chaud… des notions surchauffent… on les refroidit ?…",
+  "choix": [
+   "Oui, en maintenance",
+   "Plus tard"
+  ]
+ },
+ {
+  "section": "2. La carte",
+  "id": "carte.surchauffe.oui.sommeil",
+  "qui": "ora",
+  "etat": "sommeil",
+  "ou": "Réponse à « Oui »",
+  "texte": "… bonne idée… je te suis… zzz…"
+ },
+ {
+  "section": "2. La carte",
+  "id": "carte.surchauffe.non.sommeil",
+  "qui": "ora",
+  "etat": "sommeil",
+  "ou": "Réponse à « Plus tard »",
+  "texte": "… plus tard… oui… moi aussi… plus tard…"
+ },
+ {
+  "section": "2. La carte",
+  "id": "carte.surchauffe.q.eveil",
+  "qui": "ora",
+  "etat": "eveil",
+  "ou": "Même moment, Forma réveillée",
+  "texte": "Des notions surchauffent. On les refroidit d'abord ?",
+  "choix": [
+   "Oui, en maintenance",
+   "Plus tard"
+  ]
+ },
+ {
+  "section": "2. La carte",
+  "id": "carte.surchauffe.oui.eveil",
+  "qui": "ora",
+  "etat": "eveil",
+  "ou": "Réponse à « Oui »",
+  "texte": "Allons-y. Quelques minutes suffisent."
+ },
+ {
+  "section": "2. La carte",
+  "id": "carte.surchauffe.non.eveil",
+  "qui": "ora",
+  "etat": "eveil",
+  "ou": "Réponse à « Plus tard »",
+  "texte": "D'accord. Elles t'attendront."
+ },
+ {
+  "section": "2. La carte",
+  "id": "carte.c01",
+  "qui": "c01",
+  "etat": "sommeil",
+  "ou": "Sur la carte, Mme Larchive est la prochaine à réveiller",
+  "texte": "… zzz… caisson 01… c'est moi… viens me réveiller… j'ai rangé la girafe…"
+ },
+ {
+  "section": "3. Forma Trisse dans son caisson (00)",
+  "id": "c00.role",
+  "qui": "ora",
+  "etat": "eveil",
+  "ou": "Sous-titre et fiche (affiché dès le début)",
+  "texte": "Je suis Forma Trisse, ta formatrice. Je t'apprends les bases, et je t'aide à réveiller l'équipe."
+ },
+ {
+  "section": "3. Forma Trisse dans son caisson (00)",
+  "id": "c00.dort",
+  "qui": "ora",
+  "etat": "sommeil",
+  "ou": "Page du caisson, avant le premier protocole",
+  "texte": "… zzz… formatrice en veille… le premier protocole… il me réveillera…"
+ },
+ {
+  "section": "3. Forma Trisse dans son caisson (00)",
+  "id": "c00.demi",
+  "qui": "ora",
+  "etat": "demi",
+  "ou": "Page du caisson, après le premier protocole",
+  "texte": "Mmh… mes circuits reviennent, un par un. Continue : tu apprends vite."
+ },
+ {
+  "section": "3. Forma Trisse dans son caisson (00)",
+  "id": "c00.reveil",
+  "qui": "ora",
+  "etat": "eveil",
+  "ou": "Scène de réveil",
+  "texte": "Pleine puissance ! Les bases sont posées, et ta page est en ligne. Allons réveiller les autres."
+ },
+ {
+  "section": "4. Forma Trisse t'accompagne dans les protocoles (caisson 00)",
+  "id": "c00.p1.debut",
+  "qui": "ora",
+  "etat": "sommeil",
+  "ou": "P1 « Ce qu'est une application » · Ouverture du protocole",
+  "texte": "… mmh… protocole un… on parle d'applications… et de magasins… je crois… zzz…"
+ },
+ {
+  "section": "4. Forma Trisse t'accompagne dans les protocoles (caisson 00)",
+  "id": "c00.p1.6",
+  "qui": "ora",
+  "etat": "sommeil",
+  "ou": "P1 « Ce qu'est une application » · Quand le bloc 6 apparaît",
+  "texte": "… le client… le magasin… retiens le magasin… il reviendra souvent…"
+ },
+ {
+  "section": "4. Forma Trisse t'accompagne dans les protocoles (caisson 00)",
+  "id": "c00.p1.9",
+  "qui": "ora",
+  "etat": "sommeil",
+  "ou": "P1 « Ce qu'est une application » · Quand le bloc 9 apparaît",
+  "texte": "… une question… prends ton temps… une erreur ne grille rien…"
+ },
+ {
+  "section": "4. Forma Trisse t'accompagne dans les protocoles (caisson 00)",
+  "id": "c00.p1.fin",
+  "qui": "ora",
+  "etat": "sommeil",
+  "ou": "P1 « Ce qu'est une application » · Fin du protocole",
+  "texte": "… la batterie… termine… branche-la sur la centrale… et j'ouvrirai un œil…"
+ },
+ {
+  "section": "4. Forma Trisse t'accompagne dans les protocoles (caisson 00)",
+  "id": "c00.p2.debut",
+  "qui": "ora",
+  "etat": "sommeil",
+  "ou": "P2 « Les trois langues d'une page » · Ouverture du protocole",
+  "texte": "… mmh… aujourd'hui… on ouvre le capot d'une page… sans rien écrire… promis…"
+ },
+ {
+  "section": "4. Forma Trisse t'accompagne dans les protocoles (caisson 00)",
+  "id": "c00.p2.5",
+  "qui": "ora",
+  "etat": "sommeil",
+  "ou": "P2 « Les trois langues d'une page » · Quand le bloc 5 apparaît",
+  "texte": "… les murs… la peinture… l'électricité… trois langues… une seule maison…"
+ },
+ {
+  "section": "4. Forma Trisse t'accompagne dans les protocoles (caisson 00)",
+  "id": "c00.p2.6",
+  "qui": "ora",
+  "etat": "sommeil",
+  "ou": "P2 « Les trois langues d'une page » · Quand le bloc 6 apparaît",
+  "texte": "… ton premier code… repère juste ce qui change… le reste… pas grave…"
+ },
+ {
+  "section": "4. Forma Trisse t'accompagne dans les protocoles (caisson 00)",
+  "id": "c00.p2.fin",
+  "qui": "ora",
+  "etat": "sommeil",
+  "ou": "P2 « Les trois langues d'une page » · Fin du protocole",
+  "texte": "… je sens mes circuits… termine le protocole… zzz…"
+ },
+ {
+  "section": "4. Forma Trisse t'accompagne dans les protocoles (caisson 00)",
+  "id": "c00.p3.debut",
+  "qui": "ora",
+  "etat": "demi",
+  "ou": "P3 « Créer avec une IA » · Ouverture du protocole",
+  "texte": "Mmh… ce protocole parle un peu de moi : l'intelligence artificielle. Je me réveille, promis."
+ },
+ {
+  "section": "4. Forma Trisse t'accompagne dans les protocoles (caisson 00)",
+  "id": "c00.p3.7",
+  "qui": "ora",
+  "etat": "demi",
+  "ou": "P3 « Créer avec une IA » · Quand le bloc 7 apparaît",
+  "texte": "Décrire, laisser faire, vérifier. Retiens ces trois temps… pardon, je bâille."
+ },
+ {
+  "section": "4. Forma Trisse t'accompagne dans les protocoles (caisson 00)",
+  "id": "c00.p3.13",
+  "qui": "ora",
+  "etat": "demi",
+  "ou": "P3 « Créer avec une IA » · Quand le bloc 13 apparaît",
+  "texte": "Explique avec tes mots, comme à un ami. J'écoute, les yeux mi-clos."
+ },
+ {
+  "section": "4. Forma Trisse t'accompagne dans les protocoles (caisson 00)",
+  "id": "c00.p3.fin",
+  "qui": "ora",
+  "etat": "demi",
+  "ou": "P3 « Créer avec une IA » · Fin du protocole",
+  "texte": "Mes yeux s'ouvrent. Termine le protocole et branche la batterie."
+ },
+ {
+  "section": "4. Forma Trisse t'accompagne dans les protocoles (caisson 00)",
+  "id": "c00.p4.debut",
+  "qui": "ora",
+  "etat": "demi",
+  "ou": "P4 « Choisir ton produit » · Ouverture du protocole",
+  "texte": "Moment important : tu choisis le produit que toute l'équipe construira avec toi."
+ },
+ {
+  "section": "4. Forma Trisse t'accompagne dans les protocoles (caisson 00)",
+  "id": "c00.p4.2",
+  "qui": "ora",
+  "etat": "demi",
+  "ou": "P4 « Choisir ton produit » · Quand le bloc 2 apparaît",
+  "texte": "La serrure d'abord, la clé ensuite. Beaucoup de projets font l'inverse."
+ },
+ {
+  "section": "4. Forma Trisse t'accompagne dans les protocoles (caisson 00)",
+  "id": "c00.p4.7",
+  "qui": "ora",
+  "etat": "demi",
+  "ou": "P4 « Choisir ton produit » · Quand le bloc 7 apparaît",
+  "texte": "Note plusieurs idées avant de choisir. La première n'est pas toujours la bonne."
+ },
+ {
+  "section": "4. Forma Trisse t'accompagne dans les protocoles (caisson 00)",
+  "id": "c00.p4.fin",
+  "qui": "ora",
+  "etat": "demi",
+  "ou": "P4 « Choisir ton produit » · Fin du protocole",
+  "texte": "Ton produit a un nom. Toute l'équipe le portera. Termine le protocole."
+ },
+ {
+  "section": "4. Forma Trisse t'accompagne dans les protocoles (caisson 00)",
+  "id": "c00.p5.debut",
+  "qui": "ora",
+  "etat": "demi",
+  "ou": "P5 « Ta première mise en ligne » · Ouverture du protocole",
+  "texte": "Dernier protocole : aujourd'hui, ton produit existe sur internet. Prévois deux quarts."
+ },
+ {
+  "section": "4. Forma Trisse t'accompagne dans les protocoles (caisson 00)",
+  "id": "c00.p5.3",
+  "qui": "ora",
+  "etat": "demi",
+  "ou": "P5 « Ta première mise en ligne » · Quand le bloc 3 apparaît",
+  "texte": "Une étape à la fois. Si un écran ne ressemble pas, touche « Je suis bloqué »."
+ },
+ {
+  "section": "4. Forma Trisse t'accompagne dans les protocoles (caisson 00)",
+  "id": "c00.p5.6",
+  "qui": "ora",
+  "etat": "demi",
+  "ou": "P5 « Ta première mise en ligne » · Quand le bloc 6 apparaît",
+  "texte": "Ton premier ordre de mission. Copie-le tel quel dans Claude Code."
+ },
+ {
+  "section": "4. Forma Trisse t'accompagne dans les protocoles (caisson 00)",
+  "id": "c00.p5.11",
+  "qui": "ora",
+  "etat": "demi",
+  "ou": "P5 « Ta première mise en ligne » · Quand le bloc 11 apparaît",
+  "texte": "Encore cette procédure, et ta page sera visible par tout le monde."
+ },
+ {
+  "section": "4. Forma Trisse t'accompagne dans les protocoles (caisson 00)",
+  "id": "c00.p5.fin",
+  "qui": "ora",
+  "etat": "demi",
+  "ou": "P5 « Ta première mise en ligne » · Fin du protocole",
+  "texte": "Ta page est en ligne. Termine, puis répare la panne : je serai réveillée."
+ },
+ {
+  "section": "4. Forma Trisse t'accompagne dans les protocoles (caisson 00)",
+  "id": "c00.panne",
+  "qui": "ora",
+  "etat": "demi",
+  "ou": "Début de la panne",
+  "texte": "Une panne, juste avant mon réveil ! Lis chaque alerte : une erreur grille un fusible."
+ },
+ {
+  "section": "4. Forma Trisse t'accompagne dans les protocoles (caisson 00)",
+  "id": "c00.panneFin",
+  "qui": "ora",
+  "etat": "demi",
+  "ou": "Panne réparée, avant l'arc",
+  "texte": "Réparé. Envoie l'arc dans ma capsule, et j'ouvre les yeux."
+ },
+ {
+  "section": "4. Forma Trisse t'accompagne dans les protocoles (caisson 00)",
+  "id": "c00.livraison",
+  "qui": "ora",
+  "etat": "eveil",
+  "ou": "Page du caisson, une fois réveillée",
+  "texte": "Ta livraison prouve que ta page existe vraiment. Je la vérifie sur GitHub."
+ },
+ {
+  "section": "5. Forma Trisse réagit à tes réponses (caisson 00)",
+  "id": "c00.reac.sommeil.premier.1",
+  "qui": "ora",
+  "etat": "sommeil",
+  "ou": "Protocoles 1 et 2 · première bonne réponse",
+  "texte": "… mmh… oui… bonne réponse… une cellule s'allume… c'est tout chaud…"
+ },
+ {
+  "section": "5. Forma Trisse réagit à tes réponses (caisson 00)",
+  "id": "c00.reac.sommeil.premier.2",
+  "qui": "ora",
+  "etat": "sommeil",
+  "ou": "Protocoles 1 et 2 · première bonne réponse",
+  "texte": "… exact… j'ai rêvé d'un voyant vert… c'était toi…"
+ },
+ {
+  "section": "5. Forma Trisse réagit à tes réponses (caisson 00)",
+  "id": "c00.reac.sommeil.perseverance.1",
+  "qui": "ora",
+  "etat": "sommeil",
+  "ou": "Protocoles 1 et 2 · bonne réponse après une erreur",
+  "texte": "… une erreur… puis la bonne… c'est comme ça qu'on retient… zzz…"
+ },
+ {
+  "section": "5. Forma Trisse réagit à tes réponses (caisson 00)",
+  "id": "c00.reac.sommeil.perseverance.2",
+  "qui": "ora",
+  "etat": "sommeil",
+  "ou": "Protocoles 1 et 2 · bonne réponse après une erreur",
+  "texte": "… raté… puis trouvé… le meilleur ordre…"
+ },
+ {
+  "section": "5. Forma Trisse réagit à tes réponses (caisson 00)",
+  "id": "c00.reac.sommeil.indice.1",
+  "qui": "ora",
+  "etat": "sommeil",
+  "ou": "Protocoles 1 et 2 · deuxième erreur (une piste)",
+  "texte": "… pas ça… la réponse dort juste au-dessus… dans les définitions…"
+ },
+ {
+  "section": "5. Forma Trisse réagit à tes réponses (caisson 00)",
+  "id": "c00.reac.sommeil.indice.2",
+  "qui": "ora",
+  "etat": "sommeil",
+  "ou": "Protocoles 1 et 2 · deuxième erreur (une piste)",
+  "texte": "… les chaussettes… mmh… remonte d'un ou deux blocs… et réessaie…"
+ },
+ {
+  "section": "5. Forma Trisse réagit à tes réponses (caisson 00)",
+  "id": "c00.reac.sommeil.serie.1",
+  "qui": "ora",
+  "etat": "sommeil",
+  "ou": "Protocoles 1 et 2 · trois bonnes réponses d'affilée",
+  "texte": "… trois d'affilée… mes paupières clignotent…"
+ },
+ {
+  "section": "5. Forma Trisse réagit à tes réponses (caisson 00)",
+  "id": "c00.reac.sommeil.serie.2",
+  "qui": "ora",
+  "etat": "sommeil",
+  "ou": "Protocoles 1 et 2 · trois bonnes réponses d'affilée",
+  "texte": "… encore une… je vais finir par me réveiller…"
+ },
+ {
+  "section": "5. Forma Trisse réagit à tes réponses (caisson 00)",
+  "id": "c00.reac.demi.premier.1",
+  "qui": "ora",
+  "etat": "demi",
+  "ou": "Protocoles 3 à 5 · première bonne réponse",
+  "texte": "Bonne réponse. Une cellule s'allume."
+ },
+ {
+  "section": "5. Forma Trisse réagit à tes réponses (caisson 00)",
+  "id": "c00.reac.demi.premier.2",
+  "qui": "ora",
+  "etat": "demi",
+  "ou": "Protocoles 3 à 5 · première bonne réponse",
+  "texte": "Exact. Je le sens dans mes circuits."
+ },
+ {
+  "section": "5. Forma Trisse réagit à tes réponses (caisson 00)",
+  "id": "c00.reac.demi.perseverance.1",
+  "qui": "ora",
+  "etat": "demi",
+  "ou": "Protocoles 3 à 5 · bonne réponse après une erreur",
+  "texte": "Tu as cherché, et tu as trouvé. C'est ainsi qu'on apprend."
+ },
+ {
+  "section": "5. Forma Trisse réagit à tes réponses (caisson 00)",
+  "id": "c00.reac.demi.perseverance.2",
+  "qui": "ora",
+  "etat": "demi",
+  "ou": "Protocoles 3 à 5 · bonne réponse après une erreur",
+  "texte": "Une erreur, puis la bonne réponse : celle-là, tu ne l'oublieras pas."
+ },
+ {
+  "section": "5. Forma Trisse réagit à tes réponses (caisson 00)",
+  "id": "c00.reac.demi.indice.1",
+  "qui": "ora",
+  "etat": "demi",
+  "ou": "Protocoles 3 à 5 · deuxième erreur (une piste)",
+  "texte": "Pas encore. Relis la définition juste au-dessus."
+ },
+ {
+  "section": "5. Forma Trisse réagit à tes réponses (caisson 00)",
+  "id": "c00.reac.demi.indice.2",
+  "qui": "ora",
+  "etat": "demi",
+  "ou": "Protocoles 3 à 5 · deuxième erreur (une piste)",
+  "texte": "Une erreur ne coûte rien ici. Remonte un peu, puis réessaie."
+ },
+ {
+  "section": "5. Forma Trisse réagit à tes réponses (caisson 00)",
+  "id": "c00.reac.demi.serie.1",
+  "qui": "ora",
+  "etat": "demi",
+  "ou": "Protocoles 3 à 5 · trois bonnes réponses d'affilée",
+  "texte": "Trois sans faute. Mes voyants passent au vert."
+ },
+ {
+  "section": "5. Forma Trisse réagit à tes réponses (caisson 00)",
+  "id": "c00.reac.demi.serie.2",
+  "qui": "ora",
+  "etat": "demi",
+  "ou": "Protocoles 3 à 5 · trois bonnes réponses d'affilée",
+  "texte": "Quelle série ! Je me réveille plus vite que prévu."
+ },
+ {
+  "section": "6. Le réveil de Forma Trisse : l'équipe se parle",
+  "id": "scene.c00.1",
+  "qui": "ora",
+  "etat": "eveil",
+  "ou": "Scène de réveil, après sa réplique de réveil",
+  "texte": "Mme Larchive ? Debout, on a du travail !"
+ },
+ {
+  "section": "6. Le réveil de Forma Trisse : l'équipe se parle",
+  "id": "scene.c00.2",
+  "qui": "c01",
+  "etat": "sommeil",
+  "ou": "Elle répond, sans se réveiller",
+  "texte": "… encore cinq minutes…"
+ },
+ {
+  "section": "6. Le réveil de Forma Trisse : l'équipe se parle",
+  "id": "scene.c00.3",
+  "qui": "ora",
+  "etat": "eveil",
+  "ou": "Pour finir la scène",
+  "texte": "Elle dort profondément. À toi de la réveiller, au caisson 01."
+ },
+ {
+  "section": "7. Mme Larchive dans son caisson (01)",
+  "id": "c01.role",
+  "qui": "c01",
+  "etat": "eveil",
+  "ou": "Sous-titre et fiche (affiché dès le début)",
+  "texte": "Je suis Mme Larchive, l'archiviste. Je garde chaque version de ton produit, pour que tu puisses toujours revenir en arrière."
+ },
+ {
+  "section": "7. Mme Larchive dans son caisson (01)",
+  "id": "c01.dort",
+  "qui": "c01",
+  "etat": "sommeil",
+  "ou": "Page du caisson, avant le premier protocole",
+  "texte": "… qui a rangé la girafe dans le tiroir B ?… je ne jette rien… même pas la girafe…"
+ },
+ {
+  "section": "7. Mme Larchive dans son caisson (01)",
+  "id": "c01.demi",
+  "qui": "c01",
+  "etat": "sommeil",
+  "ou": "Page du caisson, après le premier protocole",
+  "texte": "… mmh… je me souviens d'un album… chaque étape du chantier… encore un effort…"
+ },
+ {
+  "section": "7. Mme Larchive dans son caisson (01)",
+  "id": "c01.reveil",
+  "qui": "c01",
+  "etat": "eveil",
+  "ou": "Scène de réveil",
+  "texte": "Bonjour, chef. Me voilà réveillée. Plus aucune version de ton produit ne se perdra. Et si quelque chose casse, on reviendra en arrière, sans rien effacer."
+ },
+ {
+  "section": "8. Mme Larchive t'accompagne dans les protocoles (caisson 01)",
+  "id": "c01.p1.debut",
+  "qui": "c01",
+  "etat": "sommeil",
+  "ou": "P1 « Pourquoi garder les versions » · Ouverture du protocole",
+  "texte": "… mmh… tu es là ?… je rêvais de photos… de chantier… parlons souvenirs…"
+ },
+ {
+  "section": "8. Mme Larchive t'accompagne dans les protocoles (caisson 01)",
+  "id": "c01.p1.3",
+  "qui": "c01",
+  "etat": "sommeil",
+  "ou": "P1 « Pourquoi garder les versions » · Quand le bloc 3 apparaît",
+  "texte": "… les photos du chantier… des milliers… toutes dans l'ordre… sauf la girafe…"
+ },
+ {
+  "section": "8. Mme Larchive t'accompagne dans les protocoles (caisson 01)",
+  "id": "c01.p1.8",
+  "qui": "c01",
+  "etat": "sommeil",
+  "ou": "P1 « Pourquoi garder les versions » · Quand le bloc 8 apparaît",
+  "texte": "… remonte le temps… vas-y… rien n'est jamais perdu…"
+ },
+ {
+  "section": "8. Mme Larchive t'accompagne dans les protocoles (caisson 01)",
+  "id": "c01.p1.fin",
+  "qui": "c01",
+  "etat": "sommeil",
+  "ou": "P1 « Pourquoi garder les versions » · Fin du protocole",
+  "texte": "… je sens un courant… termine… branche la batterie… sur ma capsule…"
+ },
+ {
+  "section": "8. Mme Larchive t'accompagne dans les protocoles (caisson 01)",
+  "id": "c01.p2.debut",
+  "qui": "c01",
+  "etat": "sommeil",
+  "ou": "P2 « Le commit » · Ouverture du protocole",
+  "texte": "… aujourd'hui… une légende sous chaque photo… sinon je confonds tout…"
+ },
+ {
+  "section": "8. Mme Larchive t'accompagne dans les protocoles (caisson 01)",
+  "id": "c01.p2.4",
+  "qui": "c01",
+  "etat": "sommeil",
+  "ou": "P2 « Le commit » · Quand le bloc 4 apparaît",
+  "texte": "… une légende courte… claire… pas « truc »… ni « bidule »…"
+ },
+ {
+  "section": "8. Mme Larchive t'accompagne dans les protocoles (caisson 01)",
+  "id": "c01.p2.6",
+  "qui": "c01",
+  "etat": "sommeil",
+  "ou": "P2 « Le commit » · Quand le bloc 6 apparaît",
+  "texte": "… ton ancien projet… six photos seulement… je m'en souviens…"
+ },
+ {
+  "section": "8. Mme Larchive t'accompagne dans les protocoles (caisson 01)",
+  "id": "c01.p2.fin",
+  "qui": "c01",
+  "etat": "sommeil",
+  "ou": "P2 « Le commit » · Fin du protocole",
+  "texte": "… la batterie est presque pleine… termine… et branche-la…"
+ },
+ {
+  "section": "8. Mme Larchive t'accompagne dans les protocoles (caisson 01)",
+  "id": "c01.p3.debut",
+  "qui": "c01",
+  "etat": "demi",
+  "ou": "P3 « Les branches » · Ouverture du protocole",
+  "texte": "Mmh… une voie d'essai. On essaie à côté, sans rien casser. Pardon, je bâille."
+ },
+ {
+  "section": "8. Mme Larchive t'accompagne dans les protocoles (caisson 01)",
+  "id": "c01.p3.2",
+  "qui": "c01",
+  "etat": "demi",
+  "ou": "P3 « Les branches » · Quand le bloc 2 apparaît",
+  "texte": "Les trains d'essai ne gênent personne. C'est rassurant."
+ },
+ {
+  "section": "8. Mme Larchive t'accompagne dans les protocoles (caisson 01)",
+  "id": "c01.p3.8",
+  "qui": "c01",
+  "etat": "demi",
+  "ou": "P3 « Les branches » · Quand le bloc 8 apparaît",
+  "texte": "Ta première branche, à la main. Je regarde, les yeux mi-clos."
+ },
+ {
+  "section": "8. Mme Larchive t'accompagne dans les protocoles (caisson 01)",
+  "id": "c01.p3.fin",
+  "qui": "c01",
+  "etat": "demi",
+  "ou": "P3 « Les branches » · Fin du protocole",
+  "texte": "Encore un peu de courant. Termine le protocole."
+ },
+ {
+  "section": "8. Mme Larchive t'accompagne dans les protocoles (caisson 01)",
+  "id": "c01.p4.debut",
+  "qui": "c01",
+  "etat": "demi",
+  "ou": "P4 « La pull request en détail » · Ouverture du protocole",
+  "texte": "Relire avant de fusionner : c'est ma règle la plus importante."
+ },
+ {
+  "section": "8. Mme Larchive t'accompagne dans les protocoles (caisson 01)",
+  "id": "c01.p4.6",
+  "qui": "c01",
+  "etat": "demi",
+  "ou": "P4 « La pull request en détail » · Quand le bloc 6 apparaît",
+  "texte": "Relis ligne par ligne. Je t'attends."
+ },
+ {
+  "section": "8. Mme Larchive t'accompagne dans les protocoles (caisson 01)",
+  "id": "c01.p4.10",
+  "qui": "c01",
+  "etat": "demi",
+  "ou": "P4 « La pull request en détail » · Quand le bloc 10 apparaît",
+  "texte": "Tu confies le travail, mais c'est toi qui relis. Toujours."
+ },
+ {
+  "section": "8. Mme Larchive t'accompagne dans les protocoles (caisson 01)",
+  "id": "c01.p4.fin",
+  "qui": "c01",
+  "etat": "demi",
+  "ou": "P4 « La pull request en détail » · Fin du protocole",
+  "texte": "Mes paupières bougent. Termine le protocole."
+ },
+ {
+  "section": "8. Mme Larchive t'accompagne dans les protocoles (caisson 01)",
+  "id": "c01.p5.debut",
+  "qui": "c01",
+  "etat": "demi",
+  "ou": "P5 « Revenir en arrière » · Ouverture du protocole",
+  "texte": "Revenir en arrière sans rien effacer : c'est mon métier."
+ },
+ {
+  "section": "8. Mme Larchive t'accompagne dans les protocoles (caisson 01)",
+  "id": "c01.p5.2",
+  "qui": "c01",
+  "etat": "demi",
+  "ou": "P5 « Revenir en arrière » · Quand le bloc 2 apparaît",
+  "texte": "À l'encre, jamais à la gomme. On corrige en dessous."
+ },
+ {
+  "section": "8. Mme Larchive t'accompagne dans les protocoles (caisson 01)",
+  "id": "c01.p5.8",
+  "qui": "c01",
+  "etat": "demi",
+  "ou": "P5 « Revenir en arrière » · Quand le bloc 8 apparaît",
+  "texte": "Deux versions qui se disputent : c'est toi qui tranches."
+ },
+ {
+  "section": "8. Mme Larchive t'accompagne dans les protocoles (caisson 01)",
+  "id": "c01.p5.fin",
+  "qui": "c01",
+  "etat": "demi",
+  "ou": "P5 « Revenir en arrière » · Fin du protocole",
+  "texte": "Presque réveillée. Termine, répare la panne, et j'ouvre les yeux."
+ },
+ {
+  "section": "8. Mme Larchive t'accompagne dans les protocoles (caisson 01)",
+  "id": "c01.panne",
+  "qui": "c01",
+  "etat": "demi",
+  "ou": "Début de la panne",
+  "texte": "Des alertes dans mes archives ! Réfléchis avant de toucher : les fusibles sont fragiles."
+ },
+ {
+  "section": "8. Mme Larchive t'accompagne dans les protocoles (caisson 01)",
+  "id": "c01.panneFin",
+  "qui": "c01",
+  "etat": "demi",
+  "ou": "Panne réparée, avant l'arc",
+  "texte": "Le courant passe. Envoie l'arc, maintenant."
+ },
+ {
+  "section": "8. Mme Larchive t'accompagne dans les protocoles (caisson 01)",
+  "id": "c01.livraison",
+  "qui": "c01",
+  "etat": "eveil",
+  "ou": "Page du caisson, une fois réveillée",
+  "texte": "Je vérifie tes archives sur GitHub : cinq commits, une pull request fusionnée, et ton README."
+ },
+ {
+  "section": "9. Mme Larchive réagit à tes réponses (caisson 01)",
+  "id": "c01.reac.sommeil.premier.1",
+  "qui": "c01",
+  "etat": "sommeil",
+  "ou": "Protocoles 1 et 2 · première bonne réponse",
+  "texte": "… mmh… bonne réponse… je la colle dans l'album…"
+ },
+ {
+  "section": "9. Mme Larchive réagit à tes réponses (caisson 01)",
+  "id": "c01.reac.sommeil.premier.2",
+  "qui": "c01",
+  "etat": "sommeil",
+  "ou": "Protocoles 1 et 2 · première bonne réponse",
+  "texte": "… exact… une cellule… ça chatouille…"
+ },
+ {
+  "section": "9. Mme Larchive réagit à tes réponses (caisson 01)",
+  "id": "c01.reac.sommeil.perseverance.1",
+  "qui": "c01",
+  "etat": "sommeil",
+  "ou": "Protocoles 1 et 2 · bonne réponse après une erreur",
+  "texte": "… raté… puis trouvé… je garde aussi les brouillons…"
+ },
+ {
+  "section": "9. Mme Larchive réagit à tes réponses (caisson 01)",
+  "id": "c01.reac.sommeil.perseverance.2",
+  "qui": "c01",
+  "etat": "sommeil",
+  "ou": "Protocoles 1 et 2 · bonne réponse après une erreur",
+  "texte": "… une erreur… puis la bonne… c'est l'ordre normal…"
+ },
+ {
+  "section": "9. Mme Larchive réagit à tes réponses (caisson 01)",
+  "id": "c01.reac.sommeil.indice.1",
+  "qui": "c01",
+  "etat": "sommeil",
+  "ou": "Protocoles 1 et 2 · deuxième erreur (une piste)",
+  "texte": "… les chaussettes… mmh… relis la définition… juste au-dessus…"
+ },
+ {
+  "section": "9. Mme Larchive réagit à tes réponses (caisson 01)",
+  "id": "c01.reac.sommeil.indice.2",
+  "qui": "c01",
+  "etat": "sommeil",
+  "ou": "Protocoles 1 et 2 · deuxième erreur (une piste)",
+  "texte": "… la réponse… elle est rangée… un peu plus haut…"
+ },
+ {
+  "section": "9. Mme Larchive réagit à tes réponses (caisson 01)",
+  "id": "c01.reac.sommeil.serie.1",
+  "qui": "c01",
+  "etat": "sommeil",
+  "ou": "Protocoles 1 et 2 · trois bonnes réponses d'affilée",
+  "texte": "… trois d'affilée… je fais un très beau rêve…"
+ },
+ {
+  "section": "9. Mme Larchive réagit à tes réponses (caisson 01)",
+  "id": "c01.reac.sommeil.serie.2",
+  "qui": "c01",
+  "etat": "sommeil",
+  "ou": "Protocoles 1 et 2 · trois bonnes réponses d'affilée",
+  "texte": "… encore une… mes paupières dansent…"
+ },
+ {
+  "section": "9. Mme Larchive réagit à tes réponses (caisson 01)",
+  "id": "c01.reac.demi.premier.1",
+  "qui": "c01",
+  "etat": "demi",
+  "ou": "Protocoles 3 à 5 · première bonne réponse",
+  "texte": "Exact. Je l'inscris au registre."
+ },
+ {
+  "section": "9. Mme Larchive réagit à tes réponses (caisson 01)",
+  "id": "c01.reac.demi.premier.2",
+  "qui": "c01",
+  "etat": "demi",
+  "ou": "Protocoles 3 à 5 · première bonne réponse",
+  "texte": "Bonne réponse. Une cellule de plus."
+ },
+ {
+  "section": "9. Mme Larchive réagit à tes réponses (caisson 01)",
+  "id": "c01.reac.demi.perseverance.1",
+  "qui": "c01",
+  "etat": "demi",
+  "ou": "Protocoles 3 à 5 · bonne réponse après une erreur",
+  "texte": "Une erreur, puis la bonne réponse. Je garde les deux : c'est précieux."
+ },
+ {
+  "section": "9. Mme Larchive réagit à tes réponses (caisson 01)",
+  "id": "c01.reac.demi.perseverance.2",
+  "qui": "c01",
+  "etat": "demi",
+  "ou": "Protocoles 3 à 5 · bonne réponse après une erreur",
+  "texte": "Tu as recommencé, et tu as trouvé. Bravo."
+ },
+ {
+  "section": "9. Mme Larchive réagit à tes réponses (caisson 01)",
+  "id": "c01.reac.demi.indice.1",
+  "qui": "c01",
+  "etat": "demi",
+  "ou": "Protocoles 3 à 5 · deuxième erreur (une piste)",
+  "texte": "Pas tout à fait. Reprends la définition, puis réessaie."
+ },
+ {
+  "section": "9. Mme Larchive réagit à tes réponses (caisson 01)",
+  "id": "c01.reac.demi.indice.2",
+  "qui": "c01",
+  "etat": "demi",
+  "ou": "Protocoles 3 à 5 · deuxième erreur (une piste)",
+  "texte": "Doucement. Tout est noté un peu plus haut."
+ },
+ {
+  "section": "9. Mme Larchive réagit à tes réponses (caisson 01)",
+  "id": "c01.reac.demi.serie.1",
+  "qui": "c01",
+  "etat": "demi",
+  "ou": "Protocoles 3 à 5 · trois bonnes réponses d'affilée",
+  "texte": "Trois d'affilée. Je suis presque réveillée."
+ },
+ {
+  "section": "9. Mme Larchive réagit à tes réponses (caisson 01)",
+  "id": "c01.reac.demi.serie.2",
+  "qui": "c01",
+  "etat": "demi",
+  "ou": "Protocoles 3 à 5 · trois bonnes réponses d'affilée",
+  "texte": "Encore une. Mes yeux s'ouvrent."
+ },
+ {
+  "section": "10. Le réveil de Mme Larchive : l'équipe se parle",
+  "id": "scene.c01.1",
+  "qui": "ora",
+  "etat": "eveil",
+  "ou": "Scène de réveil, avant sa réplique de réveil",
+  "texte": "Bienvenue parmi nous, Mme Larchive. Bien dormi ?"
+ },
+ {
+  "section": "10. Le réveil de Mme Larchive : l'équipe se parle",
+  "id": "scene.c01.2",
+  "qui": "c01",
+  "etat": "eveil",
+  "ou": "Elle répond",
+  "texte": "Comme une bûche. Merci, Forma Trisse."
+ },
+ {
+  "section": "10. Le réveil de Mme Larchive : l'équipe se parle",
+  "id": "scene.c01.3",
+  "qui": "ora",
+  "etat": "eveil",
+  "ou": "Après sa réplique de réveil",
+  "texte": "Tu es entre de bonnes mains. Allons réveiller la suite."
+ },
+ {
+  "section": "11. Les autres membres, encore endormis (présentation et sommeil)",
+  "id": "c02.role",
+  "qui": "c02",
+  "etat": "eveil",
+  "ou": "Présentation (sous-titre et fiche)",
+  "texte": "Je suis le Général Calpin, le règlement de bord. J'écris les règles que toute l'équipe suit, à chaque séance de travail."
+ },
+ {
+  "section": "11. Les autres membres, encore endormis (présentation et sommeil)",
+  "id": "c02.dort",
+  "qui": "c02",
+  "etat": "sommeil",
+  "ou": "Il dort (page du caisson, fiche de l'équipe)",
+  "texte": "… article douze… il est interdit… de ronfler en service… repos !…"
+ },
+ {
+  "section": "11. Les autres membres, encore endormis (présentation et sommeil)",
+  "id": "c03.role",
+  "qui": "c03",
+  "etat": "eveil",
+  "ou": "Présentation (sous-titre et fiche)",
+  "texte": "Je suis M. Laplume, le scribe. Avant de construire quoi que ce soit, je décris avec toi ce qu'il faut construire."
+ },
+ {
+  "section": "11. Les autres membres, encore endormis (présentation et sommeil)",
+  "id": "c03.dort",
+  "qui": "c03",
+  "etat": "sommeil",
+  "ou": "Il dort (page du caisson, fiche de l'équipe)",
+  "texte": "… il était une fois… un bouton… qui rêvait de devenir… une fusée…"
+ },
+ {
+  "section": "11. Les autres membres, encore endormis (présentation et sommeil)",
+  "id": "c04.role",
+  "qui": "c04",
+  "etat": "eveil",
+  "ou": "Présentation (sous-titre et fiche)",
+  "texte": "Je suis Mme Bonna Bitude, la boucle ! Je demande, je relis, je corrige, et je recommence jusqu'à ce que ça marche."
+ },
+ {
+  "section": "11. Les autres membres, encore endormis (présentation et sommeil)",
+  "id": "c04.dort",
+  "qui": "c04",
+  "etat": "sommeil",
+  "ou": "Il dort (page du caisson, fiche de l'équipe)",
+  "texte": "… encore un tour… et encore un… qui a mis un manège dans mon rêve ?…"
+ },
+ {
+  "section": "11. Les autres membres, encore endormis (présentation et sommeil)",
+  "id": "c05.role",
+  "qui": "c05",
+  "etat": "eveil",
+  "ou": "Présentation (sous-titre et fiche)",
+  "texte": "Nous sommes Dupond et Dupont, les inspecteurs. Nous vérifions que tout fonctionne, à chaque changement. Sans exception."
+ },
+ {
+  "section": "11. Les autres membres, encore endormis (présentation et sommeil)",
+  "id": "c05.dort",
+  "qui": "c05",
+  "etat": "sommeil",
+  "ou": "Il dort (page du caisson, fiche de l'équipe)",
+  "texte": "… vérifié… revérifié… re-revérifié… ronfle moins fort, toi…"
+ },
+ {
+  "section": "11. Les autres membres, encore endormis (présentation et sommeil)",
+  "id": "c06.role",
+  "qui": "c06",
+  "etat": "eveil",
+  "ou": "Présentation (sous-titre et fiche)",
+  "texte": "Je suis Hermès Coursier, le messager ! Je mets ton produit en ligne, vite, et sans rien casser."
+ },
+ {
+  "section": "11. Les autres membres, encore endormis (présentation et sommeil)",
+  "id": "c06.dort",
+  "qui": "c06",
+  "etat": "sommeil",
+  "ou": "Il dort (page du caisson, fiche de l'équipe)",
+  "texte": "… colis pour la lune… signez ici… attention, c'est fragile…"
+ },
+ {
+  "section": "11. Les autres membres, encore endormis (présentation et sommeil)",
+  "id": "c07.role",
+  "qui": "c07",
+  "etat": "eveil",
+  "ou": "Présentation (sous-titre et fiche)",
+  "texte": "Je suis Fabienne, la dame du CDI : la mémoire de l'équipe. Je garde les données et les comptes de tes utilisateurs."
+ },
+ {
+  "section": "11. Les autres membres, encore endormis (présentation et sommeil)",
+  "id": "c07.dort",
+  "qui": "c07",
+  "etat": "sommeil",
+  "ou": "Il dort (page du caisson, fiche de l'équipe)",
+  "texte": "… chut… on est au CDI… rendez vos souvenirs… avant mardi…"
+ },
+ {
+  "section": "11. Les autres membres, encore endormis (présentation et sommeil)",
+  "id": "c08.role",
+  "qui": "c08",
+  "etat": "eveil",
+  "ou": "Présentation (sous-titre et fiche)",
+  "texte": "Je suis Senty Nell, la sentinelle. Je protège tes secrets, tes utilisateurs et ton budget."
+ },
+ {
+  "section": "11. Les autres membres, encore endormis (présentation et sommeil)",
+  "id": "c08.dort",
+  "qui": "c08",
+  "etat": "sommeil",
+  "ou": "Il dort (page du caisson, fiche de l'équipe)",
+  "texte": "… halte… mot de passe ?… « pistache »… non… c'était hier…"
+ },
+ {
+  "section": "11. Les autres membres, encore endormis (présentation et sommeil)",
+  "id": "c09.role",
+  "qui": "c09",
+  "etat": "eveil",
+  "ou": "Présentation (sous-titre et fiche)",
+  "texte": "Je suis Lana Mageuse. Je mène l'escouade : mes drones travaillent en même temps, et mes réflexes veillent pour toi."
+ },
+ {
+  "section": "11. Les autres membres, encore endormis (présentation et sommeil)",
+  "id": "c09.dort",
+  "qui": "c09",
+  "etat": "sommeil",
+  "ou": "Il dort (page du caisson, fiche de l'équipe)",
+  "texte": "… drone numéro trois… arrête de chanter… on est en formation…"
+ },
+ {
+  "section": "11. Les autres membres, encore endormis (présentation et sommeil)",
+  "id": "c10.role",
+  "qui": "c10",
+  "etat": "eveil",
+  "ou": "Présentation (sous-titre et fiche)",
+  "texte": "Je suis Alex Pédition, le lancement. Je présente ton produit au monde, et je t'aide à en faire ton métier."
+ },
+ {
+  "section": "11. Les autres membres, encore endormis (présentation et sommeil)",
+  "id": "c10.dort",
+  "qui": "c10",
+  "etat": "sommeil",
+  "ou": "Il dort (page du caisson, fiche de l'équipe)",
+  "texte": "… dix… neuf… huit… j'ai oublié la suite… on recommence…"
+ },
+ {
+  "section": "12. Quand tu reviens sur une page : une phrase très courte, différente à chaque fois",
+  "id": "retour.ora.sommeil.1",
+  "qui": "ora",
+  "etat": "sommeil",
+  "ou": "Retour sur la carte, le caisson ou un protocole déjà commencé",
+  "texte": "… te revoilà… zzz…"
+ },
+ {
+  "section": "12. Quand tu reviens sur une page : une phrase très courte, différente à chaque fois",
+  "id": "retour.ora.sommeil.2",
+  "qui": "ora",
+  "etat": "sommeil",
+  "ou": "Retour sur la carte, le caisson ou un protocole déjà commencé",
+  "texte": "… mmh… déjà ?…"
+ },
+ {
+  "section": "12. Quand tu reviens sur une page : une phrase très courte, différente à chaque fois",
+  "id": "retour.ora.sommeil.3",
+  "qui": "ora",
+  "etat": "sommeil",
+  "ou": "Retour sur la carte, le caisson ou un protocole déjà commencé",
+  "texte": "… on reprend… je crois…"
+ },
+ {
+  "section": "12. Quand tu reviens sur une page : une phrase très courte, différente à chaque fois",
+  "id": "retour.ora.sommeil.4",
+  "qui": "ora",
+  "etat": "sommeil",
+  "ou": "Retour sur la carte, le caisson ou un protocole déjà commencé",
+  "texte": "… c'est toi ?… bien…"
+ },
+ {
+  "section": "12. Quand tu reviens sur une page : une phrase très courte, différente à chaque fois",
+  "id": "retour.ora.eveil.1",
+  "qui": "ora",
+  "etat": "eveil",
+  "ou": "Retour sur la carte, le caisson ou un protocole déjà commencé",
+  "texte": "Te revoilà."
+ },
+ {
+  "section": "12. Quand tu reviens sur une page : une phrase très courte, différente à chaque fois",
+  "id": "retour.ora.eveil.2",
+  "qui": "ora",
+  "etat": "eveil",
+  "ou": "Retour sur la carte, le caisson ou un protocole déjà commencé",
+  "texte": "On reprend ?"
+ },
+ {
+  "section": "12. Quand tu reviens sur une page : une phrase très courte, différente à chaque fois",
+  "id": "retour.ora.eveil.3",
+  "qui": "ora",
+  "etat": "eveil",
+  "ou": "Retour sur la carte, le caisson ou un protocole déjà commencé",
+  "texte": "Contente de te revoir."
+ },
+ {
+  "section": "12. Quand tu reviens sur une page : une phrase très courte, différente à chaque fois",
+  "id": "retour.ora.eveil.4",
+  "qui": "ora",
+  "etat": "eveil",
+  "ou": "Retour sur la carte, le caisson ou un protocole déjà commencé",
+  "texte": "La réserve t'attendait."
+ },
+ {
+  "section": "12. Quand tu reviens sur une page : une phrase très courte, différente à chaque fois",
+  "id": "retour.c01.sommeil.1",
+  "qui": "c01",
+  "etat": "sommeil",
+  "ou": "Retour sur la carte, le caisson ou un protocole déjà commencé",
+  "texte": "… mmh… re-bonjour…"
+ },
+ {
+  "section": "12. Quand tu reviens sur une page : une phrase très courte, différente à chaque fois",
+  "id": "retour.c01.sommeil.2",
+  "qui": "c01",
+  "etat": "sommeil",
+  "ou": "Retour sur la carte, le caisson ou un protocole déjà commencé",
+  "texte": "… je t'ai gardé ta place…"
+ },
+ {
+  "section": "12. Quand tu reviens sur une page : une phrase très courte, différente à chaque fois",
+  "id": "retour.c01.sommeil.3",
+  "qui": "c01",
+  "etat": "sommeil",
+  "ou": "Retour sur la carte, le caisson ou un protocole déjà commencé",
+  "texte": "… zzz… on en était où ?…"
+ },
+ {
+  "section": "12. Quand tu reviens sur une page : une phrase très courte, différente à chaque fois",
+  "id": "retour.c01.sommeil.4",
+  "qui": "c01",
+  "etat": "sommeil",
+  "ou": "Retour sur la carte, le caisson ou un protocole déjà commencé",
+  "texte": "… tu reviens… je le note…"
+ },
+ {
+  "section": "12. Quand tu reviens sur une page : une phrase très courte, différente à chaque fois",
+  "id": "retour.c01.eveil.1",
+  "qui": "c01",
+  "etat": "eveil",
+  "ou": "Retour sur la carte, le caisson ou un protocole déjà commencé",
+  "texte": "Te revoilà, chef."
+ },
+ {
+  "section": "12. Quand tu reviens sur une page : une phrase très courte, différente à chaque fois",
+  "id": "retour.c01.eveil.2",
+  "qui": "c01",
+  "etat": "eveil",
+  "ou": "Retour sur la carte, le caisson ou un protocole déjà commencé",
+  "texte": "J'ai tout gardé en ordre."
+ },
+ {
+  "section": "12. Quand tu reviens sur une page : une phrase très courte, différente à chaque fois",
+  "id": "retour.c01.eveil.3",
+  "qui": "c01",
+  "etat": "eveil",
+  "ou": "Retour sur la carte, le caisson ou un protocole déjà commencé",
+  "texte": "On reprend où on en était ?"
+ },
+ {
+  "section": "12. Quand tu reviens sur une page : une phrase très courte, différente à chaque fois",
+  "id": "retour.c01.eveil.4",
+  "qui": "c01",
+  "etat": "eveil",
+  "ou": "Retour sur la carte, le caisson ou un protocole déjà commencé",
+  "texte": "Rien ne s'est perdu en ton absence."
+ },
+ {
+  "section": "13. Quand tu touches un personnage : il réagit",
+  "id": "toucher.ora.sommeil.1",
+  "qui": "ora",
+  "etat": "sommeil",
+  "ou": "Toucher le personnage (capsule, hublot, fiche)",
+  "texte": "… hein ?… qui me chatouille ?…"
+ },
+ {
+  "section": "13. Quand tu touches un personnage : il réagit",
+  "id": "toucher.ora.sommeil.2",
+  "qui": "ora",
+  "etat": "sommeil",
+  "ou": "Toucher le personnage (capsule, hublot, fiche)",
+  "texte": "… encore cinq minutes…"
+ },
+ {
+  "section": "13. Quand tu touches un personnage : il réagit",
+  "id": "toucher.ora.sommeil.3",
+  "qui": "ora",
+  "etat": "sommeil",
+  "ou": "Toucher le personnage (capsule, hublot, fiche)",
+  "texte": "… mes voyants… laisse mes voyants…"
+ },
+ {
+  "section": "13. Quand tu touches un personnage : il réagit",
+  "id": "toucher.ora.sommeil.4",
+  "qui": "ora",
+  "etat": "sommeil",
+  "ou": "Toucher le personnage (capsule, hublot, fiche)",
+  "texte": "… non… je ne suis pas un bouton…"
+ },
+ {
+  "section": "13. Quand tu touches un personnage : il réagit",
+  "id": "toucher.ora.eveil.1",
+  "qui": "ora",
+  "etat": "eveil",
+  "ou": "Toucher le personnage (capsule, hublot, fiche)",
+  "texte": "Oui ? Je suis là."
+ },
+ {
+  "section": "13. Quand tu touches un personnage : il réagit",
+  "id": "toucher.ora.eveil.2",
+  "qui": "ora",
+  "etat": "eveil",
+  "ou": "Toucher le personnage (capsule, hublot, fiche)",
+  "texte": "Ça chatouille les circuits."
+ },
+ {
+  "section": "13. Quand tu touches un personnage : il réagit",
+  "id": "toucher.ora.eveil.3",
+  "qui": "ora",
+  "etat": "eveil",
+  "ou": "Toucher le personnage (capsule, hublot, fiche)",
+  "texte": "Une question ? Touche « Demander à Forma Trisse »."
+ },
+ {
+  "section": "13. Quand tu touches un personnage : il réagit",
+  "id": "toucher.ora.eveil.4",
+  "qui": "ora",
+  "etat": "eveil",
+  "ou": "Toucher le personnage (capsule, hublot, fiche)",
+  "texte": "Toujours en service."
+ },
+ {
+  "section": "13. Quand tu touches un personnage : il réagit",
+  "id": "toucher.c01.sommeil.1",
+  "qui": "c01",
+  "etat": "sommeil",
+  "ou": "Toucher le personnage (capsule, hublot, fiche)",
+  "texte": "… qui frappe au tiroir ?…"
+ },
+ {
+  "section": "13. Quand tu touches un personnage : il réagit",
+  "id": "toucher.c01.sommeil.2",
+  "qui": "c01",
+  "etat": "sommeil",
+  "ou": "Toucher le personnage (capsule, hublot, fiche)",
+  "texte": "… cinq minutes… encore cinq…"
+ },
+ {
+  "section": "13. Quand tu touches un personnage : il réagit",
+  "id": "toucher.c01.sommeil.3",
+  "qui": "c01",
+  "etat": "sommeil",
+  "ou": "Toucher le personnage (capsule, hublot, fiche)",
+  "texte": "… non… les mardis se classent par taille…"
+ },
+ {
+  "section": "13. Quand tu touches un personnage : il réagit",
+  "id": "toucher.c01.sommeil.4",
+  "qui": "c01",
+  "etat": "sommeil",
+  "ou": "Toucher le personnage (capsule, hublot, fiche)",
+  "texte": "… je rêve d'un historique tout propre…"
+ },
+ {
+  "section": "13. Quand tu touches un personnage : il réagit",
+  "id": "toucher.c01.eveil.1",
+  "qui": "c01",
+  "etat": "eveil",
+  "ou": "Toucher le personnage (capsule, hublot, fiche)",
+  "texte": "Oui, chef ?"
+ },
+ {
+  "section": "13. Quand tu touches un personnage : il réagit",
+  "id": "toucher.c01.eveil.2",
+  "qui": "c01",
+  "etat": "eveil",
+  "ou": "Toucher le personnage (capsule, hublot, fiche)",
+  "texte": "Attention, mes tiroirs sont rangés."
+ },
+ {
+  "section": "13. Quand tu touches un personnage : il réagit",
+  "id": "toucher.c01.eveil.3",
+  "qui": "c01",
+  "etat": "eveil",
+  "ou": "Toucher le personnage (capsule, hublot, fiche)",
+  "texte": "Je garde tout, même ce toucher."
+ },
+ {
+  "section": "13. Quand tu touches un personnage : il réagit",
+  "id": "toucher.c01.eveil.4",
+  "qui": "c01",
+  "etat": "eveil",
+  "ou": "Toucher le personnage (capsule, hublot, fiche)",
+  "texte": "Un souvenir à retrouver ?"
+ },
+ {
+  "section": "13. Quand tu touches un personnage : il réagit",
+  "id": "toucher.c02.sommeil.1",
+  "qui": "c02",
+  "etat": "sommeil",
+  "ou": "Toucher le personnage (capsule, hublot, fiche)",
+  "texte": "… qui a touché… au règlement ?…"
+ },
+ {
+  "section": "13. Quand tu touches un personnage : il réagit",
+  "id": "toucher.c03.sommeil.1",
+  "qui": "c03",
+  "etat": "sommeil",
+  "ou": "Toucher le personnage (capsule, hublot, fiche)",
+  "texte": "… ne froisse pas… ma page…"
+ },
+ {
+  "section": "13. Quand tu touches un personnage : il réagit",
+  "id": "toucher.c04.sommeil.1",
+  "qui": "c04",
+  "etat": "sommeil",
+  "ou": "Toucher le personnage (capsule, hublot, fiche)",
+  "texte": "… ça tourne… ça tourne… hop…"
+ },
+ {
+  "section": "13. Quand tu touches un personnage : il réagit",
+  "id": "toucher.c05.sommeil.1",
+  "qui": "c05",
+  "etat": "sommeil",
+  "ou": "Toucher le personnage (capsule, hublot, fiche)",
+  "texte": "… suspect… très suspect…"
+ },
+ {
+  "section": "13. Quand tu touches un personnage : il réagit",
+  "id": "toucher.c06.sommeil.1",
+  "qui": "c06",
+  "etat": "sommeil",
+  "ou": "Toucher le personnage (capsule, hublot, fiche)",
+  "texte": "… je pars… dans cinq minutes…"
+ },
+ {
+  "section": "13. Quand tu touches un personnage : il réagit",
+  "id": "toucher.c07.sommeil.1",
+  "qui": "c07",
+  "etat": "sommeil",
+  "ou": "Toucher le personnage (capsule, hublot, fiche)",
+  "texte": "… chut… bibliothèque…"
+ },
+ {
+  "section": "13. Quand tu touches un personnage : il réagit",
+  "id": "toucher.c08.sommeil.1",
+  "qui": "c08",
+  "etat": "sommeil",
+  "ou": "Toucher le personnage (capsule, hublot, fiche)",
+  "texte": "… halte… ah… c'est toi…"
+ },
+ {
+  "section": "13. Quand tu touches un personnage : il réagit",
+  "id": "toucher.c09.sommeil.1",
+  "qui": "c09",
+  "etat": "sommeil",
+  "ou": "Toucher le personnage (capsule, hublot, fiche)",
+  "texte": "… drones… au repos…"
+ },
+ {
+  "section": "13. Quand tu touches un personnage : il réagit",
+  "id": "toucher.c10.sommeil.1",
+  "qui": "c10",
+  "etat": "sommeil",
+  "ou": "Toucher le personnage (capsule, hublot, fiche)",
+  "texte": "… pas encore… le décollage…"
+ },
+ {
+  "section": "14. Le défi du jour, sur la carte (le dernier membre réveillé te questionne)",
+  "id": "defi.ora.1.q",
+  "qui": "ora",
+  "etat": "eveil",
+  "ou": "Question (les réponses sont dans la bulle ; elles ne sont pas lues)",
+  "texte": "Défi du jour ! Où attendent les fichiers d'un site, avant que tu les demandes ?",
+  "choix": [
+   "Sur un serveur",
+   "Dans ton navigateur",
+   "Dans l'App Store"
+  ],
+  "bonne": 0
+ },
+ {
+  "section": "14. Le défi du jour, sur la carte (le dernier membre réveillé te questionne)",
+  "id": "defi.ora.1.piste",
+  "qui": "ora",
+  "etat": "eveil",
+  "ou": "Après une mauvaise réponse (on peut réessayer)",
+  "texte": "Pas tout à fait. Pense au magasin, pas au client."
+ },
+ {
+  "section": "14. Le défi du jour, sur la carte (le dernier membre réveillé te questionne)",
+  "id": "defi.ora.2.q",
+  "qui": "ora",
+  "etat": "eveil",
+  "ou": "Question (les réponses sont dans la bulle ; elles ne sont pas lues)",
+  "texte": "Défi du jour ! Quelle langue décide des couleurs d'une page ?",
+  "choix": [
+   "HTML",
+   "CSS",
+   "JavaScript"
+  ],
+  "bonne": 1
+ },
+ {
+  "section": "14. Le défi du jour, sur la carte (le dernier membre réveillé te questionne)",
+  "id": "defi.ora.2.piste",
+  "qui": "ora",
+  "etat": "eveil",
+  "ou": "Après une mauvaise réponse (on peut réessayer)",
+  "texte": "Pas tout à fait. Pense à la peinture de la maison."
+ },
+ {
+  "section": "14. Le défi du jour, sur la carte (le dernier membre réveillé te questionne)",
+  "id": "defi.ora.3.q",
+  "qui": "ora",
+  "etat": "eveil",
+  "ou": "Question (les réponses sont dans la bulle ; elles ne sont pas lues)",
+  "texte": "Défi du jour ! Qu'est-ce qu'un agent ?",
+  "choix": [
+   "Une IA qui agit, puis vérifie son travail",
+   "Une IA qui répond, sans rien faire",
+   "Une personne qui code à ta place"
+  ],
+  "bonne": 0
+ },
+ {
+  "section": "14. Le défi du jour, sur la carte (le dernier membre réveillé te questionne)",
+  "id": "defi.ora.3.piste",
+  "qui": "ora",
+  "etat": "eveil",
+  "ou": "Après une mauvaise réponse (on peut réessayer)",
+  "texte": "Pas tout à fait. Pense au chantier : qui fait le travail ?"
+ },
+ {
+  "section": "14. Le défi du jour, sur la carte (le dernier membre réveillé te questionne)",
+  "id": "defi.ora.4.q",
+  "qui": "ora",
+  "etat": "eveil",
+  "ou": "Question (les réponses sont dans la bulle ; elles ne sont pas lues)",
+  "texte": "Défi du jour ! À quoi sert une pull request ?",
+  "choix": [
+   "À effacer un dépôt",
+   "À publier la page",
+   "À proposer un changement, à relire avant de l'accepter"
+  ],
+  "bonne": 2
+ },
+ {
+  "section": "14. Le défi du jour, sur la carte (le dernier membre réveillé te questionne)",
+  "id": "defi.ora.4.piste",
+  "qui": "ora",
+  "etat": "eveil",
+  "ou": "Après une mauvaise réponse (on peut réessayer)",
+  "texte": "Pas tout à fait. On propose d'abord, on accepte ensuite."
+ },
+ {
+  "section": "14. Le défi du jour, sur la carte (le dernier membre réveillé te questionne)",
+  "id": "defi.c01.1.q",
+  "qui": "c01",
+  "etat": "eveil",
+  "ou": "Question (les réponses sont dans la bulle ; elles ne sont pas lues)",
+  "texte": "Défi du jour ! À quoi sert le message d'un commit ?",
+  "choix": [
+   "À nommer le dépôt",
+   "À dire ce qui a changé",
+   "À publier la page"
+  ],
+  "bonne": 1
+ },
+ {
+  "section": "14. Le défi du jour, sur la carte (le dernier membre réveillé te questionne)",
+  "id": "defi.c01.1.piste",
+  "qui": "c01",
+  "etat": "eveil",
+  "ou": "Après une mauvaise réponse (on peut réessayer)",
+  "texte": "Pas tout à fait. Pense à la légende au dos de la photo."
+ },
+ {
+  "section": "14. Le défi du jour, sur la carte (le dernier membre réveillé te questionne)",
+  "id": "defi.c01.2.q",
+  "qui": "c01",
+  "etat": "eveil",
+  "ou": "Question (les réponses sont dans la bulle ; elles ne sont pas lues)",
+  "texte": "Défi du jour ! Une branche, c'est…",
+  "choix": [
+   "Une copie de travail, pour essayer sans rien casser",
+   "Une sauvegarde sur l'iPhone",
+   "Un deuxième dépôt"
+  ],
+  "bonne": 0
+ },
+ {
+  "section": "14. Le défi du jour, sur la carte (le dernier membre réveillé te questionne)",
+  "id": "defi.c01.2.piste",
+  "qui": "c01",
+  "etat": "eveil",
+  "ou": "Après une mauvaise réponse (on peut réessayer)",
+  "texte": "Pas tout à fait. Pense aux trains d'essai."
+ },
+ {
+  "section": "14. Le défi du jour, sur la carte (le dernier membre réveillé te questionne)",
+  "id": "defi.c01.3.q",
+  "qui": "c01",
+  "etat": "eveil",
+  "ou": "Question (les réponses sont dans la bulle ; elles ne sont pas lues)",
+  "texte": "Défi du jour ! Une erreur a été fusionnée. Que fais-tu ?",
+  "choix": [
+   "J'efface l'historique",
+   "Je l'annule, sans rien effacer",
+   "Je supprime le dépôt"
+  ],
+  "bonne": 1
+ },
+ {
+  "section": "14. Le défi du jour, sur la carte (le dernier membre réveillé te questionne)",
+  "id": "defi.c01.3.piste",
+  "qui": "c01",
+  "etat": "eveil",
+  "ou": "Après une mauvaise réponse (on peut réessayer)",
+  "texte": "Pas tout à fait. À l'encre, jamais à la gomme."
+ },
+ {
+  "section": "14. Le défi du jour, sur la carte (le dernier membre réveillé te questionne)",
+  "id": "defi.c01.4.q",
+  "qui": "c01",
+  "etat": "eveil",
+  "ou": "Question (les réponses sont dans la bulle ; elles ne sont pas lues)",
+  "texte": "Défi du jour ! Un conflit, c'est…",
+  "choix": [
+   "Un dépôt en panne",
+   "Une branche supprimée",
+   "Deux changements différents au même endroit"
+  ],
+  "bonne": 2
+ },
+ {
+  "section": "14. Le défi du jour, sur la carte (le dernier membre réveillé te questionne)",
+  "id": "defi.c01.4.piste",
+  "qui": "c01",
+  "etat": "eveil",
+  "ou": "Après une mauvaise réponse (on peut réessayer)",
+  "texte": "Pas tout à fait. Deux versions qui se disputent."
+ },
+ {
+  "section": "14. Le défi du jour, sur la carte (le dernier membre réveillé te questionne)",
+  "id": "defi.ora.bravo.1",
+  "qui": "ora",
+  "etat": "eveil",
+  "ou": "Défi réussi (+15 kW)",
+  "texte": "Exact ! Quinze kilowatts pour toi. À demain."
+ },
+ {
+  "section": "14. Le défi du jour, sur la carte (le dernier membre réveillé te questionne)",
+  "id": "defi.ora.bravo.2",
+  "qui": "ora",
+  "etat": "eveil",
+  "ou": "Défi réussi (+15 kW)",
+  "texte": "Bravo. Défi réussi : quinze kilowatts."
+ },
+ {
+  "section": "14. Le défi du jour, sur la carte (le dernier membre réveillé te questionne)",
+  "id": "defi.c01.bravo.1",
+  "qui": "c01",
+  "etat": "eveil",
+  "ou": "Défi réussi (+15 kW)",
+  "texte": "Exact ! Quinze kilowatts pour toi. À demain."
+ },
+ {
+  "section": "14. Le défi du jour, sur la carte (le dernier membre réveillé te questionne)",
+  "id": "defi.c01.bravo.2",
+  "qui": "c01",
+  "etat": "eveil",
+  "ou": "Défi réussi (+15 kW)",
+  "texte": "Je l'inscris au registre : défi réussi."
+ },
+ {
+  "section": "14. Le défi du jour, sur la carte (le dernier membre réveillé te questionne)",
+  "id": "defi.ora.fait",
+  "qui": "ora",
+  "etat": "eveil",
+  "ou": "Défi du jour déjà relevé",
+  "texte": "Défi du jour relevé. Reviens demain."
+ },
+ {
+  "section": "14. Le défi du jour, sur la carte (le dernier membre réveillé te questionne)",
+  "id": "defi.c01.fait",
+  "qui": "c01",
+  "etat": "eveil",
+  "ou": "Défi du jour déjà relevé",
+  "texte": "Défi relevé. Je te garde le suivant pour demain."
+ },
+ {
+  "section": "15. Poser une question à un membre réveillé (réponse écrite par Claude, dite en babillage)",
+  "id": "question.ora.cle",
+  "qui": "ora",
+  "etat": "eveil",
+  "ou": "Question sans clé Claude enregistrée",
+  "texte": "Pour me poser une question, il me faut ta clé Claude. Ajoute-la dans Réglages."
+ },
+ {
+  "section": "15. Poser une question à un membre réveillé (réponse écrite par Claude, dite en babillage)",
+  "id": "question.c01.cle",
+  "qui": "c01",
+  "etat": "eveil",
+  "ou": "Question sans clé Claude enregistrée",
+  "texte": "Pour me questionner, il faut ta clé Claude, dans Réglages. Je t'attends."
+ },
+ {
+  "section": "16. Les autres pages (deux versions : Forma endormie, puis réveillée)",
+  "id": "annexe.atelier.sommeil",
+  "qui": "ora",
+  "etat": "sommeil",
+  "ou": "Atelier des consignes",
+  "texte": "… l'atelier… on y écrit des ordres de mission… Claude les note… mmh…"
+ },
+ {
+  "section": "16. Les autres pages (deux versions : Forma endormie, puis réveillée)",
+  "id": "annexe.atelier.eveil",
+  "qui": "ora",
+  "etat": "eveil",
+  "ou": "Atelier des consignes",
+  "texte": "Ici, tu écris des ordres de mission. Claude les note sur cinq critères."
+ },
+ {
+  "section": "16. Les autres pages (deux versions : Forma endormie, puis réveillée)",
+  "id": "annexe.equipe.sommeil",
+  "qui": "ora",
+  "etat": "sommeil",
+  "ou": "Page de l'équipe",
+  "texte": "… chaque dormeur… un vrai fichier de ton produit… touche-les… doucement…"
+ },
+ {
+  "section": "16. Les autres pages (deux versions : Forma endormie, puis réveillée)",
+  "id": "annexe.equipe.eveil",
+  "qui": "ora",
+  "etat": "eveil",
+  "ou": "Page de l'équipe",
+  "texte": "Chaque membre correspond à un vrai fichier de ton produit. Touche-le pour voir sa fiche."
+ },
+ {
+  "section": "16. Les autres pages (deux versions : Forma endormie, puis réveillée)",
+  "id": "annexe.maint.chaud.sommeil",
+  "qui": "ora",
+  "etat": "sommeil",
+  "ou": "Maintenance, des notions à réviser (leur nombre reste affiché à côté)",
+  "texte": "… ça chauffe… quelques notions à refroidir… vite fait…"
+ },
+ {
+  "section": "16. Les autres pages (deux versions : Forma endormie, puis réveillée)",
+  "id": "annexe.maint.chaud.eveil",
+  "qui": "ora",
+  "etat": "eveil",
+  "ou": "Maintenance, des notions à réviser (leur nombre reste affiché à côté)",
+  "texte": "Des notions surchauffent. Quelques minutes suffisent à les refroidir."
+ },
+ {
+  "section": "16. Les autres pages (deux versions : Forma endormie, puis réveillée)",
+  "id": "annexe.maint.calme.sommeil",
+  "qui": "ora",
+  "etat": "sommeil",
+  "ou": "Maintenance, rien à réviser aujourd'hui",
+  "texte": "… rien ne chauffe… dors… euh… reviens demain…"
+ },
+ {
+  "section": "16. Les autres pages (deux versions : Forma endormie, puis réveillée)",
+  "id": "annexe.maint.calme.eveil",
+  "qui": "ora",
+  "etat": "eveil",
+  "ou": "Maintenance, rien à réviser aujourd'hui",
+  "texte": "Aucune surchauffe aujourd'hui. Entraîne-toi, ou reviens demain."
+ },
+ {
+  "section": "16. Les autres pages (deux versions : Forma endormie, puis réveillée)",
+  "id": "annexe.maint.fin.sommeil",
+  "qui": "ora",
+  "etat": "sommeil",
+  "ou": "Maintenance terminée (le score reste affiché à côté)",
+  "texte": "… bien refroidi… les ratées reviendront demain…"
+ },
+ {
+  "section": "16. Les autres pages (deux versions : Forma endormie, puis réveillée)",
+  "id": "annexe.maint.fin.eveil",
+  "qui": "ora",
+  "etat": "eveil",
+  "ou": "Maintenance terminée (le score reste affiché à côté)",
+  "texte": "Maintenance terminée. Les ratées reviendront demain : c'est ce rythme qui ancre."
+ },
+ {
+  "section": "16. Les autres pages (deux versions : Forma endormie, puis réveillée)",
+  "id": "annexe.verrou.caisson.sommeil",
+  "qui": "ora",
+  "etat": "sommeil",
+  "ou": "Caisson verrouillé",
+  "texte": "… fermé… réveille d'abord… celui d'avant…"
+ },
+ {
+  "section": "16. Les autres pages (deux versions : Forma endormie, puis réveillée)",
+  "id": "annexe.verrou.caisson.eveil",
+  "qui": "ora",
+  "etat": "eveil",
+  "ou": "Caisson verrouillé",
+  "texte": "Ce caisson est verrouillé. Réveille d'abord le membre précédent."
+ },
+ {
+  "section": "16. Les autres pages (deux versions : Forma endormie, puis réveillée)",
+  "id": "annexe.verrou.protocole.sommeil",
+  "qui": "ora",
+  "etat": "sommeil",
+  "ou": "Protocole pas encore ouvert",
+  "texte": "… pas encore… termine le précédent… zzz…"
+ },
+ {
+  "section": "16. Les autres pages (deux versions : Forma endormie, puis réveillée)",
+  "id": "annexe.verrou.protocole.eveil",
+  "qui": "ora",
+  "etat": "eveil",
+  "ou": "Protocole pas encore ouvert",
+  "texte": "Pas encore ouvert. Termine le protocole précédent."
+ },
+ {
+  "section": "16. Les autres pages (deux versions : Forma endormie, puis réveillée)",
+  "id": "annexe.verrou.panne.sommeil",
+  "qui": "ora",
+  "etat": "sommeil",
+  "ou": "Panne ouverte trop tôt",
+  "texte": "… la panne… après tous les protocoles…"
+ },
+ {
+  "section": "16. Les autres pages (deux versions : Forma endormie, puis réveillée)",
+  "id": "annexe.verrou.panne.eveil",
+  "qui": "ora",
+  "etat": "eveil",
+  "ou": "Panne ouverte trop tôt",
+  "texte": "Termine d'abord tous les protocoles du caisson."
+ },
+ {
+  "section": "16. Les autres pages (deux versions : Forma endormie, puis réveillée)",
+  "id": "annexe.disjonction.sommeil",
+  "qui": "ora",
+  "etat": "sommeil",
+  "ou": "Les trois fusibles ont grillé",
+  "texte": "… boum… trois fusibles… pas de panique… relis… puis réarme…"
+ },
+ {
+  "section": "16. Les autres pages (deux versions : Forma endormie, puis réveillée)",
+  "id": "annexe.disjonction.eveil",
+  "qui": "ora",
+  "etat": "eveil",
+  "ou": "Les trois fusibles ont grillé",
+  "texte": "Disjonction ! Trois fusibles grillés. Relis les explications, puis réarme le tableau."
+ },
+ {
+  "section": "16. Les autres pages (deux versions : Forma endormie, puis réveillée)",
+  "id": "annexe.maint.vide.sommeil",
+  "qui": "ora",
+  "etat": "sommeil",
+  "ou": "Maintenance, aucune notion encore apprise",
+  "texte": "… rien à réviser… termine d'abord un protocole…"
+ },
+ {
+  "section": "16. Les autres pages (deux versions : Forma endormie, puis réveillée)",
+  "id": "annexe.preparation.eveil",
+  "qui": "ora",
+  "etat": "eveil",
+  "ou": "Caisson dont les protocoles ne sont pas encore écrits",
+  "texte": "Ses protocoles sont en préparation. Ils arriveront dans une prochaine version."
+ }
+]

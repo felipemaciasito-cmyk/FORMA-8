@@ -428,12 +428,32 @@ textarea.input { min-height: 96px; resize: vertical; line-height: 1.45; }
 .telemetry .bad b { color: var(--red); }
 .plug-gauge.panel { margin-top: 10px; padding: 10px 12px 12px; }
 
-/* ---------- Voix de l'équipe : bouton « Réécouter » dans une bulle ---------- */
-.voice-btn {
-  display: inline-flex; align-items: center; gap: 5px; flex: none; height: 24px; padding: 0 8px 0 7px;
-  border: 1px solid; border-radius: 12px; background: rgba(4, 6, 12, 0.35); opacity: 0.85;
-  transition: opacity .2s, background .2s;
-}
-.voice-btn[data-speaking] { opacity: 1; background: rgba(59, 232, 255, 0.1); }
+/* ---------- Voix de l'équipe : barres de niveau dans une bulle ---------- */
 .voice-bars { display: inline-flex; align-items: center; gap: 2px; height: 12px; }
 .voice-bars i { display: block; width: 2px; height: 12px; border-radius: 1px; background: currentColor; transform-origin: center; transition: transform .08s linear; }
+
+/* Compagnon du protocole (16/11/2026) : hublot à gauche de la batterie, bulle au-dessus. */
+.battery-dock > div { position: relative; }
+.companion-port { position: relative; flex: none; width: 46px; height: 46px; margin: -14px 0 -4px -4px; border-radius: 50%; display: grid; place-items: center; overflow: hidden; background: radial-gradient(circle at 50% 40%, #13203a, #070c17 70%); border: 1.5px solid var(--line); pointer-events: auto; transition: box-shadow .08s linear, border-color .08s linear; }
+.companion-z { position: absolute; right: 5px; top: 2px; font-size: 10px; color: var(--text-3); animation: companion-z 2.4s ease-in-out infinite; }
+@keyframes companion-z { 0%, 100% { opacity: .2; transform: translateY(2px); } 50% { opacity: .9; transform: translateY(-3px); } }
+.companion-bubble { position: absolute; left: 0; right: 0; bottom: calc(100% + 10px); padding: 10px 12px 12px; border-radius: 16px 16px 16px 4px; border: 1px solid var(--line); box-shadow: 0 10px 30px rgba(0,0,0,.55); pointer-events: auto; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
+.companion-bubble::after { content: ""; position: absolute; left: 18px; bottom: -7px; width: 12px; height: 12px; transform: rotate(45deg); background: #080d19; border-right: inherit; border-bottom: inherit; border-color: inherit; border-style: solid; border-width: 0 1px 1px 0; }
+.companion-name { display: flex; align-items: center; gap: 6px; font-size: 10.5px; letter-spacing: .14em; margin-bottom: 4px; }
+.reduce-motion .companion-z { animation: none; }
+
+/* ---------- Bulles de l'équipe (lot du 17/11/2026) : une seule à la fois, au premier plan, fermée une fois lue ---------- */
+.bulle-ligne { display: flex; align-items: flex-start; gap: 10px; }
+.bulle-col { flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: flex-start; }
+.portrait { position: relative; flex: none; display: grid; place-items: center; overflow: hidden; padding: 0; border-radius: 50%; border: 1.5px solid var(--line); background: radial-gradient(circle at 50% 40%, #13203a, #070c17 70%); cursor: pointer; transition: box-shadow .08s linear, border-color .08s linear; -webkit-tap-highlight-color: transparent; }
+.portrait-z { position: absolute; right: 6px; top: 3px; font-size: 10px; color: var(--text-3); animation: companion-z 2.4s ease-in-out infinite; pointer-events: none; }
+.bulle { position: relative; z-index: 20; width: 100%; padding: 10px 12px 12px; border-radius: 4px 16px 16px 16px; border: 1px solid var(--line); box-shadow: 0 10px 30px rgba(0,0,0,.5); cursor: pointer; }
+.bulle-nom { display: flex; align-items: center; gap: 6px; font-size: 10.5px; letter-spacing: .14em; margin-bottom: 4px; }
+.bulle-dort { letter-spacing: .04em; text-transform: none; color: var(--text-3); }
+.bulle-texte { line-height: 1.45; }
+.bulle-choix { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+.bulle-choix .btn { flex: 1 1 auto; min-height: 40px; }
+.bulle-indice { margin-top: 4px; padding: 4px 0; border: 0; background: none; color: var(--text-3); font-size: 10.5px; letter-spacing: .08em; text-align: left; cursor: pointer; }
+.capsule-btn { padding: 0; border: 0; background: none; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.panel.defi { border-color: hsl(var(--hue) 90% 60% / .35); }
+.reduce-motion .portrait-z { animation: none; }

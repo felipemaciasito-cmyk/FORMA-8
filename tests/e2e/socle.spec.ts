@@ -63,7 +63,7 @@ test("navigation entre les onglets", async ({ page }) => {
 
 test("ouvrir le caisson 00 : ses cinq protocoles de réveil", async ({ page }) => {
   await boot(page);
-  await page.getByRole("button", { name: /CAISSON 00 ORA/ }).click();
+  await page.getByRole("button", { name: /CAISSON 00 Forma Trisse/ }).click();
   await expect(page.getByText("Protocoles de réveil")).toBeVisible();
   await expect(page.getByText(/PROTOCOLE 0[1-5]/)).toHaveCount(5);
 });

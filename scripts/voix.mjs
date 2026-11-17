@@ -33,9 +33,13 @@ function arg(name) { const i = process.argv.indexOf(name); return i > 0 ? proces
 const [cmd, speaker, url] = process.argv.slice(2);
 if (cmd === "manquantes") {
   const recs = readJSON(recPath).repliques;
-  const todo = requiredLines(rooms(), readJSON(join(content, "equipe.json"))).filter((l) => !recs[l.key]);
+  const comp = existsSync(join(content, "compagnon.json")) ? readJSON(join(content, "compagnon.json")) : null;
+  const inter = existsSync(join(content, "interactions.json")) ? readJSON(join(content, "interactions.json")) : null;
+  const todo = requiredLines(rooms(), readJSON(join(content, "equipe.json")), comp, inter).filter((l) => !recs[l.key]);
   let total = 0;
-  for (const l of todo) { total += l.text.length; console.log(`${l.where.padEnd(10)} ${String(l.text.length).padStart(4)}  ${l.text}`); }
+  const json = process.argv.includes("--json");
+  for (const l of todo) { total += l.text.length; if (!json) console.log(`${l.where.padEnd(10)} ${String(l.text.length).padStart(4)}  ${l.text}`); }
+  if (json) { console.log(JSON.stringify(todo)); process.exit(0); }
   console.log(`\n${todo.length} réplique(s) sans voix, ${total} caractères.`);
 } else if (cmd === "ajouter" && speaker && url) {
   const texte = arg("--texte"); const envoye = arg("--envoye") ?? texte;

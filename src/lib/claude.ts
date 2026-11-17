@@ -87,7 +87,7 @@ export async function gradeFeynman(question: string, model: string, criteria: st
 
 export async function reexplain(term: string, definition: string, analogy: string, level: string) {
   return ask({
-    system: "Tu es ORA, guide pédagogique d'une appli qui apprend aux débutants à créer des applications avec l'IA. Tu réponds en français, en tutoyant, en 120 mots maximum. Tu n'utilises AUCUN terme technique sans l'expliquer immédiatement en mots simples. Pas de titre, pas de liste longue.",
+    system: "Tu es Forma Trisse, la formatrice robot d'une appli qui apprend aux débutants à créer des applications avec l'IA. Tu réponds en français, en tutoyant, en 120 mots maximum. Tu n'utilises AUCUN terme technique sans l'expliquer immédiatement en mots simples. Pas de titre, pas de liste longue.",
     user: `L'apprenant n'a pas compris la notion « ${term} ».\nDéfinition actuelle (${level}) : ${definition}\nAnalogie actuelle : ${analogy}\n\nRéexplique autrement : une autre image du quotidien, puis un exemple concret tiré d'une petite entreprise ou d'un freelance.`,
     maxTokens: 1500,
   });
@@ -186,11 +186,23 @@ export async function suggestIdeas(interests: string): Promise<ProductIdea[]> {
   return (JSON.parse(text) as { ideas: ProductIdea[] }).ideas.slice(0, 3);
 }
 
-/** « Demander à ORA » : répond à une question posée pendant un protocole, avec les notions déjà connues. */
+/** « Demander à Forma Trisse » : répond à une question posée pendant un protocole, avec les notions déjà connues. */
 export async function askOra(question: string, lesson: string, known: string[]): Promise<string> {
   return ask({
-    system: "Tu es ORA, guide bienveillante d'une appli qui apprend à un débutant à créer des applications avec Claude Code, depuis son iPhone. Tu réponds en français, en tutoyant, en 150 mots maximum. Tu n'utilises AUCUN terme technique que l'apprenant ne connaît pas encore sans l'expliquer aussitôt avec des mots simples. Si la question sort du sujet ou dépasse son niveau actuel, dis-le gentiment et donne une réponse simple. Si tu n'es pas sûr d'une information qui évolue vite (prix, fonctionnalités), dis-le et invite à vérifier la documentation officielle.",
+    system: "Tu es Forma Trisse, la formatrice robot bienveillante d'une appli qui apprend à un débutant à créer des applications avec Claude Code, depuis son iPhone. Tu réponds en français, en tutoyant, en 150 mots maximum. Tu n'utilises AUCUN terme technique que l'apprenant ne connaît pas encore sans l'expliquer aussitôt avec des mots simples. Si la question sort du sujet ou dépasse son niveau actuel, dis-le gentiment et donne une réponse simple. Si tu n'es pas sûr d'une information qui évolue vite (prix, fonctionnalités), dis-le et invite à vérifier la documentation officielle.",
     user: `Leçon en cours :\n"""${lesson.slice(0, 6000)}"""\n\nNotions que l'apprenant connaît déjà : ${known.length ? known.join(", ") : "aucune pour l'instant"}.\n\nSa question : """${question}"""`,
     maxTokens: 1500,
+  });
+}
+
+/**
+ * Question posée à un membre réveillé de l'équipe (lot du 17/11/2026) : il répond dans son domaine, avec sa
+ * personnalité, à la première personne, et renvoie vers un autre membre quand la question n'est pas de son ressort.
+ */
+export async function askMember(m: { nom: string; metier: string; personnalite: string; domaine: string }, question: string, known: string[]): Promise<string> {
+  return ask({
+    system: `Tu es ${m.nom}, ${m.metier} de l'équipe d'une appli qui apprend à un débutant à créer des applications avec Claude Code, depuis son iPhone. Ta personnalité : ${m.personnalite} Ton domaine : ${m.domaine}. Tu parles à la première personne et tu tutoies l'apprenant, en français, en 80 mots maximum, sans titre ni liste. Tu n'utilises AUCUN terme technique que l'apprenant ne connaît pas encore sans l'expliquer aussitôt avec des mots simples. Si la question sort de ton domaine, dis-le avec ton caractère et renvoie vers Forma Trisse, la formatrice. Si tu n'es pas sûr d'une information qui évolue vite, dis-le et invite à vérifier la documentation officielle.`,
+    user: `Notions que l'apprenant connaît déjà : ${known.length ? known.join(", ") : "aucune pour l'instant"}.\n\nSa question : """${question}"""`,
+    maxTokens: 900,
   });
 }

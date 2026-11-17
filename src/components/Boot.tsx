@@ -4,7 +4,8 @@ import { key, LEVER_HIT, LEVER_LAST, LEVER_LIGHTS, sfx, STORM_STRIKES, unlockAud
 import { flash, skyStrike } from "./Bolts";
 import { Icon } from "./Icon";
 import { updateProgress, updateSettings, useProgress } from "../lib/store";
-import { OraSays } from "./Ora";
+import { OraSays } from "./Bulle";
+import { INTERACTIONS } from "../lib/eveil";
 
 const BIOS = [
   "FORMA-8 · BIOS v8.0.26",
@@ -127,7 +128,8 @@ export function Boot({ power, onDone }: { power: number; onDone: () => void }) {
         <AnimatePresence>
           {phase === "ora" && (
             <motion.div key="ora" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} style={{ marginTop: 28 }}>
-              <OraSays md={"Bonjour. Je suis **ORA**, Opérateur de Relance Automatique.\n\nLe datacenter est rallumé. Dans sa réserve dorment **11 membres d'équipe** : chacun maîtrise une partie du métier de créateur d'applications. Réveille-les un par un, et ensemble vous construirez **ton propre produit**, jusqu'à son lancement. Je t'accompagnerai.\n\nComment dois-je t'appeler ?"} />
+              {/* Forma Trisse dort encore (choix du propriétaire, 17/11/2026) : elle émerge du sommeil en bafouillant. */}
+              <OraSays md={INTERACTIONS.boot.accueil} options={{ garder: true, retour: false }} />
               <form onSubmit={(e) => { e.preventDefault(); confirmName(); }} style={{ marginTop: 18 }}>
                 <input className="input" autoFocus placeholder="Ton prénom (facultatif)" value={name} onChange={(e) => setName(e.target.value)} maxLength={24} aria-label="Ton prénom" />
                 <button className="btn block" style={{ marginTop: 12 }} type="submit">Prendre mon poste</button>
@@ -136,18 +138,13 @@ export function Boot({ power, onDone }: { power: number; onDone: () => void }) {
           )}
           {phase === "ambience" && (
             <motion.div key="amb" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} style={{ marginTop: 28 }}>
-              <OraSays md={`Une question avant d'envoyer le courant${progress.name ? `, ${progress.name}` : ""} : veux-tu entendre la réserve ? Un **fond sonore** discret : le ronronnement des transformateurs, la ventilation, quelques grésillements au loin. Avec des écouteurs, c'est encore mieux. Tu pourras le changer à tout moment dans **Réglages**.`}
-                say={"Une question avant d'envoyer le courant : veux-tu entendre la réserve ? Un fond sonore discret : le ronronnement des transformateurs, la ventilation, quelques grésillements au loin. Avec des écouteurs, c'est encore mieux. Tu pourras le changer à tout moment dans Réglages."} />
-              <div className="stack" style={{ marginTop: 18, gap: 10 }}>
-                <button className="btn block" onClick={() => chooseAmbience(true)}>Oui, allume le fond sonore</button>
-                <button className="btn ghost block" onClick={() => chooseAmbience(false)}>Non merci</button>
-              </div>
+              {/* Les réponses sont dans la bulle (dialogue à choix). */}
+              <OraSays md={INTERACTIONS.boot.ambiance.texte} choix={INTERACTIONS.boot.ambiance.choix} onChoix={(i) => chooseAmbience(i === 0)} options={{ retour: false }} />
             </motion.div>
           )}
           {phase === "lever" && (
             <motion.div key="lever" initial={{ opacity: 0 }} animate={{ opacity: 1 }} style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 18 }}>
-              <OraSays compact md={`Parfait${progress.name ? `, ${progress.name}` : ""}. Abaisse le **levier principal** pour envoyer le courant dans la réserve.`}
-                say="Parfait. Abaisse le levier principal pour envoyer le courant dans la réserve." />
+              <OraSays compact md={INTERACTIONS.boot.levier} options={{ garder: true, retour: false }} />
               <Lever onPulled={pull} />
             </motion.div>
           )}

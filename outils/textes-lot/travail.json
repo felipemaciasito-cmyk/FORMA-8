@@ -1,0 +1,1454 @@
+[
+{
+"id": "boot.accueil",
+"qui": "ora",
+"voix": "t8BrjWUT5Z23DLLBzbuY",
+"envoye": "[sleepy] [mumbling] [slowly] … mmh… qui a rallumé la lune ?… je suis Forma Trisse… je crois… onze dormeurs dans la réserve… réveille-nous… et on construira ton produit… ton prénom ?…",
+"texte": "… mmh… qui a rallumé la lune ?… je suis Forma Trisse… je crois… onze dormeurs dans la réserve… réveille-nous… et on construira ton produit… ton prénom ?…"
+},
+{
+"id": "boot.ambiance",
+"qui": "ora",
+"voix": "t8BrjWUT5Z23DLLBzbuY",
+"envoye": "[sleepy] [mumbling] [slowly] … les machines ronronnent… comme un gros chat… tu veux les entendre ?… tu pourras changer d'avis… dans Réglages…",
+"texte": "… les machines ronronnent… comme un gros chat… tu veux les entendre ?… tu pourras changer d'avis… dans Réglages…"
+},
+{
+"id": "boot.levier",
+"qui": "ora",
+"voix": "t8BrjWUT5Z23DLLBzbuY",
+"envoye": "[sleepy] [mumbling] [slowly] … abaisse le grand levier… le courant réveillera tout le monde… enfin… presque…",
+"texte": "… abaisse le grand levier… le courant réveillera tout le monde… enfin… presque…"
+},
+{
+"id": "carte.premiere",
+"qui": "ora",
+"voix": "t8BrjWUT5Z23DLLBzbuY",
+"envoye": "[sleepy] [mumbling] [slowly] … zzz… caisson 00… c'est mon lit… viens me réveiller…",
+"texte": "… zzz… caisson 00… c'est mon lit… viens me réveiller…"
+},
+{
+"id": "carte.surchauffe.q.sommeil",
+"qui": "ora",
+"voix": "t8BrjWUT5Z23DLLBzbuY",
+"envoye": "[sleepy] [mumbling] [slowly] … ça sent le chaud… des notions surchauffent… on les refroidit ?…",
+"texte": "… ça sent le chaud… des notions surchauffent… on les refroidit ?…"
+},
+{
+"id": "carte.surchauffe.oui.sommeil",
+"qui": "ora",
+"voix": "t8BrjWUT5Z23DLLBzbuY",
+"envoye": "[sleepy] [mumbling] [slowly] … bonne idée… je te suis… zzz…",
+"texte": "… bonne idée… je te suis… zzz…"
+},
+{
+"id": "carte.surchauffe.non.sommeil",
+"qui": "ora",
+"voix": "t8BrjWUT5Z23DLLBzbuY",
+"envoye": "[sleepy] [mumbling] [slowly] … plus tard… oui… moi aussi… plus tard…",
+"texte": "… plus tard… oui… moi aussi… plus tard…"
+},
+{
+"id": "carte.surchauffe.q.eveil",
+"qui": "ora",
+"voix": "t8BrjWUT5Z23DLLBzbuY",
+"envoye": "Des notions surchauffent. On les refroidit d'abord ?",
+"texte": "Des notions surchauffent. On les refroidit d'abord ?"
+},
+{
+"id": "carte.surchauffe.oui.eveil",
+"qui": "ora",
+"voix": "t8BrjWUT5Z23DLLBzbuY",
+"envoye": "Allons-y. Quelques minutes suffisent.",
+"texte": "Allons-y. Quelques minutes suffisent."
+},
+{
+"id": "carte.surchauffe.non.eveil",
+"qui": "ora",
+"voix": "t8BrjWUT5Z23DLLBzbuY",
+"envoye": "D'accord. Elles t'attendront.",
+"texte": "D'accord. Elles t'attendront."
+},
+{
+"id": "carte.c01",
+"qui": "c01",
+"voix": "EMuO6fFLrXKOryHzij6K",
+"envoye": "[sleepy] [mumbling] [slowly] … zzz… caisson 01… c'est moi… viens me réveiller… j'ai rangé la girafe…",
+"texte": "… zzz… caisson 01… c'est moi… viens me réveiller… j'ai rangé la girafe…"
+},
+{
+"id": "c00.role",
+"qui": "ora",
+"voix": "t8BrjWUT5Z23DLLBzbuY",
+"envoye": "Je suis Forma Trisse, ta formatrice. Je t'apprends les bases, et je t'aide à réveiller l'équipe.",
+"texte": "Je suis Forma Trisse, ta formatrice. Je t'apprends les bases, et je t'aide à réveiller l'équipe."
+},
+{
+"id": "c00.dort",
+"qui": "ora",
+"voix": "t8BrjWUT5Z23DLLBzbuY",
+"envoye": "[sleepy] [mumbling] [slowly] … zzz… formatrice en veille… le premier protocole… il me réveillera…",
+"texte": "… zzz… formatrice en veille… le premier protocole… il me réveillera…"
+},
+{
+"id": "c00.demi",
+"qui": "ora",
+"voix": "t8BrjWUT5Z23DLLBzbuY",
+"envoye": "[sleepy] Mmh… mes circuits reviennent, un par un. Continue : tu apprends vite.",
+"texte": "Mmh… mes circuits reviennent, un par un. Continue : tu apprends vite."
+},
+{
+"id": "c00.reveil",
+"qui": "ora",
+"voix": "t8BrjWUT5Z23DLLBzbuY",
+"envoye": "Pleine puissance ! Les bases sont posées, et ta page est en ligne. Allons réveiller les autres.",
+"texte": "Pleine puissance ! Les bases sont posées, et ta page est en ligne. Allons réveiller les autres."
+},
+{
+"id": "c00.p1.debut",
+"qui": "ora",
+"voix": "t8BrjWUT5Z23DLLBzbuY",
+"envoye": "[sleepy] [mumbling] [slowly] … mmh… protocole un… on parle d'applications… et de magasins… je crois… zzz…",
+"texte": "… mmh… protocole un… on parle d'applications… et de magasins… je crois… zzz…"
+},
+{
+"id": "c00.p1.6",
+"qui": "ora",
+"voix": "t8BrjWUT5Z23DLLBzbuY",
+"envoye": "[sleepy] [mumbling] [slowly] … le client… le magasin… retiens le magasin… il reviendra souvent…",
+"texte": "… le client… le magasin… retiens le magasin… il reviendra souvent…"
+},
+{
+"id": "c00.p1.9",
+"qui": "ora",
+"voix": "t8BrjWUT5Z23DLLBzbuY",
+"envoye": "[sleepy] [mumbling] [slowly] … une question… prends ton temps… une erreur ne grille rien…",
+"texte": "… une question… prends ton temps… une erreur ne grille rien…"
+},
+{
+"id": "c00.p1.fin",
+"qui": "ora",
+"voix": "t8BrjWUT5Z23DLLBzbuY",
+"envoye": "[sleepy] [mumbling] [slowly] … la batterie… termine… branche-la sur la centrale… et j'ouvrirai un œil…",
+"texte": "… la batterie… termine… branche-la sur la centrale… et j'ouvrirai un œil…"
+},
+{
+"id": "c00.p2.debut",
+"qui": "ora",
+"voix": "t8BrjWUT5Z23DLLBzbuY",
+"envoye": "[sleepy] [mumbling] [slowly] … mmh… aujourd'hui… on ouvre le capot d'une page… sans rien écrire… promis…",
+"texte": "… mmh… aujourd'hui… on ouvre le capot d'une page… sans rien écrire… promis…"
+},
+{
+"id": "c00.p2.5",
+"qui": "ora",
+"voix": "t8BrjWUT5Z23DLLBzbuY",
+"envoye": "[sleepy] [mumbling] [slowly] … les murs… la peinture… l'électricité… trois langues… une seule maison…",
+"texte": "… les murs… la peinture… l'électricité… trois langues… une seule maison…"
+},
+{
+"id": "c00.p2.6",
+"qui": "ora",
+"voix": "t8BrjWUT5Z23DLLBzbuY",
+"envoye": "[sleepy] [mumbling] [slowly] … ton premier code… repère juste ce qui change… le reste… pas grave…",
+"texte": "… ton premier code… repère juste ce qui change… le reste… pas grave…"
+},
+{
+"id": "c00.p2.fin",
+"qui": "ora",
+"voix": "t8BrjWUT5Z23DLLBzbuY",
+"envoye": "[sleepy] [mumbling] [slowly] … je sens mes circuits… termine le protocole… zzz…",
+"texte": "… je sens mes circuits… termine le protocole… zzz…"
+},
+{
+"id": "c00.p3.debut",
+"qui": "ora",
+"voix": "t8BrjWUT5Z23DLLBzbuY",
+"envoye": "[sleepy] Mmh… ce protocole parle un peu de moi : l'intelligence artificielle. Je me réveille, promis.",
+"texte": "Mmh… ce protocole parle un peu de moi : l'intelligence artificielle. Je me réveille, promis."
+},
+{
+"id": "c00.p3.7",
+"qui": "ora",
+"voix": "t8BrjWUT5Z23DLLBzbuY",
+"envoye": "[sleepy] Décrire, laisser faire, vérifier. Retiens ces trois temps… pardon, je bâille.",
+"texte": "Décrire, laisser faire, vérifier. Retiens ces trois temps… pardon, je bâille."
+},
+{
+"id": "c00.p3.13",
+"qui": "ora",
+"voix": "t8BrjWUT5Z23DLLBzbuY",
+"envoye": "[sleepy] Explique avec tes mots, comme à un ami. J'écoute, les yeux mi-clos.",
+"texte": "Explique avec tes mots, comme à un ami. J'écoute, les yeux mi-clos."
+},
+{
+"id": "c00.p3.fin",
+"qui": "ora",
+"voix": "t8BrjWUT5Z23DLLBzbuY",
+"envoye": "[sleepy] Mes yeux s'ouvrent. Termine le protocole et branche la batterie.",
+"texte": "Mes yeux s'ouvrent. Termine le protocole et branche la batterie."
+},
+{
+"id": "c00.p4.debut",
+"qui": "ora",
+"voix": "t8BrjWUT5Z23DLLBzbuY",
+"envoye": "[sleepy] Moment important : tu choisis le produit que toute l'équipe construira avec toi.",
+"texte": "Moment important : tu choisis le produit que toute l'équipe construira avec toi."
+},
+{
+"id": "c00.p4.2",
+"qui": "ora",
+"voix": "t8BrjWUT5Z23DLLBzbuY",
+"envoye": "[sleepy] La serrure d'abord, la clé ensuite. Beaucoup de projets font l'inverse.",
+"texte": "La serrure d'abord, la clé ensuite. Beaucoup de projets font l'inverse."
+},
+{
+"id": "c00.p4.7",
+"qui": "ora",
+"voix": "t8BrjWUT5Z23DLLBzbuY",
+"envoye": "[sleepy] Note plusieurs idées avant de choisir. La première n'est pas toujours la bonne.",
+"texte": "Note plusieurs idées avant de choisir. La première n'est pas toujours la bonne."
+},
+{
+"id": "c00.p4.fin",
+"qui": "ora",
+"voix": "t8BrjWUT5Z23DLLBzbuY",
+"envoye": "[sleepy] Ton produit a un nom. Toute l'équipe le portera. Termine le protocole.",
+"texte": "Ton produit a un nom. Toute l'équipe le portera. Termine le protocole."
+},
+{
+"id": "c00.p5.debut",
+"qui": "ora",
+"voix": "t8BrjWUT5Z23DLLBzbuY",
+"envoye": "[sleepy] Dernier protocole : aujourd'hui, ton produit existe sur internet. Prévois deux quarts.",
+"texte": "Dernier protocole : aujourd'hui, ton produit existe sur internet. Prévois deux quarts."
+},
+{
+"id": "c00.p5.3",
+"qui": "ora",
+"voix": "t8BrjWUT5Z23DLLBzbuY",
+"envoye": "[sleepy] Une étape à la fois. Si un écran ne ressemble pas, touche « Je suis bloqué ».",
+"texte": "Une étape à la fois. Si un écran ne ressemble pas, touche « Je suis bloqué »."
+},
+{
+"id": "c00.p5.6",
+"qui": "ora",
+"voix": "t8BrjWUT5Z23DLLBzbuY",
+"envoye": "[sleepy] Ton premier ordre de mission. Copie-le tel quel dans Claude Code.",
+"texte": "Ton premier ordre de mission. Copie-le tel quel dans Claude Code."
+},
+{
+"id": "c00.p5.11",
+"qui": "ora",
+"voix": "t8BrjWUT5Z23DLLBzbuY",
+"envoye": "[sleepy] Encore cette procédure, et ta page sera visible par tout le monde.",
+"texte": "Encore cette procédure, et ta page sera visible par tout le monde."
+},
+{
+"id": "c00.p5.fin",
+"qui": "ora",
+"voix": "t8BrjWUT5Z23DLLBzbuY",
+"envoye": "[sleepy] Ta page est en ligne. Termine, puis répare la panne : je serai réveillée.",
+"texte": "Ta page est en ligne. Termine, puis répare la panne : je serai réveillée."
+},
+{
+"id": "c00.panne",
+"qui": "ora",
+"voix": "t8BrjWUT5Z23DLLBzbuY",
+"envoye": "[sleepy] Une panne, juste avant mon réveil ! Lis chaque alerte : une erreur grille un fusible.",
+"texte": "Une panne, juste avant mon réveil ! Lis chaque alerte : une erreur grille un fusible."
+},
+{
+"id": "c00.panneFin",
+"qui": "ora",
+"voix": "t8BrjWUT5Z23DLLBzbuY",
+"envoye": "[sleepy] Réparé. Envoie l'arc dans ma capsule, et j'ouvre les yeux.",
+"texte": "Réparé. Envoie l'arc dans ma capsule, et j'ouvre les yeux."
+},
+{
+"id": "c00.livraison",
+"qui": "ora",
+"voix": "t8BrjWUT5Z23DLLBzbuY",
+"envoye": "Ta livraison prouve que ta page existe vraiment. Je la vérifie sur GitHub.",
+"texte": "Ta livraison prouve que ta page existe vraiment. Je la vérifie sur GitHub."
+},
+{
+"id": "c00.reac.sommeil.premier.1",
+"qui": "ora",
+"voix": "t8BrjWUT5Z23DLLBzbuY",
+"envoye": "[sleepy] [mumbling] [slowly] … mmh… oui… bonne réponse… une cellule s'allume… c'est tout chaud…",
+"texte": "… mmh… oui… bonne réponse… une cellule s'allume… c'est tout chaud…"
+},
+{
+"id": "c00.reac.sommeil.premier.2",
+"qui": "ora",
+"voix": "t8BrjWUT5Z23DLLBzbuY",
+"envoye": "[sleepy] [mumbling] [slowly] … exact… j'ai rêvé d'un voyant vert… c'était toi…",
+"texte": "… exact… j'ai rêvé d'un voyant vert… c'était toi…"
+},
+{
+"id": "c00.reac.sommeil.perseverance.1",
+"qui": "ora",
+"voix": "t8BrjWUT5Z23DLLBzbuY",
+"envoye": "[sleepy] [mumbling] [slowly] … une erreur… puis la bonne… c'est comme ça qu'on retient… zzz…",
+"texte": "… une erreur… puis la bonne… c'est comme ça qu'on retient… zzz…"
+},
+{
+"id": "c00.reac.sommeil.perseverance.2",
+"qui": "ora",
+"voix": "t8BrjWUT5Z23DLLBzbuY",
+"envoye": "[sleepy] [mumbling] [slowly] … raté… puis trouvé… le meilleur ordre…",
+"texte": "… raté… puis trouvé… le meilleur ordre…"
+},
+{
+"id": "c00.reac.sommeil.indice.1",
+"qui": "ora",
+"voix": "t8BrjWUT5Z23DLLBzbuY",
+"envoye": "[sleepy] [mumbling] [slowly] … pas ça… la réponse dort juste au-dessus… dans les définitions…",
+"texte": "… pas ça… la réponse dort juste au-dessus… dans les définitions…"
+},
+{
+"id": "c00.reac.sommeil.indice.2",
+"qui": "ora",
+"voix": "t8BrjWUT5Z23DLLBzbuY",
+"envoye": "[sleepy] [mumbling] [slowly] … les chaussettes… mmh… remonte d'un ou deux blocs… et réessaie…",
+"texte": "… les chaussettes… mmh… remonte d'un ou deux blocs… et réessaie…"
+},
+{
+"id": "c00.reac.sommeil.serie.1",
+"qui": "ora",
+"voix": "t8BrjWUT5Z23DLLBzbuY",
+"envoye": "[sleepy] [mumbling] [slowly] … trois d'affilée… mes paupières clignotent…",
+"texte": "… trois d'affilée… mes paupières clignotent…"
+},
+{
+"id": "c00.reac.sommeil.serie.2",
+"qui": "ora",
+"voix": "t8BrjWUT5Z23DLLBzbuY",
+"envoye": "[sleepy] [mumbling] [slowly] … encore une… je vais finir par me réveiller…",
+"texte": "… encore une… je vais finir par me réveiller…"
+},
+{
+"id": "c00.reac.demi.premier.1",
+"qui": "ora",
+"voix": "t8BrjWUT5Z23DLLBzbuY",
+"envoye": "[sleepy] Bonne réponse. Une cellule s'allume.",
+"texte": "Bonne réponse. Une cellule s'allume."
+},
+{
+"id": "c00.reac.demi.premier.2",
+"qui": "ora",
+"voix": "t8BrjWUT5Z23DLLBzbuY",
+"envoye": "[sleepy] Exact. Je le sens dans mes circuits.",
+"texte": "Exact. Je le sens dans mes circuits."
+},
+{
+"id": "c00.reac.demi.perseverance.1",
+"qui": "ora",
+"voix": "t8BrjWUT5Z23DLLBzbuY",
+"envoye": "[sleepy] Tu as cherché, et tu as trouvé. C'est ainsi qu'on apprend.",
+"texte": "Tu as cherché, et tu as trouvé. C'est ainsi qu'on apprend."
+},
+{
+"id": "c00.reac.demi.perseverance.2",
+"qui": "ora",
+"voix": "t8BrjWUT5Z23DLLBzbuY",
+"envoye": "[sleepy] Une erreur, puis la bonne réponse : celle-là, tu ne l'oublieras pas.",
+"texte": "Une erreur, puis la bonne réponse : celle-là, tu ne l'oublieras pas."
+},
+{
+"id": "c00.reac.demi.indice.1",
+"qui": "ora",
+"voix": "t8BrjWUT5Z23DLLBzbuY",
+"envoye": "[sleepy] Pas encore. Relis la définition juste au-dessus.",
+"texte": "Pas encore. Relis la définition juste au-dessus."
+},
+{
+"id": "c00.reac.demi.indice.2",
+"qui": "ora",
+"voix": "t8BrjWUT5Z23DLLBzbuY",
+"envoye": "[sleepy] Une erreur ne coûte rien ici. Remonte un peu, puis réessaie.",
+"texte": "Une erreur ne coûte rien ici. Remonte un peu, puis réessaie."
+},
+{
+"id": "c00.reac.demi.serie.1",
+"qui": "ora",
+"voix": "t8BrjWUT5Z23DLLBzbuY",
+"envoye": "[sleepy] Trois sans faute. Mes voyants passent au vert.",
+"texte": "Trois sans faute. Mes voyants passent au vert."
+},
+{
+"id": "c00.reac.demi.serie.2",
+"qui": "ora",
+"voix": "t8BrjWUT5Z23DLLBzbuY",
+"envoye": "[sleepy] Quelle série ! Je me réveille plus vite que prévu.",
+"texte": "Quelle série ! Je me réveille plus vite que prévu."
+},
+{
+"id": "scene.c00.1",
+"qui": "ora",
+"voix": "t8BrjWUT5Z23DLLBzbuY",
+"envoye": "Mme Larchive ? Debout, on a du travail !",
+"texte": "Mme Larchive ? Debout, on a du travail !"
+},
+{
+"id": "scene.c00.2",
+"qui": "c01",
+"voix": "EMuO6fFLrXKOryHzij6K",
+"envoye": "[sleepy] [mumbling] [slowly] … encore cinq minutes…",
+"texte": "… encore cinq minutes…"
+},
+{
+"id": "scene.c00.3",
+"qui": "ora",
+"voix": "t8BrjWUT5Z23DLLBzbuY",
+"envoye": "Elle dort profondément. À toi de la réveiller, au caisson 01.",
+"texte": "Elle dort profondément. À toi de la réveiller, au caisson 01."
+},
+{
+"id": "c01.role",
+"qui": "c01",
+"voix": "EMuO6fFLrXKOryHzij6K",
+"envoye": "Je suis Mme Larchive, l'archiviste. Je garde chaque version de ton produit, pour que tu puisses toujours revenir en arrière.",
+"texte": "Je suis Mme Larchive, l'archiviste. Je garde chaque version de ton produit, pour que tu puisses toujours revenir en arrière."
+},
+{
+"id": "c01.dort",
+"qui": "c01",
+"voix": "EMuO6fFLrXKOryHzij6K",
+"envoye": "[sleepy] [mumbling] [slowly] … qui a rangé la girafe dans le tiroir B ?… je ne jette rien… même pas la girafe…",
+"texte": "… qui a rangé la girafe dans le tiroir B ?… je ne jette rien… même pas la girafe…"
+},
+{
+"id": "c01.demi",
+"qui": "c01",
+"voix": "EMuO6fFLrXKOryHzij6K",
+"envoye": "[sleepy] [mumbling] [slowly] … mmh… je me souviens d'un album… chaque étape du chantier… encore un effort…",
+"texte": "… mmh… je me souviens d'un album… chaque étape du chantier… encore un effort…"
+},
+{
+"id": "c01.reveil",
+"qui": "c01",
+"voix": "EMuO6fFLrXKOryHzij6K",
+"envoye": "Bonjour, chef. Me voilà réveillée. Plus aucune version de ton produit ne se perdra. Et si quelque chose casse, on reviendra en arrière, sans rien effacer.",
+"texte": "Bonjour, chef. Me voilà réveillée. Plus aucune version de ton produit ne se perdra. Et si quelque chose casse, on reviendra en arrière, sans rien effacer."
+},
+{
+"id": "c01.p1.debut",
+"qui": "c01",
+"voix": "EMuO6fFLrXKOryHzij6K",
+"envoye": "[sleepy] [mumbling] [slowly] … mmh… tu es là ?… je rêvais de photos… de chantier… parlons souvenirs…",
+"texte": "… mmh… tu es là ?… je rêvais de photos… de chantier… parlons souvenirs…"
+},
+{
+"id": "c01.p1.3",
+"qui": "c01",
+"voix": "EMuO6fFLrXKOryHzij6K",
+"envoye": "[sleepy] [mumbling] [slowly] … les photos du chantier… des milliers… toutes dans l'ordre… sauf la girafe…",
+"texte": "… les photos du chantier… des milliers… toutes dans l'ordre… sauf la girafe…"
+},
+{
+"id": "c01.p1.8",
+"qui": "c01",
+"voix": "EMuO6fFLrXKOryHzij6K",
+"envoye": "[sleepy] [mumbling] [slowly] … remonte le temps… vas-y… rien n'est jamais perdu…",
+"texte": "… remonte le temps… vas-y… rien n'est jamais perdu…"
+},
+{
+"id": "c01.p1.fin",
+"qui": "c01",
+"voix": "EMuO6fFLrXKOryHzij6K",
+"envoye": "[sleepy] [mumbling] [slowly] … je sens un courant… termine… branche la batterie… sur ma capsule…",
+"texte": "… je sens un courant… termine… branche la batterie… sur ma capsule…"
+},
+{
+"id": "c01.p2.debut",
+"qui": "c01",
+"voix": "EMuO6fFLrXKOryHzij6K",
+"envoye": "[sleepy] [mumbling] [slowly] … aujourd'hui… une légende sous chaque photo… sinon je confonds tout…",
+"texte": "… aujourd'hui… une légende sous chaque photo… sinon je confonds tout…"
+},
+{
+"id": "c01.p2.4",
+"qui": "c01",
+"voix": "EMuO6fFLrXKOryHzij6K",
+"envoye": "[sleepy] [mumbling] [slowly] … une légende courte… claire… pas « truc »… ni « bidule »…",
+"texte": "… une légende courte… claire… pas « truc »… ni « bidule »…"
+},
+{
+"id": "c01.p2.6",
+"qui": "c01",
+"voix": "EMuO6fFLrXKOryHzij6K",
+"envoye": "[sleepy] [mumbling] [slowly] … ton ancien projet… six photos seulement… je m'en souviens…",
+"texte": "… ton ancien projet… six photos seulement… je m'en souviens…"
+},
+{
+"id": "c01.p2.fin",
+"qui": "c01",
+"voix": "EMuO6fFLrXKOryHzij6K",
+"envoye": "[sleepy] [mumbling] [slowly] … la batterie est presque pleine… termine… et branche-la…",
+"texte": "… la batterie est presque pleine… termine… et branche-la…"
+},
+{
+"id": "c01.p3.debut",
+"qui": "c01",
+"voix": "EMuO6fFLrXKOryHzij6K",
+"envoye": "[sleepy] Mmh… une voie d'essai. On essaie à côté, sans rien casser. Pardon, je bâille.",
+"texte": "Mmh… une voie d'essai. On essaie à côté, sans rien casser. Pardon, je bâille."
+},
+{
+"id": "c01.p3.2",
+"qui": "c01",
+"voix": "EMuO6fFLrXKOryHzij6K",
+"envoye": "[sleepy] Les trains d'essai ne gênent personne. C'est rassurant.",
+"texte": "Les trains d'essai ne gênent personne. C'est rassurant."
+},
+{
+"id": "c01.p3.8",
+"qui": "c01",
+"voix": "EMuO6fFLrXKOryHzij6K",
+"envoye": "[sleepy] Ta première branche, à la main. Je regarde, les yeux mi-clos.",
+"texte": "Ta première branche, à la main. Je regarde, les yeux mi-clos."
+},
+{
+"id": "c01.p3.fin",
+"qui": "c01",
+"voix": "EMuO6fFLrXKOryHzij6K",
+"envoye": "[sleepy] Encore un peu de courant. Termine le protocole.",
+"texte": "Encore un peu de courant. Termine le protocole."
+},
+{
+"id": "c01.p4.debut",
+"qui": "c01",
+"voix": "EMuO6fFLrXKOryHzij6K",
+"envoye": "[sleepy] Relire avant de fusionner : c'est ma règle la plus importante.",
+"texte": "Relire avant de fusionner : c'est ma règle la plus importante."
+},
+{
+"id": "c01.p4.6",
+"qui": "c01",
+"voix": "EMuO6fFLrXKOryHzij6K",
+"envoye": "[sleepy] Relis ligne par ligne. Je t'attends.",
+"texte": "Relis ligne par ligne. Je t'attends."
+},
+{
+"id": "c01.p4.10",
+"qui": "c01",
+"voix": "EMuO6fFLrXKOryHzij6K",
+"envoye": "[sleepy] Tu confies le travail, mais c'est toi qui relis. Toujours.",
+"texte": "Tu confies le travail, mais c'est toi qui relis. Toujours."
+},
+{
+"id": "c01.p4.fin",
+"qui": "c01",
+"voix": "EMuO6fFLrXKOryHzij6K",
+"envoye": "[sleepy] Mes paupières bougent. Termine le protocole.",
+"texte": "Mes paupières bougent. Termine le protocole."
+},
+{
+"id": "c01.p5.debut",
+"qui": "c01",
+"voix": "EMuO6fFLrXKOryHzij6K",
+"envoye": "[sleepy] Revenir en arrière sans rien effacer : c'est mon métier.",
+"texte": "Revenir en arrière sans rien effacer : c'est mon métier."
+},
+{
+"id": "c01.p5.2",
+"qui": "c01",
+"voix": "EMuO6fFLrXKOryHzij6K",
+"envoye": "[sleepy] À l'encre, jamais à la gomme. On corrige en dessous.",
+"texte": "À l'encre, jamais à la gomme. On corrige en dessous."
+},
+{
+"id": "c01.p5.8",
+"qui": "c01",
+"voix": "EMuO6fFLrXKOryHzij6K",
+"envoye": "[sleepy] Deux versions qui se disputent : c'est toi qui tranches.",
+"texte": "Deux versions qui se disputent : c'est toi qui tranches."
+},
+{
+"id": "c01.p5.fin",
+"qui": "c01",
+"voix": "EMuO6fFLrXKOryHzij6K",
+"envoye": "[sleepy] Presque réveillée. Termine, répare la panne, et j'ouvre les yeux.",
+"texte": "Presque réveillée. Termine, répare la panne, et j'ouvre les yeux."
+},
+{
+"id": "c01.panne",
+"qui": "c01",
+"voix": "EMuO6fFLrXKOryHzij6K",
+"envoye": "[sleepy] Des alertes dans mes archives ! Réfléchis avant de toucher : les fusibles sont fragiles.",
+"texte": "Des alertes dans mes archives ! Réfléchis avant de toucher : les fusibles sont fragiles."
+},
+{
+"id": "c01.panneFin",
+"qui": "c01",
+"voix": "EMuO6fFLrXKOryHzij6K",
+"envoye": "[sleepy] Le courant passe. Envoie l'arc, maintenant.",
+"texte": "Le courant passe. Envoie l'arc, maintenant."
+},
+{
+"id": "c01.livraison",
+"qui": "c01",
+"voix": "EMuO6fFLrXKOryHzij6K",
+"envoye": "Je vérifie tes archives sur GitHub : cinq commits, une pull request fusionnée, et ton README.",
+"texte": "Je vérifie tes archives sur GitHub : cinq commits, une pull request fusionnée, et ton README."
+},
+{
+"id": "c01.reac.sommeil.premier.1",
+"qui": "c01",
+"voix": "EMuO6fFLrXKOryHzij6K",
+"envoye": "[sleepy] [mumbling] [slowly] … mmh… bonne réponse… je la colle dans l'album…",
+"texte": "… mmh… bonne réponse… je la colle dans l'album…"
+},
+{
+"id": "c01.reac.sommeil.premier.2",
+"qui": "c01",
+"voix": "EMuO6fFLrXKOryHzij6K",
+"envoye": "[sleepy] [mumbling] [slowly] … exact… une cellule… ça chatouille…",
+"texte": "… exact… une cellule… ça chatouille…"
+},
+{
+"id": "c01.reac.sommeil.perseverance.1",
+"qui": "c01",
+"voix": "EMuO6fFLrXKOryHzij6K",
+"envoye": "[sleepy] [mumbling] [slowly] … raté… puis trouvé… je garde aussi les brouillons…",
+"texte": "… raté… puis trouvé… je garde aussi les brouillons…"
+},
+{
+"id": "c01.reac.sommeil.perseverance.2",
+"qui": "c01",
+"voix": "EMuO6fFLrXKOryHzij6K",
+"envoye": "[sleepy] [mumbling] [slowly] … une erreur… puis la bonne… c'est l'ordre normal…",
+"texte": "… une erreur… puis la bonne… c'est l'ordre normal…"
+},
+{
+"id": "c01.reac.sommeil.indice.1",
+"qui": "c01",
+"voix": "EMuO6fFLrXKOryHzij6K",
+"envoye": "[sleepy] [mumbling] [slowly] … les chaussettes… mmh… relis la définition… juste au-dessus…",
+"texte": "… les chaussettes… mmh… relis la définition… juste au-dessus…"
+},
+{
+"id": "c01.reac.sommeil.indice.2",
+"qui": "c01",
+"voix": "EMuO6fFLrXKOryHzij6K",
+"envoye": "[sleepy] [mumbling] [slowly] … la réponse… elle est rangée… un peu plus haut…",
+"texte": "… la réponse… elle est rangée… un peu plus haut…"
+},
+{
+"id": "c01.reac.sommeil.serie.1",
+"qui": "c01",
+"voix": "EMuO6fFLrXKOryHzij6K",
+"envoye": "[sleepy] [mumbling] [slowly] … trois d'affilée… je fais un très beau rêve…",
+"texte": "… trois d'affilée… je fais un très beau rêve…"
+},
+{
+"id": "c01.reac.sommeil.serie.2",
+"qui": "c01",
+"voix": "EMuO6fFLrXKOryHzij6K",
+"envoye": "[sleepy] [mumbling] [slowly] … encore une… mes paupières dansent…",
+"texte": "… encore une… mes paupières dansent…"
+},
+{
+"id": "c01.reac.demi.premier.1",
+"qui": "c01",
+"voix": "EMuO6fFLrXKOryHzij6K",
+"envoye": "[sleepy] Exact. Je l'inscris au registre.",
+"texte": "Exact. Je l'inscris au registre."
+},
+{
+"id": "c01.reac.demi.premier.2",
+"qui": "c01",
+"voix": "EMuO6fFLrXKOryHzij6K",
+"envoye": "[sleepy] Bonne réponse. Une cellule de plus.",
+"texte": "Bonne réponse. Une cellule de plus."
+},
+{
+"id": "c01.reac.demi.perseverance.1",
+"qui": "c01",
+"voix": "EMuO6fFLrXKOryHzij6K",
+"envoye": "[sleepy] Une erreur, puis la bonne réponse. Je garde les deux : c'est précieux.",
+"texte": "Une erreur, puis la bonne réponse. Je garde les deux : c'est précieux."
+},
+{
+"id": "c01.reac.demi.perseverance.2",
+"qui": "c01",
+"voix": "EMuO6fFLrXKOryHzij6K",
+"envoye": "[sleepy] Tu as recommencé, et tu as trouvé. Bravo.",
+"texte": "Tu as recommencé, et tu as trouvé. Bravo."
+},
+{
+"id": "c01.reac.demi.indice.1",
+"qui": "c01",
+"voix": "EMuO6fFLrXKOryHzij6K",
+"envoye": "[sleepy] Pas tout à fait. Reprends la définition, puis réessaie.",
+"texte": "Pas tout à fait. Reprends la définition, puis réessaie."
+},
+{
+"id": "c01.reac.demi.indice.2",
+"qui": "c01",
+"voix": "EMuO6fFLrXKOryHzij6K",
+"envoye": "[sleepy] Doucement. Tout est noté un peu plus haut.",
+"texte": "Doucement. Tout est noté un peu plus haut."
+},
+{
+"id": "c01.reac.demi.serie.1",
+"qui": "c01",
+"voix": "EMuO6fFLrXKOryHzij6K",
+"envoye": "[sleepy] Trois d'affilée. Je suis presque réveillée.",
+"texte": "Trois d'affilée. Je suis presque réveillée."
+},
+{
+"id": "c01.reac.demi.serie.2",
+"qui": "c01",
+"voix": "EMuO6fFLrXKOryHzij6K",
+"envoye": "[sleepy] Encore une. Mes yeux s'ouvrent.",
+"texte": "Encore une. Mes yeux s'ouvrent."
+},
+{
+"id": "scene.c01.1",
+"qui": "ora",
+"voix": "t8BrjWUT5Z23DLLBzbuY",
+"envoye": "Bienvenue parmi nous, Mme Larchive. Bien dormi ?",
+"texte": "Bienvenue parmi nous, Mme Larchive. Bien dormi ?"
+},
+{
+"id": "scene.c01.2",
+"qui": "c01",
+"voix": "EMuO6fFLrXKOryHzij6K",
+"envoye": "Comme une bûche. Merci, Forma Trisse.",
+"texte": "Comme une bûche. Merci, Forma Trisse."
+},
+{
+"id": "scene.c01.3",
+"qui": "ora",
+"voix": "t8BrjWUT5Z23DLLBzbuY",
+"envoye": "Tu es entre de bonnes mains. Allons réveiller la suite.",
+"texte": "Tu es entre de bonnes mains. Allons réveiller la suite."
+},
+{
+"id": "c02.role",
+"qui": "c02",
+"voix": "5l4ttmr4SKNgi0HnOelT",
+"envoye": "Je suis le Général Calpin, le règlement de bord. J'écris les règles que toute l'équipe suit, à chaque séance de travail.",
+"texte": "Je suis le Général Calpin, le règlement de bord. J'écris les règles que toute l'équipe suit, à chaque séance de travail."
+},
+{
+"id": "c02.dort",
+"qui": "c02",
+"voix": "5l4ttmr4SKNgi0HnOelT",
+"envoye": "[sleepy] [mumbling] [slowly] … article douze… il est interdit… de ronfler en service… repos !…",
+"texte": "… article douze… il est interdit… de ronfler en service… repos !…"
+},
+{
+"id": "c03.role",
+"qui": "c03",
+"voix": "86fYoxrFeaJKXplThwSl",
+"envoye": "Je suis M. Laplume, le scribe. Avant de construire quoi que ce soit, je décris avec toi ce qu'il faut construire.",
+"texte": "Je suis M. Laplume, le scribe. Avant de construire quoi que ce soit, je décris avec toi ce qu'il faut construire."
+},
+{
+"id": "c03.dort",
+"qui": "c03",
+"voix": "86fYoxrFeaJKXplThwSl",
+"envoye": "[sleepy] [mumbling] [slowly] … il était une fois… un bouton… qui rêvait de devenir… une fusée…",
+"texte": "… il était une fois… un bouton… qui rêvait de devenir… une fusée…"
+},
+{
+"id": "c04.role",
+"qui": "c04",
+"voix": "KSyQzmsYhFbuOhqj1Xxv",
+"envoye": "Je suis Mme Bonna Bitude, la boucle ! Je demande, je relis, je corrige, et je recommence jusqu'à ce que ça marche.",
+"texte": "Je suis Mme Bonna Bitude, la boucle ! Je demande, je relis, je corrige, et je recommence jusqu'à ce que ça marche."
+},
+{
+"id": "c04.dort",
+"qui": "c04",
+"voix": "KSyQzmsYhFbuOhqj1Xxv",
+"envoye": "[sleepy] [mumbling] [slowly] … encore un tour… et encore un… qui a mis un manège dans mon rêve ?…",
+"texte": "… encore un tour… et encore un… qui a mis un manège dans mon rêve ?…"
+},
+{
+"id": "c05.role",
+"qui": "c05",
+"voix": "fnoOtHjtLbYs6mOpUSdr",
+"envoye": "Nous sommes Dupond et Dupont, les inspecteurs. Nous vérifions que tout fonctionne, à chaque changement. Sans exception.",
+"texte": "Nous sommes Dupond et Dupont, les inspecteurs. Nous vérifions que tout fonctionne, à chaque changement. Sans exception.",
+"duo": "Qrl71rx6Yg8RvyPYRGCQ"
+},
+{
+"id": "c05.dort",
+"qui": "c05",
+"voix": "fnoOtHjtLbYs6mOpUSdr",
+"envoye": "[sleepy] [mumbling] [slowly] … vérifié… revérifié… re-revérifié… ronfle moins fort, toi…",
+"texte": "… vérifié… revérifié… re-revérifié… ronfle moins fort, toi…",
+"duo": "Qrl71rx6Yg8RvyPYRGCQ"
+},
+{
+"id": "c06.role",
+"qui": "c06",
+"voix": "hv6gVog5LgtIUX88Nmq8",
+"envoye": "Je suis Hermès Coursier, le messager ! Je mets ton produit en ligne, vite, et sans rien casser.",
+"texte": "Je suis Hermès Coursier, le messager ! Je mets ton produit en ligne, vite, et sans rien casser."
+},
+{
+"id": "c06.dort",
+"qui": "c06",
+"voix": "hv6gVog5LgtIUX88Nmq8",
+"envoye": "[sleepy] [mumbling] [slowly] … colis pour la lune… signez ici… attention, c'est fragile…",
+"texte": "… colis pour la lune… signez ici… attention, c'est fragile…"
+},
+{
+"id": "c07.role",
+"qui": "c07",
+"voix": "hFgOzpmS0CMtL2to8sAl",
+"envoye": "Je suis Fabienne, la dame du CDI : la mémoire de l'équipe. Je garde les données et les comptes de tes utilisateurs.",
+"texte": "Je suis Fabienne, la dame du CDI : la mémoire de l'équipe. Je garde les données et les comptes de tes utilisateurs."
+},
+{
+"id": "c07.dort",
+"qui": "c07",
+"voix": "hFgOzpmS0CMtL2to8sAl",
+"envoye": "[sleepy] [mumbling] [slowly] … chut… on est au CDI… rendez vos souvenirs… avant mardi…",
+"texte": "… chut… on est au CDI… rendez vos souvenirs… avant mardi…"
+},
+{
+"id": "c08.role",
+"qui": "c08",
+"voix": "E933WO9WB9GvOmNCycNW",
+"envoye": "Je suis Senty Nell, la sentinelle. Je protège tes secrets, tes utilisateurs et ton budget.",
+"texte": "Je suis Senty Nell, la sentinelle. Je protège tes secrets, tes utilisateurs et ton budget."
+},
+{
+"id": "c08.dort",
+"qui": "c08",
+"voix": "E933WO9WB9GvOmNCycNW",
+"envoye": "[sleepy] [mumbling] [slowly] … halte… mot de passe ?… « pistache »… non… c'était hier…",
+"texte": "… halte… mot de passe ?… « pistache »… non… c'était hier…"
+},
+{
+"id": "c09.role",
+"qui": "c09",
+"voix": "7t206LwybBCgHnAvOdtX",
+"envoye": "Je suis Lana Mageuse. Je mène l'escouade : mes drones travaillent en même temps, et mes réflexes veillent pour toi.",
+"texte": "Je suis Lana Mageuse. Je mène l'escouade : mes drones travaillent en même temps, et mes réflexes veillent pour toi."
+},
+{
+"id": "c09.dort",
+"qui": "c09",
+"voix": "7t206LwybBCgHnAvOdtX",
+"envoye": "[sleepy] [mumbling] [slowly] … drone numéro trois… arrête de chanter… on est en formation…",
+"texte": "… drone numéro trois… arrête de chanter… on est en formation…"
+},
+{
+"id": "c10.role",
+"qui": "c10",
+"voix": "t28pUgJnL2wUUQ8SOnaU",
+"envoye": "Je suis Alex Pédition, le lancement. Je présente ton produit au monde, et je t'aide à en faire ton métier.",
+"texte": "Je suis Alex Pédition, le lancement. Je présente ton produit au monde, et je t'aide à en faire ton métier."
+},
+{
+"id": "c10.dort",
+"qui": "c10",
+"voix": "t28pUgJnL2wUUQ8SOnaU",
+"envoye": "[sleepy] [mumbling] [slowly] … dix… neuf… huit… j'ai oublié la suite… on recommence…",
+"texte": "… dix… neuf… huit… j'ai oublié la suite… on recommence…"
+},
+{
+"id": "retour.ora.sommeil.1",
+"qui": "ora",
+"voix": "t8BrjWUT5Z23DLLBzbuY",
+"envoye": "[sleepy] [mumbling] [slowly] … te revoilà… zzz…",
+"texte": "… te revoilà… zzz…"
+},
+{
+"id": "retour.ora.sommeil.2",
+"qui": "ora",
+"voix": "t8BrjWUT5Z23DLLBzbuY",
+"envoye": "[sleepy] [mumbling] [slowly] … mmh… déjà ?…",
+"texte": "… mmh… déjà ?…"
+},
+{
+"id": "retour.ora.sommeil.3",
+"qui": "ora",
+"voix": "t8BrjWUT5Z23DLLBzbuY",
+"envoye": "[sleepy] [mumbling] [slowly] … on reprend… je crois…",
+"texte": "… on reprend… je crois…"
+},
+{
+"id": "retour.ora.sommeil.4",
+"qui": "ora",
+"voix": "t8BrjWUT5Z23DLLBzbuY",
+"envoye": "[sleepy] [mumbling] [slowly] … c'est toi ?… bien…",
+"texte": "… c'est toi ?… bien…"
+},
+{
+"id": "retour.ora.eveil.1",
+"qui": "ora",
+"voix": "t8BrjWUT5Z23DLLBzbuY",
+"envoye": "Te revoilà.",
+"texte": "Te revoilà."
+},
+{
+"id": "retour.ora.eveil.2",
+"qui": "ora",
+"voix": "t8BrjWUT5Z23DLLBzbuY",
+"envoye": "On reprend ?",
+"texte": "On reprend ?"
+},
+{
+"id": "retour.ora.eveil.3",
+"qui": "ora",
+"voix": "t8BrjWUT5Z23DLLBzbuY",
+"envoye": "Contente de te revoir.",
+"texte": "Contente de te revoir."
+},
+{
+"id": "retour.ora.eveil.4",
+"qui": "ora",
+"voix": "t8BrjWUT5Z23DLLBzbuY",
+"envoye": "La réserve t'attendait.",
+"texte": "La réserve t'attendait."
+},
+{
+"id": "retour.c01.sommeil.1",
+"qui": "c01",
+"voix": "EMuO6fFLrXKOryHzij6K",
+"envoye": "[sleepy] [mumbling] [slowly] … mmh… re-bonjour…",
+"texte": "… mmh… re-bonjour…"
+},
+{
+"id": "retour.c01.sommeil.2",
+"qui": "c01",
+"voix": "EMuO6fFLrXKOryHzij6K",
+"envoye": "[sleepy] [mumbling] [slowly] … je t'ai gardé ta place…",
+"texte": "… je t'ai gardé ta place…"
+},
+{
+"id": "retour.c01.sommeil.3",
+"qui": "c01",
+"voix": "EMuO6fFLrXKOryHzij6K",
+"envoye": "[sleepy] [mumbling] [slowly] … zzz… on en était où ?…",
+"texte": "… zzz… on en était où ?…"
+},
+{
+"id": "retour.c01.sommeil.4",
+"qui": "c01",
+"voix": "EMuO6fFLrXKOryHzij6K",
+"envoye": "[sleepy] [mumbling] [slowly] … tu reviens… je le note…",
+"texte": "… tu reviens… je le note…"
+},
+{
+"id": "retour.c01.eveil.1",
+"qui": "c01",
+"voix": "EMuO6fFLrXKOryHzij6K",
+"envoye": "Te revoilà, chef.",
+"texte": "Te revoilà, chef."
+},
+{
+"id": "retour.c01.eveil.2",
+"qui": "c01",
+"voix": "EMuO6fFLrXKOryHzij6K",
+"envoye": "J'ai tout gardé en ordre.",
+"texte": "J'ai tout gardé en ordre."
+},
+{
+"id": "retour.c01.eveil.3",
+"qui": "c01",
+"voix": "EMuO6fFLrXKOryHzij6K",
+"envoye": "On reprend où on en était ?",
+"texte": "On reprend où on en était ?"
+},
+{
+"id": "retour.c01.eveil.4",
+"qui": "c01",
+"voix": "EMuO6fFLrXKOryHzij6K",
+"envoye": "Rien ne s'est perdu en ton absence.",
+"texte": "Rien ne s'est perdu en ton absence."
+},
+{
+"id": "toucher.ora.sommeil.1",
+"qui": "ora",
+"voix": "t8BrjWUT5Z23DLLBzbuY",
+"envoye": "[sleepy] [mumbling] [slowly] … hein ?… qui me chatouille ?…",
+"texte": "… hein ?… qui me chatouille ?…"
+},
+{
+"id": "toucher.ora.sommeil.2",
+"qui": "ora",
+"voix": "t8BrjWUT5Z23DLLBzbuY",
+"envoye": "[sleepy] [mumbling] [slowly] … encore cinq minutes…",
+"texte": "… encore cinq minutes…"
+},
+{
+"id": "toucher.ora.sommeil.3",
+"qui": "ora",
+"voix": "t8BrjWUT5Z23DLLBzbuY",
+"envoye": "[sleepy] [mumbling] [slowly] … mes voyants… laisse mes voyants…",
+"texte": "… mes voyants… laisse mes voyants…"
+},
+{
+"id": "toucher.ora.sommeil.4",
+"qui": "ora",
+"voix": "t8BrjWUT5Z23DLLBzbuY",
+"envoye": "[sleepy] [mumbling] [slowly] … non… je ne suis pas un bouton…",
+"texte": "… non… je ne suis pas un bouton…"
+},
+{
+"id": "toucher.ora.eveil.1",
+"qui": "ora",
+"voix": "t8BrjWUT5Z23DLLBzbuY",
+"envoye": "Oui ? Je suis là.",
+"texte": "Oui ? Je suis là."
+},
+{
+"id": "toucher.ora.eveil.2",
+"qui": "ora",
+"voix": "t8BrjWUT5Z23DLLBzbuY",
+"envoye": "Ça chatouille les circuits.",
+"texte": "Ça chatouille les circuits."
+},
+{
+"id": "toucher.ora.eveil.3",
+"qui": "ora",
+"voix": "t8BrjWUT5Z23DLLBzbuY",
+"envoye": "Une question ? Touche « Demander à Forma Trisse ».",
+"texte": "Une question ? Touche « Demander à Forma Trisse »."
+},
+{
+"id": "toucher.ora.eveil.4",
+"qui": "ora",
+"voix": "t8BrjWUT5Z23DLLBzbuY",
+"envoye": "Toujours en service.",
+"texte": "Toujours en service."
+},
+{
+"id": "toucher.c01.sommeil.1",
+"qui": "c01",
+"voix": "EMuO6fFLrXKOryHzij6K",
+"envoye": "[sleepy] [mumbling] [slowly] … qui frappe au tiroir ?…",
+"texte": "… qui frappe au tiroir ?…"
+},
+{
+"id": "toucher.c01.sommeil.2",
+"qui": "c01",
+"voix": "EMuO6fFLrXKOryHzij6K",
+"envoye": "[sleepy] [mumbling] [slowly] … cinq minutes… encore cinq…",
+"texte": "… cinq minutes… encore cinq…"
+},
+{
+"id": "toucher.c01.sommeil.3",
+"qui": "c01",
+"voix": "EMuO6fFLrXKOryHzij6K",
+"envoye": "[sleepy] [mumbling] [slowly] … non… les mardis se classent par taille…",
+"texte": "… non… les mardis se classent par taille…"
+},
+{
+"id": "toucher.c01.sommeil.4",
+"qui": "c01",
+"voix": "EMuO6fFLrXKOryHzij6K",
+"envoye": "[sleepy] [mumbling] [slowly] … je rêve d'un historique tout propre…",
+"texte": "… je rêve d'un historique tout propre…"
+},
+{
+"id": "toucher.c01.eveil.1",
+"qui": "c01",
+"voix": "EMuO6fFLrXKOryHzij6K",
+"envoye": "Oui, chef ?",
+"texte": "Oui, chef ?"
+},
+{
+"id": "toucher.c01.eveil.2",
+"qui": "c01",
+"voix": "EMuO6fFLrXKOryHzij6K",
+"envoye": "Attention, mes tiroirs sont rangés.",
+"texte": "Attention, mes tiroirs sont rangés."
+},
+{
+"id": "toucher.c01.eveil.3",
+"qui": "c01",
+"voix": "EMuO6fFLrXKOryHzij6K",
+"envoye": "Je garde tout, même ce toucher.",
+"texte": "Je garde tout, même ce toucher."
+},
+{
+"id": "toucher.c01.eveil.4",
+"qui": "c01",
+"voix": "EMuO6fFLrXKOryHzij6K",
+"envoye": "Un souvenir à retrouver ?",
+"texte": "Un souvenir à retrouver ?"
+},
+{
+"id": "toucher.c02.sommeil.1",
+"qui": "c02",
+"voix": "5l4ttmr4SKNgi0HnOelT",
+"envoye": "[sleepy] [mumbling] [slowly] … qui a touché… au règlement ?…",
+"texte": "… qui a touché… au règlement ?…"
+},
+{
+"id": "toucher.c03.sommeil.1",
+"qui": "c03",
+"voix": "86fYoxrFeaJKXplThwSl",
+"envoye": "[sleepy] [mumbling] [slowly] … ne froisse pas… ma page…",
+"texte": "… ne froisse pas… ma page…"
+},
+{
+"id": "toucher.c04.sommeil.1",
+"qui": "c04",
+"voix": "KSyQzmsYhFbuOhqj1Xxv",
+"envoye": "[sleepy] [mumbling] [slowly] … ça tourne… ça tourne… hop…",
+"texte": "… ça tourne… ça tourne… hop…"
+},
+{
+"id": "toucher.c05.sommeil.1",
+"qui": "c05",
+"voix": "fnoOtHjtLbYs6mOpUSdr",
+"envoye": "[sleepy] [mumbling] [slowly] … suspect… très suspect…",
+"texte": "… suspect… très suspect…",
+"duo": "Qrl71rx6Yg8RvyPYRGCQ"
+},
+{
+"id": "toucher.c06.sommeil.1",
+"qui": "c06",
+"voix": "hv6gVog5LgtIUX88Nmq8",
+"envoye": "[sleepy] [mumbling] [slowly] … je pars… dans cinq minutes…",
+"texte": "… je pars… dans cinq minutes…"
+},
+{
+"id": "toucher.c07.sommeil.1",
+"qui": "c07",
+"voix": "hFgOzpmS0CMtL2to8sAl",
+"envoye": "[sleepy] [mumbling] [slowly] … chut… bibliothèque…",
+"texte": "… chut… bibliothèque…"
+},
+{
+"id": "toucher.c08.sommeil.1",
+"qui": "c08",
+"voix": "E933WO9WB9GvOmNCycNW",
+"envoye": "[sleepy] [mumbling] [slowly] … halte… ah… c'est toi…",
+"texte": "… halte… ah… c'est toi…"
+},
+{
+"id": "toucher.c09.sommeil.1",
+"qui": "c09",
+"voix": "7t206LwybBCgHnAvOdtX",
+"envoye": "[sleepy] [mumbling] [slowly] … drones… au repos…",
+"texte": "… drones… au repos…"
+},
+{
+"id": "toucher.c10.sommeil.1",
+"qui": "c10",
+"voix": "t28pUgJnL2wUUQ8SOnaU",
+"envoye": "[sleepy] [mumbling] [slowly] … pas encore… le décollage…",
+"texte": "… pas encore… le décollage…"
+},
+{
+"id": "defi.ora.1.q",
+"qui": "ora",
+"voix": "t8BrjWUT5Z23DLLBzbuY",
+"envoye": "Défi du jour ! Où attendent les fichiers d'un site, avant que tu les demandes ?",
+"texte": "Défi du jour ! Où attendent les fichiers d'un site, avant que tu les demandes ?"
+},
+{
+"id": "defi.ora.1.piste",
+"qui": "ora",
+"voix": "t8BrjWUT5Z23DLLBzbuY",
+"envoye": "Pas tout à fait. Pense au magasin, pas au client.",
+"texte": "Pas tout à fait. Pense au magasin, pas au client."
+},
+{
+"id": "defi.ora.2.q",
+"qui": "ora",
+"voix": "t8BrjWUT5Z23DLLBzbuY",
+"envoye": "Défi du jour ! Quelle langue décide des couleurs d'une page ?",
+"texte": "Défi du jour ! Quelle langue décide des couleurs d'une page ?"
+},
+{
+"id": "defi.ora.2.piste",
+"qui": "ora",
+"voix": "t8BrjWUT5Z23DLLBzbuY",
+"envoye": "Pas tout à fait. Pense à la peinture de la maison.",
+"texte": "Pas tout à fait. Pense à la peinture de la maison."
+},
+{
+"id": "defi.ora.3.q",
+"qui": "ora",
+"voix": "t8BrjWUT5Z23DLLBzbuY",
+"envoye": "Défi du jour ! Qu'est-ce qu'un agent ?",
+"texte": "Défi du jour ! Qu'est-ce qu'un agent ?"
+},
+{
+"id": "defi.ora.3.piste",
+"qui": "ora",
+"voix": "t8BrjWUT5Z23DLLBzbuY",
+"envoye": "Pas tout à fait. Pense au chantier : qui fait le travail ?",
+"texte": "Pas tout à fait. Pense au chantier : qui fait le travail ?"
+},
+{
+"id": "defi.ora.4.q",
+"qui": "ora",
+"voix": "t8BrjWUT5Z23DLLBzbuY",
+"envoye": "Défi du jour ! À quoi sert une pull request ?",
+"texte": "Défi du jour ! À quoi sert une pull request ?"
+},
+{
+"id": "defi.ora.4.piste",
+"qui": "ora",
+"voix": "t8BrjWUT5Z23DLLBzbuY",
+"envoye": "Pas tout à fait. On propose d'abord, on accepte ensuite.",
+"texte": "Pas tout à fait. On propose d'abord, on accepte ensuite."
+},
+{
+"id": "defi.c01.1.q",
+"qui": "c01",
+"voix": "EMuO6fFLrXKOryHzij6K",
+"envoye": "Défi du jour ! À quoi sert le message d'un commit ?",
+"texte": "Défi du jour ! À quoi sert le message d'un commit ?"
+},
+{
+"id": "defi.c01.1.piste",
+"qui": "c01",
+"voix": "EMuO6fFLrXKOryHzij6K",
+"envoye": "Pas tout à fait. Pense à la légende au dos de la photo.",
+"texte": "Pas tout à fait. Pense à la légende au dos de la photo."
+},
+{
+"id": "defi.c01.2.q",
+"qui": "c01",
+"voix": "EMuO6fFLrXKOryHzij6K",
+"envoye": "Défi du jour ! Une branche, c'est…",
+"texte": "Défi du jour ! Une branche, c'est…"
+},
+{
+"id": "defi.c01.2.piste",
+"qui": "c01",
+"voix": "EMuO6fFLrXKOryHzij6K",
+"envoye": "Pas tout à fait. Pense aux trains d'essai.",
+"texte": "Pas tout à fait. Pense aux trains d'essai."
+},
+{
+"id": "defi.c01.3.q",
+"qui": "c01",
+"voix": "EMuO6fFLrXKOryHzij6K",
+"envoye": "Défi du jour ! Une erreur a été fusionnée. Que fais-tu ?",
+"texte": "Défi du jour ! Une erreur a été fusionnée. Que fais-tu ?"
+},
+{
+"id": "defi.c01.3.piste",
+"qui": "c01",
+"voix": "EMuO6fFLrXKOryHzij6K",
+"envoye": "Pas tout à fait. À l'encre, jamais à la gomme.",
+"texte": "Pas tout à fait. À l'encre, jamais à la gomme."
+},
+{
+"id": "defi.c01.4.q",
+"qui": "c01",
+"voix": "EMuO6fFLrXKOryHzij6K",
+"envoye": "Défi du jour ! Un conflit, c'est…",
+"texte": "Défi du jour ! Un conflit, c'est…"
+},
+{
+"id": "defi.c01.4.piste",
+"qui": "c01",
+"voix": "EMuO6fFLrXKOryHzij6K",
+"envoye": "Pas tout à fait. Deux versions qui se disputent.",
+"texte": "Pas tout à fait. Deux versions qui se disputent."
+},
+{
+"id": "defi.ora.bravo.1",
+"qui": "ora",
+"voix": "t8BrjWUT5Z23DLLBzbuY",
+"envoye": "Exact ! Quinze kilowatts pour toi. À demain.",
+"texte": "Exact ! Quinze kilowatts pour toi. À demain."
+},
+{
+"id": "defi.ora.bravo.2",
+"qui": "ora",
+"voix": "t8BrjWUT5Z23DLLBzbuY",
+"envoye": "Bravo. Défi réussi : quinze kilowatts.",
+"texte": "Bravo. Défi réussi : quinze kilowatts."
+},
+{
+"id": "defi.c01.bravo.1",
+"qui": "c01",
+"voix": "EMuO6fFLrXKOryHzij6K",
+"envoye": "Exact ! Quinze kilowatts pour toi. À demain.",
+"texte": "Exact ! Quinze kilowatts pour toi. À demain."
+},
+{
+"id": "defi.c01.bravo.2",
+"qui": "c01",
+"voix": "EMuO6fFLrXKOryHzij6K",
+"envoye": "Je l'inscris au registre : défi réussi.",
+"texte": "Je l'inscris au registre : défi réussi."
+},
+{
+"id": "defi.ora.fait",
+"qui": "ora",
+"voix": "t8BrjWUT5Z23DLLBzbuY",
+"envoye": "Défi du jour relevé. Reviens demain.",
+"texte": "Défi du jour relevé. Reviens demain."
+},
+{
+"id": "defi.c01.fait",
+"qui": "c01",
+"voix": "EMuO6fFLrXKOryHzij6K",
+"envoye": "Défi relevé. Je te garde le suivant pour demain.",
+"texte": "Défi relevé. Je te garde le suivant pour demain."
+},
+{
+"id": "question.ora.cle",
+"qui": "ora",
+"voix": "t8BrjWUT5Z23DLLBzbuY",
+"envoye": "Pour me poser une question, il me faut ta clé Claude. Ajoute-la dans Réglages.",
+"texte": "Pour me poser une question, il me faut ta clé Claude. Ajoute-la dans Réglages."
+},
+{
+"id": "question.c01.cle",
+"qui": "c01",
+"voix": "EMuO6fFLrXKOryHzij6K",
+"envoye": "Pour me questionner, il faut ta clé Claude, dans Réglages. Je t'attends.",
+"texte": "Pour me questionner, il faut ta clé Claude, dans Réglages. Je t'attends."
+},
+{
+"id": "annexe.atelier.sommeil",
+"qui": "ora",
+"voix": "t8BrjWUT5Z23DLLBzbuY",
+"envoye": "[sleepy] [mumbling] [slowly] … l'atelier… on y écrit des ordres de mission… Claude les note… mmh…",
+"texte": "… l'atelier… on y écrit des ordres de mission… Claude les note… mmh…"
+},
+{
+"id": "annexe.atelier.eveil",
+"qui": "ora",
+"voix": "t8BrjWUT5Z23DLLBzbuY",
+"envoye": "Ici, tu écris des ordres de mission. Claude les note sur cinq critères.",
+"texte": "Ici, tu écris des ordres de mission. Claude les note sur cinq critères."
+},
+{
+"id": "annexe.equipe.sommeil",
+"qui": "ora",
+"voix": "t8BrjWUT5Z23DLLBzbuY",
+"envoye": "[sleepy] [mumbling] [slowly] … chaque dormeur… un vrai fichier de ton produit… touche-les… doucement…",
+"texte": "… chaque dormeur… un vrai fichier de ton produit… touche-les… doucement…"
+},
+{
+"id": "annexe.equipe.eveil",
+"qui": "ora",
+"voix": "t8BrjWUT5Z23DLLBzbuY",
+"envoye": "Chaque membre correspond à un vrai fichier de ton produit. Touche-le pour voir sa fiche.",
+"texte": "Chaque membre correspond à un vrai fichier de ton produit. Touche-le pour voir sa fiche."
+},
+{
+"id": "annexe.maint.chaud.sommeil",
+"qui": "ora",
+"voix": "t8BrjWUT5Z23DLLBzbuY",
+"envoye": "[sleepy] [mumbling] [slowly] … ça chauffe… quelques notions à refroidir… vite fait…",
+"texte": "… ça chauffe… quelques notions à refroidir… vite fait…"
+},
+{
+"id": "annexe.maint.chaud.eveil",
+"qui": "ora",
+"voix": "t8BrjWUT5Z23DLLBzbuY",
+"envoye": "Des notions surchauffent. Quelques minutes suffisent à les refroidir.",
+"texte": "Des notions surchauffent. Quelques minutes suffisent à les refroidir."
+},
+{
+"id": "annexe.maint.calme.sommeil",
+"qui": "ora",
+"voix": "t8BrjWUT5Z23DLLBzbuY",
+"envoye": "[sleepy] [mumbling] [slowly] … rien ne chauffe… dors… euh… reviens demain…",
+"texte": "… rien ne chauffe… dors… euh… reviens demain…"
+},
+{
+"id": "annexe.maint.calme.eveil",
+"qui": "ora",
+"voix": "t8BrjWUT5Z23DLLBzbuY",
+"envoye": "Aucune surchauffe aujourd'hui. Entraîne-toi, ou reviens demain.",
+"texte": "Aucune surchauffe aujourd'hui. Entraîne-toi, ou reviens demain."
+},
+{
+"id": "annexe.maint.fin.sommeil",
+"qui": "ora",
+"voix": "t8BrjWUT5Z23DLLBzbuY",
+"envoye": "[sleepy] [mumbling] [slowly] … bien refroidi… les ratées reviendront demain…",
+"texte": "… bien refroidi… les ratées reviendront demain…"
+},
+{
+"id": "annexe.maint.fin.eveil",
+"qui": "ora",
+"voix": "t8BrjWUT5Z23DLLBzbuY",
+"envoye": "Maintenance terminée. Les ratées reviendront demain : c'est ce rythme qui ancre.",
+"texte": "Maintenance terminée. Les ratées reviendront demain : c'est ce rythme qui ancre."
+},
+{
+"id": "annexe.verrou.caisson.sommeil",
+"qui": "ora",
+"voix": "t8BrjWUT5Z23DLLBzbuY",
+"envoye": "[sleepy] [mumbling] [slowly] … fermé… réveille d'abord… celui d'avant…",
+"texte": "… fermé… réveille d'abord… celui d'avant…"
+},
+{
+"id": "annexe.verrou.caisson.eveil",
+"qui": "ora",
+"voix": "t8BrjWUT5Z23DLLBzbuY",
+"envoye": "Ce caisson est verrouillé. Réveille d'abord le membre précédent.",
+"texte": "Ce caisson est verrouillé. Réveille d'abord le membre précédent."
+},
+{
+"id": "annexe.verrou.protocole.sommeil",
+"qui": "ora",
+"voix": "t8BrjWUT5Z23DLLBzbuY",
+"envoye": "[sleepy] [mumbling] [slowly] … pas encore… termine le précédent… zzz…",
+"texte": "… pas encore… termine le précédent… zzz…"
+},
+{
+"id": "annexe.verrou.protocole.eveil",
+"qui": "ora",
+"voix": "t8BrjWUT5Z23DLLBzbuY",
+"envoye": "Pas encore ouvert. Termine le protocole précédent.",
+"texte": "Pas encore ouvert. Termine le protocole précédent."
+},
+{
+"id": "annexe.verrou.panne.sommeil",
+"qui": "ora",
+"voix": "t8BrjWUT5Z23DLLBzbuY",
+"envoye": "[sleepy] [mumbling] [slowly] … la panne… après tous les protocoles…",
+"texte": "… la panne… après tous les protocoles…"
+},
+{
+"id": "annexe.verrou.panne.eveil",
+"qui": "ora",
+"voix": "t8BrjWUT5Z23DLLBzbuY",
+"envoye": "Termine d'abord tous les protocoles du caisson.",
+"texte": "Termine d'abord tous les protocoles du caisson."
+},
+{
+"id": "annexe.disjonction.sommeil",
+"qui": "ora",
+"voix": "t8BrjWUT5Z23DLLBzbuY",
+"envoye": "[sleepy] [mumbling] [slowly] … boum… trois fusibles… pas de panique… relis… puis réarme…",
+"texte": "… boum… trois fusibles… pas de panique… relis… puis réarme…"
+},
+{
+"id": "annexe.disjonction.eveil",
+"qui": "ora",
+"voix": "t8BrjWUT5Z23DLLBzbuY",
+"envoye": "Disjonction ! Trois fusibles grillés. Relis les explications, puis réarme le tableau.",
+"texte": "Disjonction ! Trois fusibles grillés. Relis les explications, puis réarme le tableau."
+},
+{
+"id": "annexe.maint.vide.sommeil",
+"qui": "ora",
+"voix": "t8BrjWUT5Z23DLLBzbuY",
+"envoye": "[sleepy] [mumbling] [slowly] … rien à réviser… termine d'abord un protocole…",
+"texte": "… rien à réviser… termine d'abord un protocole…"
+},
+{
+"id": "annexe.preparation.eveil",
+"qui": "ora",
+"voix": "t8BrjWUT5Z23DLLBzbuY",
+"envoye": "Ses protocoles sont en préparation. Ils arriveront dans une prochaine version.",
+"texte": "Ses protocoles sont en préparation. Ils arriveront dans une prochaine version."
+}
+]
