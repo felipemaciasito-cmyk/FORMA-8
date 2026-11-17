@@ -141,6 +141,13 @@
    "texte": "… tu as recommencé… et tu as trouvé… je garde aussi les essais ratés, tu sais…",
    "date": "2026-11-16"
   },
+  "c01:31aa9514": {
+   "fichier": "c01-d30847b5.mp3",
+   "voix": "EMuO6fFLrXKOryHzij6K",
+   "envoye": "J'ai tout gardé en ordre.",
+   "texte": "J'ai tout gardé en ordre.",
+   "date": "2026-11-17"
+  },
   "c01:378acd53": {
    "fichier": "c01-7a40a01b.mp3",
    "voix": "EMuO6fFLrXKOryHzij6K",
@@ -153,6 +160,13 @@
    "voix": "EMuO6fFLrXKOryHzij6K",
    "envoye": "[sleepy] Relire avant de fusionner : c'est ma règle la plus importante.",
    "texte": "Relire avant de fusionner : c'est ma règle la plus importante.",
+   "date": "2026-11-17"
+  },
+  "c01:4e971e92": {
+   "fichier": "c01-ecaf788a.mp3",
+   "voix": "EMuO6fFLrXKOryHzij6K",
+   "envoye": "[sleepy] [mumbling] [slowly] … je t'ai gardé ta place…",
+   "texte": "… je t'ai gardé ta place…",
    "date": "2026-11-17"
   },
   "c01:53548cc6": {
@@ -253,6 +267,13 @@
    "texte": "… trois d'affilée… je fais un très beau rêve…",
    "date": "2026-11-17"
   },
+  "c01:8086d77c": {
+   "fichier": "c01-74bf35f9.mp3",
+   "voix": "EMuO6fFLrXKOryHzij6K",
+   "envoye": "On reprend où on en était ?",
+   "texte": "On reprend où on en était ?",
+   "date": "2026-11-17"
+  },
   "c01:850b5a11": {
    "fichier": "c01-026517f9.mp3",
    "voix": "EMuO6fFLrXKOryHzij6K",
@@ -344,6 +365,13 @@
    "texte": "… ta première branche… à la main… je regarde… doucement…",
    "date": "2026-11-16"
   },
+  "c01:a6eb6f64": {
+   "fichier": "c01-a6ad96ec.mp3",
+   "voix": "EMuO6fFLrXKOryHzij6K",
+   "envoye": "[sleepy] [mumbling] [slowly] … mmh… re-bonjour…",
+   "texte": "… mmh… re-bonjour…",
+   "date": "2026-11-17"
+  },
   "c01:ac195998": {
    "fichier": "c01-486447cb.mp3",
    "voix": "EMuO6fFLrXKOryHzij6K",
@@ -357,6 +385,13 @@
    "envoye": "[sleepy] [mumbling] [slowly] … oui… c'est bien ça… je le note… dans mon registre…",
    "texte": "… oui… c'est bien ça… je le note… dans mon registre…",
    "date": "2026-11-16"
+  },
+  "c01:aeb5db87": {
+   "fichier": "c01-5e634932.mp3",
+   "voix": "EMuO6fFLrXKOryHzij6K",
+   "envoye": "Te revoilà, chef.",
+   "texte": "Te revoilà, chef.",
+   "date": "2026-11-17"
   },
   "c01:aef3eaf7": {
    "fichier": "c01-fdb5cdcf.mp3",
@@ -428,6 +463,13 @@
    "texte": "Deux versions qui se disputent : c'est toi qui tranches.",
    "date": "2026-11-17"
   },
+  "c01:c30299ac": {
+   "fichier": "c01-45f78724.mp3",
+   "voix": "EMuO6fFLrXKOryHzij6K",
+   "envoye": "[sleepy] [mumbling] [slowly] … tu reviens… je le note…",
+   "texte": "… tu reviens… je le note…",
+   "date": "2026-11-17"
+  },
   "c01:c39eac63": {
    "fichier": "c01-8250971b.mp3",
    "voix": "EMuO6fFLrXKOryHzij6K",
@@ -447,6 +489,13 @@
    "voix": "EMuO6fFLrXKOryHzij6K",
    "envoye": "[sleepy] Le courant passe. Envoie l'arc, maintenant.",
    "texte": "Le courant passe. Envoie l'arc, maintenant.",
+   "date": "2026-11-17"
+  },
+  "c01:c7a75233": {
+   "fichier": "c01-aff31e2b.mp3",
+   "voix": "EMuO6fFLrXKOryHzij6K",
+   "envoye": "[sleepy] [mumbling] [slowly] … zzz… on en était où ?…",
+   "texte": "… zzz… on en était où ?…",
    "date": "2026-11-17"
   },
   "c01:c834a330": {
@@ -546,6 +595,13 @@
    "envoye": "Je suis l'Archiviste. Je garde la mémoire de chaque version de ton produit, pour que tu puisses toujours revenir en arrière.",
    "texte": "Je suis l'Archiviste. Je garde la mémoire de chaque version de ton produit, pour que tu puisses toujours revenir en arrière.",
    "date": "2026-11-16"
+  },
+  "c01:f8b3e493": {
+   "fichier": "c01-bdb012ea.mp3",
+   "voix": "EMuO6fFLrXKOryHzij6K",
+   "envoye": "Rien ne s'est perdu en ton absence.",
+   "texte": "Rien ne s'est perdu en ton absence.",
+   "date": "2026-11-17"
   },
   "c01:f93dedc4": {
    "fichier": "c01-14aedef3.mp3",
@@ -1039,6 +1095,13 @@
    "texte": "Explique avec tes mots, comme à un ami. J'écoute, les yeux mi-clos.",
    "date": "2026-11-17"
   },
+  "ora:3ac5e61f": {
+   "fichier": "ora-7965b0ac.mp3",
+   "voix": "t8BrjWUT5Z23DLLBzbuY",
+   "envoye": "[sleepy] [mumbling] [slowly] … on reprend… je crois…",
+   "texte": "… on reprend… je crois…",
+   "date": "2026-11-17"
+  },
   "ora:3d9854d4": {
    "fichier": "ora-fda7b168.mp3",
    "voix": "t8BrjWUT5Z23DLLBzbuY",
@@ -1080,6 +1143,13 @@
    "envoye": "Jusqu'ici, chaque commit s'ajoutait à la suite, sur une seule ligne. Mais ta page est en ligne : un essai raté serait vu par tout le monde. Il te faut un endroit pour essayer à côté.",
    "texte": "Jusqu'ici, chaque [[commit]] s'ajoutait à la suite, sur une seule ligne. Mais ta page est en ligne : un essai raté serait vu par tout le monde. Il te faut un endroit pour essayer **à côté**.",
    "date": "2026-11-16"
+  },
+  "ora:4c2b7478": {
+   "fichier": "ora-af70942d.mp3",
+   "voix": "t8BrjWUT5Z23DLLBzbuY",
+   "envoye": "[sleepy] [mumbling] [slowly] … hein ?… qui me chatouille ?…",
+   "texte": "… hein ?… qui me chatouille ?…",
+   "date": "2026-11-17"
   },
   "ora:4c602a04": {
    "fichier": "ora-347026f0.mp3",
@@ -1178,6 +1248,13 @@
    "envoye": "Prends ton temps. Note plusieurs idées avant de choisir : la première n'est pas toujours la meilleure.",
    "texte": "Prends ton temps. Note plusieurs idées avant de choisir : la première n'est pas toujours la meilleure.",
    "date": "2026-11-16"
+  },
+  "ora:7354af2b": {
+   "fichier": "ora-e0eaf5f7.mp3",
+   "voix": "t8BrjWUT5Z23DLLBzbuY",
+   "envoye": "Te revoilà.",
+   "texte": "Te revoilà.",
+   "date": "2026-11-17"
   },
   "ora:73edf97d": {
    "fichier": "ora-ebcc90f9.mp3",
@@ -1290,6 +1367,13 @@
    "envoye": "Décrire, laisser agir, vérifier : retiens ces trois temps, ils reviendront dans chaque caisson.",
    "texte": "Décrire, laisser agir, vérifier : retiens ces trois temps, ils reviendront dans chaque caisson.",
    "date": "2026-11-16"
+  },
+  "ora:91fbcb0a": {
+   "fichier": "ora-e6bdfb0e.mp3",
+   "voix": "t8BrjWUT5Z23DLLBzbuY",
+   "envoye": "Contente de te revoir.",
+   "texte": "Contente de te revoir.",
+   "date": "2026-11-17"
   },
   "ora:95c0beb0": {
    "fichier": "ora-a22fc33e.mp3",
@@ -1445,6 +1529,13 @@
    "texte": "Première vérification. Prends ton temps : une erreur ne coûte rien.",
    "date": "2026-11-16"
   },
+  "ora:c520de89": {
+   "fichier": "ora-bdcaf760.mp3",
+   "voix": "t8BrjWUT5Z23DLLBzbuY",
+   "envoye": "[sleepy] [mumbling] [slowly] … mmh… déjà ?…",
+   "texte": "… mmh… déjà ?…",
+   "date": "2026-11-17"
+  },
   "ora:c5db7075": {
    "fichier": "ora-7c5e96e9.mp3",
    "voix": "t8BrjWUT5Z23DLLBzbuY",
@@ -1472,6 +1563,13 @@
    "envoye": "Bonjour. Je suis ORA, Opérateur de Relance Automatique. Le datacenter est rallumé. Dans sa réserve dorment 11 membres d'équipe : chacun maîtrise une partie du métier de créateur d'applications. Réveille-les un par un, et ensemble vous construirez ton propre produit, jusqu'à son lancement. Je t'accompagnerai. Comment dois-je t'appeler ?",
    "texte": "Bonjour. Je suis **ORA**, Opérateur de Relance Automatique.\n\nLe datacenter est rallumé. Dans sa réserve dorment **11 membres d'équipe** : chacun maîtrise une partie du métier de créateur d'applications. Réveille-les un par un, et ensemble vous construirez **ton propre produit**, jusqu'à son lancement. Je t'accompagnerai.\n\nComment dois-je t'appeler ?",
    "date": "2026-11-16"
+  },
+  "ora:cf8416eb": {
+   "fichier": "ora-588c496a.mp3",
+   "voix": "t8BrjWUT5Z23DLLBzbuY",
+   "envoye": "[sleepy] [mumbling] [slowly] … te revoilà… zzz…",
+   "texte": "… te revoilà… zzz…",
+   "date": "2026-11-17"
   },
   "ora:d1ffcf19": {
    "fichier": "ora-04bf4281.mp3",
@@ -1550,6 +1648,13 @@
    "texte": "Tu sais maintenant ce qui se passe quand tu ouvres une page. Termine le protocole pour remplir la batterie.",
    "date": "2026-11-16"
   },
+  "ora:e3956b65": {
+   "fichier": "ora-66454fa9.mp3",
+   "voix": "t8BrjWUT5Z23DLLBzbuY",
+   "envoye": "On reprend ?",
+   "texte": "On reprend ?",
+   "date": "2026-11-17"
+  },
   "ora:e6368528": {
    "fichier": "ora-2ab6e1a1.mp3",
    "voix": "t8BrjWUT5Z23DLLBzbuY",
@@ -1562,6 +1667,13 @@
    "voix": "t8BrjWUT5Z23DLLBzbuY",
    "envoye": "[sleepy] Trois sans faute. Mes voyants passent au vert.",
    "texte": "Trois sans faute. Mes voyants passent au vert.",
+   "date": "2026-11-17"
+  },
+  "ora:e8b04fbd": {
+   "fichier": "ora-3f7e1db0.mp3",
+   "voix": "t8BrjWUT5Z23DLLBzbuY",
+   "envoye": "[sleepy] [mumbling] [slowly] … encore cinq minutes…",
+   "texte": "… encore cinq minutes…",
    "date": "2026-11-17"
   },
   "ora:e92f95fb": {
@@ -1584,6 +1696,20 @@
    "envoye": "Je reste avec toi pendant tout le protocole. Je réagirai à tes réponses, et si tu bloques, je te donnerai une piste.",
    "texte": "Je reste avec toi pendant tout le protocole. Je réagirai à tes réponses, et si tu bloques, je te donnerai une piste.",
    "date": "2026-11-16"
+  },
+  "ora:f594536f": {
+   "fichier": "ora-e37025eb.mp3",
+   "voix": "t8BrjWUT5Z23DLLBzbuY",
+   "envoye": "La réserve t'attendait.",
+   "texte": "La réserve t'attendait.",
+   "date": "2026-11-17"
+  },
+  "ora:f82839ac": {
+   "fichier": "ora-00b0e4ad.mp3",
+   "voix": "t8BrjWUT5Z23DLLBzbuY",
+   "envoye": "[sleepy] [mumbling] [slowly] … c'est toi ?… bien…",
+   "texte": "… c'est toi ?… bien…",
+   "date": "2026-11-17"
   },
   "ora:fa216a41": {
    "fichier": "ora-d5d1e24d.mp3",
