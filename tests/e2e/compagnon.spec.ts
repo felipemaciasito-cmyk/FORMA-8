@@ -46,6 +46,12 @@ test("le compagnon accompagne le protocole et réagit aux erreurs", async ({ pag
   const wrong = texts.map((t, i) => ({ t, i })).filter(({ t }) => !t.includes(good)).slice(0, 2);
   for (const w of wrong) { await options.nth(w.i).click({ force: true }); await page.waitForTimeout(700); }
   await expect.poll(async () => (await said(page)).some((l) => l.startsWith("indice:"))).toBe(true);
-  await options.nth(texts.findIndex((t) => t.includes(good))).click({ force: true });
+  // La bulle de la piste passe au premier plan, par-dessus les réponses : le joueur la touche pour la fermer, puis
+  // répond. Le 17/11/2026, le clic forcé sur la bonne réponse tombait parfois à côté (2 échecs sur 5) quand elle était
+  // en première position, sous la barre du haut : d'où le clic normal ci-dessous.
+  if (await bubble.count()) await bubble.last().click({ position: { x: 30, y: 40 }, timeout: 3000 }).catch(() => {});
+  await expect(bubble).toHaveCount(0, { timeout: 15_000 });
+  // Clic normal (pas forcé) : Playwright vérifie que rien ne couvre la réponse et la fait défiler en vue.
+  await options.filter({ hasText: good }).click();
   await expect.poll(async () => (await said(page)).some((l) => l.startsWith("perseverance:"))).toBe(true);
 });
