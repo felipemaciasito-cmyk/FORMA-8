@@ -1,4 +1,4 @@
-# FORMA-8 · Réveille l'équipe : document de transfert (état au 17/11/2026 : lot « compagnon et règles de parole » en cours sur la branche claude/beautiful-cori-sz6dxq)
+# FORMA-8 · Réveille l'équipe : document de transfert (état au 17/11/2026 : lot « compagnon et règles de parole » construit sur la branche claude/ecstatic-keller-i9o3gk, en attente de l'accord du propriétaire sur la maquette jouable)
 
 > À lire en entier au démarrage de chaque nouvelle session (renvoi dans `CLAUDE.md`), **en commençant par la
 > section 0**. Ce document complète `CLAUDE.md`, `docs/CONCEPTION.md` et `docs/PROGRAMME.md`. En cas d'écart, le
@@ -15,7 +15,8 @@ faire est ci-dessous.
 
 ### 0.1 Dans l'ordre (mis à jour le 17/11/2026 : un lot est EN COURS, pas encore fusionné)
 **Le lot du compagnon et des règles de parole (section 3.19) n'est pas fusionné dans `main`.** Tout le travail est sur la
-branche `claude/beautiful-cori-sz6dxq`, poussée sur GitHub. Ce document-ci est la version de cette branche.
+branche `claude/ecstatic-keller-i9o3gk` (partie de `claude/beautiful-cori-sz6dxq`, qu'elle contient en entier), poussée
+sur GitHub. Ce document-ci est la version de cette branche. Partir de `origin/claude/ecstatic-keller-i9o3gk`.
 1. Lire en entier, dans cet ordre : `CLAUDE.md`, ce document (sections 0 à 5, **surtout 3.19**), `docs/CONCEPTION.md`,
    `docs/PROGRAMME.md`. Ne rien écrire avant.
 2. Préparer le poste : `git fetch origin` ; créer la branche imposée par la session **à partir de
@@ -42,6 +43,9 @@ branche `claude/beautiful-cori-sz6dxq`, poussée sur GitHub. Ce document-ci est 
    au caisson 08 (choix du propriétaire). **Prochaine étape : construire le lot dans l'appli** (textes de
    `outils/textes-lot/brouillon.json` vers `src/content/`, règles de parole, Forma Trisse, interactions), retirer les
    anciennes prises inutilisées, maquette jouable, puis PR.
+   **Construit le 17/11/2026 (3e session)**, commande complète verte (15 tests de bout en bout en Chromium ; WebKit voir
+   3.19). Maquette jouable : https://claude.ai/artifact/EKesPUvJczHo36aYU5cbJx (cinq départs). **En attente de l'accord du
+   propriétaire** sur la maquette ; corriger ce qu'il signale, puis PR (étape 5).
 4. Construire le lot 3.19 selon sa réponse ; **maquette jouable** (vraie appli dans un cadre, méthode 3.3) et son accord
    avant la PR. Penser à renommer ORA en Forma Trisse partout, et les membres (noms en 3.19).
 5. Fin de lot : commande complète verte, ce document mis à jour (section 0 comprise), **une seule PR** de la branche de
@@ -762,8 +766,28 @@ labo des personnages https://claude.ai/artifact/Fj3TcAq1S3v6QvicnrAzr5 (source :
   (réponses dans la bulle, bulle fermée quand il n'y a plus de question) ; défi du jour sur la carte (pareil) ; l'équipe
   qui se parle (réveil) ; poser une question à un membre (Claude, clé API ; babillage).
 - **Crédits ElevenLabs** : environ 20 500 restants au 17/11/2026 (offre Starter, gardée par le propriétaire).
-- **Prochaine étape** : construire tout cela dans l'appli, réenregistrer les répliques concernées (coût à annoncer
-  avant), maquette jouable, puis PR. Le caisson 02 attend la fin de ce lot.
+- **Construit le 17/11/2026** (branche `claude/ecstatic-keller-i9o3gk`) :
+  - `src/lib/eveil.ts` : qui dort, niveau de réveil (protocoles faits / (protocoles + 1)), grésillement
+    `0,35 × (1 − réveil)`, phrases de retour et réactions au toucher tirées sans répétition, pages annexes, accords
+    (féminin, masculin, pluriel pour Dupond et Dupont). Textes : `src/content/interactions.json`.
+  - `src/lib/voice.ts` : une seule file de parole ; son coupé, la bulle s'écrit quand même au rythme de lecture
+    (55 ms par caractère) ; une bulle qui disparaît fait taire sa voix ; babillage pour les textes de Claude
+    (`src/lib/robot.ts`) ; mémoire des répliques entendues (`forma8:entendu`).
+  - `src/components/Bulle.tsx` : la bulle unique (nom, « parle en dormant », italique, texte au rythme de la voix,
+    choix dans la bulle). Premier toucher du personnage : il relit ; les suivants : il réagit. Le bouton « Réécouter »
+    (`VoiceButton.tsx`) est retiré.
+  - `src/components/Defi.tsx` : défi du jour sur la carte (dernier membre réveillé, +15 kW, `forma8:defi`).
+  - Scène du réveil (`Rewards.tsx`) : l'équipe se parle (`interactions.json` → `scenes`) ; « Revoir son réveil » ne
+    rejoue que la réplique du membre.
+  - Fiche d'un membre (`Views.tsx`) : toucher sa capsule le fait parler ; un membre réveillé accepte une question
+    (`askMember` dans `claude.ts`, réponse en babillage ; sans clé, sa réplique enregistrée le dit).
+  - Maintenance, Atelier, Équipe : répliques fixes enregistrées ; chiffres affichés à part.
+  - 98 anciennes prises remplacées retirées de `public/voix` (dans l'historique git).
+  - WebKit (17/11/2026) : socle, voix, compagnon, mécaniques verts ; scène du réveil du caisson 00 vérifiée par un test
+    temporaire (`zz-*`, non gardé) sans erreur. Le banc complet du caisson 00 dépasse ses 5 minutes dans WebKit
+    (lenteur connue), il passe en Chromium.
+- **Prochaine étape** : accord du propriétaire sur la maquette, corrections éventuelles, puis PR. Le caisson 02 attend
+  la fin de ce lot.
 
 ---
 
