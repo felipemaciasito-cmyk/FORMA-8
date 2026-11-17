@@ -34,6 +34,14 @@ branche `claude/beautiful-cori-sz6dxq`, poussée sur GitHub. Ce document-ci est 
    **Réponse du 17/11/2026 (2e session) : « Textes d'abord ».** Brouillon dans `outils/textes-lot/` (207 répliques,
    environ 11 400 caractères), page de lecture https://claude.ai/artifact/Ujhw3XDdoT2oN83ttjKfky ; en attente de ses
    corrections avant tout enregistrement. Banc du compagnon rendu stable (clic normal sur la bonne réponse).
+   **Textes validés par le propriétaire (« Valide, enregistre ») et les 207 répliques enregistrées le 17/11/2026**
+   (14 630 crédits, il en reste environ 6 000 jusqu'au 16/12/2026). Prises dans `public/voix`, inscrites dans
+   `voix-enregistrements.json` ; suivi dans `outils/textes-lot/prises.json` (toutes présentes). Indications de ton :
+   `[sleepy] [mumbling] [slowly]` pour « sommeil », `[sleepy]` pour « demi », rien pour « éveil » (comptées dans les
+   crédits). Senty Nell : présentation « Senty Nell, la sentinelle » ; le surnom « Agent Nell » reviendra en jeu de mots
+   au caisson 08 (choix du propriétaire). **Prochaine étape : construire le lot dans l'appli** (textes de
+   `outils/textes-lot/brouillon.json` vers `src/content/`, règles de parole, Forma Trisse, interactions), retirer les
+   anciennes prises inutilisées, maquette jouable, puis PR.
 4. Construire le lot 3.19 selon sa réponse ; **maquette jouable** (vraie appli dans un cadre, méthode 3.3) et son accord
    avant la PR. Penser à renommer ORA en Forma Trisse partout, et les membres (noms en 3.19).
 5. Fin de lot : commande complète verte, ce document mis à jour (section 0 comprise), **une seule PR** de la branche de
