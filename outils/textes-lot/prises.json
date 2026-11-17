@@ -69,5 +69,21 @@
 "c01.p2.4": true,
 "c01.p2.6": true,
 "c01.p2.fin": true,
-"c01.p3.debut": true
+"c01.p3.debut": true,
+"c01.p3.2": true,
+"c01.p3.8": true,
+"c01.p3.fin": true,
+"c01.p4.debut": true,
+"c01.p4.6": true,
+"c01.p4.10": true,
+"c01.p4.fin": true,
+"c01.p5.debut": true,
+"c01.p5.2": true,
+"c01.p5.8": true,
+"c01.p5.fin": true,
+"c01.panne": true,
+"c01.panneFin": true,
+"c01.livraison": true,
+"c01.reac.sommeil.premier.1": true,
+"c01.reac.sommeil.premier.2": true
 }

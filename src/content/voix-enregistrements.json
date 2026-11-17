@@ -8,6 +8,13 @@
    "texte": "… une légende… courte… claire… sinon je ne retrouve plus rien…",
    "date": "2026-11-16"
   },
+  "c01:077e9a03": {
+   "fichier": "c01-4e481cc6.mp3",
+   "voix": "EMuO6fFLrXKOryHzij6K",
+   "envoye": "[sleepy] Revenir en arrière sans rien effacer : c'est mon métier.",
+   "texte": "Revenir en arrière sans rien effacer : c'est mon métier.",
+   "date": "2026-11-17"
+  },
   "c01:0b2e80e0": {
    "fichier": "c01-e9969718.mp3",
    "voix": "EMuO6fFLrXKOryHzij6K",
@@ -36,6 +43,13 @@
    "texte": "… trois d'affilée… mes paupières bougent presque…",
    "date": "2026-11-16"
   },
+  "c01:1ae436bc": {
+   "fichier": "c01-1b4d5a45.mp3",
+   "voix": "EMuO6fFLrXKOryHzij6K",
+   "envoye": "[sleepy] Tu confies le travail, mais c'est toi qui relis. Toujours.",
+   "texte": "Tu confies le travail, mais c'est toi qui relis. Toujours.",
+   "date": "2026-11-17"
+  },
   "c01:1c8b951c": {
    "fichier": "c01-fc658f51.mp3",
    "voix": "EMuO6fFLrXKOryHzij6K",
@@ -50,11 +64,25 @@
    "texte": "… je sens un courant… termine… branche la batterie… sur ma capsule…",
    "date": "2026-11-17"
   },
+  "c01:1e61a49c": {
+   "fichier": "c01-73ea986d.mp3",
+   "voix": "EMuO6fFLrXKOryHzij6K",
+   "envoye": "[sleepy] Relis ligne par ligne. Je t'attends.",
+   "texte": "Relis ligne par ligne. Je t'attends.",
+   "date": "2026-11-17"
+  },
   "c01:284b1367": {
    "fichier": "c01-d0438d5f.mp3",
    "voix": "EMuO6fFLrXKOryHzij6K",
    "envoye": "[sleepy] [mumbling] [slowly] … ton ancien projet… six photos seulement… je m'en souviens…",
    "texte": "… ton ancien projet… six photos seulement… je m'en souviens…",
+   "date": "2026-11-17"
+  },
+  "c01:2aa0d576": {
+   "fichier": "c01-0c127a2b.mp3",
+   "voix": "EMuO6fFLrXKOryHzij6K",
+   "envoye": "[sleepy] Des alertes dans mes archives ! Réfléchis avant de toucher : les fusibles sont fragiles.",
+   "texte": "Des alertes dans mes archives ! Réfléchis avant de toucher : les fusibles sont fragiles.",
    "date": "2026-11-17"
   },
   "c01:2c9c7ffe": {
@@ -71,6 +99,13 @@
    "texte": "… remonte le temps… vas-y… rien n'est jamais perdu…",
    "date": "2026-11-17"
   },
+  "c01:2db69ed9": {
+   "fichier": "c01-757f7090.mp3",
+   "voix": "EMuO6fFLrXKOryHzij6K",
+   "envoye": "Je vérifie tes archives sur GitHub : cinq commits, une pull request fusionnée, et ton README.",
+   "texte": "Je vérifie tes archives sur GitHub : cinq commits, une pull request fusionnée, et ton README.",
+   "date": "2026-11-17"
+  },
   "c01:3003ae54": {
    "fichier": "c01-bfa11afc.mp3",
    "voix": "EMuO6fFLrXKOryHzij6K",
@@ -85,11 +120,25 @@
    "texte": "Je me souviens… j'avais un album de chaque étape du chantier. Encore un effort, et je te le montre.",
    "date": "2026-11-16"
   },
+  "c01:459a1dde": {
+   "fichier": "c01-d5f61693.mp3",
+   "voix": "EMuO6fFLrXKOryHzij6K",
+   "envoye": "[sleepy] Relire avant de fusionner : c'est ma règle la plus importante.",
+   "texte": "Relire avant de fusionner : c'est ma règle la plus importante.",
+   "date": "2026-11-17"
+  },
   "c01:53548cc6": {
    "fichier": "c01-0e570631.mp3",
    "voix": "EMuO6fFLrXKOryHzij6K",
    "envoye": "[sleepy] Mmh… une voie d'essai. On essaie à côté, sans rien casser. Pardon, je bâille.",
    "texte": "Mmh… une voie d'essai. On essaie à côté, sans rien casser. Pardon, je bâille.",
+   "date": "2026-11-17"
+  },
+  "c01:55adfdcd": {
+   "fichier": "c01-0dfd97f6.mp3",
+   "voix": "EMuO6fFLrXKOryHzij6K",
+   "envoye": "[sleepy] Ta première branche, à la main. Je regarde, les yeux mi-clos.",
+   "texte": "Ta première branche, à la main. Je regarde, les yeux mi-clos.",
    "date": "2026-11-17"
   },
   "c01:5c8510b0": {
@@ -190,6 +239,13 @@
    "texte": "… tu confies le travail… mais c'est toi qui relis… toujours…",
    "date": "2026-11-16"
   },
+  "c01:a14b24b6": {
+   "fichier": "c01-ea11d5fe.mp3",
+   "voix": "EMuO6fFLrXKOryHzij6K",
+   "envoye": "[sleepy] [mumbling] [slowly] … exact… une cellule… ça chatouille…",
+   "texte": "… exact… une cellule… ça chatouille…",
+   "date": "2026-11-17"
+  },
   "c01:a3f4eb45": {
    "fichier": "c01-33bd645d.mp3",
    "voix": "EMuO6fFLrXKOryHzij6K",
@@ -210,6 +266,13 @@
    "envoye": "[sleepy] [mumbling] [slowly] … ta première branche… à la main… je regarde… doucement…",
    "texte": "… ta première branche… à la main… je regarde… doucement…",
    "date": "2026-11-16"
+  },
+  "c01:ac195998": {
+   "fichier": "c01-486447cb.mp3",
+   "voix": "EMuO6fFLrXKOryHzij6K",
+   "envoye": "[sleepy] Les trains d'essai ne gênent personne. C'est rassurant.",
+   "texte": "Les trains d'essai ne gênent personne. C'est rassurant.",
+   "date": "2026-11-17"
   },
   "c01:ade1edb9": {
    "fichier": "c01-89858031.mp3",
@@ -239,12 +302,40 @@
    "texte": "… mes paupières… elles bougent… termine le protocole…",
    "date": "2026-11-16"
   },
+  "c01:b8be6061": {
+   "fichier": "c01-c32ee824.mp3",
+   "voix": "EMuO6fFLrXKOryHzij6K",
+   "envoye": "[sleepy] Mes paupières bougent. Termine le protocole.",
+   "texte": "Mes paupières bougent. Termine le protocole.",
+   "date": "2026-11-17"
+  },
   "c01:b92ff6f0": {
    "fichier": "c01-7dc1d288.mp3",
    "voix": "EMuO6fFLrXKOryHzij6K",
    "envoye": "[sleepy] [mumbling] [slowly] … une voie d'essai… oui… on essaie à côté… sans rien casser…",
    "texte": "… une voie d'essai… oui… on essaie à côté… sans rien casser…",
    "date": "2026-11-16"
+  },
+  "c01:b9f994af": {
+   "fichier": "c01-ba2f14e4.mp3",
+   "voix": "EMuO6fFLrXKOryHzij6K",
+   "envoye": "[sleepy] Presque réveillée. Termine, répare la panne, et j'ouvre les yeux.",
+   "texte": "Presque réveillée. Termine, répare la panne, et j'ouvre les yeux.",
+   "date": "2026-11-17"
+  },
+  "c01:bca9ab11": {
+   "fichier": "c01-d277b5b4.mp3",
+   "voix": "EMuO6fFLrXKOryHzij6K",
+   "envoye": "[sleepy] À l'encre, jamais à la gomme. On corrige en dessous.",
+   "texte": "À l'encre, jamais à la gomme. On corrige en dessous.",
+   "date": "2026-11-17"
+  },
+  "c01:c296c0c4": {
+   "fichier": "c01-2adc418d.mp3",
+   "voix": "EMuO6fFLrXKOryHzij6K",
+   "envoye": "[sleepy] Deux versions qui se disputent : c'est toi qui tranches.",
+   "texte": "Deux versions qui se disputent : c'est toi qui tranches.",
+   "date": "2026-11-17"
   },
   "c01:c39eac63": {
    "fichier": "c01-8250971b.mp3",
@@ -259,6 +350,13 @@
    "envoye": "[sleepy] [mumbling] [slowly] … les trains d'essai… ils ne gênent personne… c'est rassurant…",
    "texte": "… les trains d'essai… ils ne gênent personne… c'est rassurant…",
    "date": "2026-11-16"
+  },
+  "c01:c543070c": {
+   "fichier": "c01-a3f67abf.mp3",
+   "voix": "EMuO6fFLrXKOryHzij6K",
+   "envoye": "[sleepy] Le courant passe. Envoie l'arc, maintenant.",
+   "texte": "Le courant passe. Envoie l'arc, maintenant.",
+   "date": "2026-11-17"
   },
   "c01:c834a330": {
    "fichier": "c01-3c256858.mp3",
@@ -302,6 +400,13 @@
    "texte": "… à l'encre… jamais de gomme… on corrige en dessous…",
    "date": "2026-11-16"
   },
+  "c01:e4c6b869": {
+   "fichier": "c01-b804a07a.mp3",
+   "voix": "EMuO6fFLrXKOryHzij6K",
+   "envoye": "[sleepy] Encore un peu de courant. Termine le protocole.",
+   "texte": "Encore un peu de courant. Termine le protocole.",
+   "date": "2026-11-17"
+  },
   "c01:e75fb320": {
    "fichier": "c01-449790a8.mp3",
    "voix": "EMuO6fFLrXKOryHzij6K",
@@ -328,6 +433,13 @@
    "voix": "EMuO6fFLrXKOryHzij6K",
    "envoye": "[sleepy] [mumbling] [slowly] … qui a rangé la girafe dans le tiroir B ?… je ne jette rien… même pas la girafe…",
    "texte": "… qui a rangé la girafe dans le tiroir B ?… je ne jette rien… même pas la girafe…",
+   "date": "2026-11-17"
+  },
+  "c01:eb16a050": {
+   "fichier": "c01-71a36568.mp3",
+   "voix": "EMuO6fFLrXKOryHzij6K",
+   "envoye": "[sleepy] [mumbling] [slowly] … mmh… bonne réponse… je la colle dans l'album…",
+   "texte": "… mmh… bonne réponse… je la colle dans l'album…",
    "date": "2026-11-17"
   },
   "c01:ecf65907": {
