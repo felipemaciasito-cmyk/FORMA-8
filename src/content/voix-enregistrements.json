@@ -78,6 +78,13 @@
    "texte": "Relis ligne par ligne. Je t'attends.",
    "date": "2026-11-17"
   },
+  "c01:22e49c6a": {
+   "fichier": "c01-96fbcda2.mp3",
+   "voix": "EMuO6fFLrXKOryHzij6K",
+   "envoye": "[sleepy] [mumbling] [slowly] … je rêve d'un historique tout propre…",
+   "texte": "… je rêve d'un historique tout propre…",
+   "date": "2026-11-17"
+  },
   "c01:23d49bb4": {
    "fichier": "c01-2cb393dc.mp3",
    "voix": "EMuO6fFLrXKOryHzij6K",
@@ -134,6 +141,13 @@
    "texte": "Je vérifie tes archives sur GitHub : cinq commits, une pull request fusionnée, et ton README.",
    "date": "2026-11-17"
   },
+  "c01:2db87e24": {
+   "fichier": "c01-e79ee5c1.mp3",
+   "voix": "EMuO6fFLrXKOryHzij6K",
+   "envoye": "Attention, mes tiroirs sont rangés.",
+   "texte": "Attention, mes tiroirs sont rangés.",
+   "date": "2026-11-17"
+  },
   "c01:3003ae54": {
    "fichier": "c01-bfa11afc.mp3",
    "voix": "EMuO6fFLrXKOryHzij6K",
@@ -155,11 +169,25 @@
    "texte": "Je me souviens… j'avais un album de chaque étape du chantier. Encore un effort, et je te le montre.",
    "date": "2026-11-16"
   },
+  "c01:39365f23": {
+   "fichier": "c01-3e2b84eb.mp3",
+   "voix": "EMuO6fFLrXKOryHzij6K",
+   "envoye": "[sleepy] [mumbling] [slowly] … non… les mardis se classent par taille…",
+   "texte": "… non… les mardis se classent par taille…",
+   "date": "2026-11-17"
+  },
   "c01:459a1dde": {
    "fichier": "c01-d5f61693.mp3",
    "voix": "EMuO6fFLrXKOryHzij6K",
    "envoye": "[sleepy] Relire avant de fusionner : c'est ma règle la plus importante.",
    "texte": "Relire avant de fusionner : c'est ma règle la plus importante.",
+   "date": "2026-11-17"
+  },
+  "c01:49f74fc8": {
+   "fichier": "c01-e71ae8b9.mp3",
+   "voix": "EMuO6fFLrXKOryHzij6K",
+   "envoye": "Je garde tout, même ce toucher.",
+   "texte": "Je garde tout, même ce toucher.",
    "date": "2026-11-17"
   },
   "c01:4e971e92": {
@@ -223,6 +251,13 @@
    "voix": "EMuO6fFLrXKOryHzij6K",
    "envoye": "[sleepy] [mumbling] [slowly] … zzz… caisson 01… c'est moi… viens me réveiller… j'ai rangé la girafe…",
    "texte": "… zzz… caisson 01… c'est moi… viens me réveiller… j'ai rangé la girafe…",
+   "date": "2026-11-17"
+  },
+  "c01:677a6458": {
+   "fichier": "c01-5ef3ac90.mp3",
+   "voix": "EMuO6fFLrXKOryHzij6K",
+   "envoye": "[sleepy] [mumbling] [slowly] … cinq minutes… encore cinq…",
+   "texte": "… cinq minutes… encore cinq…",
    "date": "2026-11-17"
   },
   "c01:6c3f4550": {
@@ -307,6 +342,13 @@
    "voix": "EMuO6fFLrXKOryHzij6K",
    "envoye": "[sleepy] [mumbling] [slowly] … mmh… je me souviens d'un album… chaque étape du chantier… encore un effort…",
    "texte": "… mmh… je me souviens d'un album… chaque étape du chantier… encore un effort…",
+   "date": "2026-11-17"
+  },
+  "c01:96627146": {
+   "fichier": "c01-d96a977b.mp3",
+   "voix": "EMuO6fFLrXKOryHzij6K",
+   "envoye": "Un souvenir à retrouver ?",
+   "texte": "Un souvenir à retrouver ?",
    "date": "2026-11-17"
   },
   "c01:96c27b9d": {
@@ -512,6 +554,20 @@
    "texte": "Comme une bûche. Merci, Forma Trisse.",
    "date": "2026-11-17"
   },
+  "c01:cd1a6aec": {
+   "fichier": "c01-e821c3d4.mp3",
+   "voix": "EMuO6fFLrXKOryHzij6K",
+   "envoye": "[sleepy] [mumbling] [slowly] … qui frappe au tiroir ?…",
+   "texte": "… qui frappe au tiroir ?…",
+   "date": "2026-11-17"
+  },
+  "c01:cdceef7d": {
+   "fichier": "c01-f21f868c.mp3",
+   "voix": "EMuO6fFLrXKOryHzij6K",
+   "envoye": "Oui, chef ?",
+   "texte": "Oui, chef ?",
+   "date": "2026-11-17"
+  },
   "c01:ce16e005": {
    "fichier": "c01-40f57fcd.mp3",
    "voix": "EMuO6fFLrXKOryHzij6K",
@@ -624,6 +680,13 @@
    "texte": "Je suis le Règlement de bord. J'écris les règles que toute l'équipe suit, à chaque séance de travail.",
    "date": "2026-11-16"
   },
+  "c02:6639b048": {
+   "fichier": "c02-3e978a0f.mp3",
+   "voix": "5l4ttmr4SKNgi0HnOelT",
+   "envoye": "[sleepy] [mumbling] [slowly] … qui a touché… au règlement ?…",
+   "texte": "… qui a touché… au règlement ?…",
+   "date": "2026-11-17"
+  },
   "c02:83dc6b01": {
    "fichier": "c02-1ec81df2.mp3",
    "voix": "5l4ttmr4SKNgi0HnOelT",
@@ -643,6 +706,13 @@
    "voix": "5l4ttmr4SKNgi0HnOelT",
    "envoye": "Je suis le Général Calpin, le règlement de bord. J'écris les règles que toute l'équipe suit, à chaque séance de travail.",
    "texte": "Je suis le Général Calpin, le règlement de bord. J'écris les règles que toute l'équipe suit, à chaque séance de travail.",
+   "date": "2026-11-17"
+  },
+  "c03:3d2f736c": {
+   "fichier": "c03-d1612c08.mp3",
+   "voix": "86fYoxrFeaJKXplThwSl",
+   "envoye": "[sleepy] [mumbling] [slowly] … ne froisse pas… ma page…",
+   "texte": "… ne froisse pas… ma page…",
    "date": "2026-11-17"
   },
   "c03:5b5b2973": {
@@ -687,6 +757,13 @@
    "texte": "… encore un tour… encore un petit tour…",
    "date": "2026-11-16"
   },
+  "c04:63186a2e": {
+   "fichier": "c04-9c62e570.mp3",
+   "voix": "KSyQzmsYhFbuOhqj1Xxv",
+   "envoye": "[sleepy] [mumbling] [slowly] … ça tourne… ça tourne… hop…",
+   "texte": "… ça tourne… ça tourne… hop…",
+   "date": "2026-11-17"
+  },
   "c04:78b9bd0b": {
    "fichier": "c04-b49a45fa.mp3",
    "voix": "KSyQzmsYhFbuOhqj1Xxv",
@@ -700,6 +777,17 @@
    "envoye": "[sleepy] [mumbling] [slowly] … encore un tour… et encore un… qui a mis un manège dans mon rêve ?…",
    "texte": "… encore un tour… et encore un… qui a mis un manège dans mon rêve ?…",
    "date": "2026-11-17"
+  },
+  "c05:1755888e": {
+   "fichier": "c05-6bdf2383.mp3",
+   "voix": "fnoOtHjtLbYs6mOpUSdr",
+   "envoye": "[sleepy] [mumbling] [slowly] … suspect… très suspect…",
+   "texte": "… suspect… très suspect…",
+   "date": "2026-11-17",
+   "duo": {
+    "fichier": "c05-2daa223d.mp3",
+    "voix": "Qrl71rx6Yg8RvyPYRGCQ"
+   }
   },
   "c05:3b524a75": {
    "fichier": "c05-21cb6aed.mp3",
@@ -751,6 +839,13 @@
    "envoye": "[sleepy] [mumbling] [slowly] … livraison express… adresse… confirmée…",
    "texte": "… livraison express… adresse… confirmée…",
    "date": "2026-11-16"
+  },
+  "c06:1ffe9e12": {
+   "fichier": "c06-71eb697c.mp3",
+   "voix": "hv6gVog5LgtIUX88Nmq8",
+   "envoye": "[sleepy] [mumbling] [slowly] … je pars… dans cinq minutes…",
+   "texte": "… je pars… dans cinq minutes…",
+   "date": "2026-11-17"
   },
   "c06:80f60f77": {
    "fichier": "c06-93911cb0.mp3",
@@ -1009,6 +1104,13 @@
    "voix": "t8BrjWUT5Z23DLLBzbuY",
    "envoye": "[sleepy] Dernier protocole : aujourd'hui, ton produit existe sur internet. Prévois deux quarts.",
    "texte": "Dernier protocole : aujourd'hui, ton produit existe sur internet. Prévois deux quarts.",
+   "date": "2026-11-17"
+  },
+  "ora:2a6c728a": {
+   "fichier": "ora-3a4690bf.mp3",
+   "voix": "t8BrjWUT5Z23DLLBzbuY",
+   "envoye": "[sleepy] [mumbling] [slowly] … mes voyants… laisse mes voyants…",
+   "texte": "… mes voyants… laisse mes voyants…",
    "date": "2026-11-17"
   },
   "ora:2a796162": {
@@ -1389,6 +1491,13 @@
    "texte": "Une panne, juste avant mon réveil ! Lis chaque alerte : une erreur grille un fusible.",
    "date": "2026-11-17"
   },
+  "ora:99a1c7a8": {
+   "fichier": "ora-ac5162a4.mp3",
+   "voix": "t8BrjWUT5Z23DLLBzbuY",
+   "envoye": "Oui ? Je suis là.",
+   "texte": "Oui ? Je suis là.",
+   "date": "2026-11-17"
+  },
   "ora:9f4b272e": {
    "fichier": "ora-1dae6a26.mp3",
    "voix": "t8BrjWUT5Z23DLLBzbuY",
@@ -1550,6 +1659,20 @@
    "texte": "Explique avec tes mots, comme à un ami. C'est le meilleur moyen de savoir si tu as compris.",
    "date": "2026-11-16"
   },
+  "ora:c69221ea": {
+   "fichier": "ora-8854c5ce.mp3",
+   "voix": "t8BrjWUT5Z23DLLBzbuY",
+   "envoye": "Toujours en service.",
+   "texte": "Toujours en service.",
+   "date": "2026-11-17"
+  },
+  "ora:c980ed4a": {
+   "fichier": "ora-1dec0a4f.mp3",
+   "voix": "t8BrjWUT5Z23DLLBzbuY",
+   "envoye": "[sleepy] [mumbling] [slowly] … non… je ne suis pas un bouton…",
+   "texte": "… non… je ne suis pas un bouton…",
+   "date": "2026-11-17"
+  },
   "ora:cb39342d": {
    "fichier": "ora-dd143bf9.mp3",
    "voix": "t8BrjWUT5Z23DLLBzbuY",
@@ -1662,6 +1785,13 @@
    "texte": "… trois d'affilée… mes paupières clignotent…",
    "date": "2026-11-17"
   },
+  "ora:e6fbe151": {
+   "fichier": "ora-76872705.mp3",
+   "voix": "t8BrjWUT5Z23DLLBzbuY",
+   "envoye": "Une question ? Touche « Demander à Forma Trisse ».",
+   "texte": "Une question ? Touche « Demander à Forma Trisse ».",
+   "date": "2026-11-17"
+  },
   "ora:e7f06718": {
    "fichier": "ora-d4d20c30.mp3",
    "voix": "t8BrjWUT5Z23DLLBzbuY",
@@ -1723,6 +1853,13 @@
    "voix": "t8BrjWUT5Z23DLLBzbuY",
    "envoye": "[sleepy] Tu as cherché, et tu as trouvé. C'est ainsi qu'on apprend.",
    "texte": "Tu as cherché, et tu as trouvé. C'est ainsi qu'on apprend.",
+   "date": "2026-11-17"
+  },
+  "ora:fcd03c51": {
+   "fichier": "ora-5dbbc765.mp3",
+   "voix": "t8BrjWUT5Z23DLLBzbuY",
+   "envoye": "Ça chatouille les circuits.",
+   "texte": "Ça chatouille les circuits.",
    "date": "2026-11-17"
   },
   "ora:ff1f8dee": {
