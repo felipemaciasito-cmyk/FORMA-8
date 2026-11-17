@@ -164,3 +164,17 @@ defi.c01.3.q awd75uatB8fbgV4bId31
 defi.c01.3.piste qY2IM7ohCAtGqxfx4rEO
 defi.c01.4.q uPdlibLrNhF55CNMD4UG
 defi.c01.4.piste HDEPvkyDxcZe585FGNWr
+defi.ora.bravo.1 MafZmkSYj9Ro8Qdx38Ob
+defi.ora.bravo.2 B6TQYZndQLG0E5OWWVAS
+defi.c01.bravo.1 IeogXVmc70VdrZ4EkalQ
+defi.c01.bravo.2 KEd1ISPXlNONQAarLZrP
+defi.ora.fait tDoChU4YUZSgRtynSQAd
+defi.c01.fait 57ygEmtVeq9O2raqg85w
+question.ora.cle klPA2HcqLtXerOwG69Ea
+question.c01.cle OxDnFoxSdz1ofSyxw6rl
+annexe.atelier.sommeil CWoNQ7EU2YBo0nlemygI
+annexe.atelier.eveil aDJlyZ3GaabEG9HwSJNl
+annexe.equipe.sommeil QMjVyhPY0et4fbn8a9lb
+annexe.equipe.eveil 0U68CEzBpjf0nNPvp0jk
+annexe.maint.chaud.sommeil TAg5uxiQ2YbKIY0x58LG
+annexe.maint.chaud.eveil dPNRWKr8wxtKbu7yL1pA

@@ -177,5 +177,19 @@
 "defi.c01.3.q": true,
 "defi.c01.3.piste": true,
 "defi.c01.4.q": true,
-"defi.c01.4.piste": true
+"defi.c01.4.piste": true,
+"defi.ora.bravo.1": true,
+"defi.ora.bravo.2": true,
+"defi.c01.bravo.1": true,
+"defi.c01.bravo.2": true,
+"defi.ora.fait": true,
+"defi.c01.fait": true,
+"question.ora.cle": true,
+"question.c01.cle": true,
+"annexe.atelier.sommeil": true,
+"annexe.atelier.eveil": true,
+"annexe.equipe.sommeil": true,
+"annexe.equipe.eveil": true,
+"annexe.maint.chaud.sommeil": true,
+"annexe.maint.chaud.eveil": true
 }

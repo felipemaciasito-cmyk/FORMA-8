@@ -43,6 +43,13 @@
    "texte": "… pas tout à fait… relis un peu plus haut… tout y est noté…",
    "date": "2026-11-16"
   },
+  "c01:0e01c30f": {
+   "fichier": "c01-ec4111dc.mp3",
+   "voix": "EMuO6fFLrXKOryHzij6K",
+   "envoye": "Pour me questionner, il faut ta clé Claude, dans Réglages. Je t'attends.",
+   "texte": "Pour me questionner, il faut ta clé Claude, dans Réglages. Je t'attends.",
+   "date": "2026-11-17"
+  },
   "c01:15c078a3": {
    "fichier": "c01-f8bdf106.mp3",
    "voix": "EMuO6fFLrXKOryHzij6K",
@@ -330,6 +337,13 @@
    "texte": "On reprend où on en était ?",
    "date": "2026-11-17"
   },
+  "c01:82822270": {
+   "fichier": "c01-31eee5c5.mp3",
+   "voix": "EMuO6fFLrXKOryHzij6K",
+   "envoye": "Je l'inscris au registre : défi réussi.",
+   "texte": "Je l'inscris au registre : défi réussi.",
+   "date": "2026-11-17"
+  },
   "c01:850b5a11": {
    "fichier": "c01-026517f9.mp3",
    "voix": "EMuO6fFLrXKOryHzij6K",
@@ -406,6 +420,13 @@
    "envoye": "[sleepy] [mumbling] [slowly] … photo numéro un… photo numéro deux… surtout, je ne jette rien…",
    "texte": "… photo numéro un… photo numéro deux… surtout, je ne jette rien…",
    "date": "2026-11-16"
+  },
+  "c01:9fdd1672": {
+   "fichier": "c01-0683e371.mp3",
+   "voix": "EMuO6fFLrXKOryHzij6K",
+   "envoye": "Défi relevé. Je te garde le suivant pour demain.",
+   "texte": "Défi relevé. Je te garde le suivant pour demain.",
+   "date": "2026-11-17"
   },
   "c01:a0b42fac": {
    "fichier": "c01-e86de654.mp3",
@@ -538,6 +559,13 @@
    "voix": "EMuO6fFLrXKOryHzij6K",
    "envoye": "[sleepy] À l'encre, jamais à la gomme. On corrige en dessous.",
    "texte": "À l'encre, jamais à la gomme. On corrige en dessous.",
+   "date": "2026-11-17"
+  },
+  "c01:be37ced3": {
+   "fichier": "c01-a1e390c4.mp3",
+   "voix": "EMuO6fFLrXKOryHzij6K",
+   "envoye": "Exact ! Quinze kilowatts pour toi. À demain.",
+   "texte": "Exact ! Quinze kilowatts pour toi. À demain.",
    "date": "2026-11-17"
   },
   "c01:c296c0c4": {
@@ -1106,6 +1134,13 @@
    "texte": "Ce caisson est encore verrouillé. Réveille d'abord le membre de l'équipe précédent.",
    "date": "2026-11-16"
   },
+  "ora:0f270406": {
+   "fichier": "ora-2bcf769a.mp3",
+   "voix": "t8BrjWUT5Z23DLLBzbuY",
+   "envoye": "Bravo. Défi réussi : quinze kilowatts.",
+   "texte": "Bravo. Défi réussi : quinze kilowatts.",
+   "date": "2026-11-17"
+  },
   "ora:136707d1": {
    "fichier": "ora-272d810a.mp3",
    "voix": "t8BrjWUT5Z23DLLBzbuY",
@@ -1154,6 +1189,13 @@
    "envoye": "Systèmes en veille. Je suis prête à démarrer quand tu le seras.",
    "texte": "Systèmes en veille. Je suis prête à démarrer quand tu le seras.",
    "date": "2026-11-16"
+  },
+  "ora:2349b181": {
+   "fichier": "ora-d9a9b4f4.mp3",
+   "voix": "t8BrjWUT5Z23DLLBzbuY",
+   "envoye": "[sleepy] [mumbling] [slowly] … l'atelier… on y écrit des ordres de mission… Claude les note… mmh…",
+   "texte": "… l'atelier… on y écrit des ordres de mission… Claude les note… mmh…",
+   "date": "2026-11-17"
   },
   "ora:252ab905": {
    "fichier": "ora-271c6f6d.mp3",
@@ -1386,6 +1428,20 @@
    "texte": "Tu es entre de bonnes mains. Allons réveiller la suite.",
    "date": "2026-11-17"
   },
+  "ora:57ffbdfe": {
+   "fichier": "ora-521a51ea.mp3",
+   "voix": "t8BrjWUT5Z23DLLBzbuY",
+   "envoye": "Ici, tu écris des ordres de mission. Claude les note sur cinq critères.",
+   "texte": "Ici, tu écris des ordres de mission. Claude les note sur cinq critères.",
+   "date": "2026-11-17"
+  },
+  "ora:59436714": {
+   "fichier": "ora-ffe57bf1.mp3",
+   "voix": "t8BrjWUT5Z23DLLBzbuY",
+   "envoye": "[sleepy] [mumbling] [slowly] … ça chauffe… quelques notions à refroidir… vite fait…",
+   "texte": "… ça chauffe… quelques notions à refroidir… vite fait…",
+   "date": "2026-11-17"
+  },
   "ora:59fb2e26": {
    "fichier": "ora-cb7cf772.mp3",
    "voix": "t8BrjWUT5Z23DLLBzbuY",
@@ -1405,6 +1461,13 @@
    "voix": "t8BrjWUT5Z23DLLBzbuY",
    "envoye": "[sleepy] [mumbling] [slowly] … les machines ronronnent… comme un gros chat… tu veux les entendre ?… tu pourras changer d'avis… dans Réglages…",
    "texte": "… les machines ronronnent… comme un gros chat… tu veux les entendre ?… tu pourras changer d'avis… dans Réglages…",
+   "date": "2026-11-17"
+  },
+  "ora:60bf7469": {
+   "fichier": "ora-8eca64e5.mp3",
+   "voix": "t8BrjWUT5Z23DLLBzbuY",
+   "envoye": "Défi du jour relevé. Reviens demain.",
+   "texte": "Défi du jour relevé. Reviens demain.",
    "date": "2026-11-17"
   },
   "ora:619c992f": {
@@ -1440,6 +1503,13 @@
    "voix": "t8BrjWUT5Z23DLLBzbuY",
    "envoye": "Pas tout à fait. Pense au chantier : qui fait le travail ?",
    "texte": "Pas tout à fait. Pense au chantier : qui fait le travail ?",
+   "date": "2026-11-17"
+  },
+  "ora:6f248933": {
+   "fichier": "ora-4bfd8be6.mp3",
+   "voix": "t8BrjWUT5Z23DLLBzbuY",
+   "envoye": "[sleepy] [mumbling] [slowly] … chaque dormeur… un vrai fichier de ton produit… touche-les… doucement…",
+   "texte": "… chaque dormeur… un vrai fichier de ton produit… touche-les… doucement…",
    "date": "2026-11-17"
   },
   "ora:6f397b29": {
@@ -1589,6 +1659,13 @@
    "texte": "Moment important : tu choisis le produit que toute l'équipe construira avec toi.",
    "date": "2026-11-17"
   },
+  "ora:8ff15fdc": {
+   "fichier": "ora-40a45950.mp3",
+   "voix": "t8BrjWUT5Z23DLLBzbuY",
+   "envoye": "Pour me poser une question, il me faut ta clé Claude. Ajoute-la dans Réglages.",
+   "texte": "Pour me poser une question, il me faut ta clé Claude. Ajoute-la dans Réglages.",
+   "date": "2026-11-17"
+  },
   "ora:91aad0ff": {
    "fichier": "ora-d4a65b2b.mp3",
    "voix": "t8BrjWUT5Z23DLLBzbuY",
@@ -1657,6 +1734,13 @@
    "voix": "t8BrjWUT5Z23DLLBzbuY",
    "envoye": "[sleepy] [mumbling] [slowly] … zzz… formatrice en veille… le premier protocole… il me réveillera…",
    "texte": "… zzz… formatrice en veille… le premier protocole… il me réveillera…",
+   "date": "2026-11-17"
+  },
+  "ora:a934044a": {
+   "fichier": "ora-d5c4316e.mp3",
+   "voix": "t8BrjWUT5Z23DLLBzbuY",
+   "envoye": "Des notions surchauffent. Quelques minutes suffisent à les refroidir.",
+   "texte": "Des notions surchauffent. Quelques minutes suffisent à les refroidir.",
    "date": "2026-11-17"
   },
   "ora:aaaff8ff": {
@@ -1748,6 +1832,13 @@
    "voix": "t8BrjWUT5Z23DLLBzbuY",
    "envoye": "[sleepy] [mumbling] [slowly] … les chaussettes… mmh… remonte d'un ou deux blocs… et réessaie…",
    "texte": "… les chaussettes… mmh… remonte d'un ou deux blocs… et réessaie…",
+   "date": "2026-11-17"
+  },
+  "ora:be37ced3": {
+   "fichier": "ora-ff4c686f.mp3",
+   "voix": "t8BrjWUT5Z23DLLBzbuY",
+   "envoye": "Exact ! Quinze kilowatts pour toi. À demain.",
+   "texte": "Exact ! Quinze kilowatts pour toi. À demain.",
    "date": "2026-11-17"
   },
   "ora:c41d593a": {
@@ -1952,6 +2043,13 @@
    "envoye": "Ton tout premier code lu. Ne cherche pas à tout comprendre : repère seulement ce qui change.",
    "texte": "Ton tout premier code lu. Ne cherche pas à tout comprendre : repère seulement ce qui change.",
    "date": "2026-11-16"
+  },
+  "ora:ec5f7710": {
+   "fichier": "ora-cce4784c.mp3",
+   "voix": "t8BrjWUT5Z23DLLBzbuY",
+   "envoye": "Chaque membre correspond à un vrai fichier de ton produit. Touche-le pour voir sa fiche.",
+   "texte": "Chaque membre correspond à un vrai fichier de ton produit. Touche-le pour voir sa fiche.",
+   "date": "2026-11-17"
   },
   "ora:ed587add": {
    "fichier": "ora-b8ac9ae9.mp3",
