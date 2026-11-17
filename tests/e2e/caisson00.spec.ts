@@ -71,11 +71,11 @@ test("le caisson 00 se joue entièrement, avec chaque outil d'apprentissage", as
   // Ordre de mission personnalisé avec le produit choisi.
   await expect(page.getByText("Mon produit : Carnet de chantier.")).toBeVisible();
 
-  // Fiche d'une notion depuis un terme cliquable, puis « Demander à ORA » (clé API demandée).
+  // Fiche d'une notion depuis un terme cliquable, puis « Demander à Forma Trisse » (clé API demandée).
   await page.locator("button.term", { hasText: "dépôt" }).first().click();
   await expect(page.getByRole("dialog")).toBeVisible();
   await page.keyboard.press("Escape");
-  await page.getByRole("button", { name: "Demander à ORA" }).click();
+  await page.getByRole("button", { name: "Demander à Forma Trisse" }).click();
   await expect(page.getByText("Clé API nécessaire")).toBeVisible();
   await page.keyboard.press("Escape");
 

@@ -44,18 +44,18 @@ export function useBulle(speaker: Speaker | undefined, md: string | undefined, o
   const [progress, setProgress] = useState(1);
   const [level, setLevel] = useState(0);
   const [speaking, setSpeaking] = useState(false);
-  const fullHeard = useRef(false);
+  // Premier toucher : il relit sa réplique (en entier, même après une phrase de retour) ; les suivants : il réagit.
+  const relu = useRef(false);
   const key = speaker && affiche ? lineKey(speaker, affiche, babble) : "";
   const keyRef = useRef(key); keyRef.current = key;
 
   // Une nouvelle réplique : la phrase de retour si elle a déjà été entendue, sinon la réplique elle-même.
   useEffect(() => {
     if (!speaker || !md) { setAffiche(""); setOpen(false); return; }
-    fullHeard.current = false;
+    relu.current = false;
     const k = lineKey(speaker, md, babble);
     const short = retour && !babble && entendu(k) ? phraseRetour(speaker) : undefined;
     const text = short ?? md;
-    if (!short) fullHeard.current = true;
     setAffiche(text);
     if (!auto) { setOpen(false); return; }
     setOpen(false); setProgress(reduce ? 1 : 0);
@@ -92,8 +92,9 @@ export function useBulle(speaker: Speaker | undefined, md: string | undefined, o
   const dire = (text: string) => { setAffiche(text); setProgress(reduce ? 1 : 0); void speak(speaker!, text, { babble }); };
   /** Toucher le personnage : il relit sa réplique ; ensuite, chaque toucher le fait réagir. */
   const toucher = () => {
-    if (!speaker || !md) return;
-    if (!fullHeard.current || babble) { fullHeard.current = true; dire(md); return; }
+    if (!speaker) return;
+    if (!md) { const r = reactionToucher(speaker); if (r) dire(r); return; }
+    if (!relu.current || babble) { relu.current = true; dire(md); return; }
     const r = reactionToucher(speaker);
     dire(r ?? md);
   };

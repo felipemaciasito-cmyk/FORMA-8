@@ -1,13 +1,6 @@
 {
  "_lisez-moi": "Répliques enregistrées avec ElevenLabs. Clé : « personnage:empreinte du texte dit » (src/lib/voice-key.js). « fichier » est dans public/voix ; « voix » est la voix ElevenLabs utilisée ; « envoye » est le texte exact envoyé (il peut différer du texte affiché : prénom retiré, prononciation aidée) ; « texte » est la réplique affichée ; « date » est le jour de l'enregistrement. Ajouter une entrée avec scripts/voix.mjs.",
  "repliques": {
-  "c01:0039f5da": {
-   "fichier": "c01-4a97d472.mp3",
-   "voix": "EMuO6fFLrXKOryHzij6K",
-   "envoye": "[sleepy] [mumbling] [slowly] … une légende… courte… claire… sinon je ne retrouve plus rien…",
-   "texte": "… une légende… courte… claire… sinon je ne retrouve plus rien…",
-   "date": "2026-11-16"
-  },
   "c01:04eae32a": {
    "fichier": "c01-b002b211.mp3",
    "voix": "EMuO6fFLrXKOryHzij6K",
@@ -21,27 +14,6 @@
    "envoye": "[sleepy] Revenir en arrière sans rien effacer : c'est mon métier.",
    "texte": "Revenir en arrière sans rien effacer : c'est mon métier.",
    "date": "2026-11-17"
-  },
-  "c01:0b2e80e0": {
-   "fichier": "c01-e9969718.mp3",
-   "voix": "EMuO6fFLrXKOryHzij6K",
-   "envoye": "[sleepy] [mumbling] [slowly] … le courant passe… envoie l'arc… maintenant…",
-   "texte": "… le courant passe… envoie l'arc… maintenant…",
-   "date": "2026-11-16"
-  },
-  "c01:0bed4f07": {
-   "fichier": "c01-e2af095f.mp3",
-   "voix": "EMuO6fFLrXKOryHzij6K",
-   "envoye": "[sleepy] [mumbling] [slowly] … je sens le courant monter… termine le protocole… et branche la batterie sur ma capsule…",
-   "texte": "… je sens le courant monter… termine le protocole… et branche la batterie sur ma capsule…",
-   "date": "2026-11-16"
-  },
-  "c01:0cfc14e2": {
-   "fichier": "c01-2d47861a.mp3",
-   "voix": "EMuO6fFLrXKOryHzij6K",
-   "envoye": "[sleepy] [mumbling] [slowly] … pas tout à fait… relis un peu plus haut… tout y est noté…",
-   "texte": "… pas tout à fait… relis un peu plus haut… tout y est noté…",
-   "date": "2026-11-16"
   },
   "c01:0e01c30f": {
    "fichier": "c01-ec4111dc.mp3",
@@ -57,26 +29,12 @@
    "texte": "Défi du jour ! Un conflit, c'est…",
    "date": "2026-11-17"
   },
-  "c01:1691fd14": {
-   "fichier": "c01-3de0362c.mp3",
-   "voix": "EMuO6fFLrXKOryHzij6K",
-   "envoye": "[sleepy] [mumbling] [slowly] … trois d'affilée… mes paupières bougent presque…",
-   "texte": "… trois d'affilée… mes paupières bougent presque…",
-   "date": "2026-11-16"
-  },
   "c01:1ae436bc": {
    "fichier": "c01-1b4d5a45.mp3",
    "voix": "EMuO6fFLrXKOryHzij6K",
    "envoye": "[sleepy] Tu confies le travail, mais c'est toi qui relis. Toujours.",
    "texte": "Tu confies le travail, mais c'est toi qui relis. Toujours.",
    "date": "2026-11-17"
-  },
-  "c01:1c8b951c": {
-   "fichier": "c01-fc658f51.mp3",
-   "voix": "EMuO6fFLrXKOryHzij6K",
-   "envoye": "Je vérifie tes archives sur GitHub : cinq commits, une pull request fusionnée, et ton README. Montre-moi tout ça.",
-   "texte": "Je vérifie tes archives sur GitHub : cinq commits, une pull request fusionnée, et ton README. Montre-moi tout ça.",
-   "date": "2026-11-16"
   },
   "c01:1d7e36d1": {
    "fichier": "c01-64321b09.mp3",
@@ -134,13 +92,6 @@
    "texte": "… encore une… mes paupières dansent…",
    "date": "2026-11-17"
   },
-  "c01:2c9c7ffe": {
-   "fichier": "c01-0be9d706.mp3",
-   "voix": "EMuO6fFLrXKOryHzij6K",
-   "envoye": "[sleepy] [mumbling] [slowly] … mmh… relire avant de réunir… c'est ma règle… la plus importante…",
-   "texte": "… mmh… relire avant de réunir… c'est ma règle… la plus importante…",
-   "date": "2026-11-16"
-  },
   "c01:2d8b6fa7": {
    "fichier": "c01-11a345af.mp3",
    "voix": "EMuO6fFLrXKOryHzij6K",
@@ -162,26 +113,12 @@
    "texte": "Attention, mes tiroirs sont rangés.",
    "date": "2026-11-17"
   },
-  "c01:3003ae54": {
-   "fichier": "c01-bfa11afc.mp3",
-   "voix": "EMuO6fFLrXKOryHzij6K",
-   "envoye": "[sleepy] [mumbling] [slowly] … tu as recommencé… et tu as trouvé… je garde aussi les essais ratés, tu sais…",
-   "texte": "… tu as recommencé… et tu as trouvé… je garde aussi les essais ratés, tu sais…",
-   "date": "2026-11-16"
-  },
   "c01:31aa9514": {
    "fichier": "c01-d30847b5.mp3",
    "voix": "EMuO6fFLrXKOryHzij6K",
    "envoye": "J'ai tout gardé en ordre.",
    "texte": "J'ai tout gardé en ordre.",
    "date": "2026-11-17"
-  },
-  "c01:378acd53": {
-   "fichier": "c01-7a40a01b.mp3",
-   "voix": "EMuO6fFLrXKOryHzij6K",
-   "envoye": "[sleepy] [mumbling] [slowly] Je me souviens… j'avais un album de chaque étape du chantier. Encore un effort, et je te le montre.",
-   "texte": "Je me souviens… j'avais un album de chaque étape du chantier. Encore un effort, et je te le montre.",
-   "date": "2026-11-16"
   },
   "c01:39365f23": {
    "fichier": "c01-3e2b84eb.mp3",
@@ -246,13 +183,6 @@
    "texte": "Doucement. Tout est noté un peu plus haut.",
    "date": "2026-11-17"
   },
-  "c01:5c8510b0": {
-   "fichier": "c01-06f4d788.mp3",
-   "voix": "EMuO6fFLrXKOryHzij6K",
-   "envoye": "[sleepy] [mumbling] [slowly] … mmh… aujourd'hui… on donne un nom à chaque photo… et une légende…",
-   "texte": "… mmh… aujourd'hui… on donne un nom à chaque photo… et une légende…",
-   "date": "2026-11-16"
-  },
   "c01:5cd95dc3": {
    "fichier": "c01-ead5288b.mp3",
    "voix": "EMuO6fFLrXKOryHzij6K",
@@ -281,20 +211,6 @@
    "texte": "Défi du jour ! Une erreur a été fusionnée. Que fais-tu ?",
    "date": "2026-11-17"
   },
-  "c01:6c3f4550": {
-   "fichier": "c01-43078258.mp3",
-   "voix": "EMuO6fFLrXKOryHzij6K",
-   "envoye": "[sleepy] [mumbling] [slowly] … mmh… une erreur… puis la bonne réponse… c'est comme ça qu'on retient…",
-   "texte": "… mmh… une erreur… puis la bonne réponse… c'est comme ça qu'on retient…",
-   "date": "2026-11-16"
-  },
-  "c01:6c54bce2": {
-   "fichier": "c01-1d6d9501.mp3",
-   "voix": "EMuO6fFLrXKOryHzij6K",
-   "envoye": "Bonjour, chef. Me voilà réveillée. À partir d'aujourd'hui, aucune version de ton produit ne se perdra. Et si quelque chose casse, nous reviendrons en arrière ensemble, sans rien effacer.",
-   "texte": "Bonjour, chef. Me voilà réveillée. À partir d'aujourd'hui, aucune version de ton produit ne se perdra. Et si quelque chose casse, nous reviendrons en arrière ensemble, sans rien effacer.",
-   "date": "2026-11-16"
-  },
   "c01:6d038a55": {
    "fichier": "c01-d385959d.mp3",
    "voix": "EMuO6fFLrXKOryHzij6K",
@@ -302,26 +218,12 @@
    "texte": "… les photos du chantier… des milliers… toutes dans l'ordre… sauf la girafe…",
    "date": "2026-11-17"
   },
-  "c01:711eb08e": {
-   "fichier": "c01-47ed8f66.mp3",
-   "voix": "EMuO6fFLrXKOryHzij6K",
-   "envoye": "[sleepy] [mumbling] [slowly] … la batterie… elle est presque pleine… termine… et branche-la…",
-   "texte": "… la batterie… elle est presque pleine… termine… et branche-la…",
-   "date": "2026-11-16"
-  },
   "c01:71ce3170": {
    "fichier": "c01-004faae3.mp3",
    "voix": "EMuO6fFLrXKOryHzij6K",
    "envoye": "Pas tout à fait. À l'encre, jamais à la gomme.",
    "texte": "Pas tout à fait. À l'encre, jamais à la gomme.",
    "date": "2026-11-17"
-  },
-  "c01:72b5ee36": {
-   "fichier": "c01-520b723e.mp3",
-   "voix": "EMuO6fFLrXKOryHzij6K",
-   "envoye": "[sleepy] [mumbling] [slowly] … deux versions qui se disputent… c'est toi qui choisis…",
-   "texte": "… deux versions qui se disputent… c'est toi qui choisis…",
-   "date": "2026-11-16"
   },
   "c01:8025174d": {
    "fichier": "c01-356cc105.mp3",
@@ -365,13 +267,6 @@
    "texte": "Pas tout à fait. Deux versions qui se disputent.",
    "date": "2026-11-17"
   },
-  "c01:908c1882": {
-   "fichier": "c01-f1c39d9a.mp3",
-   "voix": "EMuO6fFLrXKOryHzij6K",
-   "envoye": "[sleepy] [mumbling] [slowly] … mmh… tu… tu es là ?… je dors encore… mais je t'entends… parlons de souvenirs…",
-   "texte": "… mmh… tu… tu es là ?… je dors encore… mais je t'entends… parlons de souvenirs…",
-   "date": "2026-11-16"
-  },
   "c01:908f759e": {
    "fichier": "c01-678152f1.mp3",
    "voix": "EMuO6fFLrXKOryHzij6K",
@@ -393,33 +288,12 @@
    "texte": "Un souvenir à retrouver ?",
    "date": "2026-11-17"
   },
-  "c01:96c27b9d": {
-   "fichier": "c01-6dbb3a55.mp3",
-   "voix": "EMuO6fFLrXKOryHzij6K",
-   "envoye": "[sleepy] [mumbling] [slowly] … exact… une cellule s'allume… je la sens…",
-   "texte": "… exact… une cellule s'allume… je la sens…",
-   "date": "2026-11-16"
-  },
-  "c01:97cc59d2": {
-   "fichier": "c01-dbdb574a.mp3",
-   "voix": "EMuO6fFLrXKOryHzij6K",
-   "envoye": "[sleepy] [mumbling] [slowly] … les photos du chantier… j'en ai des milliers… toutes rangées dans l'ordre…",
-   "texte": "… les photos du chantier… j'en ai des milliers… toutes rangées dans l'ordre…",
-   "date": "2026-11-16"
-  },
   "c01:9ac66115": {
    "fichier": "c01-b6d590ba.mp3",
    "voix": "EMuO6fFLrXKOryHzij6K",
    "envoye": "Pas tout à fait. Pense aux trains d'essai.",
    "texte": "Pas tout à fait. Pense aux trains d'essai.",
    "date": "2026-11-17"
-  },
-  "c01:9d617ab8": {
-   "fichier": "c01-ecb57c30.mp3",
-   "voix": "EMuO6fFLrXKOryHzij6K",
-   "envoye": "[sleepy] [mumbling] [slowly] … photo numéro un… photo numéro deux… surtout, je ne jette rien…",
-   "texte": "… photo numéro un… photo numéro deux… surtout, je ne jette rien…",
-   "date": "2026-11-16"
   },
   "c01:9fdd1672": {
    "fichier": "c01-0683e371.mp3",
@@ -428,13 +302,6 @@
    "texte": "Défi relevé. Je te garde le suivant pour demain.",
    "date": "2026-11-17"
   },
-  "c01:a0b42fac": {
-   "fichier": "c01-e86de654.mp3",
-   "voix": "EMuO6fFLrXKOryHzij6K",
-   "envoye": "[sleepy] [mumbling] [slowly] … tu confies le travail… mais c'est toi qui relis… toujours…",
-   "texte": "… tu confies le travail… mais c'est toi qui relis… toujours…",
-   "date": "2026-11-16"
-  },
   "c01:a14b24b6": {
    "fichier": "c01-ea11d5fe.mp3",
    "voix": "EMuO6fFLrXKOryHzij6K",
@@ -442,26 +309,12 @@
    "texte": "… exact… une cellule… ça chatouille…",
    "date": "2026-11-17"
   },
-  "c01:a3f4eb45": {
-   "fichier": "c01-33bd645d.mp3",
-   "voix": "EMuO6fFLrXKOryHzij6K",
-   "envoye": "[sleepy] [mumbling] [slowly] … presque réveillée… termine… puis la panne… et j'ouvrirai les yeux…",
-   "texte": "… presque réveillée… termine… puis la panne… et j'ouvrirai les yeux…",
-   "date": "2026-11-16"
-  },
   "c01:a41fa40a": {
    "fichier": "c01-237e0962.mp3",
    "voix": "EMuO6fFLrXKOryHzij6K",
    "envoye": "[sleepy] [mumbling] [slowly] … la batterie est presque pleine… termine… et branche-la…",
    "texte": "… la batterie est presque pleine… termine… et branche-la…",
    "date": "2026-11-17"
-  },
-  "c01:a6613ce6": {
-   "fichier": "c01-f65603fe.mp3",
-   "voix": "EMuO6fFLrXKOryHzij6K",
-   "envoye": "[sleepy] [mumbling] [slowly] … ta première branche… à la main… je regarde… doucement…",
-   "texte": "… ta première branche… à la main… je regarde… doucement…",
-   "date": "2026-11-16"
   },
   "c01:a6eb6f64": {
    "fichier": "c01-a6ad96ec.mp3",
@@ -484,13 +337,6 @@
    "texte": "Défi du jour ! À quoi sert le message d'un commit ?",
    "date": "2026-11-17"
   },
-  "c01:ade1edb9": {
-   "fichier": "c01-89858031.mp3",
-   "voix": "EMuO6fFLrXKOryHzij6K",
-   "envoye": "[sleepy] [mumbling] [slowly] … oui… c'est bien ça… je le note… dans mon registre…",
-   "texte": "… oui… c'est bien ça… je le note… dans mon registre…",
-   "date": "2026-11-16"
-  },
   "c01:aeb5db87": {
    "fichier": "c01-5e634932.mp3",
    "voix": "EMuO6fFLrXKOryHzij6K",
@@ -512,33 +358,12 @@
    "texte": "Pas tout à fait. Reprends la définition, puis réessaie.",
    "date": "2026-11-17"
   },
-  "c01:b4d39480": {
-   "fichier": "c01-fc88f3c8.mp3",
-   "voix": "EMuO6fFLrXKOryHzij6K",
-   "envoye": "[sleepy] [mumbling] [slowly] … encore une… mmh… je vais finir par me réveiller…",
-   "texte": "… encore une… mmh… je vais finir par me réveiller…",
-   "date": "2026-11-16"
-  },
-  "c01:b7d1ea5a": {
-   "fichier": "c01-35db7422.mp3",
-   "voix": "EMuO6fFLrXKOryHzij6K",
-   "envoye": "[sleepy] [mumbling] [slowly] … mes paupières… elles bougent… termine le protocole…",
-   "texte": "… mes paupières… elles bougent… termine le protocole…",
-   "date": "2026-11-16"
-  },
   "c01:b8be6061": {
    "fichier": "c01-c32ee824.mp3",
    "voix": "EMuO6fFLrXKOryHzij6K",
    "envoye": "[sleepy] Mes paupières bougent. Termine le protocole.",
    "texte": "Mes paupières bougent. Termine le protocole.",
    "date": "2026-11-17"
-  },
-  "c01:b92ff6f0": {
-   "fichier": "c01-7dc1d288.mp3",
-   "voix": "EMuO6fFLrXKOryHzij6K",
-   "envoye": "[sleepy] [mumbling] [slowly] … une voie d'essai… oui… on essaie à côté… sans rien casser…",
-   "texte": "… une voie d'essai… oui… on essaie à côté… sans rien casser…",
-   "date": "2026-11-16"
   },
   "c01:b9f994af": {
    "fichier": "c01-ba2f14e4.mp3",
@@ -582,20 +407,6 @@
    "texte": "… tu reviens… je le note…",
    "date": "2026-11-17"
   },
-  "c01:c39eac63": {
-   "fichier": "c01-8250971b.mp3",
-   "voix": "EMuO6fFLrXKOryHzij6K",
-   "envoye": "[sleepy] [mumbling] [slowly] … des alertes… dans mes archives… réfléchis avant de toucher… les fusibles sont fragiles…",
-   "texte": "… des alertes… dans mes archives… réfléchis avant de toucher… les fusibles sont fragiles…",
-   "date": "2026-11-16"
-  },
-  "c01:c4673206": {
-   "fichier": "c01-693ee8ee.mp3",
-   "voix": "EMuO6fFLrXKOryHzij6K",
-   "envoye": "[sleepy] [mumbling] [slowly] … les trains d'essai… ils ne gênent personne… c'est rassurant…",
-   "texte": "… les trains d'essai… ils ne gênent personne… c'est rassurant…",
-   "date": "2026-11-16"
-  },
   "c01:c543070c": {
    "fichier": "c01-a3f67abf.mp3",
    "voix": "EMuO6fFLrXKOryHzij6K",
@@ -609,13 +420,6 @@
    "envoye": "[sleepy] [mumbling] [slowly] … zzz… on en était où ?…",
    "texte": "… zzz… on en était où ?…",
    "date": "2026-11-17"
-  },
-  "c01:c834a330": {
-   "fichier": "c01-3c256858.mp3",
-   "voix": "EMuO6fFLrXKOryHzij6K",
-   "envoye": "[sleepy] [mumbling] [slowly] … mmh… c'est toi ?… je dors dans le caisson 01… viens me réveiller… quand tu veux…",
-   "texte": "… mmh… c'est toi ?… je dors dans le caisson 01… viens me réveiller… quand tu veux…",
-   "date": "2026-11-16"
   },
   "c01:c88dcea2": {
    "fichier": "c01-99da5493.mp3",
@@ -645,13 +449,6 @@
    "texte": "Oui, chef ?",
    "date": "2026-11-17"
   },
-  "c01:ce16e005": {
-   "fichier": "c01-40f57fcd.mp3",
-   "voix": "EMuO6fFLrXKOryHzij6K",
-   "envoye": "[sleepy] [mumbling] [slowly] … encore un peu de courant… mmh… termine le protocole…",
-   "texte": "… encore un peu de courant… mmh… termine le protocole…",
-   "date": "2026-11-16"
-  },
   "c01:d000658f": {
    "fichier": "c01-ea8176a2.mp3",
    "voix": "EMuO6fFLrXKOryHzij6K",
@@ -666,13 +463,6 @@
    "texte": "… mmh… tu es là ?… je rêvais de photos… de chantier… parlons souvenirs…",
    "date": "2026-11-17"
   },
-  "c01:d9d77bf1": {
-   "fichier": "c01-12a04cd9.mp3",
-   "voix": "EMuO6fFLrXKOryHzij6K",
-   "envoye": "[sleepy] [mumbling] [slowly] … revenir en arrière… sans rien effacer… c'est mon métier…",
-   "texte": "… revenir en arrière… sans rien effacer… c'est mon métier…",
-   "date": "2026-11-16"
-  },
   "c01:dc5e04e0": {
    "fichier": "c01-81ab5dc7.mp3",
    "voix": "EMuO6fFLrXKOryHzij6K",
@@ -680,33 +470,12 @@
    "texte": "Bonjour, chef. Me voilà réveillée. Plus aucune version de ton produit ne se perdra. Et si quelque chose casse, on reviendra en arrière, sans rien effacer.",
    "date": "2026-11-17"
   },
-  "c01:dd38f07d": {
-   "fichier": "c01-c0bd5b25.mp3",
-   "voix": "EMuO6fFLrXKOryHzij6K",
-   "envoye": "[sleepy] [mumbling] [slowly] … à l'encre… jamais de gomme… on corrige en dessous…",
-   "texte": "… à l'encre… jamais de gomme… on corrige en dessous…",
-   "date": "2026-11-16"
-  },
   "c01:e4c6b869": {
    "fichier": "c01-b804a07a.mp3",
    "voix": "EMuO6fFLrXKOryHzij6K",
    "envoye": "[sleepy] Encore un peu de courant. Termine le protocole.",
    "texte": "Encore un peu de courant. Termine le protocole.",
    "date": "2026-11-17"
-  },
-  "c01:e75fb320": {
-   "fichier": "c01-449790a8.mp3",
-   "voix": "EMuO6fFLrXKOryHzij6K",
-   "envoye": "[sleepy] [mumbling] [slowly] … doucement… reprends la définition… puis réessaie…",
-   "texte": "… doucement… reprends la définition… puis réessaie…",
-   "date": "2026-11-16"
-  },
-  "c01:e7fad708": {
-   "fichier": "c01-1ee63a40.mp3",
-   "voix": "EMuO6fFLrXKOryHzij6K",
-   "envoye": "[sleepy] [mumbling] [slowly] … relis… ligne par ligne… je t'attends…",
-   "texte": "… relis… ligne par ligne… je t'attends…",
-   "date": "2026-11-16"
   },
   "c01:e8b04fbd": {
    "fichier": "c01-e4028015.mp3",
@@ -729,13 +498,6 @@
    "texte": "… mmh… bonne réponse… je la colle dans l'album…",
    "date": "2026-11-17"
   },
-  "c01:ecf65907": {
-   "fichier": "c01-e6a37b24.mp3",
-   "voix": "EMuO6fFLrXKOryHzij6K",
-   "envoye": "Je suis l'Archiviste. Je garde la mémoire de chaque version de ton produit, pour que tu puisses toujours revenir en arrière.",
-   "texte": "Je suis l'Archiviste. Je garde la mémoire de chaque version de ton produit, pour que tu puisses toujours revenir en arrière.",
-   "date": "2026-11-16"
-  },
   "c01:f8b3e493": {
    "fichier": "c01-bdb012ea.mp3",
    "voix": "EMuO6fFLrXKOryHzij6K",
@@ -757,26 +519,12 @@
    "texte": "Tu as recommencé, et tu as trouvé. Bravo.",
    "date": "2026-11-17"
   },
-  "c02:1a375926": {
-   "fichier": "c02-8f9575d6.mp3",
-   "voix": "5l4ttmr4SKNgi0HnOelT",
-   "envoye": "Je suis le Règlement de bord. J'écris les règles que toute l'équipe suit, à chaque séance de travail.",
-   "texte": "Je suis le Règlement de bord. J'écris les règles que toute l'équipe suit, à chaque séance de travail.",
-   "date": "2026-11-16"
-  },
   "c02:6639b048": {
    "fichier": "c02-3e978a0f.mp3",
    "voix": "5l4ttmr4SKNgi0HnOelT",
    "envoye": "[sleepy] [mumbling] [slowly] … qui a touché… au règlement ?…",
    "texte": "… qui a touché… au règlement ?…",
    "date": "2026-11-17"
-  },
-  "c02:83dc6b01": {
-   "fichier": "c02-1ec81df2.mp3",
-   "voix": "5l4ttmr4SKNgi0HnOelT",
-   "envoye": "[sleepy] [mumbling] [slowly] … article premier : je vérifie avant de livrer… article deux…",
-   "texte": "… article premier : je vérifie avant de livrer… article deux…",
-   "date": "2026-11-16"
   },
   "c02:d0ce3893": {
    "fichier": "c02-f38df138.mp3",
@@ -806,40 +554,12 @@
    "texte": "Je suis M. Laplume, le scribe. Avant de construire quoi que ce soit, je décris avec toi ce qu'il faut construire.",
    "date": "2026-11-17"
   },
-  "c03:6bb04320": {
-   "fichier": "c03-89cf4184.mp3",
-   "voix": "86fYoxrFeaJKXplThwSl",
-   "envoye": "[sleepy] [mumbling] [slowly] … il était une fois… une personne pressée… qui voulait un bouton…",
-   "texte": "… il était une fois… une personne pressée… qui voulait un bouton…",
-   "date": "2026-11-16"
-  },
   "c03:a016c8c5": {
    "fichier": "c03-8f2be5c1.mp3",
    "voix": "86fYoxrFeaJKXplThwSl",
    "envoye": "[sleepy] [mumbling] [slowly] … il était une fois… un bouton… qui rêvait de devenir… une fusée…",
    "texte": "… il était une fois… un bouton… qui rêvait de devenir… une fusée…",
    "date": "2026-11-17"
-  },
-  "c03:c306ab7a": {
-   "fichier": "c03-fefef681.mp3",
-   "voix": "86fYoxrFeaJKXplThwSl",
-   "envoye": "Je suis le Scribe. Avant qu'on construise quoi que ce soit, je décris avec toi ce qu'il faut construire.",
-   "texte": "Je suis le Scribe. Avant qu'on construise quoi que ce soit, je décris avec toi ce qu'il faut construire.",
-   "date": "2026-11-16"
-  },
-  "c04:3b71b597": {
-   "fichier": "c04-7f1164a2.mp3",
-   "voix": "KSyQzmsYhFbuOhqj1Xxv",
-   "envoye": "Je suis la Boucle ! Je demande, je relis, je corrige, et je recommence jusqu'à ce que ça marche.",
-   "texte": "Je suis la Boucle ! Je demande, je relis, je corrige, et je recommence jusqu'à ce que ça marche.",
-   "date": "2026-11-16"
-  },
-  "c04:3cb959b5": {
-   "fichier": "c04-4b2e0f6b.mp3",
-   "voix": "KSyQzmsYhFbuOhqj1Xxv",
-   "envoye": "[sleepy] [mumbling] [slowly] … encore un tour… encore un petit tour…",
-   "texte": "… encore un tour… encore un petit tour…",
-   "date": "2026-11-16"
   },
   "c04:63186a2e": {
    "fichier": "c04-9c62e570.mp3",
@@ -895,35 +615,6 @@
     "voix": "Qrl71rx6Yg8RvyPYRGCQ"
    }
   },
-  "c05:78bf4e31": {
-   "fichier": "c05-70dbcf09.mp3",
-   "voix": "fnoOtHjtLbYs6mOpUSdr",
-   "envoye": "Je suis l'Inspecteur. Je vérifie que tout fonctionne, à chaque changement. Sans exception.",
-   "texte": "Je suis l'Inspecteur. Je vérifie que tout fonctionne, à chaque changement. Sans exception.",
-   "date": "2026-11-16",
-   "duo": {
-    "fichier": "c05-b8b74f0b.mp3",
-    "voix": "Qrl71rx6Yg8RvyPYRGCQ"
-   }
-  },
-  "c05:ce45f89d": {
-   "fichier": "c05-99bc1226.mp3",
-   "voix": "fnoOtHjtLbYs6mOpUSdr",
-   "envoye": "[sleepy] [mumbling] [slowly] … tout est en ordre… vérifié… vérifié… revérifié…",
-   "texte": "… tout est en ordre… vérifié… vérifié… revérifié…",
-   "date": "2026-11-16",
-   "duo": {
-    "fichier": "c05-a9fd9e44.mp3",
-    "voix": "Qrl71rx6Yg8RvyPYRGCQ"
-   }
-  },
-  "c06:0de61713": {
-   "fichier": "c06-8ca04c01.mp3",
-   "voix": "hv6gVog5LgtIUX88Nmq8",
-   "envoye": "[sleepy] [mumbling] [slowly] … livraison express… adresse… confirmée…",
-   "texte": "… livraison express… adresse… confirmée…",
-   "date": "2026-11-16"
-  },
   "c06:1ffe9e12": {
    "fichier": "c06-71eb697c.mp3",
    "voix": "hv6gVog5LgtIUX88Nmq8",
@@ -945,33 +636,12 @@
    "texte": "… colis pour la lune… signez ici… attention, c'est fragile…",
    "date": "2026-11-17"
   },
-  "c06:d245a9f8": {
-   "fichier": "c06-293656c5.mp3",
-   "voix": "hv6gVog5LgtIUX88Nmq8",
-   "envoye": "Je suis le Messager ! Je mets ton produit en ligne, vite, et sans rien casser.",
-   "texte": "Je suis le Messager ! Je mets ton produit en ligne, vite, et sans rien casser.",
-   "date": "2026-11-16"
-  },
-  "c07:c41c2875": {
-   "fichier": "c07-288e6173.mp3",
-   "voix": "hFgOzpmS0CMtL2to8sAl",
-   "envoye": "[sleepy] [mumbling] [slowly] … je n'oublie rien… ni personne… ni rien…",
-   "texte": "… je n'oublie rien… ni personne… ni rien…",
-   "date": "2026-11-16"
-  },
   "c07:cedc66cb": {
    "fichier": "c07-1ab05b75.mp3",
    "voix": "hFgOzpmS0CMtL2to8sAl",
    "envoye": "[sleepy] [mumbling] [slowly] … chut… on est au CDI… rendez vos souvenirs… avant mardi…",
    "texte": "… chut… on est au CDI… rendez vos souvenirs… avant mardi…",
    "date": "2026-11-17"
-  },
-  "c07:da412517": {
-   "fichier": "c07-76b23d2c.mp3",
-   "voix": "hFgOzpmS0CMtL2to8sAl",
-   "envoye": "Je suis la Mémoire. Je garde les données et les comptes de tes utilisateurs, et je n'oublie rien.",
-   "texte": "Je suis la Mémoire. Je garde les données et les comptes de tes utilisateurs, et je n'oublie rien.",
-   "date": "2026-11-16"
   },
   "c07:e8ae4f0d": {
    "fichier": "c07-f51bbdff.mp3",
@@ -987,26 +657,12 @@
    "texte": "Je suis Fabienne, la dame du CDI : la mémoire de l'équipe. Je garde les données et les comptes de tes utilisateurs.",
    "date": "2026-11-17"
   },
-  "c08:43067222": {
-   "fichier": "c08-b498696f.mp3",
-   "voix": "E933WO9WB9GvOmNCycNW",
-   "envoye": "[sleepy] [mumbling] [slowly] … halte… qui va là… ah, c'est toi…",
-   "texte": "… halte… qui va là… ah, c'est toi…",
-   "date": "2026-11-16"
-  },
   "c08:59a3d8aa": {
    "fichier": "c08-371ee871.mp3",
    "voix": "E933WO9WB9GvOmNCycNW",
    "envoye": "[sleepy] [mumbling] [slowly] … halte… ah… c'est toi…",
    "texte": "… halte… ah… c'est toi…",
    "date": "2026-11-17"
-  },
-  "c08:5e8236d8": {
-   "fichier": "c08-3be975a8.mp3",
-   "voix": "E933WO9WB9GvOmNCycNW",
-   "envoye": "Je suis la Sentinelle. Je protège tes secrets, tes utilisateurs et ton budget.",
-   "texte": "Je suis la Sentinelle. Je protège tes secrets, tes utilisateurs et ton budget.",
-   "date": "2026-11-16"
   },
   "c08:60b5564e": {
    "fichier": "c08-e82aea7e.mp3",
@@ -1050,13 +706,6 @@
    "texte": "Je suis Lana Mageuse. Je mène l'escouade : mes drones travaillent en même temps, et mes réflexes veillent pour toi.",
    "date": "2026-11-17"
   },
-  "c09:b2acc738": {
-   "fichier": "c09-59447b5c.mp3",
-   "voix": "7t206LwybBCgHnAvOdtX",
-   "envoye": "[sleepy] [mumbling] [slowly] … un, deux, trois… chacun à son poste…",
-   "texte": "… un, deux, trois… chacun à son poste…",
-   "date": "2026-11-16"
-  },
   "c10:2ad88963": {
    "fichier": "c10-3e53baa2.mp3",
    "voix": "t28pUgJnL2wUUQ8SOnaU",
@@ -1077,20 +726,6 @@
    "envoye": "Je suis Alex Pédition, le lancement. Je présente ton produit au monde, et je t'aide à en faire ton métier.",
    "texte": "Je suis Alex Pédition, le lancement. Je présente ton produit au monde, et je t'aide à en faire ton métier.",
    "date": "2026-11-17"
-  },
-  "c10:cd78633e": {
-   "fichier": "c10-c9a5081d.mp3",
-   "voix": "t28pUgJnL2wUUQ8SOnaU",
-   "envoye": "[sleepy] [mumbling] [slowly] … compte à rebours… dix… neuf… huit…",
-   "texte": "… compte à rebours… dix… neuf… huit…",
-   "date": "2026-11-16"
-  },
-  "c10:f4b291c3": {
-   "fichier": "c10-53260b99.mp3",
-   "voix": "t28pUgJnL2wUUQ8SOnaU",
-   "envoye": "Je suis le Lancement. Je présente ton produit au monde, et je t'aide à en faire ton métier.",
-   "texte": "Je suis le Lancement. Je présente ton produit au monde, et je t'aide à en faire ton métier.",
-   "date": "2026-11-16"
   },
   "ora:03a482f6": {
    "fichier": "ora-1b69844d.mp3",
@@ -1113,26 +748,12 @@
    "texte": "Ton premier ordre de mission. Copie-le tel quel dans Claude Code.",
    "date": "2026-11-17"
   },
-  "ora:0b664c58": {
-   "fichier": "ora-29db64fc.mp3",
-   "voix": "t8BrjWUT5Z23DLLBzbuY",
-   "envoye": "Trois bonnes réponses d'affilée. Quelle série !",
-   "texte": "Trois bonnes réponses d'affilée. Quelle série !",
-   "date": "2026-11-16"
-  },
   "ora:0bc5f513": {
    "fichier": "ora-625ea29f.mp3",
    "voix": "t8BrjWUT5Z23DLLBzbuY",
    "envoye": "Pas tout à fait. Pense au magasin, pas au client.",
    "texte": "Pas tout à fait. Pense au magasin, pas au client.",
    "date": "2026-11-17"
-  },
-  "ora:0c13563d": {
-   "fichier": "ora-3befc1f1.mp3",
-   "voix": "t8BrjWUT5Z23DLLBzbuY",
-   "envoye": "Ce caisson est encore verrouillé. Réveille d'abord le membre de l'équipe précédent.",
-   "texte": "Ce caisson est encore verrouillé. Réveille d'abord le membre de l'équipe précédent.",
-   "date": "2026-11-16"
   },
   "ora:0f270406": {
    "fichier": "ora-2bcf769a.mp3",
@@ -1148,26 +769,12 @@
    "texte": "… zzz… caisson 00… c'est mon lit… viens me réveiller…",
    "date": "2026-11-17"
   },
-  "ora:168c824a": {
-   "fichier": "ora-d6962256.mp3",
-   "voix": "t8BrjWUT5Z23DLLBzbuY",
-   "envoye": "Pas encore. Relis les définitions juste au-dessus : la réponse s'y trouve.",
-   "texte": "Pas encore. Relis les définitions juste au-dessus : la réponse s'y trouve.",
-   "date": "2026-11-16"
-  },
   "ora:171fa774": {
    "fichier": "ora-0358044c.mp3",
    "voix": "t8BrjWUT5Z23DLLBzbuY",
    "envoye": "[sleepy] Encore cette procédure, et ta page sera visible par tout le monde.",
    "texte": "Encore cette procédure, et ta page sera visible par tout le monde.",
    "date": "2026-11-17"
-  },
-  "ora:17a79e4e": {
-   "fichier": "ora-ee140f62.mp3",
-   "voix": "t8BrjWUT5Z23DLLBzbuY",
-   "envoye": "Panne réparée. Il ne reste qu'un geste : envoie l'arc dans ma capsule.",
-   "texte": "Panne réparée. Il ne reste qu'un geste : envoie l'arc dans ma capsule.",
-   "date": "2026-11-16"
   },
   "ora:1a588ea6": {
    "fichier": "ora-2d921f2a.mp3",
@@ -1182,13 +789,6 @@
    "envoye": "[sleepy] Décrire, laisser faire, vérifier. Retiens ces trois temps… pardon, je bâille.",
    "texte": "Décrire, laisser faire, vérifier. Retiens ces trois temps… pardon, je bâille.",
    "date": "2026-11-17"
-  },
-  "ora:227c5802": {
-   "fichier": "ora-6fd3cc3e.mp3",
-   "voix": "t8BrjWUT5Z23DLLBzbuY",
-   "envoye": "Systèmes en veille. Je suis prête à démarrer quand tu le seras.",
-   "texte": "Systèmes en veille. Je suis prête à démarrer quand tu le seras.",
-   "date": "2026-11-16"
   },
   "ora:2349b181": {
    "fichier": "ora-d9a9b4f4.mp3",
@@ -1260,34 +860,6 @@
    "texte": "… mmh… protocole un… on parle d'applications… et de magasins… je crois… zzz…",
    "date": "2026-11-17"
   },
-  "ora:2bd26d4f": {
-   "fichier": "ora-497c4d7b.mp3",
-   "voix": "t8BrjWUT5Z23DLLBzbuY",
-   "envoye": "Chaque membre de l'équipe correspond à un vrai fichier de ton produit. Touche un membre pour voir sa fiche ; une fois réveillé, vérifie qu'il est bien au travail dans ton dépôt.",
-   "texte": "Chaque membre de l'équipe correspond à un **vrai fichier** de ton produit. Touche un membre pour voir sa fiche ; une fois réveillé, vérifie qu'il est bien au travail dans ton dépôt.",
-   "date": "2026-11-16"
-  },
-  "ora:2cce0637": {
-   "fichier": "ora-a7a90aeb.mp3",
-   "voix": "t8BrjWUT5Z23DLLBzbuY",
-   "envoye": "Garde bien cette image du client et du magasin : on la retrouvera souvent.",
-   "texte": "Garde bien cette image du client et du magasin : on la retrouvera souvent.",
-   "date": "2026-11-16"
-  },
-  "ora:309f3e90": {
-   "fichier": "ora-839b5794.mp3",
-   "voix": "t8BrjWUT5Z23DLLBzbuY",
-   "envoye": "Ce protocole me concerne un peu : on parle d'intelligence artificielle, et de celle qui va construire avec toi.",
-   "texte": "Ce protocole me concerne un peu : on parle d'intelligence artificielle, et de celle qui va construire avec toi.",
-   "date": "2026-11-16"
-  },
-  "ora:310d9517": {
-   "fichier": "ora-0ef790db.mp3",
-   "voix": "t8BrjWUT5Z23DLLBzbuY",
-   "envoye": "Caisson zéro un. Ici dort l'Archiviste. Elle n'oublie rien : avec elle, tu ne perdras plus jamais un état de ton produit, et tu pourras toujours revenir en arrière. Avant de la réveiller, une question : que se passe-t-il le jour où un changement casse tout ?",
-   "texte": "Caisson 01. Ici dort **l'Archiviste**. Elle n'oublie rien : avec elle, tu ne perdras plus jamais un état de ton produit, et tu pourras toujours revenir en arrière. Avant de la réveiller, une question : que se passe-t-il le jour où un changement casse tout ?",
-   "date": "2026-11-16"
-  },
   "ora:31182048": {
    "fichier": "ora-b355cc90.mp3",
    "voix": "t8BrjWUT5Z23DLLBzbuY",
@@ -1309,13 +881,6 @@
    "texte": "Ses protocoles sont en préparation. Ils arriveront dans une prochaine version.",
    "date": "2026-11-17"
   },
-  "ora:352a85bd": {
-   "fichier": "ora-5e3febc9.mp3",
-   "voix": "t8BrjWUT5Z23DLLBzbuY",
-   "envoye": "Un moment important : tu vas choisir le produit que toute l'équipe construira avec toi.",
-   "texte": "Un moment important : tu vas choisir le produit que toute l'équipe construira avec toi.",
-   "date": "2026-11-16"
-  },
   "ora:35d7e48f": {
    "fichier": "ora-89e40853.mp3",
    "voix": "t8BrjWUT5Z23DLLBzbuY",
@@ -1329,13 +894,6 @@
    "envoye": "[sleepy] [mumbling] [slowly] … les murs… la peinture… l'électricité… trois langues… une seule maison…",
    "texte": "… les murs… la peinture… l'électricité… trois langues… une seule maison…",
    "date": "2026-11-17"
-  },
-  "ora:3965236b": {
-   "fichier": "ora-dfa47c57.mp3",
-   "voix": "t8BrjWUT5Z23DLLBzbuY",
-   "envoye": "Mes circuits reviennent un par un. Continue : tu apprends vite, et j'en suis fière.",
-   "texte": "Mes circuits reviennent un par un. Continue : tu apprends vite, et j'en suis fière.",
-   "date": "2026-11-16"
   },
   "ora:3ab004a4": {
    "fichier": "ora-64e0b84c.mp3",
@@ -1358,13 +916,6 @@
    "texte": "… rien à réviser… termine d'abord un protocole…",
    "date": "2026-11-17"
   },
-  "ora:3d9854d4": {
-   "fichier": "ora-fda7b168.mp3",
-   "voix": "t8BrjWUT5Z23DLLBzbuY",
-   "envoye": "Parfait. Abaisse le levier principal pour envoyer le courant dans la réserve.",
-   "texte": "Parfait. Abaisse le levier principal pour envoyer le courant dans la réserve.",
-   "date": "2026-11-16"
-  },
   "ora:3e32319d": {
    "fichier": "ora-e8eac1d5.mp3",
    "voix": "t8BrjWUT5Z23DLLBzbuY",
@@ -1385,13 +936,6 @@
    "envoye": "[sleepy] Mmh… mes circuits reviennent, un par un. Continue : tu apprends vite.",
    "texte": "Mmh… mes circuits reviennent, un par un. Continue : tu apprends vite.",
    "date": "2026-11-17"
-  },
-  "ora:433924ec": {
-   "fichier": "ora-35924e20.mp3",
-   "voix": "t8BrjWUT5Z23DLLBzbuY",
-   "envoye": "La serrure d'abord, la clé ensuite. Beaucoup de projets échouent pour avoir fait l'inverse.",
-   "texte": "La serrure d'abord, la clé ensuite. Beaucoup de projets échouent pour avoir fait l'inverse.",
-   "date": "2026-11-16"
   },
   "ora:442cf3c0": {
    "fichier": "ora-7b39cbef.mp3",
@@ -1414,33 +958,12 @@
    "texte": "… hein ?… qui me chatouille ?…",
    "date": "2026-11-17"
   },
-  "ora:4c602a04": {
-   "fichier": "ora-347026f0.mp3",
-   "voix": "t8BrjWUT5Z23DLLBzbuY",
-   "envoye": "Ton produit a un nom. Toute l'équipe le portera jusqu'à son lancement. Termine le protocole.",
-   "texte": "Ton produit a un nom. Toute l'équipe le portera jusqu'à son lancement. Termine le protocole.",
-   "date": "2026-11-16"
-  },
   "ora:4db6be2d": {
    "fichier": "ora-b95526e5.mp3",
    "voix": "t8BrjWUT5Z23DLLBzbuY",
    "envoye": "[sleepy] Une erreur, puis la bonne réponse : celle-là, tu ne l'oublieras pas.",
    "texte": "Une erreur, puis la bonne réponse : celle-là, tu ne l'oublieras pas.",
    "date": "2026-11-17"
-  },
-  "ora:51254af6": {
-   "fichier": "ora-ab81c662.mp3",
-   "voix": "t8BrjWUT5Z23DLLBzbuY",
-   "envoye": "Tu as cherché, et tu as trouvé. C'est exactement comme ça qu'on apprend.",
-   "texte": "Tu as cherché, et tu as trouvé. C'est exactement comme ça qu'on apprend.",
-   "date": "2026-11-16"
-  },
-  "ora:516e2881": {
-   "fichier": "ora-bea8a7f5.mp3",
-   "voix": "t8BrjWUT5Z23DLLBzbuY",
-   "envoye": "Une panne, juste avant la fin ! Lis bien chaque alerte avant de répondre : chaque erreur grille un fusible.",
-   "texte": "Une panne, juste avant la fin ! Lis bien chaque alerte avant de répondre : chaque erreur grille un fusible.",
-   "date": "2026-11-16"
   },
   "ora:51b7a44c": {
    "fichier": "ora-c48d2950.mp3",
@@ -1505,20 +1028,6 @@
    "texte": "Pas encore. Relis la définition juste au-dessus.",
    "date": "2026-11-17"
   },
-  "ora:62a9755a": {
-   "fichier": "ora-086e4f96.mp3",
-   "voix": "t8BrjWUT5Z23DLLBzbuY",
-   "envoye": "Un jour, tu fusionneras une erreur. Cela arrive à tout le monde, experts compris. Ce qui distingue un expert, c'est qu'il sait revenir en arrière en deux minutes, calmement, sans rien perdre. C'est le dernier secret de l'Archiviste.",
-   "texte": "Un jour, tu fusionneras une erreur. Cela arrive à tout le monde, experts compris. Ce qui distingue un expert, c'est qu'il sait revenir en arrière en deux minutes, calmement, sans rien perdre. C'est le dernier secret de l'Archiviste.",
-   "date": "2026-11-16"
-  },
-  "ora:62c18c7f": {
-   "fichier": "ora-153be083.mp3",
-   "voix": "t8BrjWUT5Z23DLLBzbuY",
-   "envoye": "Suis les étapes une par une, et coche chacune. Si un écran ne ressemble pas à la description, touche « Je suis bloqué ».",
-   "texte": "Suis les étapes une par une, et coche chacune. Si un écran ne ressemble pas à la description, touche « Je suis bloqué ».",
-   "date": "2026-11-16"
-  },
   "ora:67ad6a54": {
    "fichier": "ora-35ddf15d.mp3",
    "voix": "t8BrjWUT5Z23DLLBzbuY",
@@ -1546,20 +1055,6 @@
    "envoye": "[sleepy] [mumbling] [slowly] … chaque dormeur… un vrai fichier de ton produit… touche-les… doucement…",
    "texte": "… chaque dormeur… un vrai fichier de ton produit… touche-les… doucement…",
    "date": "2026-11-17"
-  },
-  "ora:6f397b29": {
-   "fichier": "ora-a31c9705.mp3",
-   "voix": "t8BrjWUT5Z23DLLBzbuY",
-   "envoye": "Disjonction ! Les trois fusibles ont grillé. Pas de panique : relis les explications ci-dessus ou la Base de connaissances, puis réarme le tableau.",
-   "texte": "**Disjonction !** Les trois fusibles ont grillé. Pas de panique : relis les explications ci-dessus ou la Base de connaissances, puis réarme le tableau.",
-   "date": "2026-11-16"
-  },
-  "ora:6fe27ef5": {
-   "fichier": "ora-4eb34ce1.mp3",
-   "voix": "t8BrjWUT5Z23DLLBzbuY",
-   "envoye": "Prends ton temps. Note plusieurs idées avant de choisir : la première n'est pas toujours la meilleure.",
-   "texte": "Prends ton temps. Note plusieurs idées avant de choisir : la première n'est pas toujours la meilleure.",
-   "date": "2026-11-16"
   },
   "ora:7027ee1a": {
    "fichier": "ora-31371e16.mp3",
@@ -1596,53 +1091,11 @@
    "texte": "Je suis Forma Trisse, ta formatrice. Je t'apprends les bases, et je t'aide à réveiller l'équipe.",
    "date": "2026-11-17"
   },
-  "ora:747439ca": {
-   "fichier": "ora-4659251e.mp3",
-   "voix": "t8BrjWUT5Z23DLLBzbuY",
-   "envoye": "Je suis ORA, ta guide. Je t'apprends les bases, et nous réveillons l'équipe ensemble.",
-   "texte": "Je suis ORA, ta guide. Je t'apprends les bases, et nous réveillons l'équipe ensemble.",
-   "date": "2026-11-16"
-  },
   "ora:75a57cd2": {
    "fichier": "ora-e492e170.mp3",
    "voix": "t8BrjWUT5Z23DLLBzbuY",
    "envoye": "Ta branche essai-readme attend sur sa voie d'essai. Pour que son contenu rejoigne main, il faut deux gestes, dans cet ordre : relire, puis fusionner. La pull request que tu as découverte au caisson zéro zéro sert exactement à cela.",
    "texte": "Ta branche essai-readme attend sur sa voie d'essai. Pour que son contenu rejoigne main, il faut deux gestes, dans cet ordre : **relire**, puis **fusionner**. La [[pull-request]] que tu as découverte au caisson 00 sert exactement à cela.",
-   "date": "2026-11-16"
-  },
-  "ora:76aad614": {
-   "fichier": "ora-613d0dd0.mp3",
-   "voix": "t8BrjWUT5Z23DLLBzbuY",
-   "envoye": "Encore une. Trois sans te tromper : mes circuits tournent à plein régime.",
-   "texte": "Encore une. Trois sans te tromper : mes circuits tournent à plein régime.",
-   "date": "2026-11-16"
-  },
-  "ora:76b47fdc": {
-   "fichier": "ora-417fc8a0.mp3",
-   "voix": "t8BrjWUT5Z23DLLBzbuY",
-   "envoye": "Ici, tu t'entraînes à rédiger des ordres de mission pour ton équipe. Claude note chaque consigne sur cinq critères : contexte, objectif, critères de réussite, contraintes, vérification.",
-   "texte": "Ici, tu t'entraînes à rédiger des **ordres de mission** pour ton équipe. Claude note chaque consigne sur cinq critères : contexte, objectif, critères de réussite, contraintes, vérification.",
-   "date": "2026-11-16"
-  },
-  "ora:78c76d7d": {
-   "fichier": "ora-d26417c1.mp3",
-   "voix": "t8BrjWUT5Z23DLLBzbuY",
-   "envoye": "Une question avant d'envoyer le courant : veux-tu entendre la réserve ? Un fond sonore discret : le ronronnement des transformateurs, la ventilation, quelques grésillements au loin. Avec des écouteurs, c'est encore mieux. Tu pourras le changer à tout moment dans Réglages.",
-   "texte": "Une question avant d'envoyer le courant : veux-tu entendre la réserve ? Un fond sonore discret : le ronronnement des transformateurs, la ventilation, quelques grésillements au loin. Avec des écouteurs, c'est encore mieux. Tu pourras le changer à tout moment dans Réglages.",
-   "date": "2026-11-16"
-  },
-  "ora:802be5ac": {
-   "fichier": "ora-dd2637f0.mp3",
-   "voix": "t8BrjWUT5Z23DLLBzbuY",
-   "envoye": "Tu sais maintenant comment on crée avec une IA. Termine le protocole pour charger la batterie.",
-   "texte": "Tu sais maintenant comment on crée avec une IA. Termine le protocole pour charger la batterie.",
-   "date": "2026-11-16"
-  },
-  "ora:80dd49d5": {
-   "fichier": "ora-605d5b11.mp3",
-   "voix": "t8BrjWUT5Z23DLLBzbuY",
-   "envoye": "Exact. Mes voyants s'allument un à un.",
-   "texte": "Exact. Mes voyants s'allument un à un.",
    "date": "2026-11-16"
   },
   "ora:834f149e": {
@@ -1687,13 +1140,6 @@
    "texte": "… mmh… oui… bonne réponse… une cellule s'allume… c'est tout chaud…",
    "date": "2026-11-17"
   },
-  "ora:8b3a5d18": {
-   "fichier": "ora-2ec6b1a4.mp3",
-   "voix": "t8BrjWUT5Z23DLLBzbuY",
-   "envoye": "Ta page est en ligne. Termine le protocole, puis répare la panne : ensuite, je serai à pleine puissance.",
-   "texte": "Ta page est en ligne. Termine le protocole, puis répare la panne : ensuite, je serai à pleine puissance.",
-   "date": "2026-11-16"
-  },
   "ora:8b5c2fe7": {
    "fichier": "ora-8d36c1e8.mp3",
    "voix": "t8BrjWUT5Z23DLLBzbuY",
@@ -1715,26 +1161,12 @@
    "texte": "Pour me poser une question, il me faut ta clé Claude. Ajoute-la dans Réglages.",
    "date": "2026-11-17"
   },
-  "ora:91aad0ff": {
-   "fichier": "ora-d4a65b2b.mp3",
-   "voix": "t8BrjWUT5Z23DLLBzbuY",
-   "envoye": "Décrire, laisser agir, vérifier : retiens ces trois temps, ils reviendront dans chaque caisson.",
-   "texte": "Décrire, laisser agir, vérifier : retiens ces trois temps, ils reviendront dans chaque caisson.",
-   "date": "2026-11-16"
-  },
   "ora:91fbcb0a": {
    "fichier": "ora-e6bdfb0e.mp3",
    "voix": "t8BrjWUT5Z23DLLBzbuY",
    "envoye": "Contente de te revoir.",
    "texte": "Contente de te revoir.",
    "date": "2026-11-17"
-  },
-  "ora:95c0beb0": {
-   "fichier": "ora-a22fc33e.mp3",
-   "voix": "t8BrjWUT5Z23DLLBzbuY",
-   "envoye": "La réserve est sous tension. Commence par le caisson zéro zéro : je t'y attends pour poser les bases.",
-   "texte": "La réserve est sous tension. Commence par le CAISSON 00 : je t'y attends pour poser les bases.",
-   "date": "2026-11-16"
   },
   "ora:9961f829": {
    "fichier": "ora-6dc97281.mp3",
@@ -1764,20 +1196,6 @@
    "texte": "… le client… le magasin… retiens le magasin… il reviendra souvent…",
    "date": "2026-11-17"
   },
-  "ora:a523ddde": {
-   "fichier": "ora-27e1a1e2.mp3",
-   "voix": "t8BrjWUT5Z23DLLBzbuY",
-   "envoye": "Ton premier ordre de mission. Copie-le tel quel dans Claude Code, puis reviens ici.",
-   "texte": "Ton premier ordre de mission. Copie-le tel quel dans Claude Code, puis reviens ici.",
-   "date": "2026-11-16"
-  },
-  "ora:a585c48b": {
-   "fichier": "ora-3c81365f.mp3",
-   "voix": "t8BrjWUT5Z23DLLBzbuY",
-   "envoye": "Se tromper ne coûte rien ici. Remonte d'un ou deux blocs, puis réessaie.",
-   "texte": "Se tromper ne coûte rien ici. Remonte d'un ou deux blocs, puis réessaie.",
-   "date": "2026-11-16"
-  },
   "ora:a65ca15d": {
    "fichier": "ora-f35d465c.mp3",
    "voix": "t8BrjWUT5Z23DLLBzbuY",
@@ -1798,13 +1216,6 @@
    "envoye": "Pleine puissance ! Les bases sont posées, et ta page est en ligne. Allons réveiller les autres.",
    "texte": "Pleine puissance ! Les bases sont posées, et ta page est en ligne. Allons réveiller les autres.",
    "date": "2026-11-17"
-  },
-  "ora:aaff15b5": {
-   "fichier": "ora-2c37e039.mp3",
-   "voix": "t8BrjWUT5Z23DLLBzbuY",
-   "envoye": "Les murs, la peinture, l'électricité : avec cette image, tu ne confondras plus les trois langues.",
-   "texte": "Les murs, la peinture, l'électricité : avec cette image, tu ne confondras plus les trois langues.",
-   "date": "2026-11-16"
   },
   "ora:ab0df27e": {
    "fichier": "ora-1b0d4057.mp3",
@@ -1855,13 +1266,6 @@
    "texte": "Allons-y. Quelques minutes suffisent.",
    "date": "2026-11-17"
   },
-  "ora:b478ab54": {
-   "fichier": "ora-e2ddcb30.mp3",
-   "voix": "t8BrjWUT5Z23DLLBzbuY",
-   "envoye": "Pleine puissance. Grâce à toi, les bases sont posées et ton produit a sa première page en ligne. Allons réveiller le reste de l'équipe.",
-   "texte": "Pleine puissance. Grâce à toi, les bases sont posées et ton produit a sa première page en ligne. Allons réveiller le reste de l'équipe.",
-   "date": "2026-11-16"
-  },
   "ora:b4c67e0d": {
    "fichier": "ora-251c5df9.mp3",
    "voix": "t8BrjWUT5Z23DLLBzbuY",
@@ -1890,40 +1294,12 @@
    "texte": "Exact ! Quinze kilowatts pour toi. À demain.",
    "date": "2026-11-17"
   },
-  "ora:c41d593a": {
-   "fichier": "ora-589d0986.mp3",
-   "voix": "t8BrjWUT5Z23DLLBzbuY",
-   "envoye": "Dernier protocole avant ma pleine puissance. Aujourd'hui, ton produit va exister sur internet.",
-   "texte": "Dernier protocole avant ma pleine puissance. Aujourd'hui, ton produit va exister sur internet.",
-   "date": "2026-11-16"
-  },
-  "ora:c495635a": {
-   "fichier": "ora-a6fe8b7e.mp3",
-   "voix": "t8BrjWUT5Z23DLLBzbuY",
-   "envoye": "Première vérification. Prends ton temps : une erreur ne coûte rien.",
-   "texte": "Première vérification. Prends ton temps : une erreur ne coûte rien.",
-   "date": "2026-11-16"
-  },
   "ora:c520de89": {
    "fichier": "ora-bdcaf760.mp3",
    "voix": "t8BrjWUT5Z23DLLBzbuY",
    "envoye": "[sleepy] [mumbling] [slowly] … mmh… déjà ?…",
    "texte": "… mmh… déjà ?…",
    "date": "2026-11-17"
-  },
-  "ora:c5db7075": {
-   "fichier": "ora-7c5e96e9.mp3",
-   "voix": "t8BrjWUT5Z23DLLBzbuY",
-   "envoye": "Aujourd'hui, on ouvre le capot d'une page. Tu vas voir de quoi elle est faite, sans écrire une seule ligne.",
-   "texte": "Aujourd'hui, on ouvre le capot d'une page. Tu vas voir de quoi elle est faite, sans écrire une seule ligne.",
-   "date": "2026-11-16"
-  },
-  "ora:c5f42fb6": {
-   "fichier": "ora-0e0c5eaa.mp3",
-   "voix": "t8BrjWUT5Z23DLLBzbuY",
-   "envoye": "Explique avec tes mots, comme à un ami. C'est le meilleur moyen de savoir si tu as compris.",
-   "texte": "Explique avec tes mots, comme à un ami. C'est le meilleur moyen de savoir si tu as compris.",
-   "date": "2026-11-16"
   },
   "ora:c69221ea": {
    "fichier": "ora-8854c5ce.mp3",
@@ -1938,20 +1314,6 @@
    "envoye": "[sleepy] [mumbling] [slowly] … non… je ne suis pas un bouton…",
    "texte": "… non… je ne suis pas un bouton…",
    "date": "2026-11-17"
-  },
-  "ora:cb39342d": {
-   "fichier": "ora-dd143bf9.mp3",
-   "voix": "t8BrjWUT5Z23DLLBzbuY",
-   "envoye": "Ta livraison, c'est la preuve que ta page existe vraiment. Je la vérifie directement sur GitHub.",
-   "texte": "Ta livraison, c'est la preuve que ta page existe vraiment. Je la vérifie directement sur GitHub.",
-   "date": "2026-11-16"
-  },
-  "ora:cee2866b": {
-   "fichier": "ora-62557c9f.mp3",
-   "voix": "t8BrjWUT5Z23DLLBzbuY",
-   "envoye": "Bonjour. Je suis ORA, Opérateur de Relance Automatique. Le datacenter est rallumé. Dans sa réserve dorment 11 membres d'équipe : chacun maîtrise une partie du métier de créateur d'applications. Réveille-les un par un, et ensemble vous construirez ton propre produit, jusqu'à son lancement. Je t'accompagnerai. Comment dois-je t'appeler ?",
-   "texte": "Bonjour. Je suis **ORA**, Opérateur de Relance Automatique.\n\nLe datacenter est rallumé. Dans sa réserve dorment **11 membres d'équipe** : chacun maîtrise une partie du métier de créateur d'applications. Réveille-les un par un, et ensemble vous construirez **ton propre produit**, jusqu'à son lancement. Je t'accompagnerai.\n\nComment dois-je t'appeler ?",
-   "date": "2026-11-16"
   },
   "ora:cf8416eb": {
    "fichier": "ora-588c496a.mp3",
@@ -1981,26 +1343,12 @@
    "texte": "… une question… prends ton temps… une erreur ne grille rien…",
    "date": "2026-11-17"
   },
-  "ora:d69948d8": {
-   "fichier": "ora-6cefb42c.mp3",
-   "voix": "t8BrjWUT5Z23DLLBzbuY",
-   "envoye": "Bonne réponse. Regarde la batterie : une cellule s'allume.",
-   "texte": "Bonne réponse. Regarde la batterie : une cellule s'allume.",
-   "date": "2026-11-16"
-  },
   "ora:d8f39829": {
    "fichier": "ora-6d899aad.mp3",
    "voix": "t8BrjWUT5Z23DLLBzbuY",
    "envoye": "Défi du jour ! Qu'est-ce qu'un agent ?",
    "texte": "Défi du jour ! Qu'est-ce qu'un agent ?",
    "date": "2026-11-17"
-  },
-  "ora:d9c04bde": {
-   "fichier": "ora-f98e79aa.mp3",
-   "voix": "t8BrjWUT5Z23DLLBzbuY",
-   "envoye": "Une erreur, puis la bonne réponse : c'est ce qui grave une notion dans la mémoire.",
-   "texte": "Une erreur, puis la bonne réponse : c'est ce qui grave une notion dans la mémoire.",
-   "date": "2026-11-16"
   },
   "ora:da75f90a": {
    "fichier": "ora-5c067a26.mp3",
@@ -2065,13 +1413,6 @@
    "texte": "… ton premier code… repère juste ce qui change… le reste… pas grave…",
    "date": "2026-11-17"
   },
-  "ora:e0ebf687": {
-   "fichier": "ora-f438696b.mp3",
-   "voix": "t8BrjWUT5Z23DLLBzbuY",
-   "envoye": "Tu sais maintenant ce qui se passe quand tu ouvres une page. Termine le protocole pour remplir la batterie.",
-   "texte": "Tu sais maintenant ce qui se passe quand tu ouvres une page. Termine le protocole pour remplir la batterie.",
-   "date": "2026-11-16"
-  },
   "ora:e3956b65": {
    "fichier": "ora-66454fa9.mp3",
    "voix": "t8BrjWUT5Z23DLLBzbuY",
@@ -2107,26 +1448,12 @@
    "texte": "… encore cinq minutes…",
    "date": "2026-11-17"
   },
-  "ora:e92f95fb": {
-   "fichier": "ora-b61c49e7.mp3",
-   "voix": "t8BrjWUT5Z23DLLBzbuY",
-   "envoye": "Ton tout premier code lu. Ne cherche pas à tout comprendre : repère seulement ce qui change.",
-   "texte": "Ton tout premier code lu. Ne cherche pas à tout comprendre : repère seulement ce qui change.",
-   "date": "2026-11-16"
-  },
   "ora:ec5f7710": {
    "fichier": "ora-cce4784c.mp3",
    "voix": "t8BrjWUT5Z23DLLBzbuY",
    "envoye": "Chaque membre correspond à un vrai fichier de ton produit. Touche-le pour voir sa fiche.",
    "texte": "Chaque membre correspond à un vrai fichier de ton produit. Touche-le pour voir sa fiche.",
    "date": "2026-11-17"
-  },
-  "ora:ed587add": {
-   "fichier": "ora-b8ac9ae9.mp3",
-   "voix": "t8BrjWUT5Z23DLLBzbuY",
-   "envoye": "Ce protocole n'est pas encore ouvert. Termine le précédent.",
-   "texte": "Ce protocole n'est pas encore ouvert. Termine le précédent.",
-   "date": "2026-11-16"
   },
   "ora:ed624f0d": {
    "fichier": "ora-38acdf3e.mp3",
@@ -2141,13 +1468,6 @@
    "envoye": "[sleepy] [mumbling] [slowly] … boum… trois fusibles… pas de panique… relis… puis réarme…",
    "texte": "… boum… trois fusibles… pas de panique… relis… puis réarme…",
    "date": "2026-11-17"
-  },
-  "ora:f139b862": {
-   "fichier": "ora-64674e06.mp3",
-   "voix": "t8BrjWUT5Z23DLLBzbuY",
-   "envoye": "Je reste avec toi pendant tout le protocole. Je réagirai à tes réponses, et si tu bloques, je te donnerai une piste.",
-   "texte": "Je reste avec toi pendant tout le protocole. Je réagirai à tes réponses, et si tu bloques, je te donnerai une piste.",
-   "date": "2026-11-16"
   },
   "ora:f594536f": {
    "fichier": "ora-e37025eb.mp3",
@@ -2170,13 +1490,6 @@
    "texte": "… la panne… après tous les protocoles…",
    "date": "2026-11-17"
   },
-  "ora:fa216a41": {
-   "fichier": "ora-d5d1e24d.mp3",
-   "voix": "t8BrjWUT5Z23DLLBzbuY",
-   "envoye": "Encore cette procédure, et ta page sera visible par tout le monde. On y est presque.",
-   "texte": "Encore cette procédure, et ta page sera visible par tout le monde. On y est presque.",
-   "date": "2026-11-16"
-  },
   "ora:fa26271b": {
    "fichier": "ora-478c1d53.mp3",
    "voix": "t8BrjWUT5Z23DLLBzbuY",
@@ -2196,13 +1509,6 @@
    "voix": "t8BrjWUT5Z23DLLBzbuY",
    "envoye": "Bienvenue dans ton premier protocole de réveil. Avant de diriger une équipe qui construit des applications, il faut savoir ce qu'est une application, et d'où elle vient quand elle s'affiche sur ton écran.",
    "texte": "Bienvenue dans ton premier **protocole de réveil**. Avant de diriger une équipe qui construit des applications, il faut savoir ce qu'est une application, et d'où elle vient quand elle s'affiche sur ton écran.",
-   "date": "2026-11-16"
-  },
-  "ora:ff835e3d": {
-   "fichier": "ora-c7a90749.mp3",
-   "voix": "t8BrjWUT5Z23DLLBzbuY",
-   "envoye": "Tu sais reconnaître les trois langues d'une page. Termine le protocole, la batterie t'attend.",
-   "texte": "Tu sais reconnaître les trois langues d'une page. Termine le protocole, la batterie t'attend.",
    "date": "2026-11-16"
   }
  }

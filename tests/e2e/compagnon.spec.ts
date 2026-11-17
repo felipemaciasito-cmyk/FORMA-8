@@ -16,17 +16,17 @@ test("le compagnon accompagne le protocole et réagit aux erreurs", async ({ pag
   await page.goto("./#/caisson/c00/p1");
   const bubble = page.locator(".companion-bubble");
 
-  // Ouverture : ORA est dans son hublot, sa bulle apparaît et sa voix part.
+  // Ouverture : Forma Trisse est dans son hublot, sa bulle apparaît et sa voix part.
   await expect(page.locator(".companion-port")).toBeVisible();
   await expect(bubble.last()).toContainText(COMP.c00.protocoles.p1.debut);
   await expect.poll(() => lastVoice(page), { timeout: 20_000 }).toBe(voiceKey("ora", COMP.c00.protocoles.p1.debut));
-  // Toucher la bulle pendant que la voix parle : elle se tait (le bouton ne propose plus « Arrêter ») et la bulle
-  // se range.
-  const stop = page.getByRole("button", { name: "Arrêter la voix de ORA" });
-  if (await stop.count()) {
-    await bubble.last().click({ position: { x: 30, y: 40 } });
-    await expect(stop).toHaveCount(0);
-  }
+  // Toucher la bulle : la voix se tait et la bulle se range.
+  await bubble.last().click({ position: { x: 30, y: 40 } }).catch(() => {});
+  await expect(bubble).toHaveCount(0, { timeout: 15_000 });
+  // Toucher le personnage rouvre sa bulle et relit sa réplique (il respire en continu : clic forcé).
+  await page.getByRole("button", { name: "Toucher Forma Trisse" }).click({ force: true });
+  await expect(bubble.last()).toContainText(COMP.c00.protocoles.p1.debut.slice(0, 12));
+  await bubble.last().click({ position: { x: 30, y: 40 } }).catch(() => {});
   await expect(bubble).toHaveCount(0, { timeout: 15_000 });
 
   // Jusqu'au premier QCM (bloc 9) : le passage clé du bloc 6 est dit en route (un joueur qui passe très vite un

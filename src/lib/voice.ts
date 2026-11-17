@@ -154,8 +154,13 @@ export function stopVoice() { queue = []; loading = null; stopCurrent(); emit({}
 /** Arrête seulement la voix en cours (fin d'une cérémonie) : la file d'attente reste. */
 export function stopSpeaking() { if (current && !current.line.auto) stopCurrent(); }
 
-/** Retire une ligne de la file d'attente (sa bulle a disparu). */
+/**
+ * Sa bulle a disparu (page quittée, étape suivante) : la ligne quitte la file, et se tait si elle parlait. Un
+ * personnage ne parle pas quand on ne le voit plus, et la bulle suivante n'attend pas derrière une voix sans bulle.
+ */
 export function forget(key: string) {
+  if (loading?.key === key) { loading = null; window.setTimeout(next, 150); }
+  if (current?.line.key === key) { stopCurrent(); window.setTimeout(next, 150); }
   if (!queue.some((q) => q.key === key)) return;
   queue = queue.filter((q) => q.key !== key); emit({});
 }

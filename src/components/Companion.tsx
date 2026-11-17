@@ -17,7 +17,10 @@ export function CompanionPort({ r, state }: { r: Room; state: CrewState }) {
   const [line, setLine] = useState<CompanionLine | null>(currentCompanion());
   useEffect(() => onCompanion(setLine), []);
   const speaker = speakerOf(r.id);
-  const b = useBulle(speaker, line?.md, { retour: false });
+  // La dernière réplique reste en mémoire après la fermeture de la bulle : toucher le compagnon la relit.
+  const [dernier, setDernier] = useState<string | undefined>(line?.md);
+  useEffect(() => { if (line?.md) setDernier(line.md); }, [line]);
+  const b = useBulle(speaker, line?.md ?? dernier, { retour: false });
   const happy = !!line && (line.kind === "premier" || line.kind === "serie" || line.kind === "perseverance");
   const asleep = state !== "awake" && r.id !== "c00";
   const talk = b.speaking ? b.level : 0;
