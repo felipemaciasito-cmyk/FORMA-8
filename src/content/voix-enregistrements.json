@@ -120,6 +120,13 @@
    "texte": "J'ai tout gardé en ordre.",
    "date": "2026-11-17"
   },
+  "c01:38941ae4": {
+   "fichier": "c01-d6f0b487.mp3",
+   "voix": "EMuO6fFLrXKOryHzij6K",
+   "envoye": "Enfin des règles bien rangées. Je les archive.",
+   "texte": "Enfin des règles bien rangées. Je les archive.",
+   "date": "2026-11-17"
+  },
   "c01:39365f23": {
    "fichier": "c01-3e2b84eb.mp3",
    "voix": "EMuO6fFLrXKOryHzij6K",
@@ -519,11 +526,375 @@
    "texte": "Tu as recommencé, et tu as trouvé. Bravo.",
    "date": "2026-11-17"
   },
+  "c02:05514683": {
+   "fichier": "c02-e8a7d653.mp3",
+   "voix": "5l4ttmr4SKNgi0HnOelT",
+   "envoye": "Négatif. Ce qui est dit s'oublie ; ce qui est écrit reste.",
+   "texte": "Négatif. Ce qui est dit s'oublie ; ce qui est écrit reste.",
+   "date": "2026-11-17"
+  },
+  "c02:05a18fcd": {
+   "fichier": "c02-bd6cda9d.mp3",
+   "voix": "5l4ttmr4SKNgi0HnOelT",
+   "envoye": "Négatif. Pense à la serrure.",
+   "texte": "Négatif. Pense à la serrure.",
+   "date": "2026-11-17"
+  },
+  "c02:065797b5": {
+   "fichier": "c02-0b3b5485.mp3",
+   "voix": "5l4ttmr4SKNgi0HnOelT",
+   "envoye": "Défi relevé. Le suivant, demain à l'aube.",
+   "texte": "Défi relevé. Le suivant, demain à l'aube.",
+   "date": "2026-11-17"
+  },
+  "c02:08fdb412": {
+   "fichier": "c02-6558841d.mp3",
+   "voix": "5l4ttmr4SKNgi0HnOelT",
+   "envoye": "[sleepy] [mumbling] [slowly] … je sens un courant… termine… branche la batterie…",
+   "texte": "… je sens un courant… termine… branche la batterie…",
+   "date": "2026-11-17"
+  },
+  "c02:0aa017e8": {
+   "fichier": "c02-c09a6a2c.mp3",
+   "voix": "5l4ttmr4SKNgi0HnOelT",
+   "envoye": "[sleepy] Les clés, maintenant. Une clé n'ouvre qu'une porte.",
+   "texte": "Les clés, maintenant. Une clé n'ouvre qu'une porte.",
+   "date": "2026-11-17"
+  },
+  "c02:0e2e1eb7": {
+   "fichier": "c02-f794e8be.mp3",
+   "voix": "5l4ttmr4SKNgi0HnOelT",
+   "envoye": "[sleepy] [mumbling] [slowly] … la batterie… presque pleine… branche-la…",
+   "texte": "… la batterie… presque pleine… branche-la…",
+   "date": "2026-11-17"
+  },
+  "c02:10fa8158": {
+   "fichier": "c02-d5565b05.mp3",
+   "voix": "5l4ttmr4SKNgi0HnOelT",
+   "envoye": "[sleepy] [mumbling] [slowly] … exact… article premier… zzz…",
+   "texte": "… exact… article premier… zzz…",
+   "date": "2026-11-17"
+  },
+  "c02:14c32008": {
+   "fichier": "c02-33b81ef8.mp3",
+   "voix": "5l4ttmr4SKNgi0HnOelT",
+   "envoye": "Négatif. Une clé n'ouvre qu'une porte.",
+   "texte": "Négatif. Une clé n'ouvre qu'une porte.",
+   "date": "2026-11-17"
+  },
+  "c02:155ba068": {
+   "fichier": "c02-37d8ccd8.mp3",
+   "voix": "5l4ttmr4SKNgi0HnOelT",
+   "envoye": "Inspection : ton règlement, ta serrure, ton premier skill et ta synchronisation.",
+   "texte": "Inspection : ton règlement, ta serrure, ton premier skill et ta synchronisation.",
+   "date": "2026-11-17"
+  },
+  "c02:163e4e16": {
+   "fichier": "c02-9400515a.mp3",
+   "voix": "5l4ttmr4SKNgi0HnOelT",
+   "envoye": "[sleepy] Presque au garde-à-vous. Termine.",
+   "texte": "Presque au garde-à-vous. Termine.",
+   "date": "2026-11-17"
+  },
+  "c02:191895a9": {
+   "fichier": "c02-48b05345.mp3",
+   "voix": "5l4ttmr4SKNgi0HnOelT",
+   "envoye": "[sleepy] Alertes au règlement ! Réfléchis avant d'agir : les fusibles sont fragiles.",
+   "texte": "Alertes au règlement ! Réfléchis avant d'agir : les fusibles sont fragiles.",
+   "date": "2026-11-17"
+  },
+  "c02:1fe2647a": {
+   "fichier": "c02-7be0dcdf.mp3",
+   "voix": "5l4ttmr4SKNgi0HnOelT",
+   "envoye": "[sleepy] [mumbling] [slowly] … zzz… caisson 02… article douze… viens me réveiller… repos…",
+   "texte": "… zzz… caisson 02… article douze… viens me réveiller… repos…",
+   "date": "2026-11-17"
+  },
+  "c02:215bde34": {
+   "fichier": "c02-b02ab0b8.mp3",
+   "voix": "5l4ttmr4SKNgi0HnOelT",
+   "envoye": "[sleepy] Le CLAUDE.md, je le relis à chaque séance. Court et clair, s'il te plaît.",
+   "texte": "Le CLAUDE.md, je le relis à chaque séance. Court et clair, s'il te plaît.",
+   "date": "2026-11-17"
+  },
+  "c02:27a5c1b9": {
+   "fichier": "c02-d281ad49.mp3",
+   "voix": "5l4ttmr4SKNgi0HnOelT",
+   "envoye": "Consigné au registre : défi réussi.",
+   "texte": "Consigné au registre : défi réussi.",
+   "date": "2026-11-17"
+  },
+  "c02:291ef9a0": {
+   "fichier": "c02-f10fe341.mp3",
+   "voix": "5l4ttmr4SKNgi0HnOelT",
+   "envoye": "[sleepy] [mumbling] [slowly] … bonne réponse… notée au registre… repos…",
+   "texte": "… bonne réponse… notée au registre… repos…",
+   "date": "2026-11-17"
+  },
+  "c02:2a8035f0": {
+   "fichier": "c02-edd01817.mp3",
+   "voix": "5l4ttmr4SKNgi0HnOelT",
+   "envoye": "[sleepy] [mumbling] [slowly] … cinq minutes… c'est un ordre…",
+   "texte": "… cinq minutes… c'est un ordre…",
+   "date": "2026-11-17"
+  },
+  "c02:2ae0470d": {
+   "fichier": "c02-dbdb6e21.mp3",
+   "voix": "5l4ttmr4SKNgi0HnOelT",
+   "envoye": "[sleepy] Une seule porte, quatre-vingt-dix jours. Réglementaire.",
+   "texte": "Une seule porte, quatre-vingt-dix jours. Réglementaire.",
+   "date": "2026-11-17"
+  },
+  "c02:3754cc00": {
+   "fichier": "c02-272f4d50.mp3",
+   "voix": "5l4ttmr4SKNgi0HnOelT",
+   "envoye": "Pour m'interroger, il faut ta clé Claude, dans Réglages. J'attends.",
+   "texte": "Pour m'interroger, il faut ta clé Claude, dans Réglages. J'attends.",
+   "date": "2026-11-17"
+  },
+  "c02:3c01c8e7": {
+   "fichier": "c02-ca300c37.mp3",
+   "voix": "5l4ttmr4SKNgi0HnOelT",
+   "envoye": "Garde-à-vous ! Ah, c'est toi.",
+   "texte": "Garde-à-vous ! Ah, c'est toi.",
+   "date": "2026-11-17"
+  },
+  "c02:3c6d033b": {
+   "fichier": "c02-a27bcdeb.mp3",
+   "voix": "5l4ttmr4SKNgi0HnOelT",
+   "envoye": "Au rapport, chef.",
+   "texte": "Au rapport, chef.",
+   "date": "2026-11-17"
+  },
+  "c02:46039c67": {
+   "fichier": "c02-f998e473.mp3",
+   "voix": "5l4ttmr4SKNgi0HnOelT",
+   "envoye": "[sleepy] Encore un peu de courant. Termine.",
+   "texte": "Encore un peu de courant. Termine.",
+   "date": "2026-11-17"
+  },
+  "c02:56371a14": {
+   "fichier": "c02-55171e50.mp3",
+   "voix": "5l4ttmr4SKNgi0HnOelT",
+   "envoye": "[sleepy] Les savoir-faire de l'équipe : rangés, étiquetés, prêts.",
+   "texte": "Les savoir-faire de l'équipe : rangés, étiquetés, prêts.",
+   "date": "2026-11-17"
+  },
+  "c02:5c67e9ca": {
+   "fichier": "c02-2887d829.mp3",
+   "voix": "5l4ttmr4SKNgi0HnOelT",
+   "envoye": "[sleepy] [mumbling] [slowly] … mmh… qui va là ?… une séance de travail ?… repos… je dors en service…",
+   "texte": "… mmh… qui va là ?… une séance de travail ?… repos… je dors en service…",
+   "date": "2026-11-17"
+  },
+  "c02:63bba2ce": {
+   "fichier": "c02-290272b3.mp3",
+   "voix": "5l4ttmr4SKNgi0HnOelT",
+   "envoye": "[sleepy] [mumbling] [slowly] … la réponse… est écrite… plus haut… au tableau…",
+   "texte": "… la réponse… est écrite… plus haut… au tableau…",
+   "date": "2026-11-17"
+  },
   "c02:6639b048": {
    "fichier": "c02-3e978a0f.mp3",
    "voix": "5l4ttmr4SKNgi0HnOelT",
    "envoye": "[sleepy] [mumbling] [slowly] … qui a touché… au règlement ?…",
    "texte": "… qui a touché… au règlement ?…",
+   "date": "2026-11-17"
+  },
+  "c02:668d7799": {
+   "fichier": "c02-6d14d5c9.mp3",
+   "voix": "5l4ttmr4SKNgi0HnOelT",
+   "envoye": "Défi du jour ! Où écris-tu une règle valable à chaque séance ?",
+   "texte": "Défi du jour ! Où écris-tu une règle valable à chaque séance ?",
+   "date": "2026-11-17"
+  },
+  "c02:68a18068": {
+   "fichier": "c02-a9de0204.mp3",
+   "voix": "5l4ttmr4SKNgi0HnOelT",
+   "envoye": "[sleepy] Mes paupières se lèvent. Termine le protocole.",
+   "texte": "Mes paupières se lèvent. Termine le protocole.",
+   "date": "2026-11-17"
+  },
+  "c02:6d4f0c31": {
+   "fichier": "c02-0968c674.mp3",
+   "voix": "5l4ttmr4SKNgi0HnOelT",
+   "envoye": "[sleepy] [mumbling] [slowly] … halte-là… qui touche le général ?…",
+   "texte": "… halte-là… qui touche le général ?…",
+   "date": "2026-11-17"
+  },
+  "c02:6f590198": {
+   "fichier": "c02-8614c61c.mp3",
+   "voix": "5l4ttmr4SKNgi0HnOelT",
+   "envoye": "[sleepy] Le mode auto va vite. Pour l'important, montre-moi d'abord le plan.",
+   "texte": "Le mode auto va vite. Pour l'important, montre-moi d'abord le plan.",
+   "date": "2026-11-17"
+  },
+  "c02:705db825": {
+   "fichier": "c02-7acf2731.mp3",
+   "voix": "5l4ttmr4SKNgi0HnOelT",
+   "envoye": "[sleepy] Relis chaque règle avant de fusionner. Un règlement flou ne sert à rien.",
+   "texte": "Relis chaque règle avant de fusionner. Un règlement flou ne sert à rien.",
+   "date": "2026-11-17"
+  },
+  "c02:804e49f7": {
+   "fichier": "c02-3d9afe34.mp3",
+   "voix": "5l4ttmr4SKNgi0HnOelT",
+   "envoye": "[sleepy] [mumbling] [slowly] … qui va là ?… ah… c'est toi…",
+   "texte": "… qui va là ?… ah… c'est toi…",
+   "date": "2026-11-17"
+  },
+  "c02:839f43ce": {
+   "fichier": "c02-c7e18dbe.mp3",
+   "voix": "5l4ttmr4SKNgi0HnOelT",
+   "envoye": "Exact ! Quinze kilowatts. Rompez.",
+   "texte": "Exact ! Quinze kilowatts. Rompez.",
+   "date": "2026-11-17"
+  },
+  "c02:908f759e": {
+   "fichier": "c02-4e5dea2a.mp3",
+   "voix": "5l4ttmr4SKNgi0HnOelT",
+   "envoye": "[sleepy] Bonne réponse. Une cellule de plus.",
+   "texte": "Bonne réponse. Une cellule de plus.",
+   "date": "2026-11-17"
+  },
+  "c02:9570d942": {
+   "fichier": "c02-3651a73d.mp3",
+   "voix": "5l4ttmr4SKNgi0HnOelT",
+   "envoye": "[sleepy] [mumbling] [slowly] … article douze… interdit de chatouiller…",
+   "texte": "… article douze… interdit de chatouiller…",
+   "date": "2026-11-17"
+  },
+  "c02:95dbf1fd": {
+   "fichier": "c02-a875736e.mp3",
+   "voix": "5l4ttmr4SKNgi0HnOelT",
+   "envoye": "[sleepy] [mumbling] [slowly] … raté… puis réussi… c'est réglementaire…",
+   "texte": "… raté… puis réussi… c'est réglementaire…",
+   "date": "2026-11-17"
+  },
+  "c02:9aaa6bf2": {
+   "fichier": "c02-8fedf1ae.mp3",
+   "voix": "5l4ttmr4SKNgi0HnOelT",
+   "envoye": "[sleepy] Une étiquette claire, sinon personne ne trouve l'outil.",
+   "texte": "Une étiquette claire, sinon personne ne trouve l'outil.",
+   "date": "2026-11-17"
+  },
+  "c02:9ee22fd1": {
+   "fichier": "c02-ac747a8d.mp3",
+   "voix": "5l4ttmr4SKNgi0HnOelT",
+   "envoye": "[sleepy] Deux règles deny. Personne ne passe. Pas même moi.",
+   "texte": "Deux règles deny. Personne ne passe. Pas même moi.",
+   "date": "2026-11-17"
+  },
+  "c02:a040915a": {
+   "fichier": "c02-4ce71c86.mp3",
+   "voix": "5l4ttmr4SKNgi0HnOelT",
+   "envoye": "[sleepy] Colle ton skill, et fais-le entrer dans le dépôt.",
+   "texte": "Colle ton skill, et fais-le entrer dans le dépôt.",
+   "date": "2026-11-17"
+  },
+  "c02:a33b3901": {
+   "fichier": "c02-be42393d.mp3",
+   "voix": "5l4ttmr4SKNgi0HnOelT",
+   "envoye": "[sleepy] Tu as recommencé, et trouvé. Je salue.",
+   "texte": "Tu as recommencé, et trouvé. Je salue.",
+   "date": "2026-11-17"
+  },
+  "c02:a80b9b91": {
+   "fichier": "c02-ff6bd375.mp3",
+   "voix": "5l4ttmr4SKNgi0HnOelT",
+   "envoye": "[sleepy] Chaque droit en trop, c'est une porte ouverte au voleur.",
+   "texte": "Chaque droit en trop, c'est une porte ouverte au voleur.",
+   "date": "2026-11-17"
+  },
+  "c02:ac3c1ffe": {
+   "fichier": "c02-6a4460ae.mp3",
+   "voix": "5l4ttmr4SKNgi0HnOelT",
+   "envoye": "Te revoilà. On reprend.",
+   "texte": "Te revoilà. On reprend.",
+   "date": "2026-11-17"
+  },
+  "c02:af2a87e0": {
+   "fichier": "c02-8be8f690.mp3",
+   "voix": "5l4ttmr4SKNgi0HnOelT",
+   "envoye": "Tout est en ordre.",
+   "texte": "Tout est en ordre.",
+   "date": "2026-11-17"
+  },
+  "c02:b0df0a49": {
+   "fichier": "c02-1894256a.mp3",
+   "voix": "5l4ttmr4SKNgi0HnOelT",
+   "envoye": "[sleepy] [mumbling] [slowly] … regarde bien… ne touche à rien… c'est un ordre…",
+   "texte": "… regarde bien… ne touche à rien… c'est un ordre…",
+   "date": "2026-11-17"
+  },
+  "c02:b1a05abf": {
+   "fichier": "c02-589dc566.mp3",
+   "voix": "5l4ttmr4SKNgi0HnOelT",
+   "envoye": "[sleepy] [mumbling] [slowly] … ce qui est écrit reste… ce qui est dit s'envole…",
+   "texte": "… ce qui est écrit reste… ce qui est dit s'envole…",
+   "date": "2026-11-17"
+  },
+  "c02:b49ee6ad": {
+   "fichier": "c02-8b0fc5fe.mp3",
+   "voix": "5l4ttmr4SKNgi0HnOelT",
+   "envoye": "[sleepy] [mumbling] [slowly] … la table déborde… on résume… on range… zzz…",
+   "texte": "… la table déborde… on résume… on range… zzz…",
+   "date": "2026-11-17"
+  },
+  "c02:b853346e": {
+   "fichier": "c02-a9eccffa.mp3",
+   "voix": "5l4ttmr4SKNgi0HnOelT",
+   "envoye": "[sleepy] Exact. Consigné au règlement.",
+   "texte": "Exact. Consigné au règlement.",
+   "date": "2026-11-17"
+  },
+  "c02:bb98a4cf": {
+   "fichier": "c02-86b78980.mp3",
+   "voix": "5l4ttmr4SKNgi0HnOelT",
+   "envoye": "[sleepy] [mumbling] [slowly] … on recommence… jusqu'à la victoire…",
+   "texte": "… on recommence… jusqu'à la victoire…",
+   "date": "2026-11-17"
+  },
+  "c02:be5afcf9": {
+   "fichier": "c02-33dc9cd4.mp3",
+   "voix": "5l4ttmr4SKNgi0HnOelT",
+   "envoye": "[sleepy] [mumbling] [slowly] … mmh… article un… une séance, une tâche… je me réveille… presque…",
+   "texte": "… mmh… article un… une séance, une tâche… je me réveille… presque…",
+   "date": "2026-11-17"
+  },
+  "c02:c543070c": {
+   "fichier": "c02-b71aa258.mp3",
+   "voix": "5l4ttmr4SKNgi0HnOelT",
+   "envoye": "[sleepy] Le courant passe. Envoie l'arc, maintenant.",
+   "texte": "Le courant passe. Envoie l'arc, maintenant.",
+   "date": "2026-11-17"
+  },
+  "c02:c76eb070": {
+   "fichier": "c02-042c10db.mp3",
+   "voix": "5l4ttmr4SKNgi0HnOelT",
+   "envoye": "[sleepy] [mumbling] [slowly] … trois de suite… je rêve de médailles…",
+   "texte": "… trois de suite… je rêve de médailles…",
+   "date": "2026-11-17"
+  },
+  "c02:cc0beaf7": {
+   "fichier": "c02-34e2f602.mp3",
+   "voix": "5l4ttmr4SKNgi0HnOelT",
+   "envoye": "[sleepy] [mumbling] [slowly] … repos… on reprend…",
+   "texte": "… repos… on reprend…",
+   "date": "2026-11-17"
+  },
+  "c02:cdf3fcf5": {
+   "fichier": "c02-c4333642.mp3",
+   "voix": "5l4ttmr4SKNgi0HnOelT",
+   "envoye": "[sleepy] [mumbling] [slowly] … relis la définition… c'est un ordre… zzz…",
+   "texte": "… relis la définition… c'est un ordre… zzz…",
+   "date": "2026-11-17"
+  },
+  "c02:ce955551": {
+   "fichier": "c02-c3023c5d.mp3",
+   "voix": "5l4ttmr4SKNgi0HnOelT",
+   "envoye": "[sleepy] Trois d'affilée. Je me redresse.",
+   "texte": "Trois d'affilée. Je me redresse.",
    "date": "2026-11-17"
   },
   "c02:d0ce3893": {
@@ -533,11 +904,130 @@
    "texte": "… article douze… il est interdit… de ronfler en service… repos !…",
    "date": "2026-11-17"
   },
+  "c02:d6cdb67e": {
+   "fichier": "c02-403f952e.mp3",
+   "voix": "5l4ttmr4SKNgi0HnOelT",
+   "envoye": "Défi du jour ! Un bon jeton d'accès, c'est…",
+   "texte": "Défi du jour ! Un bon jeton d'accès, c'est…",
+   "date": "2026-11-17"
+  },
+  "c02:d7250718": {
+   "fichier": "c02-6e457f0b.mp3",
+   "voix": "5l4ttmr4SKNgi0HnOelT",
+   "envoye": "[sleepy] [mumbling] [slowly] … encore une… le clairon va sonner…",
+   "texte": "… encore une… le clairon va sonner…",
+   "date": "2026-11-17"
+  },
+  "c02:df3850ca": {
+   "fichier": "c02-670fd256.mp3",
+   "voix": "5l4ttmr4SKNgi0HnOelT",
+   "envoye": "[sleepy] Une erreur, puis la réussite. C'est ainsi qu'on apprend.",
+   "texte": "Une erreur, puis la réussite. C'est ainsi qu'on apprend.",
+   "date": "2026-11-17"
+  },
+  "c02:e3d43707": {
+   "fichier": "c02-9618828e.mp3",
+   "voix": "5l4ttmr4SKNgi0HnOelT",
+   "envoye": "[sleepy] [mumbling] [slowly] … une table de travail… pleine de miettes… et de règles…",
+   "texte": "… une table de travail… pleine de miettes… et de règles…",
+   "date": "2026-11-17"
+  },
+  "c02:e420d716": {
+   "fichier": "c02-63a652aa.mp3",
+   "voix": "5l4ttmr4SKNgi0HnOelT",
+   "envoye": "[sleepy] Un conseil, on peut l'oublier. Une serrure, non.",
+   "texte": "Un conseil, on peut l'oublier. Une serrure, non.",
+   "date": "2026-11-17"
+  },
+  "c02:e501d6bf": {
+   "fichier": "c02-cb52efd4.mp3",
+   "voix": "5l4ttmr4SKNgi0HnOelT",
+   "envoye": "[sleepy] [mumbling] [slowly] … zzz… présent !…",
+   "texte": "… zzz… présent !…",
+   "date": "2026-11-17"
+  },
+  "c02:e6b43524": {
+   "fichier": "c02-a8f5aca8.mp3",
+   "voix": "5l4ttmr4SKNgi0HnOelT",
+   "envoye": "[sleepy] Presque réveillé. Termine, répare la panne, et j'ouvre les yeux.",
+   "texte": "Presque réveillé. Termine, répare la panne, et j'ouvre les yeux.",
+   "date": "2026-11-17"
+  },
+  "c02:e85ec880": {
+   "fichier": "c02-eb624830.mp3",
+   "voix": "5l4ttmr4SKNgi0HnOelT",
+   "envoye": "Défi du jour ! Quelle règle l'emporte toujours ?",
+   "texte": "Défi du jour ! Quelle règle l'emporte toujours ?",
+   "date": "2026-11-17"
+  },
+  "c02:eb0b279a": {
+   "fichier": "c02-8d514ff9.mp3",
+   "voix": "5l4ttmr4SKNgi0HnOelT",
+   "envoye": "[sleepy] [mumbling] [slowly] … l'atelier est prêté… on rend les clés le soir… zzz…",
+   "texte": "… l'atelier est prêté… on rend les clés le soir… zzz…",
+   "date": "2026-11-17"
+  },
+  "c02:eba31b4c": {
+   "fichier": "c02-3851bdbc.mp3",
+   "voix": "5l4ttmr4SKNgi0HnOelT",
+   "envoye": "Au rapport, chef. Ton règlement est écrit, tes serrures sont posées. J'y veillerai à chaque séance.",
+   "texte": "Au rapport, chef. Ton règlement est écrit, tes serrures sont posées. J'y veillerai à chaque séance.",
+   "date": "2026-11-17"
+  },
+  "c02:ec1d5099": {
+   "fichier": "c02-c098da9d.mp3",
+   "voix": "5l4ttmr4SKNgi0HnOelT",
+   "envoye": "[sleepy] Mmh… le règlement de bord. Mon sujet préféré. Pardon, je bâille.",
+   "texte": "Mmh… le règlement de bord. Mon sujet préféré. Pardon, je bâille.",
+   "date": "2026-11-17"
+  },
+  "c02:ec4a1649": {
+   "fichier": "c02-8536baf9.mp3",
+   "voix": "5l4ttmr4SKNgi0HnOelT",
+   "envoye": "Garde-à-vous ! Euh… repos. Bonjour à tous.",
+   "texte": "Garde-à-vous ! Euh… repos. Bonjour à tous.",
+   "date": "2026-11-17"
+  },
+  "c02:f49e121c": {
+   "fichier": "c02-74f6deb8.mp3",
+   "voix": "5l4ttmr4SKNgi0HnOelT",
+   "envoye": "[sleepy] Encore une. Garde-à-vous… presque.",
+   "texte": "Encore une. Garde-à-vous… presque.",
+   "date": "2026-11-17"
+  },
+  "c02:f73d0632": {
+   "fichier": "c02-297114c2.mp3",
+   "voix": "5l4ttmr4SKNgi0HnOelT",
+   "envoye": "Doucement, mes galons.",
+   "texte": "Doucement, mes galons.",
+   "date": "2026-11-17"
+  },
   "c02:f9599a2c": {
    "fichier": "c02-46b74a7c.mp3",
    "voix": "5l4ttmr4SKNgi0HnOelT",
    "envoye": "Je suis le Général Calpin, le règlement de bord. J'écris les règles que toute l'équipe suit, à chaque séance de travail.",
    "texte": "Je suis le Général Calpin, le règlement de bord. J'écris les règles que toute l'équipe suit, à chaque séance de travail.",
+   "date": "2026-11-17"
+  },
+  "c02:f9c579de": {
+   "fichier": "c02-e6986d2a.mp3",
+   "voix": "5l4ttmr4SKNgi0HnOelT",
+   "envoye": "[sleepy] Pas tout à fait. Tout est écrit plus haut.",
+   "texte": "Pas tout à fait. Tout est écrit plus haut.",
+   "date": "2026-11-17"
+  },
+  "c02:fd587f4b": {
+   "fichier": "c02-e21d907b.mp3",
+   "voix": "5l4ttmr4SKNgi0HnOelT",
+   "envoye": "Une question de règlement ?",
+   "texte": "Une question de règlement ?",
+   "date": "2026-11-17"
+  },
+  "c02:ff6e9de8": {
+   "fichier": "c02-55e6fdd4.mp3",
+   "voix": "5l4ttmr4SKNgi0HnOelT",
+   "envoye": "[sleepy] Négatif. Relis la définition, puis réessaie.",
+   "texte": "Négatif. Relis la définition, puis réessaie.",
    "date": "2026-11-17"
   },
   "c03:3d2f736c": {
@@ -809,6 +1299,13 @@
    "voix": "t8BrjWUT5Z23DLLBzbuY",
    "envoye": "[sleepy] [mumbling] [slowly] … une erreur… puis la bonne… c'est comme ça qu'on retient… zzz…",
    "texte": "… une erreur… puis la bonne… c'est comme ça qu'on retient… zzz…",
+   "date": "2026-11-17"
+  },
+  "ora:28423089": {
+   "fichier": "ora-e8d2c71d.mp3",
+   "voix": "t8BrjWUT5Z23DLLBzbuY",
+   "envoye": "Plus que huit dormeurs. On continue.",
+   "texte": "Plus que huit dormeurs. On continue.",
    "date": "2026-11-17"
   },
   "ora:2889eeef": {
@@ -1292,6 +1789,13 @@
    "voix": "t8BrjWUT5Z23DLLBzbuY",
    "envoye": "Exact ! Quinze kilowatts pour toi. À demain.",
    "texte": "Exact ! Quinze kilowatts pour toi. À demain.",
+   "date": "2026-11-17"
+  },
+  "ora:c13380b0": {
+   "fichier": "ora-2217f054.mp3",
+   "voix": "t8BrjWUT5Z23DLLBzbuY",
+   "envoye": "Général Calpin ? L'équipe a besoin d'un règlement.",
+   "texte": "Général Calpin ? L'équipe a besoin d'un règlement.",
    "date": "2026-11-17"
   },
   "ora:c520de89": {
