@@ -1,4 +1,5 @@
 import { motion } from "motion/react";
+import { useMemo, useState } from "react";
 import { ROOMS, stepKey } from "../content";
 import type { Room } from "../content/types";
 import { dueNotions, fx } from "../lib/game";
@@ -7,8 +8,9 @@ import { go } from "../lib/router";
 import { sfx } from "../lib/sound";
 import { useProgress, type Progress } from "../lib/store";
 import { Icon, type IconId } from "./Icon";
-import { OraSays } from "./Ora";
-import { CompanionSays } from "./Companion";
+import { MemberSays, OraSays } from "./Bulle";
+import { DefiDuJour } from "./Defi";
+import { INTERACTIONS, etatDe, phraseRetour, annexe } from "../lib/eveil";
 import { companionLines } from "../lib/companion";
 import { CrewFigure } from "./Crew";
 
@@ -25,13 +27,21 @@ export function MapView() {
   const height = ROOMS.length * ROW + 40;
   const awake = roomsDoneCount(p);
 
-  const greet = !roomReady(cur)
-    ? `La réserve est sous tension${p.name ? `, ${p.name}` : ""}. Les protocoles de réveil du **${cur.code}** sont encore en préparation : ils arriveront avec les prochaines versions de l'appli.`
-    : !Object.keys(p.steps).length
-      ? `La réserve est sous tension${p.name ? `, ${p.name}` : ""}. Commence par le **${ROOMS[0].code}** : je t'y attends pour poser les bases.`
-      : awake === ROOMS.length
-        ? "Toute l'équipe est réveillée. Reviens chaque jour pour la **maintenance** : c'est elle qui ancre tes connaissances."
-        : `Prochain réveil : **${cur.code} · ${cur.member}**.${due.size ? ` Et ${due.size} notion${due.size > 1 ? "s" : ""} surchauffe${due.size > 1 ? "nt" : ""} : passe en maintenance.` : ""}`;
+  // Forma Trisse accueille le joueur (règles de parole du 17/11/2026) : une phrase par situation, très courte au retour.
+  const etat = etatDe("ora");
+  const premiere = !Object.keys(p.steps).length;
+  const retour = useMemo(() => phraseRetour("ora") ?? "", []); // eslint-disable-line react-hooks/exhaustive-deps
+  const chaud = INTERACTIONS.carte.surchauffe[etat];
+  const [reponse, setReponse] = useState<"oui" | "non" | null>(null);
+  const accueil = premiere ? { md: INTERACTIONS.carte.premiere }
+    : !roomReady(cur) ? { md: annexe("preparation") ?? retour }
+      : due.size && !reponse ? { md: chaud.question, choix: chaud.choix }
+        : reponse ? { md: chaud[reponse] } : { md: retour };
+  const repondre = (i: number) => {
+    const r = i === 0 ? "oui" : "non";
+    setReponse(r); sfx("tap");
+    if (r === "oui") window.setTimeout(() => go("maintenance"), 2600);
+  };
 
   return (
     <div className="wrap">
@@ -49,13 +59,16 @@ export function MapView() {
 
       <ProductTimeline />
 
-      <div style={{ margin: "16px 0" }}><OraSays compact md={greet} mood={due.size ? "alert" : "happy"}
-        say={roomReady(cur) && !Object.keys(p.steps).length ? `La réserve est sous tension. Commence par le ${ROOMS[0].code} : je t'y attends pour poser les bases.` : greet} /></div>
+      <div style={{ margin: "16px 0" }}>
+        <OraSays compact md={accueil.md} choix={accueil.choix} onChoix={repondre} options={{ retour: !accueil.choix }} />
+      </div>
 
-      {/* Le prochain membre à réveiller parle depuis sa capsule (ORA a déjà sa bulle au-dessus). */}
+      {/* Le prochain membre à réveiller parle depuis sa capsule, après Forma Trisse (une bulle à la fois). */}
       {cur.id !== "c00" && roomReady(cur) && roomUnlocked(p, cur) && !roomComplete(p, cur) && companionLines(cur.id)?.carte && (
-        <div style={{ margin: "-4px 0 16px" }}><CompanionSays r={cur} md={companionLines(cur.id)!.carte} asleep /></div>
+        <div style={{ margin: "-4px 0 16px" }}><MemberSays room={cur.id} md={companionLines(cur.id)!.carte!} /></div>
       )}
+
+      <DefiDuJour />
 
       <QuartPanel />
 

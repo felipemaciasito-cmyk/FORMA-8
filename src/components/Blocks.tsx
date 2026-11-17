@@ -6,7 +6,6 @@ import { Illustration } from "./Illustrations";
 import { Icon, type IconId } from "./Icon";
 import { ExerciseView } from "./Exercises";
 import { BugReportBlock, ConsigneBlock, DiffBlock, MissionBlock, ProcedureBlock, SourceBlock } from "./Mechanics";
-import { OraSays } from "./Ora";
 import { TermCard } from "./TermSheet";
 
 const Widgets = {
@@ -75,7 +74,9 @@ export function BlockView({ block, exKey, solvedBefore, onSolved }: { block: Blo
         </div>
       );
     case "callout": {
-      if (block.tone === "ora") return <OraSays md={block.md} />;
+      // Un encadré « ora » s'affiche comme un texte de leçon : Forma Trisse parle déjà depuis son hublot (un personnage
+      // n'apparaît jamais deux fois à l'écran).
+      if (block.tone === "ora") return <RichText md={block.md} />;
       const tone = ({ info: ["var(--cyan)", "info", "À retenir"], warn: ["var(--amber)", "warn", "Attention"], volatile: ["var(--amber)", "clock", "Info qui évolue"] } as Record<string, [string, IconId, string]>)[block.tone];
       return (
         <div className="panel" style={{ borderColor: `color-mix(in srgb, ${tone[0]} 40%, transparent)`, background: `color-mix(in srgb, ${tone[0]} 8%, transparent)` }}>

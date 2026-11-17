@@ -14,12 +14,14 @@ import { NotionChip } from "./Emblems";
 import { Icon } from "./Icon";
 import { AskOra, DeliveryCard } from "./Mechanics";
 import { plain } from "../lib/richtext";
-import { OraSays } from "./Ora";
+import { BulleBoite, BulleSeule, OraSays, useBulle } from "./Bulle";
+import { accord, annexe } from "../lib/eveil";
+import { speakerOf } from "../lib/voice";
 import { Rays, Shockwave, Sparks } from "./Rewards";
 import { fillBattery, getEnergyBar, startEnergyBar, stopEnergyBar, useEnergyBar } from "../lib/energy";
 import { bigStrike, centerOf } from "./Bolts";
 import { ArcScene, PlugScene } from "./PlugScene";
-import { CrewCapsule, CrewFigure, MemberSays, type CrewState } from "./Crew";
+import { CrewCapsule, CrewFigure, type CrewState } from "./Crew";
 import { CompanionPort, CompanionSays } from "./Companion";
 import { companionLines, companionScript, companionSolved, onCompanion, startCompanion, stopCompanion } from "../lib/companion";
 
@@ -28,7 +30,7 @@ export function RoomView({ id }: { id: string }) {
   const r = getRoom(id);
   const p = useProgress();
   if (!r) return <div className="wrap"><p>Caisson introuvable.</p></div>;
-  if (!roomUnlocked(p, r)) return <div className="wrap"><TopBar title={r.member} kicker={r.code} onBack={() => go("")} /><OraSays mood="alert" md="Ce caisson est encore verrouillé. Réveille d'abord le membre de l'équipe précédent." /></div>;
+  if (!roomUnlocked(p, r)) return <div className="wrap"><TopBar title={r.member} kicker={r.code} onBack={() => go("")} /><OraSays mood="alert" md={annexe("verrou.caisson")!} /></div>;
   const power = roomPower(p, r);
   const done = roomStepsDone(p, r);
   const stepsAll = done === r.steps.length;
@@ -38,7 +40,7 @@ export function RoomView({ id }: { id: string }) {
       <CaissonHero r={r} power={power} stepsDone={done} awake={roomComplete(p, r)} />
 
       <div className="panel-title" style={{ marginTop: 20 }}>Protocoles de réveil</div>
-      {!roomReady(r) && <OraSays md={`Les protocoles de réveil de **${r.member}** sont en préparation. Ils arriveront avec une prochaine version de l'appli.`} />}
+      {!roomReady(r) && <OraSays md={annexe("preparation")!} />}
       <ol className="quest" style={{ listStyle: "none", padding: 0, margin: 0, position: "relative" }}>
         {r.steps.length > 1 && (
           <span aria-hidden="true" style={{ position: "absolute", left: 21, top: 30, bottom: 30, width: 2, borderRadius: 2, background: "rgba(125,200,255,.12)" }}>
@@ -92,13 +94,13 @@ export function RoomView({ id }: { id: string }) {
       )}
 
       {r.project && <ProjectCard r={r} />}
-      {r.delivery && roomComplete(p, r) && <div style={{ marginTop: 16 }}><CompanionSays r={r} md={companionLines(r.id)?.livraison} asleep={false} /></div>}
+      {r.delivery && roomComplete(p, r) && <div style={{ marginTop: 16 }}><BulleSeule speaker={speakerOf(r.id)} md={companionLines(r.id)?.livraison} options={{ retour: false }} /></div>}
       {r.delivery && <DeliveryCard r={r} />}
 
       <button className="btn ghost block" style={{ marginTop: 18 }} onClick={() => exportRoomFiche(r, getState().progress)}>
         <Icon name="share" size={18} /> Exporter la fiche du caisson
       </button>
-      {roomComplete(p, r) && <div className="small dim" style={{ textAlign: "center", marginTop: 10 }}>{r.member} est réveillé. Les notions continuent de vivre en Maintenance.</div>}
+      {roomComplete(p, r) && <div className="small dim" style={{ textAlign: "center", marginTop: 10 }}>{r.member} {accord(r, "est réveillé", "est réveillée", "sont réveillés")}. Les notions continuent de vivre en Maintenance.</div>}
     </div>
   );
 }
@@ -107,20 +109,23 @@ export function RoomView({ id }: { id: string }) {
 function CaissonHero({ r, power, stepsDone, awake }: { r: Room; power: number; stepsDone: number; awake: boolean }) {
   const lines = crewLines(r.id);
   const say = awake ? lines?.reveil : stepsDone > 0 ? lines?.demi : lines?.dort;
+  const speaker = speakerOf(r.id);
+  const b = useBulle(speaker, say, { retour: true });
   return (
     <motion.div className="panel glow" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
       style={{ padding: "14px 14px 16px", background: `radial-gradient(circle at 22% 30%, hsl(${r.hue} 90% 50% / .22), rgba(12,19,34,.92) 62%)`, borderColor: `hsl(${r.hue} 90% 60% / .35)` }}>
       <div className="row" style={{ alignItems: "center", gap: 12 }}>
-        <div style={{ flex: "none", marginTop: -6 }}><CrewCapsule id={r.id} state={awake ? "awake" : "asleep"} power={power} size={128} /></div>
+        {/* Toucher le membre dans sa capsule : il relit sa réplique, puis réagit (règles de parole du 17/11/2026). */}
+        <button type="button" className="capsule-btn" aria-label={`Toucher ${r.member}`} onClick={b.toucher} style={{ flex: "none", marginTop: -6 }}><CrewCapsule id={r.id} state={awake ? "awake" : "asleep"} power={power} size={128} /></button>
         <div className="grow" style={{ minWidth: 0 }}>
           <div className="mono" style={{ fontSize: 10.5, letterSpacing: ".12em", color: "var(--accent)" }}>{awake ? "RÉVEILLÉ" : power ? "RÉVEIL EN COURS" : "EN SOMMEIL"}</div>
-          <div style={{ fontWeight: 700, fontSize: 17, lineHeight: 1.25, margin: "2px 0 4px" }}>{r.name}</div>
+          <div style={{ fontWeight: 700, fontSize: 17, lineHeight: 1.25, margin: "2px 0 4px" }}>{r.member}<span className="small muted" style={{ fontWeight: 400 }}>{r.metier ? ` · ${r.metier}` : ""}</span></div>
           <div className="small muted">{lines?.role ?? r.tagline}</div>
           <div className="row" style={{ marginTop: 10 }}><span className="mono small grow">RÉVEIL DU MEMBRE</span><span className="mono" style={{ color: "var(--accent)" }}>{power} %</span></div>
           <div className="progress" style={{ marginTop: 6, height: 8 }}><motion.i initial={{ width: 0 }} animate={{ width: `${power}%` }} transition={{ duration: 0.9 }} /></div>
         </div>
       </div>
-      {say && <MemberSays member={r.member} hue={r.hue} md={say} asleep={!awake} room={r.id} />}
+      {say && <div style={{ marginTop: 12 }}><BulleBoite speaker={speaker} b={b} /></div>}
     </motion.div>
   );
 }
@@ -171,7 +176,7 @@ function ProjectCard({ r }: { r: Room }) {
 }
 
 // ======================= Protocole de réveil (leçon) =======================
-/** Texte brut d'un protocole, transmis à ORA pour qu'elle réponde dans le contexte de la leçon. */
+/** Texte brut d'un protocole, transmis à Forma Trisse pour qu'elle réponde dans le contexte de la leçon. */
 function lessonText(step: { title: string; kicker: string; blocks: Block[] }) {
   const out = [step.title, step.kicker];
   for (const b of step.blocks) {
@@ -264,7 +269,7 @@ export function StepView({ roomId, stepId }: { roomId: string; stepId: string })
 
   const blocks = useMemo(() => step?.blocks ?? [], [step]);
   if (!r || !step) return <div className="wrap"><p>Protocole introuvable.</p></div>;
-  if (!stepUnlocked(p, r, idx)) return <div className="wrap"><TopBar title={step.title} onBack={() => go(`caisson/${r.id}`)} /><OraSays mood="alert" md="Ce protocole n'est pas encore ouvert. Termine le précédent." /></div>;
+  if (!stepUnlocked(p, r, idx)) return <div className="wrap"><TopBar title={step.title} onBack={() => go(`caisson/${r.id}`)} /><OraSays mood="alert" md={annexe("verrou.protocole")!} /></div>;
 
   const visible = blocks.slice(0, revealed);
   const last = visible[visible.length - 1];
@@ -379,12 +384,12 @@ export function StepView({ roomId, stepId }: { roomId: string; stepId: string })
                     <div className="progress" style={{ marginTop: 8, height: 10 }}>
                       <motion.i initial={{ width: `${finished.before}%` }} animate={{ width: `${finished.after}%` }} transition={{ delay: 0.5, duration: 1.2, ease: "easeOut" }} />
                     </div>
-                    <div className="small muted" style={{ marginTop: 8 }}>{finished.after >= 100 ? `${r.member} est prêt à se réveiller.` : r.incident && idx === r.steps.length - 1 ? "Dernière étape : réparer la panne." : `${r.steps.length - roomStepsDone(p, r)} protocole${r.steps.length - roomStepsDone(p, r) > 1 ? "s" : ""} avant la panne finale.`}</div>
+                    <div className="small muted" style={{ marginTop: 8 }}>{finished.after >= 100 ? `${r.member} ${accord(r, "est prêt", "est prête", "sont prêts")} à se réveiller.` : r.incident && idx === r.steps.length - 1 ? "Dernière étape : réparer la panne." : `${r.steps.length - roomStepsDone(p, r)} protocole${r.steps.length - roomStepsDone(p, r) > 1 ? "s" : ""} avant la panne finale.`}</div>
                   </div>
   
                 </>)}
                 {(!finished.plug || plugged) && (<>
-                {crewLines(r.id) && !roomComplete(p, r) && <div style={{ textAlign: "left" }}><MemberSays member={r.member} hue={r.hue} md={crewLines(r.id)!.demi} asleep room={r.id} /></div>}
+                {crewLines(r.id) && !roomComplete(p, r) && <div style={{ textAlign: "left", marginTop: 12 }}><BulleSeule speaker={speakerOf(r.id)} md={crewLines(r.id)!.demi} /></div>}
                 {step.introduces.length > 0 && (
                   <>
                     <div className="small muted" style={{ margin: "10px 0" }}>Modules ajoutés à ta Base de connaissances :</div>
@@ -452,7 +457,7 @@ function StepMeter({ r, total, revealed, pct, cheer }: { r: Room; total: number;
       </motion.span>
       <div className="grow" style={{ minWidth: 0 }}>
         <div className="row" style={{ justifyContent: "space-between" }}>
-          <span className="mono" style={{ fontSize: 10.5, letterSpacing: ".1em", color: "var(--text-3)" }}>{smile ? `${r.member.toUpperCase()} SOURIT DANS SON SOMMEIL` : `BLOC ${revealed} / ${total}`}</span>
+          <span className="mono" style={{ fontSize: 10.5, letterSpacing: ".1em", color: "var(--text-3)" }}>{smile ? `${r.member.toUpperCase()} ${accord(r, "SOURIT DANS SON SOMMEIL", "SOURIT DANS SON SOMMEIL", "SOURIENT DANS LEUR SOMMEIL")}` : `BLOC ${revealed} / ${total}`}</span>
           <span className="mono" style={{ fontSize: 10.5, color: "var(--accent)" }}>{pct} %</span>
         </div>
         <div aria-hidden="true" style={{ display: "flex", gap: total > 24 ? 2 : 3, marginTop: 6 }}>
@@ -521,7 +526,7 @@ export function IncidentView({ roomId }: { roomId: string }) {
   const [shake, setShake] = useState(false);
   const order = useMemo(() => r?.incident?.scenarios.map((s) => [...s.options].sort(() => Math.random() - 0.5)) ?? [], [r]);
   if (!r?.incident) return <div className="wrap"><p>Aucune panne ici.</p></div>;
-  if (roomStepsDone(p, r) < r.steps.length) return <div className="wrap"><TopBar title={r.incident.title} onBack={() => go(`caisson/${r.id}`)} /><OraSays mood="alert" md="Termine d'abord tous les protocoles du caisson." /></div>;
+  if (roomStepsDone(p, r) < r.steps.length) return <div className="wrap"><TopBar title={r.incident.title} onBack={() => go(`caisson/${r.id}`)} /><OraSays mood="alert" md={annexe("verrou.panne")!} /></div>;
   const sc = r.incident.scenarios[i];
   const opts = order[i];
   const solvedNow = picked.some((k) => opts[k].ok);
@@ -591,7 +596,7 @@ export function IncidentView({ roomId }: { roomId: string }) {
         )}
         {state === "lost" && (
           <motion.div key="lost" initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }}>
-            <OraSays mood="alert" md="**Disjonction !** Les trois fusibles ont grillé. Pas de panique : relis les explications ci-dessus ou la Base de connaissances, puis réarme le tableau." />
+            <OraSays mood="alert" md={annexe("disjonction")!} options={{ retour: false }} />
             <button className="btn block" style={{ marginTop: 16 }} onClick={restart}>Réarmer et recommencer</button>
             <button className="btn ghost block" style={{ marginTop: 10 }} onClick={() => go("base")}>Revoir la Base de connaissances</button>
           </motion.div>
@@ -604,7 +609,7 @@ export function IncidentView({ roomId }: { roomId: string }) {
               </span>
             </div>
             <div className="h2">Panne réparée</div>
-            <div className="muted" style={{ marginBottom: 14 }}>{fuses === 3 ? "Sans un seul fusible grillé. Impressionnant." : `Avec ${fuses} fusible${fuses > 1 ? "s" : ""} restant${fuses > 1 ? "s" : ""}.`} {!rearm && roomComplete(p, r) ? `${r.member} est entièrement réveillé.` : ""}</div>
+            <div className="muted" style={{ marginBottom: 14 }}>{fuses === 3 ? "Sans un seul fusible grillé. Impressionnant." : `Avec ${fuses} fusible${fuses > 1 ? "s" : ""} restant${fuses > 1 ? "s" : ""}.`} {!rearm && roomComplete(p, r) ? `${r.member} ${accord(r, "est entièrement réveillé", "est entièrement réveillée", "sont entièrement réveillés")}.` : ""}</div>
             {rearm ? <ArcScene room={r} onAwaken={sendArc} />
               : <button className="btn block" onClick={() => go("")}>Retour à la carte</button>}
           </motion.div>

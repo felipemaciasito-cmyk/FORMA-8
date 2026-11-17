@@ -10,14 +10,19 @@
 // - sinon il se tait. Entre deux réactions, au moins 25 s (sauf la piste, toujours utile) ; jamais par-dessus une
 //   réplique prévue encore affichée (ouverture, passage clé, fin).
 import LINES from "../content/compagnon.json";
+import { entendu, lineKey, speakerOf } from "./voice";
+import { eveille, phraseRetour } from "./eveil";
 
+type Reactions = { premier: string[]; perseverance: string[]; indice: string[]; serie: string[] };
+/** État de sommeil d'un protocole : il choisit les réactions (le membre se réveille peu à peu). */
+export type EtatCompagnon = "sommeil" | "demi";
 export interface CompanionLines {
-  reactions: { premier: string[]; perseverance: string[]; indice: string[]; serie: string[] };
-  protocoles: Record<string, { debut?: string; blocs?: Record<string, string>; fin?: string }>;
+  reactions: Record<EtatCompagnon, Reactions>;
+  protocoles: Record<string, { etat?: EtatCompagnon; debut?: string; blocs?: Record<string, string>; fin?: string }>;
   /** Hors protocole : sur la carte, au début et à la fin de la panne, près de la livraison. */
   carte?: string; panne?: string; panneFin?: string; livraison?: string;
 }
-export type ReactionKind = keyof CompanionLines["reactions"];
+export type ReactionKind = keyof Reactions;
 export interface CompanionLine { id: number; md: string; kind: "debut" | "bloc" | "fin" | ReactionKind }
 
 const DATA = LINES as unknown as Record<string, CompanionLines | string>;
@@ -60,12 +65,16 @@ function say(md: string | undefined, kind: CompanionLine["kind"]) {
 export function companionScript(kind: "debut" | "fin" | "bloc", index?: number) {
   if (!session) return;
   const p = session.lines.protocoles[session.step]; if (!p) return;
-  const md = kind === "bloc" ? p.blocs?.[String(index)] : p[kind];
+  let md = kind === "bloc" ? p.blocs?.[String(index)] : p[kind];
+  // Retour sur un protocole déjà ouvert : une phrase très courte plutôt que l'ouverture complète (choix du propriétaire).
+  if (kind === "debut" && md) { const sp = speakerOf(session.room); if (entendu(lineKey(sp, md))) md = phraseRetour(sp) ?? md; }
   say(md, kind);
 }
 
 function pick(kind: ReactionKind) {
-  const list = session!.lines.reactions[kind] ?? [];
+  // Endormi aux premiers protocoles, ensommeillé ensuite ; un membre déjà réveillé (protocole rejoué) parle clairement.
+  const etat: EtatCompagnon = eveille(speakerOf(session!.room)) ? "demi" : session!.lines.protocoles[session!.step]?.etat ?? "demi";
+  const list = session!.lines.reactions[etat]?.[kind] ?? [];
   if (!list.length) return undefined;
   // Tirage qui évite de répéter la même phrase deux fois de suite.
   const prev = line?.md;

@@ -16,10 +16,14 @@ import { getState, today, useProgress, useSettings, type Progress } from "../lib
 import { openTerm } from "../lib/termBus";
 import { BadgeEmblem, LEITNER_COLORS, NotionChip, notionHue } from "./Emblems";
 import { Sheet, TopBar } from "./Chrome";
-import { CrewCapsule, CrewFigure, crewState, MemberSays } from "./Crew";
+import { CrewCapsule, CrewFigure, crewState } from "./Crew";
 import { Icon } from "./Icon";
 import { ConsigneBlock, ProductForm } from "./Mechanics";
-import { OraSays } from "./Ora";
+import VOIX from "../content/voix.json";
+import { annexe, INTERACTIONS } from "../lib/eveil";
+import { loadClaude } from "../lib/models";
+import { speakerOf } from "../lib/voice";
+import { BulleBoite, OraSays, ReponseBabil, useBulle } from "./Bulle";
 
 // ======================= Base de connaissances =======================
 export function BaseView({ focus }: { focus?: string }) {
@@ -216,7 +220,9 @@ export function MaintenanceView() {
       return (
         <div className="wrap">
           <TopBar title="Maintenance terminée" kicker="Révision espacée" onBack={() => setSession(null)} />
-          <OraSays mood="happy" md={`Maintenance terminée : **${score} / ${session.length}** notions refroidies. Les notions réussies reviendront plus tard, les autres demain. C'est ce rythme qui ancre durablement ce que tu apprends.`} />
+          {/* La réplique dite est fixe (elle a sa voix) ; le score s'affiche à part. */}
+          <div className="panel" style={{ textAlign: "center" }}><div className="h2">{score} / {session.length}</div><div className="small muted">notions refroidies</div></div>
+          <div style={{ marginTop: 12 }}><OraSays mood="happy" md={annexe("maint.fin")!} /></div>
           <button className="btn block" style={{ marginTop: 16 }} onClick={() => setSession(null)}>Retour</button>
         </div>
       );
@@ -243,9 +249,8 @@ export function MaintenanceView() {
   return (
     <div className="wrap">
       <TopBar title="Maintenance" kicker="Révision espacée · méthode Leitner" />
-      <OraSays mood={due.length ? "alert" : "happy"} md={due.length
-        ? `**${due.length} notion${due.length > 1 ? "s" : ""} en surchauffe.** Une notion non révisée s'efface peu à peu de la mémoire. Quelques minutes suffisent pour la refroidir.`
-        : learned.length ? "Aucune surchauffe aujourd'hui. Tu peux t'entraîner librement, ou revenir demain." : "Rien à réviser pour l'instant : termine ton premier protocole de réveil, les notions arriveront ici."} />
+      <OraSays mood={due.length ? "alert" : "happy"} md={annexe(due.length ? "maint.chaud" : learned.length ? "maint.calme" : "maint.vide")!} />
+      {due.length > 0 && <div className="small muted" style={{ marginTop: 8 }}><b>{due.length} notion{due.length > 1 ? "s" : ""} en surchauffe.</b> Une notion non révisée s'efface peu à peu de la mémoire.</div>}
       <div className="panel" style={{ marginTop: 16 }}>
         <div className="panel-title">Tes 5 boîtes</div>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 8, alignItems: "end", height: 120 }}>
@@ -323,7 +328,8 @@ export function AtelierView() {
   return (
     <div className="wrap">
       <TopBar title="Atelier" kicker="Atelier des consignes" />
-      <OraSays compact md="Ici, tu t'entraînes à rédiger des **ordres de mission** pour ton équipe. Claude note chaque consigne sur cinq critères : contexte, objectif, critères de réussite, contraintes, vérification." />
+      <OraSays compact md={annexe("atelier")!} />
+      <div className="small muted" style={{ marginTop: 8 }}>Les cinq critères : contexte, objectif, critères de réussite, contraintes, vérification.</div>
       <div className="stack" style={{ marginTop: 14 }}>
         {open.map((x) => (
           <button key={x.id} className={`choice ${sit?.id === x.id ? "ok" : ""}`} onClick={() => { sfx("tap"); setPick(x.id); }} style={{ alignItems: "center" }}>
@@ -348,7 +354,7 @@ export function TeamView() {
   return (
     <div className="wrap">
       <TopBar title="Ton équipe" kicker={`${awake} / ${ROOMS.length} membres réveillés`} onBack={() => back("")} />
-      <OraSays compact md="Chaque membre de l'équipe correspond à un **vrai fichier** de ton produit. Touche un membre pour voir sa fiche ; une fois réveillé, vérifie qu'il est bien au travail dans ton dépôt." />
+      <OraSays compact md={annexe("equipe")!} />
       <div className="panel-title" style={{ marginTop: 18 }}><Icon name="team" size={16} /> Les {ROOMS.length} membres</div>
       <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 8 }}>
         {ROOMS.map((r, i) => {
@@ -383,17 +389,22 @@ function MemberSheet({ r }: { r: Room }) {
   const done = roomComplete(p, r);
   const unlocked = roomUnlocked(p, r);
   const lines = crewLines(r.id);
+  const speaker = speakerOf(r.id);
+  const b = useBulle(speaker, lines ? (done ? lines.reveil : lines.dort) : undefined, { retour: true, delai: 350 });
   return (
     <div>
       <div className="row" style={{ alignItems: "center", gap: 12 }}>
-        <div style={{ flex: "none" }}><CrewCapsule id={r.id} state={crewState(unlocked, done)} power={roomPower(p, r)} size={116} /></div>
+        {/* Toucher le personnage le fait parler (règles du 17/11/2026) : sa bulle s'ouvre sous la fiche. */}
+        <button type="button" className="capsule-btn" style={{ flex: "none" }} onClick={b.toucher} aria-label={`Écouter ${r.member}`}><CrewCapsule id={r.id} state={crewState(unlocked, done)} power={roomPower(p, r)} size={116} /></button>
         <div className="grow" style={{ minWidth: 0 }}>
           <div className="mono" style={{ fontSize: 10.5, letterSpacing: ".12em", color: `hsl(${r.hue} 100% 64%)` }}>{r.code} · {r.version}</div>
           <div className="h2" style={{ margin: "2px 0 4px" }}>{r.member}</div>
+          {r.metier && <div className="small" style={{ color: `hsl(${r.hue} 90% 72%)` }}>{r.metier}</div>}
           <div className="small muted">{lines?.role}</div>
         </div>
       </div>
-      {lines && <MemberSays member={r.member} hue={r.hue} md={done ? lines.reveil : lines.dort} asleep={!done} room={r.id} also={lines.role} />}
+      {lines && <div style={{ marginTop: 12 }}><BulleBoite speaker={speaker} b={b} /></div>}
+      {done && INTERACTIONS.question[speaker] && <MemberQuestion r={r} speaker={speaker} role={lines?.role ?? ""} />}
       <div style={{ marginTop: 12 }}><TeamCard r={r} awake={done} /></div>
       <div className="stack" style={{ marginTop: 12 }}>
         {done && <button className="btn block" onClick={() => { sfx("power"); fx({ type: "awaken", roomId: r.id, replay: true }); }}><Icon name="play" size={18} /> Revoir son réveil</button>}
@@ -401,6 +412,59 @@ function MemberSheet({ r }: { r: Room }) {
       </div>
     </div>
   );
+}
+
+type Perso = { nom: string; personnalite: string };
+const PERSOS = (VOIX as unknown as { personnages: Record<string, Perso> }).personnages;
+
+/**
+ * Poser une question à un membre réveillé (lot du 17/11/2026) : Claude répond avec sa personnalité, dans son domaine ;
+ * la réponse s'écrit dans sa bulle et il la « dit » en babillage (pas de voix enregistrée pour un texte écrit sur le moment).
+ */
+function MemberQuestion({ r, speaker, role }: { r: Room; speaker: string; role: string }) {
+  const s = useSettings();
+  const p = useProgress();
+  const [q, setQ] = useState("");
+  const [rep, setRep] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [sansCle, setSansCle] = useState(false);
+  const perso = PERSOS[speaker];
+  const send = async () => {
+    const question = q.trim();
+    if (question.length < 5 || !perso) return;
+    setLoading(true); setError(""); setRep("");
+    try {
+      const { askMember } = await loadClaude();
+      const known = Object.keys(p.notions).map((id) => notion(id)?.term).filter((t): t is string => !!t);
+      const a = await askMember({ nom: perso.nom, metier: r.metier ?? "membre", personnalite: perso.personnalite, domaine: role }, question, known);
+      setRep(a); setQ(""); sfx("ok");
+    } catch (e) { setError(e instanceof Error ? e.message : String(e)); sfx("ko"); }
+    finally { setLoading(false); }
+  };
+  return (
+    <div className="panel" style={{ marginTop: 12 }}>
+      <div className="panel-title"><Icon name="chat" size={16} /> Poser une question à {r.member}</div>
+      {!s.apiKey ? (
+        sansCle
+          ? <MemberCle speaker={speaker} md={INTERACTIONS.question[speaker].cle} />
+          : <button className="btn subtle block" onClick={() => { sfx("open"); setSansCle(true); }}>Lui poser une question</button>
+      ) : (
+        <>
+          <textarea className="input" rows={2} value={q} onChange={(e) => setQ(e.target.value)} placeholder="Par exemple : à quoi sers-tu, exactement ?" />
+          <button className="btn block" style={{ marginTop: 8 }} disabled={q.trim().length < 5 || loading} onClick={send}>{loading ? `${perso?.nom ?? r.member} réfléchit…` : "Envoyer ma question"}</button>
+          {rep && <div style={{ marginTop: 10 }}><ReponseBabil speaker={speaker} md={rep} /></div>}
+        </>
+      )}
+      {error && <div className="feedback ko"><span className="tag">Erreur</span>{error}</div>}
+    </div>
+  );
+}
+
+/** La réplique enregistrée « il me faut ta clé » du membre, dite dans sa bulle (sans second portrait). */
+function MemberCle({ speaker, md }: { speaker: string; md: string }) {
+  const b = useBulle(speaker, md, { retour: false, garder: true });
+  return <BulleBoite speaker={speaker} b={b} />;
 }
 
 function TeamCard({ r, awake }: { r: Room; awake: boolean }) {
