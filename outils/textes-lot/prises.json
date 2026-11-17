@@ -191,5 +191,19 @@
 "annexe.equipe.sommeil": true,
 "annexe.equipe.eveil": true,
 "annexe.maint.chaud.sommeil": true,
-"annexe.maint.chaud.eveil": true
+"annexe.maint.chaud.eveil": true,
+"annexe.maint.calme.sommeil": true,
+"annexe.maint.calme.eveil": true,
+"annexe.maint.fin.sommeil": true,
+"annexe.maint.fin.eveil": true,
+"annexe.verrou.caisson.sommeil": true,
+"annexe.verrou.caisson.eveil": true,
+"annexe.verrou.protocole.sommeil": true,
+"annexe.verrou.protocole.eveil": true,
+"annexe.verrou.panne.sommeil": true,
+"annexe.verrou.panne.eveil": true,
+"annexe.disjonction.sommeil": true,
+"annexe.disjonction.eveil": true,
+"annexe.maint.vide.sommeil": true,
+"annexe.preparation.eveil": true
 }

@@ -178,3 +178,17 @@ annexe.equipe.sommeil QMjVyhPY0et4fbn8a9lb
 annexe.equipe.eveil 0U68CEzBpjf0nNPvp0jk
 annexe.maint.chaud.sommeil TAg5uxiQ2YbKIY0x58LG
 annexe.maint.chaud.eveil dPNRWKr8wxtKbu7yL1pA
+annexe.maint.calme.sommeil Xukb5y3tePbNS2wUi0Fj
+annexe.maint.calme.eveil 8WKpeYsUv3HvVsUjbM1w
+annexe.maint.fin.sommeil wFdg41IPcFVO4GluBoXm
+annexe.maint.fin.eveil oNyxNbVkGM6NWtPWLph7
+annexe.verrou.caisson.sommeil EXfHUUK5KEXpfUgbc0iz
+annexe.verrou.caisson.eveil 1xQh84Ulr9X7BZcq8Y7A
+annexe.verrou.protocole.sommeil kAQ27E7JvRJ4CHtwSjWH
+annexe.verrou.protocole.eveil AmHXrevT2wVSlYv2Huj3
+annexe.verrou.panne.sommeil M8981bAKd0uZJXqJxcBn
+annexe.verrou.panne.eveil xLqqf5xpcsN0Tya08hCV
+annexe.disjonction.sommeil wVPMlPNcOOCcMV9ECqgJ
+annexe.disjonction.eveil kha6kFy7Irdym1TccyeS
+annexe.maint.vide.sommeil Ry8i4wfkc8XrumPPUsQK
+annexe.preparation.eveil mkZTnD0ZTdZvJ0vbw3Hj

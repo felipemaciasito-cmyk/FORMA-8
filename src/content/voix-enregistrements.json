@@ -1302,6 +1302,13 @@
    "texte": "Bienvenue parmi nous, Mme Larchive. Bien dormi ?",
    "date": "2026-11-17"
   },
+  "ora:3401e9ef": {
+   "fichier": "ora-70ec7f93.mp3",
+   "voix": "t8BrjWUT5Z23DLLBzbuY",
+   "envoye": "Ses protocoles sont en préparation. Ils arriveront dans une prochaine version.",
+   "texte": "Ses protocoles sont en préparation. Ils arriveront dans une prochaine version.",
+   "date": "2026-11-17"
+  },
   "ora:352a85bd": {
    "fichier": "ora-5e3febc9.mp3",
    "voix": "t8BrjWUT5Z23DLLBzbuY",
@@ -1344,6 +1351,13 @@
    "texte": "… on reprend… je crois…",
    "date": "2026-11-17"
   },
+  "ora:3c2152b4": {
+   "fichier": "ora-81a8d297.mp3",
+   "voix": "t8BrjWUT5Z23DLLBzbuY",
+   "envoye": "[sleepy] [mumbling] [slowly] … rien à réviser… termine d'abord un protocole…",
+   "texte": "… rien à réviser… termine d'abord un protocole…",
+   "date": "2026-11-17"
+  },
   "ora:3d9854d4": {
    "fichier": "ora-fda7b168.mp3",
    "voix": "t8BrjWUT5Z23DLLBzbuY",
@@ -1378,6 +1392,13 @@
    "envoye": "La serrure d'abord, la clé ensuite. Beaucoup de projets échouent pour avoir fait l'inverse.",
    "texte": "La serrure d'abord, la clé ensuite. Beaucoup de projets échouent pour avoir fait l'inverse.",
    "date": "2026-11-16"
+  },
+  "ora:442cf3c0": {
+   "fichier": "ora-7b39cbef.mp3",
+   "voix": "t8BrjWUT5Z23DLLBzbuY",
+   "envoye": "[sleepy] [mumbling] [slowly] … rien ne chauffe… dors… euh… reviens demain…",
+   "texte": "… rien ne chauffe… dors… euh… reviens demain…",
+   "date": "2026-11-17"
   },
   "ora:4bc5f70a": {
    "fichier": "ora-356f05fe.mp3",
@@ -1447,7 +1468,7 @@
    "voix": "t8BrjWUT5Z23DLLBzbuY",
    "envoye": "Termine d'abord tous les protocoles du caisson.",
    "texte": "Termine d'abord tous les protocoles du caisson.",
-   "date": "2026-11-16"
+   "date": "2026-11-17"
   },
   "ora:5b1dc76e": {
    "fichier": "ora-ddb871a6.mp3",
@@ -1470,6 +1491,13 @@
    "texte": "Défi du jour relevé. Reviens demain.",
    "date": "2026-11-17"
   },
+  "ora:617f3048": {
+   "fichier": "ora-f4c382f4.mp3",
+   "voix": "t8BrjWUT5Z23DLLBzbuY",
+   "envoye": "Pas encore ouvert. Termine le protocole précédent.",
+   "texte": "Pas encore ouvert. Termine le protocole précédent.",
+   "date": "2026-11-17"
+  },
   "ora:619c992f": {
    "fichier": "ora-c1f98847.mp3",
    "voix": "t8BrjWUT5Z23DLLBzbuY",
@@ -1490,6 +1518,13 @@
    "envoye": "Suis les étapes une par une, et coche chacune. Si un écran ne ressemble pas à la description, touche « Je suis bloqué ».",
    "texte": "Suis les étapes une par une, et coche chacune. Si un écran ne ressemble pas à la description, touche « Je suis bloqué ».",
    "date": "2026-11-16"
+  },
+  "ora:67ad6a54": {
+   "fichier": "ora-35ddf15d.mp3",
+   "voix": "t8BrjWUT5Z23DLLBzbuY",
+   "envoye": "[sleepy] [mumbling] [slowly] … pas encore… termine le précédent… zzz…",
+   "texte": "… pas encore… termine le précédent… zzz…",
+   "date": "2026-11-17"
   },
   "ora:6b2023b7": {
    "fichier": "ora-e2458c24.mp3",
@@ -1525,6 +1560,13 @@
    "envoye": "Prends ton temps. Note plusieurs idées avant de choisir : la première n'est pas toujours la meilleure.",
    "texte": "Prends ton temps. Note plusieurs idées avant de choisir : la première n'est pas toujours la meilleure.",
    "date": "2026-11-16"
+  },
+  "ora:7027ee1a": {
+   "fichier": "ora-31371e16.mp3",
+   "voix": "t8BrjWUT5Z23DLLBzbuY",
+   "envoye": "Ce caisson est verrouillé. Réveille d'abord le membre précédent.",
+   "texte": "Ce caisson est verrouillé. Réveille d'abord le membre précédent.",
+   "date": "2026-11-17"
   },
   "ora:7145ef2a": {
    "fichier": "ora-883b3986.mp3",
@@ -1615,6 +1657,13 @@
    "voix": "t8BrjWUT5Z23DLLBzbuY",
    "envoye": "Défi du jour ! Quelle langue décide des couleurs d'une page ?",
    "texte": "Défi du jour ! Quelle langue décide des couleurs d'une page ?",
+   "date": "2026-11-17"
+  },
+  "ora:842288ac": {
+   "fichier": "ora-d6512f67.mp3",
+   "voix": "t8BrjWUT5Z23DLLBzbuY",
+   "envoye": "[sleepy] [mumbling] [slowly] … fermé… réveille d'abord… celui d'avant…",
+   "texte": "… fermé… réveille d'abord… celui d'avant…",
    "date": "2026-11-17"
   },
   "ora:88d129b5": {
@@ -1960,6 +2009,13 @@
    "texte": "Défi du jour ! À quoi sert une pull request ?",
    "date": "2026-11-17"
   },
+  "ora:db96df16": {
+   "fichier": "ora-04070372.mp3",
+   "voix": "t8BrjWUT5Z23DLLBzbuY",
+   "envoye": "Maintenance terminée. Les ratées reviendront demain : c'est ce rythme qui ancre.",
+   "texte": "Maintenance terminée. Les ratées reviendront demain : c'est ce rythme qui ancre.",
+   "date": "2026-11-17"
+  },
   "ora:dcd982f8": {
    "fichier": "ora-4d33b145.mp3",
    "voix": "t8BrjWUT5Z23DLLBzbuY",
@@ -1974,11 +2030,25 @@
    "texte": "… bonne idée… je te suis… zzz…",
    "date": "2026-11-17"
   },
+  "ora:ddf6b1ff": {
+   "fichier": "ora-a4c3c11b.mp3",
+   "voix": "t8BrjWUT5Z23DLLBzbuY",
+   "envoye": "Aucune surchauffe aujourd'hui. Entraîne-toi, ou reviens demain.",
+   "texte": "Aucune surchauffe aujourd'hui. Entraîne-toi, ou reviens demain.",
+   "date": "2026-11-17"
+  },
   "ora:dfc2e445": {
    "fichier": "ora-6eb59c4d.mp3",
    "voix": "t8BrjWUT5Z23DLLBzbuY",
    "envoye": "[sleepy] La serrure d'abord, la clé ensuite. Beaucoup de projets font l'inverse.",
    "texte": "La serrure d'abord, la clé ensuite. Beaucoup de projets font l'inverse.",
+   "date": "2026-11-17"
+  },
+  "ora:e0023544": {
+   "fichier": "ora-63917bc8.mp3",
+   "voix": "t8BrjWUT5Z23DLLBzbuY",
+   "envoye": "Disjonction ! Trois fusibles grillés. Relis les explications, puis réarme le tableau.",
+   "texte": "Disjonction ! Trois fusibles grillés. Relis les explications, puis réarme le tableau.",
    "date": "2026-11-17"
   },
   "ora:e002e742": {
@@ -2058,6 +2128,20 @@
    "texte": "Ce protocole n'est pas encore ouvert. Termine le précédent.",
    "date": "2026-11-16"
   },
+  "ora:ed624f0d": {
+   "fichier": "ora-38acdf3e.mp3",
+   "voix": "t8BrjWUT5Z23DLLBzbuY",
+   "envoye": "[sleepy] [mumbling] [slowly] … bien refroidi… les ratées reviendront demain…",
+   "texte": "… bien refroidi… les ratées reviendront demain…",
+   "date": "2026-11-17"
+  },
+  "ora:f04fe946": {
+   "fichier": "ora-34f0efd5.mp3",
+   "voix": "t8BrjWUT5Z23DLLBzbuY",
+   "envoye": "[sleepy] [mumbling] [slowly] … boum… trois fusibles… pas de panique… relis… puis réarme…",
+   "texte": "… boum… trois fusibles… pas de panique… relis… puis réarme…",
+   "date": "2026-11-17"
+  },
   "ora:f139b862": {
    "fichier": "ora-64674e06.mp3",
    "voix": "t8BrjWUT5Z23DLLBzbuY",
@@ -2077,6 +2161,13 @@
    "voix": "t8BrjWUT5Z23DLLBzbuY",
    "envoye": "[sleepy] [mumbling] [slowly] … c'est toi ?… bien…",
    "texte": "… c'est toi ?… bien…",
+   "date": "2026-11-17"
+  },
+  "ora:f88f2857": {
+   "fichier": "ora-bb685be2.mp3",
+   "voix": "t8BrjWUT5Z23DLLBzbuY",
+   "envoye": "[sleepy] [mumbling] [slowly] … la panne… après tous les protocoles…",
+   "texte": "… la panne… après tous les protocoles…",
    "date": "2026-11-17"
   },
   "ora:fa216a41": {
