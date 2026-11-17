@@ -1,4 +1,4 @@
-# FORMA-8 · Réveille l'équipe : document de transfert (état au 17/11/2026 : lot « compagnon et règles de parole » construit sur la branche claude/ecstatic-keller-i9o3gk, en attente de l'accord du propriétaire sur la maquette jouable)
+# FORMA-8 · Réveille l'équipe : document de transfert (état au 17/11/2026 : lot « compagnon et règles de parole » validé par le propriétaire sur maquette jouable, PR ouverte depuis la branche claude/ecstatic-keller-i9o3gk)
 
 > À lire en entier au démarrage de chaque nouvelle session (renvoi dans `CLAUDE.md`), **en commençant par la
 > section 0**. Ce document complète `CLAUDE.md`, `docs/CONCEPTION.md` et `docs/PROGRAMME.md`. En cas d'écart, le
@@ -44,8 +44,9 @@ sur GitHub. Ce document-ci est la version de cette branche. Partir de `origin/cl
    `outils/textes-lot/brouillon.json` vers `src/content/`, règles de parole, Forma Trisse, interactions), retirer les
    anciennes prises inutilisées, maquette jouable, puis PR.
    **Construit le 17/11/2026 (3e session)**, commande complète verte (15 tests de bout en bout en Chromium ; WebKit voir
-   3.19). Maquette jouable : https://claude.ai/artifact/EKesPUvJczHo36aYU5cbJx (cinq départs). **En attente de l'accord du
-   propriétaire** sur la maquette ; corriger ce qu'il signale, puis PR (étape 5).
+   3.19). Maquette jouable : https://claude.ai/artifact/EKesPUvJczHo36aYU5cbJx (cinq départs). **Accord du propriétaire
+   le 17/11/2026 (« Valide, fais la PR »)** ; commande complète verte, PR ouverte vers `main`. Prochaine session :
+   vérifier si la PR est fusionnée ; si oui, passer à l'étape 6 (caisson 02) depuis `origin/main`.
 4. Construire le lot 3.19 selon sa réponse ; **maquette jouable** (vraie appli dans un cadre, méthode 3.3) et son accord
    avant la PR. Penser à renommer ORA en Forma Trisse partout, et les membres (noms en 3.19).
 5. Fin de lot : commande complète verte, ce document mis à jour (section 0 comprise), **une seule PR** de la branche de
@@ -786,8 +787,8 @@ labo des personnages https://claude.ai/artifact/Fj3TcAq1S3v6QvicnrAzr5 (source :
   - WebKit (17/11/2026) : socle, voix, compagnon, mécaniques verts ; scène du réveil du caisson 00 vérifiée par un test
     temporaire (`zz-*`, non gardé) sans erreur. Le banc complet du caisson 00 dépasse ses 5 minutes dans WebKit
     (lenteur connue), il passe en Chromium.
-- **Prochaine étape** : accord du propriétaire sur la maquette, corrections éventuelles, puis PR. Le caisson 02 attend
-  la fin de ce lot.
+- **Accord du propriétaire** sur la maquette (https://claude.ai/artifact/EKesPUvJczHo36aYU5cbJx) le 17/11/2026 ;
+  PR ouverte vers `main`. Le caisson 02 attend sa fusion.
 
 ---
 
