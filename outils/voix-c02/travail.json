@@ -1,0 +1,506 @@
+[
+ {
+  "where": "interactions.scenes.c02.0",
+  "qui": "ora",
+  "voix": "t8BrjWUT5Z23DLLBzbuY",
+  "texte": "Général Calpin ? L'équipe a besoin d'un règlement.",
+  "envoye": "Général Calpin ? L'équipe a besoin d'un règlement."
+ },
+ {
+  "where": "interactions.scenes.c02.1",
+  "qui": "c02",
+  "voix": "5l4ttmr4SKNgi0HnOelT",
+  "texte": "Garde-à-vous ! Euh… repos. Bonjour à tous.",
+  "envoye": "Garde-à-vous ! Euh… repos. Bonjour à tous."
+ },
+ {
+  "where": "interactions.scenes.c02.3",
+  "qui": "c01",
+  "voix": "EMuO6fFLrXKOryHzij6K",
+  "texte": "Enfin des règles bien rangées. Je les archive.",
+  "envoye": "Enfin des règles bien rangées. Je les archive."
+ },
+ {
+  "where": "interactions.scenes.c02.4",
+  "qui": "ora",
+  "voix": "t8BrjWUT5Z23DLLBzbuY",
+  "texte": "Plus que huit dormeurs. On continue.",
+  "envoye": "Plus que huit dormeurs. On continue."
+ },
+ {
+  "where": "interactions.retours.c02.sommeil.0",
+  "qui": "c02",
+  "voix": "5l4ttmr4SKNgi0HnOelT",
+  "texte": "… qui va là ?… ah… c'est toi…",
+  "envoye": "[sleepy] [mumbling] [slowly] … qui va là ?… ah… c'est toi…"
+ },
+ {
+  "where": "interactions.retours.c02.sommeil.1",
+  "qui": "c02",
+  "voix": "5l4ttmr4SKNgi0HnOelT",
+  "texte": "… repos… on reprend…",
+  "envoye": "[sleepy] [mumbling] [slowly] … repos… on reprend…"
+ },
+ {
+  "where": "interactions.retours.c02.sommeil.2",
+  "qui": "c02",
+  "voix": "5l4ttmr4SKNgi0HnOelT",
+  "texte": "… zzz… présent !…",
+  "envoye": "[sleepy] [mumbling] [slowly] … zzz… présent !…"
+ },
+ {
+  "where": "interactions.retours.c02.eveil.0",
+  "qui": "c02",
+  "voix": "5l4ttmr4SKNgi0HnOelT",
+  "texte": "Au rapport, chef.",
+  "envoye": "Au rapport, chef."
+ },
+ {
+  "where": "interactions.retours.c02.eveil.1",
+  "qui": "c02",
+  "voix": "5l4ttmr4SKNgi0HnOelT",
+  "texte": "Te revoilà. On reprend.",
+  "envoye": "Te revoilà. On reprend."
+ },
+ {
+  "where": "interactions.retours.c02.eveil.2",
+  "qui": "c02",
+  "voix": "5l4ttmr4SKNgi0HnOelT",
+  "texte": "Tout est en ordre.",
+  "envoye": "Tout est en ordre."
+ },
+ {
+  "where": "interactions.toucher.c02.sommeil.0",
+  "qui": "c02",
+  "voix": "5l4ttmr4SKNgi0HnOelT",
+  "texte": "… halte-là… qui touche le général ?…",
+  "envoye": "[sleepy] [mumbling] [slowly] … halte-là… qui touche le général ?…"
+ },
+ {
+  "where": "interactions.toucher.c02.sommeil.1",
+  "qui": "c02",
+  "voix": "5l4ttmr4SKNgi0HnOelT",
+  "texte": "… article douze… interdit de chatouiller…",
+  "envoye": "[sleepy] [mumbling] [slowly] … article douze… interdit de chatouiller…"
+ },
+ {
+  "where": "interactions.toucher.c02.sommeil.2",
+  "qui": "c02",
+  "voix": "5l4ttmr4SKNgi0HnOelT",
+  "texte": "… cinq minutes… c'est un ordre…",
+  "envoye": "[sleepy] [mumbling] [slowly] … cinq minutes… c'est un ordre…"
+ },
+ {
+  "where": "interactions.toucher.c02.eveil.0",
+  "qui": "c02",
+  "voix": "5l4ttmr4SKNgi0HnOelT",
+  "texte": "Garde-à-vous ! Ah, c'est toi.",
+  "envoye": "Garde-à-vous ! Ah, c'est toi."
+ },
+ {
+  "where": "interactions.toucher.c02.eveil.1",
+  "qui": "c02",
+  "voix": "5l4ttmr4SKNgi0HnOelT",
+  "texte": "Une question de règlement ?",
+  "envoye": "Une question de règlement ?"
+ },
+ {
+  "where": "interactions.toucher.c02.eveil.2",
+  "qui": "c02",
+  "voix": "5l4ttmr4SKNgi0HnOelT",
+  "texte": "Doucement, mes galons.",
+  "envoye": "Doucement, mes galons."
+ },
+ {
+  "where": "interactions.defis.c02.0.question",
+  "qui": "c02",
+  "voix": "5l4ttmr4SKNgi0HnOelT",
+  "texte": "Défi du jour ! Où écris-tu une règle valable à chaque séance ?",
+  "envoye": "Défi du jour ! Où écris-tu une règle valable à chaque séance ?"
+ },
+ {
+  "where": "interactions.defis.c02.0.piste",
+  "qui": "c02",
+  "voix": "5l4ttmr4SKNgi0HnOelT",
+  "texte": "Négatif. Ce qui est dit s'oublie ; ce qui est écrit reste.",
+  "envoye": "Négatif. Ce qui est dit s'oublie ; ce qui est écrit reste."
+ },
+ {
+  "where": "interactions.defis.c02.1.question",
+  "qui": "c02",
+  "voix": "5l4ttmr4SKNgi0HnOelT",
+  "texte": "Défi du jour ! Quelle règle l'emporte toujours ?",
+  "envoye": "Défi du jour ! Quelle règle l'emporte toujours ?"
+ },
+ {
+  "where": "interactions.defis.c02.1.piste",
+  "qui": "c02",
+  "voix": "5l4ttmr4SKNgi0HnOelT",
+  "texte": "Négatif. Pense à la serrure.",
+  "envoye": "Négatif. Pense à la serrure."
+ },
+ {
+  "where": "interactions.defis.c02.2.question",
+  "qui": "c02",
+  "voix": "5l4ttmr4SKNgi0HnOelT",
+  "texte": "Défi du jour ! Un bon jeton d'accès, c'est…",
+  "envoye": "Défi du jour ! Un bon jeton d'accès, c'est…"
+ },
+ {
+  "where": "interactions.defis.c02.2.piste",
+  "qui": "c02",
+  "voix": "5l4ttmr4SKNgi0HnOelT",
+  "texte": "Négatif. Une clé n'ouvre qu'une porte.",
+  "envoye": "Négatif. Une clé n'ouvre qu'une porte."
+ },
+ {
+  "where": "interactions.defis.c02.bravo.0",
+  "qui": "c02",
+  "voix": "5l4ttmr4SKNgi0HnOelT",
+  "texte": "Exact ! Quinze kilowatts. Rompez.",
+  "envoye": "Exact ! Quinze kilowatts. Rompez."
+ },
+ {
+  "where": "interactions.defis.c02.bravo.1",
+  "qui": "c02",
+  "voix": "5l4ttmr4SKNgi0HnOelT",
+  "texte": "Consigné au registre : défi réussi.",
+  "envoye": "Consigné au registre : défi réussi."
+ },
+ {
+  "where": "interactions.defis.c02.fait",
+  "qui": "c02",
+  "voix": "5l4ttmr4SKNgi0HnOelT",
+  "texte": "Défi relevé. Le suivant, demain à l'aube.",
+  "envoye": "Défi relevé. Le suivant, demain à l'aube."
+ },
+ {
+  "where": "interactions.question.c02.cle",
+  "qui": "c02",
+  "voix": "5l4ttmr4SKNgi0HnOelT",
+  "texte": "Pour m'interroger, il faut ta clé Claude, dans Réglages. J'attends.",
+  "envoye": "Pour m'interroger, il faut ta clé Claude, dans Réglages. J'attends."
+ },
+ {
+  "where": "c02.compagnon.reactions.sommeil.premier.0",
+  "qui": "c02",
+  "voix": "5l4ttmr4SKNgi0HnOelT",
+  "texte": "… bonne réponse… notée au registre… repos…",
+  "envoye": "[sleepy] [mumbling] [slowly] … bonne réponse… notée au registre… repos…"
+ },
+ {
+  "where": "c02.compagnon.reactions.sommeil.premier.1",
+  "qui": "c02",
+  "voix": "5l4ttmr4SKNgi0HnOelT",
+  "texte": "… exact… article premier… zzz…",
+  "envoye": "[sleepy] [mumbling] [slowly] … exact… article premier… zzz…"
+ },
+ {
+  "where": "c02.compagnon.reactions.sommeil.perseverance.0",
+  "qui": "c02",
+  "voix": "5l4ttmr4SKNgi0HnOelT",
+  "texte": "… raté… puis réussi… c'est réglementaire…",
+  "envoye": "[sleepy] [mumbling] [slowly] … raté… puis réussi… c'est réglementaire…"
+ },
+ {
+  "where": "c02.compagnon.reactions.sommeil.perseverance.1",
+  "qui": "c02",
+  "voix": "5l4ttmr4SKNgi0HnOelT",
+  "texte": "… on recommence… jusqu'à la victoire…",
+  "envoye": "[sleepy] [mumbling] [slowly] … on recommence… jusqu'à la victoire…"
+ },
+ {
+  "where": "c02.compagnon.reactions.sommeil.indice.0",
+  "qui": "c02",
+  "voix": "5l4ttmr4SKNgi0HnOelT",
+  "texte": "… la réponse… est écrite… plus haut… au tableau…",
+  "envoye": "[sleepy] [mumbling] [slowly] … la réponse… est écrite… plus haut… au tableau…"
+ },
+ {
+  "where": "c02.compagnon.reactions.sommeil.indice.1",
+  "qui": "c02",
+  "voix": "5l4ttmr4SKNgi0HnOelT",
+  "texte": "… relis la définition… c'est un ordre… zzz…",
+  "envoye": "[sleepy] [mumbling] [slowly] … relis la définition… c'est un ordre… zzz…"
+ },
+ {
+  "where": "c02.compagnon.reactions.sommeil.serie.0",
+  "qui": "c02",
+  "voix": "5l4ttmr4SKNgi0HnOelT",
+  "texte": "… trois de suite… je rêve de médailles…",
+  "envoye": "[sleepy] [mumbling] [slowly] … trois de suite… je rêve de médailles…"
+ },
+ {
+  "where": "c02.compagnon.reactions.sommeil.serie.1",
+  "qui": "c02",
+  "voix": "5l4ttmr4SKNgi0HnOelT",
+  "texte": "… encore une… le clairon va sonner…",
+  "envoye": "[sleepy] [mumbling] [slowly] … encore une… le clairon va sonner…"
+ },
+ {
+  "where": "c02.compagnon.reactions.demi.premier.0",
+  "qui": "c02",
+  "voix": "5l4ttmr4SKNgi0HnOelT",
+  "texte": "Exact. Consigné au règlement.",
+  "envoye": "[sleepy] Exact. Consigné au règlement."
+ },
+ {
+  "where": "c02.compagnon.reactions.demi.premier.1",
+  "qui": "c02",
+  "voix": "5l4ttmr4SKNgi0HnOelT",
+  "texte": "Bonne réponse. Une cellule de plus.",
+  "envoye": "[sleepy] Bonne réponse. Une cellule de plus."
+ },
+ {
+  "where": "c02.compagnon.reactions.demi.perseverance.0",
+  "qui": "c02",
+  "voix": "5l4ttmr4SKNgi0HnOelT",
+  "texte": "Une erreur, puis la réussite. C'est ainsi qu'on apprend.",
+  "envoye": "[sleepy] Une erreur, puis la réussite. C'est ainsi qu'on apprend."
+ },
+ {
+  "where": "c02.compagnon.reactions.demi.perseverance.1",
+  "qui": "c02",
+  "voix": "5l4ttmr4SKNgi0HnOelT",
+  "texte": "Tu as recommencé, et trouvé. Je salue.",
+  "envoye": "[sleepy] Tu as recommencé, et trouvé. Je salue."
+ },
+ {
+  "where": "c02.compagnon.reactions.demi.indice.0",
+  "qui": "c02",
+  "voix": "5l4ttmr4SKNgi0HnOelT",
+  "texte": "Négatif. Relis la définition, puis réessaie.",
+  "envoye": "[sleepy] Négatif. Relis la définition, puis réessaie."
+ },
+ {
+  "where": "c02.compagnon.reactions.demi.indice.1",
+  "qui": "c02",
+  "voix": "5l4ttmr4SKNgi0HnOelT",
+  "texte": "Pas tout à fait. Tout est écrit plus haut.",
+  "envoye": "[sleepy] Pas tout à fait. Tout est écrit plus haut."
+ },
+ {
+  "where": "c02.compagnon.reactions.demi.serie.0",
+  "qui": "c02",
+  "voix": "5l4ttmr4SKNgi0HnOelT",
+  "texte": "Trois d'affilée. Je me redresse.",
+  "envoye": "[sleepy] Trois d'affilée. Je me redresse."
+ },
+ {
+  "where": "c02.compagnon.reactions.demi.serie.1",
+  "qui": "c02",
+  "voix": "5l4ttmr4SKNgi0HnOelT",
+  "texte": "Encore une. Garde-à-vous… presque.",
+  "envoye": "[sleepy] Encore une. Garde-à-vous… presque."
+ },
+ {
+  "where": "c02.compagnon.p1.debut",
+  "qui": "c02",
+  "voix": "5l4ttmr4SKNgi0HnOelT",
+  "texte": "… mmh… qui va là ?… une séance de travail ?… repos… je dors en service…",
+  "envoye": "[sleepy] [mumbling] [slowly] … mmh… qui va là ?… une séance de travail ?… repos… je dors en service…"
+ },
+ {
+  "where": "c02.compagnon.p1.bloc3",
+  "qui": "c02",
+  "voix": "5l4ttmr4SKNgi0HnOelT",
+  "texte": "… l'atelier est prêté… on rend les clés le soir… zzz…",
+  "envoye": "[sleepy] [mumbling] [slowly] … l'atelier est prêté… on rend les clés le soir… zzz…"
+ },
+ {
+  "where": "c02.compagnon.p1.bloc8",
+  "qui": "c02",
+  "voix": "5l4ttmr4SKNgi0HnOelT",
+  "texte": "… regarde bien… ne touche à rien… c'est un ordre…",
+  "envoye": "[sleepy] [mumbling] [slowly] … regarde bien… ne touche à rien… c'est un ordre…"
+ },
+ {
+  "where": "c02.compagnon.p1.fin",
+  "qui": "c02",
+  "voix": "5l4ttmr4SKNgi0HnOelT",
+  "texte": "… je sens un courant… termine… branche la batterie…",
+  "envoye": "[sleepy] [mumbling] [slowly] … je sens un courant… termine… branche la batterie…"
+ },
+ {
+  "where": "c02.compagnon.p2.debut",
+  "qui": "c02",
+  "voix": "5l4ttmr4SKNgi0HnOelT",
+  "texte": "… une table de travail… pleine de miettes… et de règles…",
+  "envoye": "[sleepy] [mumbling] [slowly] … une table de travail… pleine de miettes… et de règles…"
+ },
+ {
+  "where": "c02.compagnon.p2.bloc7",
+  "qui": "c02",
+  "voix": "5l4ttmr4SKNgi0HnOelT",
+  "texte": "… la table déborde… on résume… on range… zzz…",
+  "envoye": "[sleepy] [mumbling] [slowly] … la table déborde… on résume… on range… zzz…"
+ },
+ {
+  "where": "c02.compagnon.p2.bloc8",
+  "qui": "c02",
+  "voix": "5l4ttmr4SKNgi0HnOelT",
+  "texte": "… ce qui est écrit reste… ce qui est dit s'envole…",
+  "envoye": "[sleepy] [mumbling] [slowly] … ce qui est écrit reste… ce qui est dit s'envole…"
+ },
+ {
+  "where": "c02.compagnon.p2.fin",
+  "qui": "c02",
+  "voix": "5l4ttmr4SKNgi0HnOelT",
+  "texte": "… la batterie… presque pleine… branche-la…",
+  "envoye": "[sleepy] [mumbling] [slowly] … la batterie… presque pleine… branche-la…"
+ },
+ {
+  "where": "c02.compagnon.p3.debut",
+  "qui": "c02",
+  "voix": "5l4ttmr4SKNgi0HnOelT",
+  "texte": "Mmh… le règlement de bord. Mon sujet préféré. Pardon, je bâille.",
+  "envoye": "[sleepy] Mmh… le règlement de bord. Mon sujet préféré. Pardon, je bâille."
+ },
+ {
+  "where": "c02.compagnon.p3.bloc3",
+  "qui": "c02",
+  "voix": "5l4ttmr4SKNgi0HnOelT",
+  "texte": "Le CLAUDE.md, je le relis à chaque séance. Court et clair, s'il te plaît.",
+  "envoye": "[sleepy] Le CLAUDE.md, je le relis à chaque séance. Court et clair, s'il te plaît."
+ },
+ {
+  "where": "c02.compagnon.p3.bloc10",
+  "qui": "c02",
+  "voix": "5l4ttmr4SKNgi0HnOelT",
+  "texte": "Relis chaque règle avant de fusionner. Un règlement flou ne sert à rien.",
+  "envoye": "[sleepy] Relis chaque règle avant de fusionner. Un règlement flou ne sert à rien."
+ },
+ {
+  "where": "c02.compagnon.p3.fin",
+  "qui": "c02",
+  "voix": "5l4ttmr4SKNgi0HnOelT",
+  "texte": "Mes paupières se lèvent. Termine le protocole.",
+  "envoye": "[sleepy] Mes paupières se lèvent. Termine le protocole."
+ },
+ {
+  "where": "c02.compagnon.p4.debut",
+  "qui": "c02",
+  "voix": "5l4ttmr4SKNgi0HnOelT",
+  "texte": "Un conseil, on peut l'oublier. Une serrure, non.",
+  "envoye": "[sleepy] Un conseil, on peut l'oublier. Une serrure, non."
+ },
+ {
+  "where": "c02.compagnon.p4.bloc3",
+  "qui": "c02",
+  "voix": "5l4ttmr4SKNgi0HnOelT",
+  "texte": "Deux règles deny. Personne ne passe. Pas même moi.",
+  "envoye": "[sleepy] Deux règles deny. Personne ne passe. Pas même moi."
+ },
+ {
+  "where": "c02.compagnon.p4.bloc7",
+  "qui": "c02",
+  "voix": "5l4ttmr4SKNgi0HnOelT",
+  "texte": "Le mode auto va vite. Pour l'important, montre-moi d'abord le plan.",
+  "envoye": "[sleepy] Le mode auto va vite. Pour l'important, montre-moi d'abord le plan."
+ },
+ {
+  "where": "c02.compagnon.p4.fin",
+  "qui": "c02",
+  "voix": "5l4ttmr4SKNgi0HnOelT",
+  "texte": "Presque au garde-à-vous. Termine.",
+  "envoye": "[sleepy] Presque au garde-à-vous. Termine."
+ },
+ {
+  "where": "c02.compagnon.p5.debut",
+  "qui": "c02",
+  "voix": "5l4ttmr4SKNgi0HnOelT",
+  "texte": "Les savoir-faire de l'équipe : rangés, étiquetés, prêts.",
+  "envoye": "[sleepy] Les savoir-faire de l'équipe : rangés, étiquetés, prêts."
+ },
+ {
+  "where": "c02.compagnon.p5.bloc5",
+  "qui": "c02",
+  "voix": "5l4ttmr4SKNgi0HnOelT",
+  "texte": "Une étiquette claire, sinon personne ne trouve l'outil.",
+  "envoye": "[sleepy] Une étiquette claire, sinon personne ne trouve l'outil."
+ },
+ {
+  "where": "c02.compagnon.p5.bloc6",
+  "qui": "c02",
+  "voix": "5l4ttmr4SKNgi0HnOelT",
+  "texte": "Colle ton skill, et fais-le entrer dans le dépôt.",
+  "envoye": "[sleepy] Colle ton skill, et fais-le entrer dans le dépôt."
+ },
+ {
+  "where": "c02.compagnon.p5.fin",
+  "qui": "c02",
+  "voix": "5l4ttmr4SKNgi0HnOelT",
+  "texte": "Encore un peu de courant. Termine.",
+  "envoye": "[sleepy] Encore un peu de courant. Termine."
+ },
+ {
+  "where": "c02.compagnon.p6.debut",
+  "qui": "c02",
+  "voix": "5l4ttmr4SKNgi0HnOelT",
+  "texte": "Les clés, maintenant. Une clé n'ouvre qu'une porte.",
+  "envoye": "[sleepy] Les clés, maintenant. Une clé n'ouvre qu'une porte."
+ },
+ {
+  "where": "c02.compagnon.p6.bloc3",
+  "qui": "c02",
+  "voix": "5l4ttmr4SKNgi0HnOelT",
+  "texte": "Chaque droit en trop, c'est une porte ouverte au voleur.",
+  "envoye": "[sleepy] Chaque droit en trop, c'est une porte ouverte au voleur."
+ },
+ {
+  "where": "c02.compagnon.p6.bloc5",
+  "qui": "c02",
+  "voix": "5l4ttmr4SKNgi0HnOelT",
+  "texte": "Une seule porte, quatre-vingt-dix jours. Réglementaire.",
+  "envoye": "[sleepy] Une seule porte, quatre-vingt-dix jours. Réglementaire."
+ },
+ {
+  "where": "c02.compagnon.p6.fin",
+  "qui": "c02",
+  "voix": "5l4ttmr4SKNgi0HnOelT",
+  "texte": "Presque réveillé. Termine, répare la panne, et j'ouvre les yeux.",
+  "envoye": "[sleepy] Presque réveillé. Termine, répare la panne, et j'ouvre les yeux."
+ },
+ {
+  "where": "c02.compagnon.carte",
+  "qui": "c02",
+  "voix": "5l4ttmr4SKNgi0HnOelT",
+  "texte": "… zzz… caisson 02… article douze… viens me réveiller… repos…",
+  "envoye": "[sleepy] [mumbling] [slowly] … zzz… caisson 02… article douze… viens me réveiller… repos…"
+ },
+ {
+  "where": "c02.compagnon.panne",
+  "qui": "c02",
+  "voix": "5l4ttmr4SKNgi0HnOelT",
+  "texte": "Alertes au règlement ! Réfléchis avant d'agir : les fusibles sont fragiles.",
+  "envoye": "[sleepy] Alertes au règlement ! Réfléchis avant d'agir : les fusibles sont fragiles."
+ },
+ {
+  "where": "c02.compagnon.panneFin",
+  "qui": "c02",
+  "voix": "5l4ttmr4SKNgi0HnOelT",
+  "texte": "Le courant passe. Envoie l'arc, maintenant.",
+  "envoye": "[sleepy] Le courant passe. Envoie l'arc, maintenant."
+ },
+ {
+  "where": "c02.compagnon.livraison",
+  "qui": "c02",
+  "voix": "5l4ttmr4SKNgi0HnOelT",
+  "texte": "Inspection : ton règlement, ta serrure, ton premier skill et ta synchronisation.",
+  "envoye": "Inspection : ton règlement, ta serrure, ton premier skill et ta synchronisation."
+ },
+ {
+  "where": "c02.demi",
+  "qui": "c02",
+  "voix": "5l4ttmr4SKNgi0HnOelT",
+  "texte": "… mmh… article un… une séance, une tâche… je me réveille… presque…",
+  "envoye": "[sleepy] [mumbling] [slowly] … mmh… article un… une séance, une tâche… je me réveille… presque…"
+ },
+ {
+  "where": "c02.reveil",
+  "qui": "c02",
+  "voix": "5l4ttmr4SKNgi0HnOelT",
+  "texte": "Au rapport, chef. Ton règlement est écrit, tes serrures sont posées. J'y veillerai à chaque séance.",
+  "envoye": "Au rapport, chef. Ton règlement est écrit, tes serrures sont posées. J'y veillerai à chaque séance."
+ }
+]
