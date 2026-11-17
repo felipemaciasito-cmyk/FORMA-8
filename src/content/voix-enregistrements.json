@@ -575,12 +575,40 @@
    "texte": "… article premier : je vérifie avant de livrer… article deux…",
    "date": "2026-11-16"
   },
+  "c02:d0ce3893": {
+   "fichier": "c02-f38df138.mp3",
+   "voix": "5l4ttmr4SKNgi0HnOelT",
+   "envoye": "[sleepy] [mumbling] [slowly] … article douze… il est interdit… de ronfler en service… repos !…",
+   "texte": "… article douze… il est interdit… de ronfler en service… repos !…",
+   "date": "2026-11-17"
+  },
+  "c02:f9599a2c": {
+   "fichier": "c02-46b74a7c.mp3",
+   "voix": "5l4ttmr4SKNgi0HnOelT",
+   "envoye": "Je suis le Général Calpin, le règlement de bord. J'écris les règles que toute l'équipe suit, à chaque séance de travail.",
+   "texte": "Je suis le Général Calpin, le règlement de bord. J'écris les règles que toute l'équipe suit, à chaque séance de travail.",
+   "date": "2026-11-17"
+  },
+  "c03:5b5b2973": {
+   "fichier": "c03-60c6b45e.mp3",
+   "voix": "86fYoxrFeaJKXplThwSl",
+   "envoye": "Je suis M. Laplume, le scribe. Avant de construire quoi que ce soit, je décris avec toi ce qu'il faut construire.",
+   "texte": "Je suis M. Laplume, le scribe. Avant de construire quoi que ce soit, je décris avec toi ce qu'il faut construire.",
+   "date": "2026-11-17"
+  },
   "c03:6bb04320": {
    "fichier": "c03-89cf4184.mp3",
    "voix": "86fYoxrFeaJKXplThwSl",
    "envoye": "[sleepy] [mumbling] [slowly] … il était une fois… une personne pressée… qui voulait un bouton…",
    "texte": "… il était une fois… une personne pressée… qui voulait un bouton…",
    "date": "2026-11-16"
+  },
+  "c03:a016c8c5": {
+   "fichier": "c03-8f2be5c1.mp3",
+   "voix": "86fYoxrFeaJKXplThwSl",
+   "envoye": "[sleepy] [mumbling] [slowly] … il était une fois… un bouton… qui rêvait de devenir… une fusée…",
+   "texte": "… il était une fois… un bouton… qui rêvait de devenir… une fusée…",
+   "date": "2026-11-17"
   },
   "c03:c306ab7a": {
    "fichier": "c03-fefef681.mp3",
@@ -602,6 +630,42 @@
    "envoye": "[sleepy] [mumbling] [slowly] … encore un tour… encore un petit tour…",
    "texte": "… encore un tour… encore un petit tour…",
    "date": "2026-11-16"
+  },
+  "c04:78b9bd0b": {
+   "fichier": "c04-b49a45fa.mp3",
+   "voix": "KSyQzmsYhFbuOhqj1Xxv",
+   "envoye": "Je suis Mme Bonna Bitude, la boucle ! Je demande, je relis, je corrige, et je recommence jusqu'à ce que ça marche.",
+   "texte": "Je suis Mme Bonna Bitude, la boucle ! Je demande, je relis, je corrige, et je recommence jusqu'à ce que ça marche.",
+   "date": "2026-11-17"
+  },
+  "c04:856e7bfe": {
+   "fichier": "c04-a826e5d4.mp3",
+   "voix": "KSyQzmsYhFbuOhqj1Xxv",
+   "envoye": "[sleepy] [mumbling] [slowly] … encore un tour… et encore un… qui a mis un manège dans mon rêve ?…",
+   "texte": "… encore un tour… et encore un… qui a mis un manège dans mon rêve ?…",
+   "date": "2026-11-17"
+  },
+  "c05:3b524a75": {
+   "fichier": "c05-21cb6aed.mp3",
+   "voix": "fnoOtHjtLbYs6mOpUSdr",
+   "envoye": "Nous sommes Dupond et Dupont, les inspecteurs. Nous vérifions que tout fonctionne, à chaque changement. Sans exception.",
+   "texte": "Nous sommes Dupond et Dupont, les inspecteurs. Nous vérifions que tout fonctionne, à chaque changement. Sans exception.",
+   "date": "2026-11-17",
+   "duo": {
+    "fichier": "c05-00508087.mp3",
+    "voix": "Qrl71rx6Yg8RvyPYRGCQ"
+   }
+  },
+  "c05:77f7d014": {
+   "fichier": "c05-09ff3e13.mp3",
+   "voix": "fnoOtHjtLbYs6mOpUSdr",
+   "envoye": "[sleepy] [mumbling] [slowly] … vérifié… revérifié… re-revérifié… ronfle moins fort, toi…",
+   "texte": "… vérifié… revérifié… re-revérifié… ronfle moins fort, toi…",
+   "date": "2026-11-17",
+   "duo": {
+    "fichier": "c05-8876452d.mp3",
+    "voix": "Qrl71rx6Yg8RvyPYRGCQ"
+   }
   },
   "c05:78bf4e31": {
    "fichier": "c05-70dbcf09.mp3",
@@ -632,6 +696,20 @@
    "texte": "… livraison express… adresse… confirmée…",
    "date": "2026-11-16"
   },
+  "c06:80f60f77": {
+   "fichier": "c06-93911cb0.mp3",
+   "voix": "hv6gVog5LgtIUX88Nmq8",
+   "envoye": "Je suis Hermès Coursier, le messager ! Je mets ton produit en ligne, vite, et sans rien casser.",
+   "texte": "Je suis Hermès Coursier, le messager ! Je mets ton produit en ligne, vite, et sans rien casser.",
+   "date": "2026-11-17"
+  },
+  "c06:86300be5": {
+   "fichier": "c06-8a4dcf5f.mp3",
+   "voix": "hv6gVog5LgtIUX88Nmq8",
+   "envoye": "[sleepy] [mumbling] [slowly] … colis pour la lune… signez ici… attention, c'est fragile…",
+   "texte": "… colis pour la lune… signez ici… attention, c'est fragile…",
+   "date": "2026-11-17"
+  },
   "c06:d245a9f8": {
    "fichier": "c06-293656c5.mp3",
    "voix": "hv6gVog5LgtIUX88Nmq8",
@@ -646,12 +724,26 @@
    "texte": "… je n'oublie rien… ni personne… ni rien…",
    "date": "2026-11-16"
   },
+  "c07:cedc66cb": {
+   "fichier": "c07-1ab05b75.mp3",
+   "voix": "hFgOzpmS0CMtL2to8sAl",
+   "envoye": "[sleepy] [mumbling] [slowly] … chut… on est au CDI… rendez vos souvenirs… avant mardi…",
+   "texte": "… chut… on est au CDI… rendez vos souvenirs… avant mardi…",
+   "date": "2026-11-17"
+  },
   "c07:da412517": {
    "fichier": "c07-76b23d2c.mp3",
    "voix": "hFgOzpmS0CMtL2to8sAl",
    "envoye": "Je suis la Mémoire. Je garde les données et les comptes de tes utilisateurs, et je n'oublie rien.",
    "texte": "Je suis la Mémoire. Je garde les données et les comptes de tes utilisateurs, et je n'oublie rien.",
    "date": "2026-11-16"
+  },
+  "c07:efe43600": {
+   "fichier": "c07-70859c5b.mp3",
+   "voix": "hFgOzpmS0CMtL2to8sAl",
+   "envoye": "Je suis Fabienne, la dame du CDI : la mémoire de l'équipe. Je garde les données et les comptes de tes utilisateurs.",
+   "texte": "Je suis Fabienne, la dame du CDI : la mémoire de l'équipe. Je garde les données et les comptes de tes utilisateurs.",
+   "date": "2026-11-17"
   },
   "c08:43067222": {
    "fichier": "c08-b498696f.mp3",
@@ -667,6 +759,20 @@
    "texte": "Je suis la Sentinelle. Je protège tes secrets, tes utilisateurs et ton budget.",
    "date": "2026-11-16"
   },
+  "c08:60b5564e": {
+   "fichier": "c08-e82aea7e.mp3",
+   "voix": "E933WO9WB9GvOmNCycNW",
+   "envoye": "Je suis Senty Nell, la sentinelle. Je protège tes secrets, tes utilisateurs et ton budget.",
+   "texte": "Je suis Senty Nell, la sentinelle. Je protège tes secrets, tes utilisateurs et ton budget.",
+   "date": "2026-11-17"
+  },
+  "c08:86852af8": {
+   "fichier": "c08-62d7d02f.mp3",
+   "voix": "E933WO9WB9GvOmNCycNW",
+   "envoye": "[sleepy] [mumbling] [slowly] … halte… mot de passe ?… « pistache »… non… c'était hier…",
+   "texte": "… halte… mot de passe ?… « pistache »… non… c'était hier…",
+   "date": "2026-11-17"
+  },
   "c09:0697a7c0": {
    "fichier": "c09-12cc0c71.mp3",
    "voix": "7t206LwybBCgHnAvOdtX",
@@ -674,12 +780,40 @@
    "texte": "Je mène l'escouade : mes drones travaillent en même temps, et mes réflexes veillent pour toi.",
    "date": "2026-11-16"
   },
+  "c09:652908f5": {
+   "fichier": "c09-b69538d1.mp3",
+   "voix": "7t206LwybBCgHnAvOdtX",
+   "envoye": "[sleepy] [mumbling] [slowly] … drone numéro trois… arrête de chanter… on est en formation…",
+   "texte": "… drone numéro trois… arrête de chanter… on est en formation…",
+   "date": "2026-11-17"
+  },
+  "c09:af1518b0": {
+   "fichier": "c09-ca7adca1.mp3",
+   "voix": "7t206LwybBCgHnAvOdtX",
+   "envoye": "Je suis Lana Mageuse. Je mène l'escouade : mes drones travaillent en même temps, et mes réflexes veillent pour toi.",
+   "texte": "Je suis Lana Mageuse. Je mène l'escouade : mes drones travaillent en même temps, et mes réflexes veillent pour toi.",
+   "date": "2026-11-17"
+  },
   "c09:b2acc738": {
    "fichier": "c09-59447b5c.mp3",
    "voix": "7t206LwybBCgHnAvOdtX",
    "envoye": "[sleepy] [mumbling] [slowly] … un, deux, trois… chacun à son poste…",
    "texte": "… un, deux, trois… chacun à son poste…",
    "date": "2026-11-16"
+  },
+  "c10:2ad88963": {
+   "fichier": "c10-3e53baa2.mp3",
+   "voix": "t28pUgJnL2wUUQ8SOnaU",
+   "envoye": "[sleepy] [mumbling] [slowly] … dix… neuf… huit… j'ai oublié la suite… on recommence…",
+   "texte": "… dix… neuf… huit… j'ai oublié la suite… on recommence…",
+   "date": "2026-11-17"
+  },
+  "c10:7c7a031d": {
+   "fichier": "c10-47108dcf.mp3",
+   "voix": "t28pUgJnL2wUUQ8SOnaU",
+   "envoye": "Je suis Alex Pédition, le lancement. Je présente ton produit au monde, et je t'aide à en faire ton métier.",
+   "texte": "Je suis Alex Pédition, le lancement. Je présente ton produit au monde, et je t'aide à en faire ton métier.",
+   "date": "2026-11-17"
   },
   "c10:cd78633e": {
    "fichier": "c10-c9a5081d.mp3",
