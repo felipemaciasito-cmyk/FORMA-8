@@ -701,6 +701,48 @@ npm run validate && npm run check:emoji && npm run check:parity && npm run typec
 
 ---
 
+### 3.19 Lot en cours (16-17/11/2026) : le compagnon et les règles de parole, PAS ENCORE FUSIONNÉ
+Branche `claude/beautiful-cori-sz6dxq` (poussée). Pages d'essai privées : labo des voix d'ORA
+https://claude.ai/artifact/SoBrMYqEUKgW96svoba1rp ; maquette du compagnon https://claude.ai/artifact/UmHohA7Kc2ykEZsUAFC3jm ;
+labo des personnages https://claude.ai/artifact/Fj3TcAq1S3v6QvicnrAzr5 (source : `zz-labo/`, non suivi par Git).
+- **Déjà fait et poussé** : banc du caisson 00 réparé (« Continuer » ramené en vue après une vérification) ; aucune voix
+  derrière une cérémonie (`holdVoices`) ; ORA en « IA de bord » à 150 % ; toucher une bulle coupe la parole ; effets à
+  10 % pendant qu'un personnage parle ; compagnon de protocole (`Companion.tsx`, `companion.ts`, `compagnon.json`, 76 voix,
+  voix endormie « A2 » `[sleepy] [mumbling] [slowly]`) ; validateur des répliques du compagnon au bloc près ; banc
+  `compagnon.spec.ts`. Commande complète verte au 16/11/2026 (15 tests de bout en bout).
+- **Règles de parole décidées (à construire)** :
+  - un personnage n'apparaît jamais en double ; une seule file de parole : les bulles s'ouvrent l'une après l'autre,
+    dans un ordre cohérent ; quand un personnage questionne un autre, celui-ci lui répond avant de s'adresser à quelqu'un
+    d'autre ; peu de temps entre deux répliques d'un échange ;
+  - texte écrit lettre par lettre au rythme de la voix ; toute bulle est lue à voix haute ; bulles au premier plan,
+    fermées une fois lues ; toucher le personnage (pas de survol sur iPhone) rouvre la bulle et relit ;
+  - au retour sur une page : une phrase très courte, différente à chaque fois ; la réplique complète seulement s'il y a
+    du nouveau ;
+  - répliques plus courtes, surtout quand elles n'aident pas à avancer ;
+  - membre endormi : « parle en dormant » discret, texte en italique, discours absurde et bafouillé ; il se réveille peu
+    à peu (protocole 1 très absurde, pistes glissées dans le demi-sommeil sans changer de ton, de plus en plus clair) ;
+  - **grésillement commun à tous les endormis**, réglé à 35 %, discret (souffle et petits craquements sous la voix), qui
+    baisse quand le personnage se réveille (0 une fois réveillé) ;
+  - textes écrits sur le moment par Claude (reformulation, questions aux membres) : **babillage robotique**.
+- **ORA → renommée « Forma Trisse »** (17/11/2026, « tant pis s'il n'y a pas de rapport avec FORMA-7 »). Choix B :
+  elle est **endormie au début**, comme les autres, et se réveille au fil du caisson 00 ; elle devient ensuite la guide.
+  À renommer partout (bulles, bouton « Demander à ORA », réglages, scènes) et à réenregistrer chaque réplique qui
+  dit « ORA ». L'identifiant interne `ora` peut rester.
+- **Noms des membres** (17/11/2026) : Mme Larchive (Archiviste) ; Général Calpin (Règlement de bord) ; M. Laplume
+  (Scribe) ; Mme Bonna Bitude (La Boucle) ; Dupond et Dupont, frères (Inspecteur, deux voix ; **risque signalé** :
+  personnages de Tintin protégés, gardés par choix du propriétaire, à revoir avant un lancement public) ; Hermès
+  Coursier (Messager ; Hermès est aussi une marque, risque jugé faible, non vérifié) ; Fabienne du CDI, « la dame CDI »
+  (Mémoire) ; Senty Nell, « Agent Nell » (Sentinelle) ; Lana Mageuse (Escouades et Réflexes) ; Alex Pédition
+  (Lancement). Le métier reste en sous-titre (« Mme Larchive · l'Archiviste »).
+- **Interactions retenues** (aperçus validés dans le labo) : toucher un personnage (il réagit) ; dialogues à choix
+  (réponses dans la bulle, bulle fermée quand il n'y a plus de question) ; défi du jour sur la carte (pareil) ; l'équipe
+  qui se parle (réveil) ; poser une question à un membre (Claude, clé API ; babillage).
+- **Crédits ElevenLabs** : environ 20 500 restants au 17/11/2026 (offre Starter, gardée par le propriétaire).
+- **Prochaine étape** : construire tout cela dans l'appli, réenregistrer les répliques concernées (coût à annoncer
+  avant), maquette jouable, puis PR. Le caisson 02 attend la fin de ce lot.
+
+---
+
 ## 4. Décisions prises et pistes écartées
 
 ### 4.1 Décisions du propriétaire
