@@ -1,4 +1,4 @@
-# FORMA-8 · Réveille l'équipe : document de transfert (état au 17/11/2026 : caisson 02 construit sur la branche claude/ecstatic-keller-i9o3gk, en attente de l'accord du propriétaire sur la maquette jouable)
+# FORMA-8 · Réveille l'équipe : document de transfert (état au 17/11/2026 : caisson 02 validé par le propriétaire sur maquette jouable, PR ouverte depuis la branche claude/ecstatic-keller-i9o3gk)
 
 > À lire en entier au démarrage de chaque nouvelle session (renvoi dans `CLAUDE.md`), **en commençant par la
 > section 0**. Ce document complète `CLAUDE.md`, `docs/CONCEPTION.md` et `docs/PROGRAMME.md`. En cas d'écart, le
@@ -24,9 +24,10 @@ poussée sur GitHub. Ce document-ci est la version de cette branche.
      vérifier que `main` n'a pas bougé depuis `87d615b` (sinon fusionner `main` dans la branche et le dire).
    - PR fusionnée : partir de `origin/main` pour la suite (section 5.4, caisson 03).
    Cloner FORMA-7 à côté (`../forma-7`, en entier) ; `npm ci` ; commande complète. Résumer l'état en quelques lignes.
-3. Si la PR n'est pas ouverte : demander au propriétaire, en QCM, son avis sur la maquette jouable du caisson 02
+3. La PR du caisson 02 a été ouverte le 22/11/2026, après l'accord du propriétaire. Si elle n'est pas fusionnée,
+   le lui rappeler. (Pour mémoire : avis demandé en QCM sur la maquette jouable du caisson 02
    (https://claude.ai/artifact/4jpbEUCauoMPwbA3QnVkQU, sept départs) ; corriger ce qu'il signale (maquette mise à jour
-   à chaque correction), puis, avec son accord, **une seule PR** vers `main`, robot vert, annonce, plus rien poussé.
+   à chaque correction), puis, avec son accord, **une seule PR** vers `main`, robot vert, annonce, plus rien poussé.)
 4. Ensuite seulement : le caisson 03 (M. Laplume, section 5.4), méthode à lui demander en QCM.
    Ce qu'il attend : « Sois extrêmement ambitieux et rigoureux » ; un apprentissage très ludique, guidé pas à pas,
    cohérent et très esthétique ; chaque outil doit fonctionner parfaitement sur iPhone.
@@ -770,7 +771,7 @@ labo des personnages https://claude.ai/artifact/Fj3TcAq1S3v6QvicnrAzr5 (source :
 ### 3.20 Caisson 02 · Général Calpin · « L'environnement de ton équipe » (17/11/2026), PAS ENCORE FUSIONNÉ
 Branche `claude/ecstatic-keller-i9o3gk` (repartie de `main` `87d615b`). Maquette jouable :
 https://claude.ai/artifact/4jpbEUCauoMPwbA3QnVkQU (sept départs : début du caisson, protocoles 2, 3, 5, 6, panne et
-réveil, après le réveil). **En attente de l'accord du propriétaire.**
+réveil, après le réveil). **Accord du propriétaire le 17/11/2026, PR ouverte le 22/11/2026.**
 - **Choix du propriétaire (17/11/2026, QCM)** : méthode « Tout d'un coup » ; le **mode auto est expliqué** (protocole 4 ;
   AGENTS.md seulement cité dans la fiche « mémoire du projet ») ; **répliques courtes** pour tenir dans les crédits ;
   enregistrement accepté après annonce du coût.
@@ -800,7 +801,15 @@ réveil, après le réveil). **En attente de l'accord du propriétaire.**
   question, scène du réveil) enregistrées le 17/11/2026, une prise chacune : **4 205 crédits** ; il en reste
   **1 822 jusqu'au 16/12/2026**. Outils : `outils/voix-c02/` (liste de travail, sessions, rangement).
 - **Banc d'essai** `tests/e2e/caisson02.spec.ts` (3,7 min en Chromium) ; bancs 00 et 01 mis à jour (compteurs de
-  notions). Commande complète verte le 17/11/2026 (16 tests de bout en bout, 41 tests rapides). WebKit : voir ci-dessous.
+  notions). Commande complète verte le 17/11/2026 (16 tests de bout en bout, 41 tests rapides).
+- **WebKit (22/11/2026)** : le banc du caisson 02 bloque au protocole 1 (bloc 11), car le conteneur qui défile
+  (`.screen`) oscille sans fin entre deux positions à 1 pixel près (6499 et 6500) après un défilement doux : le robot
+  refuse de toucher un bouton qui bouge (« element is not stable »), alors qu'un clic direct fonctionne. Les hauteurs
+  des blocs ne changent pas ; le protocole 1 du caisson 01 passe dans WebKit. Cause probable : position de
+  défilement fractionnaire (hauteurs en .75) avec le défilement doux de WebKit. Non vu par le propriétaire sur son
+  iPhone (maquette validée le 17/11/2026). **À surveiller** ; piste : arrondir la cible de défilement, ou défiler sans
+  animation quand le bouton est déjà presque en vue.
+- **Accord du propriétaire sur la maquette** : « Valide, fais la PR » (17/11/2026).
 
 ## 4. Décisions prises et pistes écartées
 
