@@ -70,6 +70,28 @@
     "qui": "ora",
     "texte": "Tu es entre de bonnes mains. Allons réveiller la suite."
    }
+  ],
+  "c02": [
+   {
+    "qui": "ora",
+    "texte": "Général Calpin ? L'équipe a besoin d'un règlement."
+   },
+   {
+    "qui": "c02",
+    "texte": "Garde-à-vous ! Euh… repos. Bonjour à tous."
+   },
+   {
+    "qui": "c02",
+    "reveil": true
+   },
+   {
+    "qui": "c01",
+    "texte": "Enfin des règles bien rangées. Je les archive."
+   },
+   {
+    "qui": "ora",
+    "texte": "Plus que huit dormeurs. On continue."
+   }
   ]
  },
  "retours": {
@@ -99,6 +121,18 @@
     "J'ai tout gardé en ordre.",
     "On reprend où on en était ?",
     "Rien ne s'est perdu en ton absence."
+   ]
+  },
+  "c02": {
+   "sommeil": [
+    "… qui va là ?… ah… c'est toi…",
+    "… repos… on reprend…",
+    "… zzz… présent !…"
+   ],
+   "eveil": [
+    "Au rapport, chef.",
+    "Te revoilà. On reprend.",
+    "Tout est en ordre."
    ]
   }
  },
@@ -133,7 +167,14 @@
   },
   "c02": {
    "sommeil": [
-    "… qui a touché… au règlement ?…"
+    "… halte-là… qui touche le général ?…",
+    "… article douze… interdit de chatouiller…",
+    "… cinq minutes… c'est un ordre…"
+   ],
+   "eveil": [
+    "Garde-à-vous ! Ah, c'est toi.",
+    "Une question de règlement ?",
+    "Doucement, mes galons."
    ]
   },
   "c03": {
@@ -275,6 +316,45 @@
     "Je l'inscris au registre : défi réussi."
    ],
    "fait": "Défi relevé. Je te garde le suivant pour demain."
+  },
+  "c02": {
+   "questions": [
+    {
+     "question": "Défi du jour ! Où écris-tu une règle valable à chaque séance ?",
+     "choix": [
+      "Dans le fichier CLAUDE.md",
+      "Dans la conversation",
+      "Dans un commit"
+     ],
+     "bonne": 0,
+     "piste": "Négatif. Ce qui est dit s'oublie ; ce qui est écrit reste."
+    },
+    {
+     "question": "Défi du jour ! Quelle règle l'emporte toujours ?",
+     "choix": [
+      "Allow",
+      "Ask",
+      "Deny"
+     ],
+     "bonne": 2,
+     "piste": "Négatif. Pense à la serrure."
+    },
+    {
+     "question": "Défi du jour ! Un bon jeton d'accès, c'est…",
+     "choix": [
+      "Tous les dépôts, sans limite",
+      "Un seul dépôt, pour un temps limité",
+      "Le même que ton mot de passe"
+     ],
+     "bonne": 1,
+     "piste": "Négatif. Une clé n'ouvre qu'une porte."
+    }
+   ],
+   "bravo": [
+    "Exact ! Quinze kilowatts. Rompez.",
+    "Consigné au registre : défi réussi."
+   ],
+   "fait": "Défi relevé. Le suivant, demain à l'aube."
   }
  },
  "question": {
@@ -283,6 +363,9 @@
   },
   "c01": {
    "cle": "Pour me questionner, il faut ta clé Claude, dans Réglages. Je t'attends."
+  },
+  "c02": {
+   "cle": "Pour m'interroger, il faut ta clé Claude, dans Réglages. J'attends."
   }
  },
  "annexes": {

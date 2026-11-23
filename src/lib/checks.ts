@@ -32,6 +32,14 @@ export async function evaluateCheck(check: DeliveryCheck, product: ProductInfo, 
       if (!res.ok) return { ok: false, detail: ghError(res.status) };
       return { ok: true, detail: `${check.path} est bien présent.` };
     }
+    case "folder": {
+      const res = await api(deps, product, `contents/${check.path.split("/").map(encodeURIComponent).join("/")}`);
+      if (res.status === 404) return { ok: false, detail: `Le dossier ${check.path} est introuvable dans ${product.repo}.` };
+      if (!res.ok) return { ok: false, detail: ghError(res.status) };
+      const list = (await res.json()) as { type: string; name: string }[] | { type: string };
+      const dirs = Array.isArray(list) ? list.filter((e) => e.type === "dir").map((e) => e.name) : [];
+      return dirs.length ? { ok: true, detail: `Trouvé dans ${check.path} : ${dirs.join(", ")}.` } : { ok: false, detail: `Le dossier ${check.path} ne contient encore aucun sous-dossier.` };
+    }
     case "commits": {
       const res = await api(deps, product, "commits?per_page=100");
       if (res.status === 409) return { ok: false, detail: "Le dépôt est encore vide : aucun commit." };

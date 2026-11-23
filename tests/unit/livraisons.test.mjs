@@ -19,6 +19,19 @@ function fakeFetch(routes) {
   return f;
 }
 
+test("dossier avec au moins un sous-dossier (un skill dans .claude/skills)", async () => {
+  const f = fakeFetch({ "contents/.claude/skills": [200, [{ type: "dir", name: "verif-iphone" }, { type: "file", name: "LISEZMOI.md" }]] });
+  const ok = await evaluateCheck({ id: "s", kind: "folder", label: "", path: ".claude/skills" }, product, { fetch: f, token: "t" });
+  assert.equal(ok.ok, true);
+  assert.match(ok.detail, /verif-iphone/);
+  const vide = fakeFetch({ "contents/.claude/skills": [200, [{ type: "file", name: "LISEZMOI.md" }]] });
+  assert.equal((await evaluateCheck({ id: "s", kind: "folder", label: "", path: ".claude/skills" }, product, { fetch: vide, token: "t" })).ok, false);
+  const absent = fakeFetch({});
+  const ko = await evaluateCheck({ id: "s", kind: "folder", label: "", path: ".claude/skills" }, product, { fetch: absent, token: "t" });
+  assert.equal(ko.ok, false);
+  assert.match(ko.detail, /introuvable/);
+});
+
 test("adresse publique de la page du produit (même site que FORMA-8)", () => {
   assert.equal(pagesUrl(product), "https://felipe-test.github.io/mon-produit/");
 });

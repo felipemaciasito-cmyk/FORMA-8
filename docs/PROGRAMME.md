@@ -77,12 +77,14 @@ Légende des livraisons : **[fichier]** = fichier présent dans le dépôt du pr
 |---|---|---|
 | 1. Une séance de travail dans le navigateur | `session`, `environnement-cloud`, `terminal`, `commande` | Visite guidée d'une session sur claude.ai/code |
 | 2. Ce que Claude voit | `token`, `contexte`, `fenetre-contexte`, `compaction` | Nouveau simulateur « ce que Claude voit » : fichiers lus, conversation et règles qui remplissent la fenêtre, puis compaction |
-| 3. Le fichier de règles | `claude-md`, `memoire-projet` | Ordre de mission : écrire le `CLAUDE.md` du produit ; atelier « Écrire les règles » |
-| 4. Les permissions | `permission`, `mode-permission`, `mode-plan` | Choisir le bon mode selon la tâche |
-| 5. Les savoir-faire et les prises | `markdown`, `skill`, `mcp`, `connecteur`, `plugin` | Nouveaux simulateurs « boîte à outils de l'équipe » (un Skill chargé seulement quand il sert) et « prises MCP » ; nouvelle Forge de Skills écrite d'après la documentation d'Anthropic |
+| 3. Le fichier de règles | `markdown`, `claude-md`, `memoire-projet` | Ordre de mission : écrire le `CLAUDE.md` du produit ; atelier « Écrire les règles » |
+| 4. Les permissions | `permission`, `mode-permission`, `mode-plan`, `mode-auto` | Choisir le bon mode selon la tâche |
+| 5. Les savoir-faire et les prises | `skill`, `mcp`, `connecteur`, `plugin` | Nouveaux simulateurs « boîte à outils de l'équipe » (un Skill chargé seulement quand il sert) et « prises MCP » ; nouvelle Forge de Skills écrite d'après la documentation d'Anthropic |
 | 6. Le jeton d'accès | `jeton-acces`, `moindre-privilege` | Simulateur « constructeur de jeton », puis création du vrai jeton FORMA-8 et activation de la synchronisation |
 
 - **Panne** : « Claude ignore une règle » (fichier trop long ou contradictoire), « Permission refusée », « Contexte saturé ».
+- **Écrit le 17/11/2026** : `markdown` passe au protocole 3 (le CLAUDE.md est un fichier Markdown) ; `mode-auto` ajouté au
+  protocole 4 (choix du propriétaire : il apparaît dans le menu des séances cloud).
 - **Livraison v0.2** : `CLAUDE.md` [fichier] · `.claude/settings.json` [fichier] · un Skill dans `.claude/skills` [fichier] ·
   « Synchronisation FORMA-8 activée » [main].
 - **Sources** : Claude Code « Comment Claude se souvient de votre projet », « Explorez la fenêtre de contexte »,

@@ -172,14 +172,15 @@ test("le caisson 01 se joue entièrement, avec chaque outil d'apprentissage", as
   await expect(page.getByText(/En ligne : https:\/\/felipemaciasito-cmyk\.github\.io\/carnet-chantier\//)).toBeVisible();
   await expect(page.getByText("Livraison validée")).toBeVisible();
 
-  // Deux membres réveillés ; le caisson 02 est encore en préparation.
+  // Deux membres réveillés ; le caisson 02 s'ouvre.
   await page.goto("./");
   await closeGradeCeremony(page); // un grade retenu s'annonce en quittant l'écran précédent
   await expect(page.getByText("2 / 11 membres de l'équipe réveillés")).toBeVisible();
 
-  // Base : toutes les notions collectées, portfolio avec la version 0.1.
+  // Base : les notions des caissons 00 et 01 collectées, portfolio avec la version 0.1.
   await page.getByRole("navigation", { name: "Navigation principale" }).getByRole("button", { name: "Base" }).click();
-  await expect(page.getByText(`${GLOSSARY.length} / ${GLOSSARY.length} notions collectées`)).toBeVisible();
+  const learned = [...C00.steps, ...C01.steps].flatMap((s) => s.introduces).length;
+  await expect(page.getByText(`${learned} / ${GLOSSARY.length} notions collectées`)).toBeVisible();
   await expect(page.getByText("Un historique propre, par pull requests")).toBeVisible();
 
   // Atelier : la situation « Faire relire avant de fusionner » s'est ouverte.

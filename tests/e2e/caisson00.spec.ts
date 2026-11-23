@@ -112,9 +112,9 @@ test("le caisson 00 se joue entièrement, avec chaque outil d'apprentissage", as
   await expect(page.getByText("1 / 11 membres de l'équipe réveillés")).toBeVisible();
   await expect(page.getByRole("button", { name: /^CAISSON 01 / })).toBeAttached();
 
-  // Base : les 23 notions du caisson 00 collectées (sur 34 depuis le caisson 01), portfolio avec la version 0.0.
+  // Base : les 23 notions du caisson 00 collectées (sur 55 depuis le caisson 02), portfolio avec la version 0.0.
   await page.getByRole("navigation", { name: "Navigation principale" }).getByRole("button", { name: "Base" }).click();
-  await expect(page.getByText("23 / 34 notions collectées")).toBeVisible();
+  await expect(page.getByText("23 / 55 notions collectées")).toBeVisible();
   await expect(page.getByText("Ta page de présentation en ligne")).toBeVisible();
 
   // Maintenance : entraînement libre sur les notions apprises.
