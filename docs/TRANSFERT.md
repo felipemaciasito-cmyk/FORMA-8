@@ -1,4 +1,4 @@
-# FORMA-8 · Réveille l'équipe : document de transfert (état au 24/11/2026 : caisson 02 fusionné (PR #19) ; lot « bulles et écran de branchement » en cours sur la branche claude/practical-goldberg-n29pbz, en attente de l'accord du propriétaire)
+# FORMA-8 · Réveille l'équipe : document de transfert (état au 24/11/2026 : caisson 02 fusionné (PR #19) ; lot « bulles et écran de branchement » envoyé directement sur main, à la demande du propriétaire)
 
 > À lire en entier au démarrage de chaque nouvelle session (renvoi dans `CLAUDE.md`), **en commençant par la
 > section 0**. Ce document complète `CLAUDE.md`, `docs/CONCEPTION.md` et `docs/PROGRAMME.md`. En cas d'écart, le
@@ -16,10 +16,11 @@ faire est ci-dessous.
 ### 0.0 Mise à jour du 24/11/2026 (5e session) : à lire avant 0.1
 - **Le caisson 02 est fusionné dans `main`** (PR #19, commit `5a5ef4b`). La branche `claude/beautiful-cori-sz6dxq` est
   ancienne et entièrement fusionnée (à faire supprimer par le propriétaire).
-- Petit lot en cours, **section 3.21** (« bulles et écran de branchement »), demandé par le propriétaire sur capture
-  d'iPad, sur la branche `claude/practical-goldberg-n29pbz` partie de `main` `5a5ef4b`. Premières captures montrées le
-  24/11/2026, retouches demandées et faites (deuxième version) ; **attendre son accord** sur la deuxième version avant
-  d'ouvrir la PR (une seule, vers `main`).
+- Lot **section 3.21** (« bulles et écran de branchement »), demandé par le propriétaire sur capture d'iPad, construit
+  sur la branche `claude/practical-goldberg-n29pbz` (partie de `main` `5a5ef4b`), trois versions montrées (captures
+  puis maquette jouable). **Le 24/11/2026, le propriétaire a demandé « Pousse sur main »** : le lot a été envoyé
+  directement sur `main` (simple avance, sans PR), avec son accord explicite. Exception à la règle « une PR par lot » :
+  elle reste la règle pour les lots suivants, sauf nouvelle demande de sa part. La branche peut être supprimée par lui.
 - Ensuite : le caisson 03 (point 4 ci-dessous). Les points 2 et 3 de 0.1 sont dépassés (caisson 02 fusionné).
 
 ### 0.1 Dans l'ordre (mis à jour le 17/11/2026, 4e session : le caisson 02 est EN COURS, pas encore fusionné)
@@ -820,7 +821,7 @@ réveil, après le réveil). **Accord du propriétaire le 17/11/2026, PR ouverte
   animation quand le bouton est déjà presque en vue.
 - **Accord du propriétaire sur la maquette** : « Valide, fais la PR » (17/11/2026).
 
-### 3.21 Bulles et écran de branchement (24/11/2026), PAS ENCORE FUSIONNÉ
+### 3.21 Bulles et écran de branchement (24/11/2026), ENVOYÉ SUR `main` (à la demande du propriétaire)
 Demande du propriétaire (capture d'iPad) : « Les bulles de texte personnages ne doivent pas masquer des zones de textes
 ou des boutons d'interactions sur la page » ; à la fin d'un protocole, sur la page de branchement, « tout doit tenir
 dans la page sans avoir besoin de scroller (page fixe) », enlever le texte « La centrale monte en puissance / Encore N
@@ -857,7 +858,8 @@ protocoles… » et, si possible, agrandir le personnage. Branche `claude/practi
   https://claude.ai/artifact/Lsd8QEuys5LecbCizEQeJK (quatre départs : caisson 01 fin du protocole 01, caisson 01
   dernier protocole, caisson 02 fin du protocole 03, bulle pendant un protocole au caisson 00). Méthode 3.3 ; script
   de construction et page hôte dans le dossier temporaire de la session (pas dans le dépôt). **Attendre ses retouches
-  précises**, puis son accord, avant la PR.
+  précises**, puis son accord, avant la PR (finalement : envoi direct sur `main`, à sa demande, après la troisième
+  version).
 - **Troisième version (retouches du 24/11/2026 après la maquette)** :
   - capsule et centrale **centrées** ; plus de consigne « Branche ta batterie… » (reste seulement, si l'arc peut
     partir, « Maintiens ton doigt… », et les messages d'échec) ;
