@@ -852,8 +852,12 @@ protocoles… » et, si possible, agrandir le personnage. Branche `claude/practi
   Elles prennent quelques secondes (2,6 s) la place du grade dans la barre du haut, une à la fois, dans l'ordre (file
   de 4 au plus) ; kW, uptime et son restent visibles. La zone `.toast-zone` n'est plus utilisée.
 - Non vérifié : WebKit (téléchargement bloqué par le réseau de la session du 24/11/2026).
-- Le propriétaire a demandé « encore des retouches » sur la deuxième version, sans préciser lesquelles : à lui
-  demander.
+- Le propriétaire a demandé « encore des retouches » sur la deuxième version, puis précisé en QCM : taille des
+  éléments, place de la bulle, et « plutôt une maquette jouable ». Maquette publiée le 24/11/2026 :
+  https://claude.ai/artifact/Lsd8QEuys5LecbCizEQeJK (quatre départs : caisson 01 fin du protocole 01, caisson 01
+  dernier protocole, caisson 02 fin du protocole 03, bulle pendant un protocole au caisson 00). Méthode 3.3 ; script
+  de construction et page hôte dans le dossier temporaire de la session (pas dans le dépôt). **Attendre ses retouches
+  précises**, puis son accord, avant la PR.
 
 ## 4. Décisions prises et pistes écartées
 
