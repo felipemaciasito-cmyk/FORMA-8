@@ -847,9 +847,13 @@ protocoles… » et, si possible, agrandir le personnage. Branche `claude/practi
 - Le rejeu d'un protocole déjà terminé (pas de branchement) garde l'ancien écran, qui défile.
 - Contrôles ajoutés : `expectFixedFinish` (helpers) vérifie à chaque branchement des bancs que l'écran ne défile pas
   et que le dernier bouton est visible ; `compagnon.spec.ts` vérifie que rien de la page n'est sous la bulle.
-- Non vérifié : WebKit (téléchargement bloqué par le réseau de la session du 24/11/2026). Constat non traité, à
-  proposer : la notification « Badge débloqué » (en haut de l'écran) passe quelques secondes par-dessus la consigne du
-  branchement.
+- **Notifications** (`Chrome.tsx`, accord du propriétaire le 24/11/2026) : « Badge débloqué », « Reprise du
+  protocole »… ne flottent plus sous la barre du haut, par-dessus la page (elles cachaient la consigne du branchement).
+  Elles prennent quelques secondes (2,6 s) la place du grade dans la barre du haut, une à la fois, dans l'ordre (file
+  de 4 au plus) ; kW, uptime et son restent visibles. La zone `.toast-zone` n'est plus utilisée.
+- Non vérifié : WebKit (téléchargement bloqué par le réseau de la session du 24/11/2026).
+- Le propriétaire a demandé « encore des retouches » sur la deuxième version, sans préciser lesquelles : à lui
+  demander.
 
 ## 4. Décisions prises et pistes écartées
 

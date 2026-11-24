@@ -9,8 +9,38 @@ import { updateSettings, useProgress, useSettings } from "../lib/store";
 import { BadgeEmblem } from "./Emblems";
 import { Icon, type IconId } from "./Icon";
 
+// ---------------- Notifications (badge débloqué, reprise…) ----------------
+// Depuis le 24/11/2026 (demande du propriétaire : rien ne doit cacher un texte ou un bouton), une notification ne
+// flotte plus sous la barre du haut, par-dessus la page : elle prend quelques secondes la place du grade, dans la barre
+// du haut elle-même, une à la fois et dans l'ordre. Les kW, l'uptime et le son restent visibles.
+interface Toast { id: number; icon: IconId; text: string; tone?: string; badge?: string }
+const NOTE_MS = 2600;
+let notes: Toast[] = [];
+const noteSubs = new Set<(t: Toast | null) => void>();
+let noteTimer = 0;
+const emitNote = () => noteSubs.forEach((f) => f(notes[0] ?? null));
+function nextNote() {
+  window.clearTimeout(noteTimer);
+  if (!notes.length) { emitNote(); return; }
+  emitNote();
+  noteTimer = window.setTimeout(() => { notes = notes.slice(1); nextNote(); }, NOTE_MS);
+}
+if (typeof window !== "undefined") onFx((e: FxEvent) => {
+  if (e.type !== "toast") return;
+  const t = { id: Date.now() + Math.random(), icon: e.icon, text: e.text, tone: e.tone, badge: e.badge };
+  const idle = !notes.length;
+  notes = [...notes, t].slice(-4);
+  if (idle) nextNote(); else emitNote();
+});
+function useNote() {
+  const [n, setN] = useState<Toast | null>(notes[0] ?? null);
+  useEffect(() => { noteSubs.add(setN); return () => { noteSubs.delete(setN); }; }, []);
+  return n;
+}
+
 // ---------------- HUD (barre du haut) ----------------
 export function Hud() {
+  const note = useNote();
   const p = useProgress();
   // Pendant un protocole, les kW gagnés attendent dans la barre d'énergie : le compteur les reçoit à la fin.
   const bar = useEnergyBar();
@@ -28,10 +58,23 @@ export function Hud() {
   return (
     <header className="hud no-print">
       <div className="hud-row">
-        <button className="hud-level" onClick={() => go("base/badges")} aria-label={`Niveau ${lv.index} : ${lv.title}`}>
-          <span className="badge" data-l={lv.index} style={{ ["--p" as string]: lv.pct }} />
-          <span className="lbl">Accréditation<b>{lv.title}</b></span>
-        </button>
+        <AnimatePresence mode="wait" initial={false}>
+          {note ? (
+            <motion.div key={note.id} className="hud-note toast" role="status" aria-live="polite"
+              initial={{ opacity: 0, y: -10, scale: 0.96 }} animate={{ opacity: 1, y: 0, scale: 1 }} exit={{ opacity: 0, y: -8 }} transition={{ duration: 0.22 }}
+              style={{ borderColor: note.tone === "led" ? "rgba(77,255,160,.5)" : note.tone === "amber" ? "rgba(255,181,71,.5)" : note.tone === "red" ? "rgba(255,77,109,.5)" : undefined }}>
+              <span className="ic" style={{ color: TONE[note.tone ?? "cyan"] }}>{note.badge ? <BadgeEmblem icon={note.icon} got size={26} /> : <Icon name={note.icon} size={18} />}</span>
+              <span className="hud-note-txt">{note.text}</span>
+            </motion.div>
+          ) : (
+            <motion.div key="grade" className="hud-left" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.18 }}>
+              <button className="hud-level" onClick={() => go("base/badges")} aria-label={`Niveau ${lv.index} : ${lv.title}`}>
+                <span className="badge" data-l={lv.index} style={{ ["--p" as string]: lv.pct }} />
+                <span className="lbl">Accréditation<b>{lv.title}</b></span>
+              </button>
+            </motion.div>
+          )}
+        </AnimatePresence>
         <span className="hud-spacer" />
         <motion.span className="hud-stat kw" aria-label={`${p.energy} kilowatts d'énergie`} animate={glow ? { scale: [1, 1.22, 1] } : { scale: 1 }} transition={{ duration: 0.45 }}
           style={{ transition: "box-shadow .3s, border-color .3s", ...(glow ? { borderColor: "var(--cyan)", boxShadow: "0 0 0 3px rgba(59,232,255,.18), 0 0 22px rgba(59,232,255,.8)" } : {}) }}>
@@ -192,36 +235,18 @@ export function TabBar({ active }: { active: string }) {
 
 // ---------------- Effets : toasts + éclats de particules ----------------
 const TONE: Record<string, string> = { led: "var(--led)", cyan: "var(--cyan)", amber: "var(--amber)", red: "var(--red)" };
-interface Toast { id: number; icon: IconId; text: string; tone?: string; badge?: string }
-
 export function FxLayer() {
-  const [toasts, setToasts] = useState<Toast[]>([]);
   const canvas = useRef<HTMLCanvasElement>(null);
   const settings = useSettings();
   const reduce = settings.reduceMotion === "on" || (settings.reduceMotion === "auto" && window.matchMedia("(prefers-reduced-motion: reduce)").matches);
 
   useEffect(() => onFx((e: FxEvent) => {
-    if (e.type === "toast") {
-      const id = Date.now() + Math.random();
-      setToasts((t) => [...t.slice(-2), { id, icon: e.icon, text: e.text, tone: e.tone, badge: e.badge }]);
-      setTimeout(() => setToasts((t) => t.filter((x) => x.id !== id)), 2600);
-    }
     if (e.type === "burst" && !reduce) burst(canvas.current, e.x, e.y, e.color);
   }), [reduce]);
 
   return (
     <>
       <canvas ref={canvas} style={{ position: "fixed", inset: 0, width: "100%", height: "100%", pointerEvents: "none", zIndex: 95 }} />
-      <div className="toast-zone" aria-live="polite">
-        <AnimatePresence>
-          {toasts.map((t) => (
-            <motion.div key={t.id} layout className="toast" initial={{ opacity: 0, y: -16, scale: 0.9 }} animate={{ opacity: 1, y: 0, scale: 1 }} exit={{ opacity: 0, y: -10 }}
-              style={{ borderColor: t.tone === "led" ? "rgba(77,255,160,.5)" : t.tone === "amber" ? "rgba(255,181,71,.5)" : t.tone === "red" ? "rgba(255,77,109,.5)" : undefined }}>
-              <span className="ic" style={{ color: TONE[t.tone ?? "cyan"] }}>{t.badge ? <BadgeEmblem icon={t.icon} got size={30} /> : <Icon name={t.icon} size={20} />}</span>{t.text}
-            </motion.div>
-          ))}
-        </AnimatePresence>
-      </div>
     </>
   );
 }
