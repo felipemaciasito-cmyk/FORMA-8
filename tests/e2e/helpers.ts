@@ -180,6 +180,18 @@ export async function expectFixedFinish(page: Page) {
   });
   expect(m.scroll, "l'écran du branchement défile").toBeLessThanOrEqual(1);
   expect(m.bottom, "un bouton sort de l'écran").toBeLessThanOrEqual(m.h);
+  // La parole du membre, à droite de sa capsule, ne cache ni un texte ni un bouton.
+  const hidden = await dialog.evaluate((el) => {
+    const zone = el.querySelector(".plug-aside"); if (!zone) return ["pas de zone de parole"];
+    const r = zone.getBoundingClientRect(), out: string[] = [];
+    el.querySelectorAll(".kicker, button, .plug-modules, .telemetry").forEach((x) => {
+      if (zone.contains(x)) return;
+      const e = x.getBoundingClientRect(); if (!e.width || !e.height) return;
+      if (e.left < r.right && e.right > r.left && e.top < r.bottom && e.bottom > r.top) out.push(`${x.tagName} ${(x.textContent ?? "").slice(0, 30)}`);
+    });
+    return out;
+  });
+  expect(hidden, "la zone de parole cache quelque chose").toEqual([]);
 }
 
 /** Maintient le doigt sur la centrale du caisson pendant `ms` millisecondes (tentative d'envoi de l'arc). */

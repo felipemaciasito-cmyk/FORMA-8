@@ -83,9 +83,14 @@ function Reactor({ room: r, plugged, free, fire, ctl, onFail, onFire, recvRef, l
   // La zone de droite dépasse de la colonne capsule-centrale : la marge à droite garde l'ensemble centré.
   const ctlW = size?.ctl ?? 206;
   const extra = aside ? Math.max(0, cap / 2 + ASIDE_GAP + aside.width - ctlW / 2) : 0;
+  // La zone de parole part du haut de la capsule et peut descendre à côté de la centrale, jusqu'à l'anneau extérieur
+  // de celle-ci (cercle de rayon 146 sur 300, centré à 172 sur 330 dans son dessin) : elle ne cache jamais rien.
+  const xa = cap / 2 + ASIDE_GAP, ringR = (146 / 300) * ctlW;
+  const beside = xa >= ringR ? 1.1 * ctlW : Math.max(0, (172 / 300) * ctlW - Math.sqrt(ringR * ringR - xa * xa) - 8);
+  const asideH = cap * 1.2 + 20 + beside;
   return (
     <div className={`reactor ${size?.anim ? "anim" : ""}`} style={aside ? { marginRight: extra } : undefined}>
-      {aside && <div className="plug-aside" style={{ left: `calc(50% + ${(cap / 2 + ASIDE_GAP).toFixed(1)}px)`, width: aside.width, height: cap * 1.2 }}>{aside.node}</div>}
+      {aside && <div className="plug-aside" style={{ left: `calc(50% + ${xa.toFixed(1)}px)`, width: aside.width, maxHeight: asideH }}>{aside.node}</div>}
       <div className="cap-frame">
         <div className="cap-zoom" style={{ width: cap, height: cap * 1.2 }}>
           <div style={{ width: CAP_BASE, height: CAP_BASE * 1.2, transform: `scale(${(cap / CAP_BASE).toFixed(4)})` }}>
