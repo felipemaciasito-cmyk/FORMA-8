@@ -17,8 +17,9 @@ faire est ci-dessous.
 - **Le caisson 02 est fusionné dans `main`** (PR #19, commit `5a5ef4b`). La branche `claude/beautiful-cori-sz6dxq` est
   ancienne et entièrement fusionnée (à faire supprimer par le propriétaire).
 - Petit lot en cours, **section 3.21** (« bulles et écran de branchement »), demandé par le propriétaire sur capture
-  d'iPad, sur la branche `claude/practical-goldberg-n29pbz` partie de `main` `5a5ef4b`. Captures montrées le
-  24/11/2026 ; **attendre son accord** avant d'ouvrir la PR (une seule, vers `main`).
+  d'iPad, sur la branche `claude/practical-goldberg-n29pbz` partie de `main` `5a5ef4b`. Premières captures montrées le
+  24/11/2026, retouches demandées et faites (deuxième version) ; **attendre son accord** sur la deuxième version avant
+  d'ouvrir la PR (une seule, vers `main`).
 - Ensuite : le caisson 03 (point 4 ci-dessous). Les points 2 et 3 de 0.1 sont dépassés (caisson 02 fusionné).
 
 ### 0.1 Dans l'ordre (mis à jour le 17/11/2026, 4e session : le caisson 02 est EN COURS, pas encore fusionné)
@@ -829,15 +830,20 @@ protocoles… » et, si possible, agrandir le personnage. Branche `claude/practi
   juste au-dessus de la batterie (même aspect, pointe vers le hublot). L'emplacement garde sa hauteur quand la bulle se
   ferme (rien ne saute sous le doigt), et se vide au bloc suivant ; quand elle s'ouvre, la page remonte pour la montrer
   (si le joueur est près du bas). Les autres bulles (`.bulle`) étaient déjà dans la page.
-- **Écran du branchement** (`PlugScene.tsx`) : écran fixe en colonne. De haut en bas : la ligne « Protocole NN terminé
-  · centrale n / N » ; une zone de parole de hauteur fixe (avant : consigne du branchement ; après : bulle du membre,
-  pointe vers sa capsule, ou message d'échec, ou consigne de l'arc) ; la capsule et la centrale, qui prennent toute la
-  hauteur restante (calcul dans `PlugScene`, capsule dessinée à 240 px puis mise à l'échelle) ; en bas la batterie,
-  remplacée après le branchement par les modules gagnés (puces de 34 px) et les boutons (« Protocole suivant » ou
-  « Réparer la panne », puis « Retour au caisson » et « Relire le protocole » côte à côte). Après le branchement, la
-  centrale rapetisse (moitié de la capsule), le nom sous la capsule et la télémétrie disparaissent : la capsule grandit.
-  Mesures : capsule 140 px avant ; après, environ 165 px sur iPhone 13 (390 × 664), environ 185 px sur un iPad de
-  700 px de haut. Le texte « La centrale monte en puissance » et « Encore N protocoles… » est retiré.
+- **Écran du branchement** (`PlugScene.tsx`), deuxième version (retouches du propriétaire sur captures, 24/11/2026 :
+  « bulles à droite du personnage », « personnage légèrement moins gros et centrale plus grosse », boutons qui
+  apparaissent une fois la prise branchée « avec une petite animation ») : écran fixe en colonne. En haut, la ligne
+  « Protocole NN terminé · centrale n / N ». Au milieu, la capsule avec, **à sa droite**, la zone de parole (avant :
+  consigne du branchement ; après : bulle du membre, pointe vers la capsule, ou message d'échec, ou consigne de
+  l'arc) ; la centrale dessous, **1,35 fois plus large que la capsule** ; elles prennent toute la place restante
+  (calcul dans `PlugScene`, capsule dessinée à 240 px puis mise à l'échelle ; l'ensemble reste centré). En bas, la
+  batterie ; une fois branchée, elle laisse sa place aux modules gagnés (puces de 34 px) puis aux boutons, qui arrivent
+  l'un après l'autre (ressort, de bas en haut) : « Protocole suivant » ou « Réparer la panne », puis « Retour au
+  caisson » et « Relire le protocole » côte à côte. Après le branchement, le nom sous la capsule et la télémétrie
+  disparaissent. Mesures (iPhone 13, 390 × 664) : capsule 140 px et centrale 206 px avant ce lot ; maintenant capsule
+  environ 135-140 px et centrale environ 185 px, aussi après le branchement (avant : la centrale tombait à environ
+  80 px). iPad (700 px de haut) : capsule environ 150, centrale environ 200. Le texte « La centrale monte en
+  puissance » et « Encore N protocoles… » est retiré.
 - Le rejeu d'un protocole déjà terminé (pas de branchement) garde l'ancien écran, qui défile.
 - Contrôles ajoutés : `expectFixedFinish` (helpers) vérifie à chaque branchement des bancs que l'écran ne défile pas
   et que le dernier bouton est visible ; `compagnon.spec.ts` vérifie que rien de la page n'est sous la bulle.

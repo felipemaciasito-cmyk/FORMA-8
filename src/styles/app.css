@@ -433,15 +433,18 @@ textarea.input { min-height: 96px; resize: vertical; line-height: 1.45; }
    bouge quand la bulle s'ouvre ou se ferme. */
 .plug-ecran { box-sizing: border-box; height: 100%; min-height: 380px; max-width: 460px; margin: 0 auto; padding: 0 16px calc(var(--safe-bottom) + 12px); display: flex; flex-direction: column; }
 .plug-fixe { flex: 1; min-height: 0; }
-.plug-voix { flex: none; width: 100%; height: 86px; margin-top: 4px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; }
-.plug-voix .bulle-col.vers-bas { width: 100%; height: 100%; align-items: center; justify-content: flex-end; }
-.plug-voix .bulle { text-align: left; font-size: 14px; padding: 8px 12px 10px; }
-.plug-voix .bulle .bulle-texte { line-height: 1.38; }
-.plug-voix .bulle-indice { text-align: center; margin: 0 0 4px; }
-.plug-titre { font-size: 19px; font-weight: 700; line-height: 1.2; }
-.plug-consigne { max-width: 340px; line-height: 1.35; }
-.plug-msg { max-width: 340px; line-height: 1.35; color: var(--amber); }
-.plug-stage { flex: 1; min-height: 0; width: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.plug-aside { position: absolute; top: 0; z-index: 3; display: flex; flex-direction: column; align-items: flex-start; justify-content: center; gap: 6px; text-align: left; }
+.plug-aside .bulle-col.vers-gauche { width: 100%; justify-content: center; }
+.plug-aside .bulle { font-size: 13.5px; padding: 8px 10px 10px; }
+.plug-aside .bulle .bulle-texte { line-height: 1.36; }
+.plug-aside .bulle.vers-gauche { border-radius: 16px; }
+.bulle.vers-gauche::after { content: ""; position: absolute; left: -7px; top: 50%; width: 12px; height: 12px; margin-top: -6px; transform: rotate(45deg); background: hsl(200 40% 12%); border-style: solid; border-color: inherit; border-width: 0 0 1px 1px; }
+.bulle-nom { font-size: 9.5px; letter-spacing: .1em; flex-wrap: wrap; }
+.plug-aside .bulle-indice { margin: 0; }
+.plug-titre { font-size: 17px; font-weight: 700; line-height: 1.2; }
+.plug-consigne { line-height: 1.35; }
+.plug-msg { line-height: 1.35; color: var(--amber); }
+.plug-stage { flex: 1; min-height: 0; width: 100%; margin-top: 6px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
 .plug-fixe .reactor { margin-top: 0; }
 .plug-fixe .reactor .centrale { margin-top: 6px; }
 .plug-fixe .plug-gauge.panel { flex: none; margin-top: 8px; }
@@ -496,3 +499,5 @@ textarea.input { min-height: 96px; resize: vertical; line-height: 1.45; }
 .capsule-btn { padding: 0; border: 0; background: none; cursor: pointer; -webkit-tap-highlight-color: transparent; }
 .panel.defi { border-color: hsl(var(--hue) 90% 60% / .35); }
 .reduce-motion .portrait-z { animation: none; }
+/* À droite de la capsule, la bulle est étroite : le nom tient sur une ligne. */
+.plug-aside .bulle-dort { display: none; }

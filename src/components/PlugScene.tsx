@@ -60,9 +60,11 @@ function PlugSvg({ live }: { live?: boolean }) {
 
 /** Taille de référence du dessin de la capsule : elle est ensuite mise à l'échelle de l'écran (voir PlugScene). */
 const CAP_BASE = 240;
+/** Écart entre la capsule et la zone de parole posée à sa droite (px). */
+const ASIDE_GAP = 10;
 
 /** La capsule du membre dans son cadre de visée, son électrode de réception, la centrale, puis la télémétrie. */
-function Reactor({ room: r, plugged, free, fire, ctl, onFail, onFire, recvRef, lux, size, telemetry = true }: {
+function Reactor({ room: r, plugged, free, fire, ctl, onFail, onFire, recvRef, lux, size, telemetry = true, aside }: {
   room: Room; plugged: number; free: number; fire: FireState; ctl: React.RefObject<CentraleHandle | null>;
   onFail: (why: Exclude<FireState, "ok">) => void; onFire: () => void; recvRef: React.RefObject<HTMLSpanElement | null>; lux: number;
   /** Taille de la capsule et largeur de la centrale (px), calculées pour que tout tienne à l'écran. */
@@ -70,14 +72,20 @@ function Reactor({ room: r, plugged, free, fire, ctl, onFail, onFire, recvRef, l
   /** Le nom du membre sous la capsule et la ligne de télémétrie (prises, charge, circuit) sous la centrale. Une fois la
    *  batterie branchée, ils laissent leur place à la capsule (la bulle du membre porte déjà son nom). */
   telemetry?: boolean;
+  /** Ce qui s'affiche à droite de la capsule (consigne, bulle du membre), avec sa largeur (voir PlugScene). */
+  aside?: { node: ReactNode; width: number };
 }) {
   const total = r.steps.length;
   const [attempt, setAttempt] = useState(0);
   const [fired, setFired] = useState(false);
   const circuit = fired ? "ARC ENVOYÉ" : fire === "ok" ? "PRÊT" : fire === "fault" ? "COUPÉ · PANNE" : "INCOMPLET";
   const cap = size?.cap ?? 140;
+  // La zone de droite dépasse de la colonne capsule-centrale : la marge à droite garde l'ensemble centré.
+  const ctlW = size?.ctl ?? 206;
+  const extra = aside ? Math.max(0, cap / 2 + ASIDE_GAP + aside.width - ctlW / 2) : 0;
   return (
-    <div className={`reactor ${size?.anim ? "anim" : ""}`}>
+    <div className={`reactor ${size?.anim ? "anim" : ""}`} style={aside ? { marginRight: extra } : undefined}>
+      {aside && <div className="plug-aside" style={{ left: `calc(50% + ${(cap / 2 + ASIDE_GAP).toFixed(1)}px)`, width: aside.width, height: cap * 1.2 }}>{aside.node}</div>}
       <div className="cap-frame">
         <div className="cap-zoom" style={{ width: cap, height: cap * 1.2 }}>
           <div style={{ width: CAP_BASE, height: CAP_BASE * 1.2, transform: `scale(${(cap / CAP_BASE).toFixed(4)})` }}>
@@ -106,9 +114,9 @@ const failText = (why: Exclude<FireState, "ok">, left: number) => why === "fault
 
 /**
  * Fin d'un protocole, écran fixe (demande du propriétaire, 24/11/2026) : tout tient dans l'écran, sans défilement.
- * De haut en bas : le titre court, la zone de parole (consigne, puis bulle du membre), la capsule et sa centrale (elles
- * prennent toute la place qui reste, la capsule en premier), puis la batterie ; une fois branchée, les modules gagnés
- * et les boutons prennent sa place, et la centrale se fait plus petite pour leur laisser de la place.
+ * De haut en bas : le titre court ; la capsule, avec à sa droite la zone de parole (consigne, puis bulle du membre), et
+ * la centrale dessous (elles prennent toute la place qui reste) ; puis la batterie. Une fois la batterie branchée, les
+ * modules gagnés et les boutons arrivent à sa place, avec une petite animation.
  */
 export function PlugScene({ room: r, index, cells, energy, incidentOpen, onPlugged, onAwaken, speech, after }: {
   room: Room; index: number; cells: number; energy: number; incidentOpen: boolean;
@@ -141,11 +149,10 @@ export function PlugScene({ room: r, index, cells, energy, incidentOpen, onPlugg
   const phaseRef = useRef<Phase>("ready");
   phaseRef.current = phase;
 
-  // Taille de la capsule et de la centrale : elles occupent toute la hauteur laissée libre par le reste de l'écran.
-  // Avant le branchement, la centrale reste grande (on y glisse la fiche) ; ensuite, elle se fait plus petite pour
-  // laisser la place aux modules et aux boutons, et la capsule garde la plus grande taille possible.
+  // Taille de la capsule et de la centrale : elles occupent toute la place laissée libre par le reste de l'écran. Une
+  // fois la batterie branchée, les modules et les boutons arrivent : capsule et centrale se font un peu plus petites.
   const stage = useRef<HTMLDivElement>(null);
-  const [size, setSize] = useState<{ cap: number; ctl: number; anim: boolean } | null>(null);
+  const [size, setSize] = useState<{ cap: number; ctl: number; aside: number; anim: boolean } | null>(null);
   const done = phase === "done";
   useLayoutEffect(() => {
     const el = stage.current; if (!el) return;
@@ -155,13 +162,15 @@ export function PlugScene({ room: r, index, cells, energy, incidentOpen, onPlugg
       // Ce qui n'est ni la capsule ni la centrale (nom, électrode, télémétrie) : mesuré, pour ne rien oublier.
       const fixed = re && cz && kz ? Math.max(8, re.offsetHeight - cz.offsetHeight - kz.offsetHeight) : 70;
       const room = Math.max(0, h - fixed - 8);
-      const k = done ? 0.5 : 0.92; // largeur de la centrale par rapport à la capsule
-      let cap = room / (1.2 + 1.1 * k), ctl = cap * k;
-      const minCtl = done ? 70 : 150;
-      if (ctl < minCtl) { ctl = Math.min(minCtl, room / 1.1 * 0.6); cap = (room - 1.1 * ctl) / 1.2; }
-      cap = Math.max(72, Math.min(cap, 280, w / 1.5));
-      ctl = Math.max(60, Math.min(ctl, 300, w - 8));
-      setSize((s) => (s && Math.abs(s.cap - cap) < 1 && Math.abs(s.ctl - ctl) < 1 ? s : { cap, ctl, anim: !!s }));
+      // La centrale est plus large que la capsule (choix du propriétaire, 24/11/2026) ; la parole est à droite de la
+      // capsule : la place en largeur limite donc aussi leur taille.
+      const k = 1.35;
+      const aside = Math.round(Math.min(240, Math.max(140, w * 0.42)));
+      let cap = room / (1.2 + 1.1 * k);
+      cap = Math.min(cap, (2 * (w - ASIDE_GAP - aside)) / (1 + k), 230);
+      cap = Math.max(70, cap);
+      const ctl = Math.min(cap * k, 300);
+      setSize((s) => (s && Math.abs(s.cap - cap) < 1 && Math.abs(s.ctl - ctl) < 1 && s.aside === aside ? s : { cap, ctl, aside, anim: !!s }));
     };
     fit();
     const ro = new ResizeObserver(fit);
@@ -275,26 +284,27 @@ export function PlugScene({ room: r, index, cells, energy, incidentOpen, onPlugg
   const live = phase === "flow" || phase === "done";
 
   const kicker = `Protocole ${String(index + 1).padStart(2, "0")} terminé · centrale ${plugged} / ${total}`;
-  // Zone de parole. Avant le branchement : la consigne. Ensuite : la bulle du membre (plus de texte « la centrale monte
-  // en puissance », retiré à la demande du propriétaire le 24/11/2026), un message d'échec, ou la consigne de l'arc.
+  // Zone de parole, à droite de la capsule (choix du propriétaire, 24/11/2026). Avant le branchement : la consigne.
+  // Ensuite : la bulle du membre (plus de texte « la centrale monte en puissance », retiré à sa demande), un message
+  // d'échec, ou la consigne de l'arc.
   const voix = msg ? <div className="small plug-msg" role="status">{msg}</div>
     : !done ? (<>
       <div className="plug-titre">Branche ta batterie sur la centrale</div>
       <div className="small muted plug-consigne" role="status">Fais glisser la fiche de ta batterie jusqu'à la prise libre de la centrale, ou touche-la.</div>
     </>)
-    : speech?.md ? <BulleSeule speaker={speech.speaker} md={speech.md} vers="bas" />
+    : speech?.md ? <BulleSeule speaker={speech.speaker} md={speech.md} vers="gauche" />
     : fire === "ok" ? <div className="small muted plug-consigne" role="status">Maintiens ton doigt sur la centrale pour envoyer l'arc à {r.member}.</div>
     : null;
 
   return (
     <div ref={box} className={`plug-scene plug-fixe hud-scene ${done ? "fini" : ""}`}>
       <div className="kicker" style={{ color: "#fff" }}>{kicker}</div>
-      <div className="plug-voix">{voix}</div>
       <div ref={stage} className="plug-stage">
         <Reactor room={r} plugged={plugged} free={done ? -1 : index} fire={fire} ctl={ctl} recvRef={recvRef}
-          lux={0.5 + 0.2 * (plugged / total)} onFail={onFail} onFire={onAwaken} size={size ?? undefined} telemetry={!done} />
+          lux={0.5 + 0.2 * (plugged / total)} onFail={onFail} onFire={onAwaken} size={size ?? undefined} telemetry={!done}
+          aside={{ node: voix, width: size?.aside ?? 160 }} />
       </div>
-      {done ? <motion.div className="plug-suite" initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, ease: [0.2, 0.8, 0.2, 1] }}>{after}</motion.div>
+      {done ? <div className="plug-suite">{after}</div>
         : <div className="plug-gauge panel">
         <div className="lbl"><span>BATTERIE DU PROTOCOLE {String(index + 1).padStart(2, "0")}</span><b>{Math.round(((cells - drained) / cells) * 100)} %</b></div>
         <div className={`battery xl ${drained === 0 ? "full" : ""}`} aria-hidden="true">
