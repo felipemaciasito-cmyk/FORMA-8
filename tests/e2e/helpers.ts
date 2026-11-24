@@ -164,6 +164,22 @@ export async function plugBattery(page: Page) {
   await expectCoversTop(page, /^Protocole \d+ terminé$/);
   await page.getByRole("button", { name: /^Brancher la batterie/ }).click({ force: true }); // la prise bouge doucement
   await expect(page.getByRole("button", { name: "Retour au caisson" })).toBeVisible({ timeout: 8000 });
+  await expectFixedFinish(page);
+}
+
+/**
+ * L'écran du branchement est fixe (demande du propriétaire, 24/11/2026) : tout tient dans l'écran, sans défilement,
+ * et les boutons sont entièrement visibles.
+ */
+export async function expectFixedFinish(page: Page) {
+  const dialog = page.getByRole("dialog", { name: /^Protocole \d+ terminé$/ }).first();
+  await page.waitForTimeout(700); // la capsule et la centrale finissent de prendre leur nouvelle taille
+  const m = await dialog.evaluate((el) => {
+    const last = [...el.querySelectorAll("button")].at(-1)!.getBoundingClientRect();
+    return { scroll: el.scrollHeight - el.clientHeight, bottom: last.bottom, h: window.innerHeight };
+  });
+  expect(m.scroll, "l'écran du branchement défile").toBeLessThanOrEqual(1);
+  expect(m.bottom, "un bouton sort de l'écran").toBeLessThanOrEqual(m.h);
 }
 
 /** Maintient le doigt sur la centrale du caisson pendant `ms` millisecondes (tentative d'envoi de l'arc). */

@@ -10,6 +10,25 @@ const COMP = JSON.parse(readFileSync(new URL("../../src/content/compagnon.json",
 const said = (page: Page) => page.evaluate(() => (window as unknown as { __forma8Compagnon?: string[] }).__forma8Compagnon ?? []);
 const lastVoice = (page: Page) => page.evaluate(() => (window as unknown as { __forma8Voice?: string }).__forma8Voice ?? "");
 
+/**
+ * Ce que la bulle du compagnon recouvre : textes, boutons ou encadrés de la page qui croisent son rectangle, et la
+ * batterie posée en bas de l'écran si elle passe par-dessus la bulle.
+ */
+function underBubble(page: Page) {
+  return page.evaluate(() => {
+    const b = document.querySelector(".companion-bubble"); if (!b) return ["pas de bulle"];
+    const r = b.getBoundingClientRect(), out: string[] = [];
+    const dock = document.querySelector(".battery-dock > div")?.getBoundingClientRect();
+    if (dock && r.bottom > dock.top + 1) out.push(`la batterie cache le bas de la bulle (${Math.round(r.bottom)} > ${Math.round(dock.top)})`);
+    document.querySelectorAll("main p, main button, main li, main h1, main h2, main .panel").forEach((el) => {
+      if (b.contains(el) || el.contains(b) || el.closest(".battery-dock")) return;
+      const e = el.getBoundingClientRect(); if (!e.width || !e.height) return;
+      if (e.left < r.right && e.right > r.left && e.top < r.bottom && e.bottom > r.top) out.push(`${el.tagName} « ${(el.textContent ?? "").slice(0, 30)} »`);
+    });
+    return out;
+  });
+}
+
 test("le compagnon accompagne le protocole et réagit aux erreurs", async ({ page }) => {
   test.setTimeout(120_000);
   await boot(page);
@@ -20,6 +39,9 @@ test("le compagnon accompagne le protocole et réagit aux erreurs", async ({ pag
   await expect(page.locator(".companion-port")).toBeVisible();
   await expect(bubble.last()).toContainText(COMP.c00.protocoles.p1.debut);
   await expect.poll(() => lastVoice(page), { timeout: 20_000 }).toBe(voiceKey("ora", COMP.c00.protocoles.p1.debut));
+  // La bulle est dans la page : rien de la page n'est dessous, et elle n'est pas cachée par la batterie.
+  await page.waitForTimeout(900);
+  expect(await underBubble(page)).toEqual([]);
   // Toucher la bulle : la voix se tait et la bulle se range.
   await bubble.last().click({ position: { x: 30, y: 40 } }).catch(() => {});
   await expect(bubble).toHaveCount(0, { timeout: 15_000 });
@@ -46,9 +68,13 @@ test("le compagnon accompagne le protocole et réagit aux erreurs", async ({ pag
   const wrong = texts.map((t, i) => ({ t, i })).filter(({ t }) => !t.includes(good)).slice(0, 2);
   for (const w of wrong) { await options.nth(w.i).click({ force: true }); await page.waitForTimeout(700); }
   await expect.poll(async () => (await said(page)).some((l) => l.startsWith("indice:"))).toBe(true);
-  // La bulle de la piste passe au premier plan, par-dessus les réponses : le joueur la touche pour la fermer, puis
-  // répond. Le 17/11/2026, le clic forcé sur la bonne réponse tombait parfois à côté (2 échecs sur 5) quand elle était
-  // en première position, sous la barre du haut : d'où le clic normal ci-dessous.
+  // La bulle de la piste s'ouvre dans la page, sous le bouton : elle ne cache ni les réponses ni aucun autre texte
+  // (demande du propriétaire, 24/11/2026). Le joueur peut la toucher pour la fermer, puis répond. Le 17/11/2026, le clic
+  // forcé sur la bonne réponse tombait parfois à côté (2 échecs sur 5) quand elle était en première position, sous la
+  // barre du haut : d'où le clic normal ci-dessous.
+  await expect(bubble.last()).toBeVisible();
+  await page.waitForTimeout(900); // la page finit de remonter pour montrer la bulle
+  expect(await underBubble(page)).toEqual([]);
   if (await bubble.count()) await bubble.last().click({ position: { x: 30, y: 40 }, timeout: 3000 }).catch(() => {});
   await expect(bubble).toHaveCount(0, { timeout: 15_000 });
   // Clic normal (pas forcé) : Playwright vérifie que rien ne couvre la réponse et la fait défiler en vue.

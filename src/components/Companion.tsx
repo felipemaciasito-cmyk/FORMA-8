@@ -1,5 +1,6 @@
 import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import type { Room } from "../content/types";
 import { currentCompanion, hideCompanion, onCompanion, type CompanionLine } from "../lib/companion";
 import { speakerOf } from "../lib/voice";
@@ -8,10 +9,14 @@ import { CrewFigure, type CrewState } from "./Crew";
 import { OraDrone } from "./Ora";
 import { BulleCorps, MemberSays, useBulle } from "./Bulle";
 
+/** Emplacement de la bulle du compagnon dans la page du protocole (voir RoomView). */
+export const COMPANION_SLOT = "companion-slot";
+
 /**
  * Le compagnon du protocole : le membre du caisson, dans un petit hublot posé à gauche de la batterie, toujours
- * visible et animé (il respire, cligne, rebondit quand tu réussis). Quand il parle, sa bulle sort au-dessus de la
- * batterie ; sa voix part seulement quand la bulle est à l'écran (voir src/lib/voice.ts).
+ * visible et animé (il respire, cligne, rebondit quand tu réussis). Quand il parle, sa bulle s'ouvre au bas de la
+ * page, juste au-dessus de la batterie. Depuis le 24/11/2026 (demande du propriétaire), elle fait partie de la page :
+ * elle ne passe plus jamais par-dessus un texte ou un bouton (la page s'allonge pour elle et remonte pour la montrer).
  */
 export function CompanionPort({ r, state }: { r: Room; state: CrewState }) {
   const [line, setLine] = useState<CompanionLine | null>(currentCompanion());
@@ -33,6 +38,34 @@ export function CompanionPort({ r, state }: { r: Room; state: CrewState }) {
   }, [b.open]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const hue = r.hue;
+  // L'emplacement de la bulle, au bas de la page du protocole (s'il n'existe pas, la bulle reste près du hublot).
+  const [slot, setSlot] = useState<HTMLElement | null>(null);
+  useEffect(() => { setSlot(document.getElementById(COMPANION_SLOT)); }, []);
+  // La bulle vient de s'ouvrir : son emplacement garde sa hauteur (jusqu'au bloc suivant), et la page remonte pour la
+  // montrer au-dessus de la batterie, si le joueur est près du bas de la page.
+  const shown = b.open && !!b.affiche;
+  useEffect(() => {
+    if (!shown || !slot) return;
+    const t = window.setTimeout(() => {
+      const el = slot.querySelector<HTMLElement>(".companion-bubble"); if (!el) return;
+      slot.style.minHeight = `${Math.max(slot.offsetHeight, el.offsetHeight + 14)}px`;
+      if (slot.getBoundingClientRect().top < window.innerHeight * 1.5) slot.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    }, 40);
+    return () => window.clearTimeout(t);
+  }, [shown, b.affiche, slot]);
+  const bubble = (
+    <AnimatePresence>
+      {b.open && b.affiche && (
+        <motion.div key={b.affiche} className={`companion-bubble ${slot ? "in-page" : ""}`} role="status" aria-live="polite"
+          initial={{ opacity: 0, y: 10, scale: 0.96 }} animate={{ opacity: 1, y: 0, scale: 1 }} exit={{ opacity: 0, scale: 0.97 }}
+          transition={{ type: "spring", stiffness: 420, damping: 30 }}
+          onClick={b.fermer}
+          style={{ borderColor: `hsl(${hue} 90% 60% / ${0.45 + talk * 0.4})`, background: `linear-gradient(135deg, hsl(${hue} 55% 15%), #080d19 60%)` }}>
+          <BulleCorps speaker={speaker} b={b} />
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
   return (
     <>
       <motion.button type="button" className="companion-port" aria-label={`Toucher ${r.member}`} onClick={() => { b.toucher(); }}
@@ -44,17 +77,7 @@ export function CompanionPort({ r, state }: { r: Room; state: CrewState }) {
           : <CrewFigure id={r.id} state={happy ? "awake" : state} mood={happy ? "happy" : "neutral"} crop="head" size={46} label={r.member} />}
         {(asleep || (r.id === "c00" && !eveille("ora"))) && !happy && <span className="companion-z mono">z</span>}
       </motion.button>
-      <AnimatePresence>
-        {b.open && b.affiche && (
-          <motion.div key={b.affiche} className="companion-bubble" role="status" aria-live="polite"
-            initial={{ opacity: 0, y: 10, scale: 0.92 }} animate={{ opacity: 1, y: 0, scale: 1 }} exit={{ opacity: 0, y: 6, scale: 0.96 }}
-            transition={{ type: "spring", stiffness: 420, damping: 30 }}
-            onClick={b.fermer}
-            style={{ borderColor: `hsl(${hue} 90% 60% / ${0.45 + talk * 0.4})`, background: `linear-gradient(135deg, hsl(${hue} 55% 15%), #080d19 60%)` }}>
-            <BulleCorps speaker={speaker} b={b} />
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {slot ? createPortal(bubble, slot) : bubble}
     </>
   );
 }

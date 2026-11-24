@@ -1,11 +1,13 @@
 import { motion } from "motion/react";
-import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState, type ReactNode } from "react";
 import type { Room } from "../content/types";
 import { releaseEnergy } from "../lib/energy";
 import { sfx } from "../lib/sound";
 import { centerOf, type Pt } from "./Bolts";
 import { Centrale, type CentraleHandle, type FireState } from "./Centrale";
 import { ChargedCapsule } from "./Crew";
+import { BulleSeule } from "./Bulle";
+import type { Speaker } from "../lib/voice";
 
 // Fin d'un protocole (troisième version, choisie par le propriétaire le 15/11/2026 : la « centrale ») :
 // la jauge que le joueur a chargée pendant le protocole a un vrai câble, qui sort de sa borne « + ». Il tire la fiche et
@@ -56,29 +58,44 @@ function PlugSvg({ live }: { live?: boolean }) {
   );
 }
 
+/** Taille de référence du dessin de la capsule : elle est ensuite mise à l'échelle de l'écran (voir PlugScene). */
+const CAP_BASE = 240;
+
 /** La capsule du membre dans son cadre de visée, son électrode de réception, la centrale, puis la télémétrie. */
-function Reactor({ room: r, plugged, free, fire, ctl, onFail, onFire, recvRef, lux }: {
+function Reactor({ room: r, plugged, free, fire, ctl, onFail, onFire, recvRef, lux, size, telemetry = true }: {
   room: Room; plugged: number; free: number; fire: FireState; ctl: React.RefObject<CentraleHandle | null>;
   onFail: (why: Exclude<FireState, "ok">) => void; onFire: () => void; recvRef: React.RefObject<HTMLSpanElement | null>; lux: number;
+  /** Taille de la capsule et largeur de la centrale (px), calculées pour que tout tienne à l'écran. */
+  size?: { cap: number; ctl: number; anim: boolean };
+  /** Le nom du membre sous la capsule et la ligne de télémétrie (prises, charge, circuit) sous la centrale. Une fois la
+   *  batterie branchée, ils laissent leur place à la capsule (la bulle du membre porte déjà son nom). */
+  telemetry?: boolean;
 }) {
   const total = r.steps.length;
   const [attempt, setAttempt] = useState(0);
   const [fired, setFired] = useState(false);
   const circuit = fired ? "ARC ENVOYÉ" : fire === "ok" ? "PRÊT" : fire === "fault" ? "COUPÉ · PANNE" : "INCOMPLET";
+  const cap = size?.cap ?? 140;
   return (
-    <div className="reactor">
+    <div className={`reactor ${size?.anim ? "anim" : ""}`}>
       <div className="cap-frame">
-        <ChargedCapsule id={r.id} state="asleep" lux={fired ? 1 : lux} size={140} />
-        <div className="cap-tag"><span className={`dot ${fired ? "on" : ""}`} />{r.member.toUpperCase()} · {fired ? "ARC REÇU" : "EN VEILLE"}</div>
+        <div className="cap-zoom" style={{ width: cap, height: cap * 1.2 }}>
+          <div style={{ width: CAP_BASE, height: CAP_BASE * 1.2, transform: `scale(${(cap / CAP_BASE).toFixed(4)})` }}>
+            <ChargedCapsule id={r.id} state="asleep" lux={fired ? 1 : lux} size={CAP_BASE} />
+          </div>
+        </div>
+        {telemetry && <div className="cap-tag"><span className={`dot ${fired ? "on" : ""}`} />{r.member.toUpperCase()} · {fired ? "ARC REÇU" : "EN VEILLE"}</div>}
       </div>
       <span className="recv" ref={recvRef} aria-hidden="true" />
-      <Centrale ref={ctl} total={total} plugged={plugged} free={free} fire={fire} memberName={r.member}
-        target={() => centerOf(recvRef.current)} onFail={onFail} onCharge={setAttempt} onFire={() => { setFired(true); onFire(); }} />
-      <div className="telemetry" aria-hidden="true">
+      <div className="ctl-zoom" style={size ? { width: size.ctl } : undefined}>
+        <Centrale ref={ctl} total={total} plugged={plugged} free={free} fire={fire} memberName={r.member}
+          target={() => centerOf(recvRef.current)} onFail={onFail} onCharge={setAttempt} onFire={() => { setFired(true); onFire(); }} />
+      </div>
+      {telemetry && <div className="telemetry" aria-hidden="true">
         <span>PRISES <b>{plugged}/{total}</b></span>
         <span>{attempt > 0 ? "ARC" : "CHARGE"} <b>{Math.round((attempt > 0 ? attempt : plugged / total) * 100)} %</b></span>
         <span className={fire === "ok" || fired ? "ok" : fire === "fault" ? "bad" : ""}>CIRCUIT <b>{circuit}</b></span>
-      </div>
+      </div>}
     </div>
   );
 }
@@ -87,12 +104,22 @@ const failText = (why: Exclude<FireState, "ok">, left: number) => why === "fault
   ? "Connexion impossible : la panne coupe le circuit. Répare-la d'abord."
   : `Connexion impossible : encore ${left} prise${left > 1 ? "s" : ""} à brancher.`;
 
-export function PlugScene({ room: r, index, cells, energy, incidentOpen, onPlugged, onAwaken }: {
+/**
+ * Fin d'un protocole, écran fixe (demande du propriétaire, 24/11/2026) : tout tient dans l'écran, sans défilement.
+ * De haut en bas : le titre court, la zone de parole (consigne, puis bulle du membre), la capsule et sa centrale (elles
+ * prennent toute la place qui reste, la capsule en premier), puis la batterie ; une fois branchée, les modules gagnés
+ * et les boutons prennent sa place, et la centrale se fait plus petite pour leur laisser de la place.
+ */
+export function PlugScene({ room: r, index, cells, energy, incidentOpen, onPlugged, onAwaken, speech, after }: {
   room: Room; index: number; cells: number; energy: number; incidentOpen: boolean;
   /** Appelé quand la batterie est branchée (last : c'était la dernière prise). */
   onPlugged: (last: boolean) => void;
   /** L'arc a frappé la capsule (toutes les prises branchées, sans panne) : le membre se réveille. */
   onAwaken: () => void;
+  /** Réplique du membre, dite une fois la batterie branchée (dans la zone de parole, au-dessus de sa capsule). */
+  speech?: { speaker: Speaker; md?: string };
+  /** La suite (modules gagnés, boutons), affichée sous la centrale une fois la batterie branchée. */
+  after?: ReactNode;
 }) {
   const total = r.steps.length;
   const last = index === total - 1;
@@ -114,6 +141,36 @@ export function PlugScene({ room: r, index, cells, energy, incidentOpen, onPlugg
   const phaseRef = useRef<Phase>("ready");
   phaseRef.current = phase;
 
+  // Taille de la capsule et de la centrale : elles occupent toute la hauteur laissée libre par le reste de l'écran.
+  // Avant le branchement, la centrale reste grande (on y glisse la fiche) ; ensuite, elle se fait plus petite pour
+  // laisser la place aux modules et aux boutons, et la capsule garde la plus grande taille possible.
+  const stage = useRef<HTMLDivElement>(null);
+  const [size, setSize] = useState<{ cap: number; ctl: number; anim: boolean } | null>(null);
+  const done = phase === "done";
+  useLayoutEffect(() => {
+    const el = stage.current; if (!el) return;
+    const fit = () => {
+      const h = el.clientHeight, w = el.clientWidth;
+      const re = el.querySelector<HTMLElement>(".reactor"), cz = el.querySelector<HTMLElement>(".cap-zoom"), kz = el.querySelector<HTMLElement>(".ctl-zoom");
+      // Ce qui n'est ni la capsule ni la centrale (nom, électrode, télémétrie) : mesuré, pour ne rien oublier.
+      const fixed = re && cz && kz ? Math.max(8, re.offsetHeight - cz.offsetHeight - kz.offsetHeight) : 70;
+      const room = Math.max(0, h - fixed - 8);
+      const k = done ? 0.5 : 0.92; // largeur de la centrale par rapport à la capsule
+      let cap = room / (1.2 + 1.1 * k), ctl = cap * k;
+      const minCtl = done ? 70 : 150;
+      if (ctl < minCtl) { ctl = Math.min(minCtl, room / 1.1 * 0.6); cap = (room - 1.1 * ctl) / 1.2; }
+      cap = Math.max(72, Math.min(cap, 280, w / 1.5));
+      ctl = Math.max(60, Math.min(ctl, 300, w - 8));
+      setSize((s) => (s && Math.abs(s.cap - cap) < 1 && Math.abs(s.ctl - ctl) < 1 ? s : { cap, ctl, anim: !!s }));
+    };
+    fit();
+    const ro = new ResizeObserver(fit);
+    ro.observe(el);
+    // le nom et la télémétrie disparaissent au branchement : la place libérée revient à la capsule
+    const re = el.querySelector(".reactor"); if (re) ro.observe(re);
+    return () => ro.disconnect();
+  }, [done]);
+
   // Géométrie (coordonnées dans la scène), mesurée à l'ouverture et quand l'écran change.
   const measure = useCallback(() => {
     const b = box.current?.getBoundingClientRect(), g = ctl.current?.geometry(), t = termRef.current?.getBoundingClientRect();
@@ -133,6 +190,8 @@ export function PlugScene({ room: r, index, cells, energy, incidentOpen, onPlugg
     if (!rope.current) rope.current = new Rope(term, geo.current.tail(pos.current), 24, ropeLen.current);
   }, [index]);
   useLayoutEffect(() => { measure(); }, [measure, phase, msg]);
+  // La scène a changé de taille (premier calcul, rotation de l'écran) : la fiche au repos revient près de sa batterie.
+  useLayoutEffect(() => { if (phaseRef.current === "ready") pos.current = null; measure(); }, [measure, size]);
   useEffect(() => { const re = () => { geo.current = null; measure(); }; window.addEventListener("resize", re); return () => window.removeEventListener("resize", re); }, [measure]);
 
   // Le câble et la fiche suivent le doigt (dessinés hors de React, 60 fois par seconde, pendant la scène).
@@ -211,39 +270,45 @@ export function PlugScene({ room: r, index, cells, energy, incidentOpen, onPlugg
   // Tentative d'envoi de l'arc : selon les prises branchées et la panne.
   const fire: FireState = plugged < total ? "missing" : incidentOpen ? "fault" : "ok";
   const onFail = (why: Exclude<FireState, "ok">) => setMsg(failText(why, total - plugged));
+  // Le message d'échec s'efface au bout de quelques secondes : la zone de parole revient au membre.
+  useEffect(() => { if (!msg) return; const t = window.setTimeout(() => setMsg(""), 4500); return () => window.clearTimeout(t); }, [msg]);
   const live = phase === "flow" || phase === "done";
 
   const kicker = `Protocole ${String(index + 1).padStart(2, "0")} terminé · centrale ${plugged} / ${total}`;
-  const title = phase === "done"
-    ? (plugged >= total ? "Centrale chargée" : "La centrale monte en puissance")
-    : "Branche ta batterie sur la centrale";
-  const hint = msg || (phase === "done"
-    ? (plugged < total ? `Encore ${total - plugged} protocole${total - plugged > 1 ? "s" : ""} : quand toutes les prises seront branchées, tu enverras l'arc à ${r.member}.`
-      : incidentOpen ? `Toutes les prises sont branchées, mais une panne coupe le circuit. Répare-la, puis envoie l'arc à ${r.member}.`
-        : `Maintiens ton doigt sur la centrale pour envoyer l'arc à ${r.member}.`)
-    : "Fais glisser la fiche de ta batterie jusqu'à la prise libre de la centrale, ou touche-la.");
+  // Zone de parole. Avant le branchement : la consigne. Ensuite : la bulle du membre (plus de texte « la centrale monte
+  // en puissance », retiré à la demande du propriétaire le 24/11/2026), un message d'échec, ou la consigne de l'arc.
+  const voix = msg ? <div className="small plug-msg" role="status">{msg}</div>
+    : !done ? (<>
+      <div className="plug-titre">Branche ta batterie sur la centrale</div>
+      <div className="small muted plug-consigne" role="status">Fais glisser la fiche de ta batterie jusqu'à la prise libre de la centrale, ou touche-la.</div>
+    </>)
+    : speech?.md ? <BulleSeule speaker={speech.speaker} md={speech.md} vers="bas" />
+    : fire === "ok" ? <div className="small muted plug-consigne" role="status">Maintiens ton doigt sur la centrale pour envoyer l'arc à {r.member}.</div>
+    : null;
 
   return (
-    <div ref={box} className="plug-scene hud-scene">
+    <div ref={box} className={`plug-scene plug-fixe hud-scene ${done ? "fini" : ""}`}>
       <div className="kicker" style={{ color: "#fff" }}>{kicker}</div>
-      <div style={{ fontSize: 19, fontWeight: 700, lineHeight: 1.2, marginTop: 2 }}>{title}</div>
-      <div className={`small ${msg ? "" : "muted"}`} role="status" style={{ minHeight: 38, maxWidth: 340, lineHeight: 1.35, color: msg ? "var(--amber)" : undefined }}>{hint}</div>
-      <Reactor room={r} plugged={plugged} free={phase === "done" ? -1 : index} fire={fire} ctl={ctl} recvRef={recvRef}
-        lux={0.5 + 0.2 * (plugged / total)} onFail={onFail} onFire={onAwaken} />
-      <div className="plug-gauge panel">
+      <div className="plug-voix">{voix}</div>
+      <div ref={stage} className="plug-stage">
+        <Reactor room={r} plugged={plugged} free={done ? -1 : index} fire={fire} ctl={ctl} recvRef={recvRef}
+          lux={0.5 + 0.2 * (plugged / total)} onFail={onFail} onFire={onAwaken} size={size ?? undefined} telemetry={!done} />
+      </div>
+      {done ? <motion.div className="plug-suite" initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, ease: [0.2, 0.8, 0.2, 1] }}>{after}</motion.div>
+        : <div className="plug-gauge panel">
         <div className="lbl"><span>BATTERIE DU PROTOCOLE {String(index + 1).padStart(2, "0")}</span><b>{Math.round(((cells - drained) / cells) * 100)} %</b></div>
         <div className={`battery xl ${drained === 0 ? "full" : ""}`} aria-hidden="true">
           {Array.from({ length: cells }, (_, i) => <i key={i} className={`${i === cells - 1 ? "final" : ""} ${i < cells - drained ? "on" : "drain"}`} />)}
           <span className="term" ref={termRef} />
         </div>
-      </div>
-      <svg className="cables" aria-hidden="true">
+      </div>}
+      {!done && <svg className="cables" aria-hidden="true">
         <g className={live ? "live" : ""}>
           {live && <path className="glow" ref={(el) => { paths.current[0] = el; }} />}
           <path className="sheath" ref={(el) => { paths.current[1] = el; }} />
           <path className="core" ref={(el) => { paths.current[2] = el; }} />
         </g>
-      </svg>
+      </svg>}
       {plugged === index && <div ref={plugEl} className={`plug ${phase === "ready" ? "hint" : ""}`} role="button" tabIndex={0}
         aria-label={`Brancher la batterie sur la centrale de ${r.member}`}
         onPointerDown={onDown} onPointerMove={onMove} onPointerUp={onUp} onPointerCancel={onUp}

@@ -22,8 +22,8 @@ import { fillBattery, getEnergyBar, startEnergyBar, stopEnergyBar, useEnergyBar 
 import { bigStrike, centerOf } from "./Bolts";
 import { ArcScene, PlugScene } from "./PlugScene";
 import { CrewCapsule, CrewFigure, type CrewState } from "./Crew";
-import { CompanionPort, CompanionSays } from "./Companion";
-import { companionLines, companionScript, companionSolved, onCompanion, startCompanion, stopCompanion } from "../lib/companion";
+import { COMPANION_SLOT, CompanionPort, CompanionSays } from "./Companion";
+import { companionLines, companionScript, companionSolved, startCompanion, stopCompanion } from "../lib/companion";
 
 // ======================= Caisson (un niveau, un membre de l'équipe) =======================
 export function RoomView({ id }: { id: string }) {
@@ -203,8 +203,6 @@ export function StepView({ roomId, stepId }: { roomId: string; stepId: string })
   const [solvedAtOpen] = useState(() => new Set(Object.keys(getState().progress.exercises).filter((k) => k.startsWith(`${key}#`))));
   const [solved, setSolved] = useState<Record<number, boolean>>({});
   const [finished, setFinished] = useState<null | { energy: number; before: number; after: number; top: number; plug: boolean; cells: number }>(null);
-  // Scène du branchement : la suite (réplique, notions, boutons) apparaît une fois la batterie branchée.
-  const [plugged, setPlugged] = useState(false);
   const [charging, setCharging] = useState(false);
   const [cheer, setCheer] = useState(0);
   const bottom = useRef<HTMLDivElement>(null);
@@ -252,20 +250,10 @@ export function StepView({ roomId, stepId }: { roomId: string; stepId: string })
     return () => window.clearTimeout(t);
   }, [revealed, total, wasDone]);
 
-  // Quand la bulle du compagnon sort, la page remonte un peu pour lui faire de la place : elle ne cache jamais le
-  // bouton « Continuer » (seulement si le joueur est déjà en bas de la page).
-  const [room4bubble, setRoom4bubble] = useState(0);
-  useEffect(() => onCompanion((l) => {
-    if (!l) return;
-    window.setTimeout(() => {
-      const el = document.querySelector<HTMLElement>(".companion-bubble"), b = bottom.current;
-      if (!el || !b) return;
-      const h = el.offsetHeight + 12;
-      setRoom4bubble(h);
-      const r = b.getBoundingClientRect();
-      if (r.top < window.innerHeight + 40) window.setTimeout(() => b.scrollIntoView({ behavior: "smooth", block: "end" }), 30);
-    }, 60);
-  }), []);
+  // La bulle du compagnon s'ouvre dans la page, sous le bouton (voir CompanionPort). Son emplacement garde sa hauteur
+  // quand elle se ferme, pour que rien ne saute sous le doigt ; il se vide au bloc suivant.
+  const slotRef = useRef<HTMLDivElement>(null);
+  useEffect(() => { if (slotRef.current) slotRef.current.style.minHeight = ""; }, [revealed]);
 
   const blocks = useMemo(() => step?.blocks ?? [], [step]);
   if (!r || !step) return <div className="wrap"><p>Protocole introuvable.</p></div>;
@@ -324,11 +312,15 @@ export function StepView({ roomId, stepId }: { roomId: string; stepId: string })
     bigStrike(from, [centerOf(cellsEls[cellsEls.length - 1])], CHARGE_HIT, () => fillBattery());
     window.setTimeout(() => { setCharging(false); open(); }, (CHARGE_HIT + 1.2) * 1000);
   };
-  // La batterie est branchée sur la centrale. Le réveil ne vient que de l'arc, envoyé par le joueur depuis la centrale.
-  const onPlugged = () => setPlugged(true);
+  // La batterie est branchée sur la centrale (la scène affiche alors la suite : réplique, modules, boutons). Le réveil
+  // ne vient que de l'arc, envoyé par le joueur depuis la centrale.
+  const onPlugged = () => {};
   const onAwaken = () => window.setTimeout(() => fx({ type: "awaken", roomId: r.id }), 150);
 
   const next = r.steps[idx + 1];
+  const nextButton = next ? <button className="btn block" onClick={() => { setFinished(null); go(`caisson/${r.id}/${next.id}`); }}>Protocole suivant : {next.title}</button>
+    : r.incident && !p.incidents[r.id] ? <button className="btn block danger" onClick={() => { sfx("alarm"); go(`panne/${r.id}`); }}><Icon name="siren" size={18} /> Réparer la panne</button>
+    : <button className="btn block" onClick={() => go("")}>Retour à la carte</button>;
   return (
     <div className="wrap" style={{ ["--hue" as string]: r.hue }}>
       <TopBar title={step.title} kicker={`${r.code} · Protocole ${String(idx + 1).padStart(2, "0")}`} onBack={() => go(`caisson/${r.id}`)}
@@ -346,7 +338,7 @@ export function StepView({ roomId, stepId }: { roomId: string; stepId: string })
         </AnimatePresence>
       </div>
       {!finished && <Battery r={r} state={roomComplete(p, r) ? "awake" : "asleep"} />}
-      <div ref={bottom} style={{ marginTop: 22, paddingBottom: 28 + room4bubble, scrollMarginBottom: "calc(var(--tabbar-h) + var(--safe-bottom) + 20px)" }}>
+      <div ref={bottom} style={{ marginTop: 22, paddingBottom: 28, scrollMarginBottom: "calc(var(--tabbar-h) + var(--safe-bottom) + 20px)" }}>
         {!finished && !atEnd && (
           <motion.button className="btn block" whileTap={{ scale: 0.97 }} disabled={blockedByExercise} onClick={revealNext}>
             {blockedByExercise ? "Réussis la vérification pour continuer" : <>Continuer <Icon name="chevron-right" size={18} stroke={2.2} /></>}
@@ -357,15 +349,41 @@ export function StepView({ roomId, stepId }: { roomId: string; stepId: string })
             <Icon name="bolt" size={18} /> {wasDone && !charging && !finished ? "Relancer le protocole" : "Terminer le protocole"}
           </motion.button>
         )}
+        {!finished && <div id={COMPANION_SLOT} ref={slotRef} className="companion-slot" />}
         <AnimatePresence>
           {finished && (
             <motion.div key="fini" role="dialog" aria-modal="true" aria-label={`Protocole ${String(idx + 1).padStart(2, "0")} terminé`}
               initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
               className="finish-bg" style={{ position: "fixed", inset: 0, zIndex: 105, overflowY: "auto", overflowX: "hidden" }}>
+              {finished.plug ? (
+                // Écran du branchement : fixe, tout tient dans l'écran (demande du propriétaire, 24/11/2026).
+                <div className="plug-ecran" style={{ paddingTop: finished.top + 8 }}>
+                  <PlugScene room={r} index={idx} cells={finished.cells} energy={finished.energy} incidentOpen={!!r.incident && !p.incidents[r.id]} onPlugged={onPlugged} onAwaken={onAwaken}
+                    speech={crewLines(r.id) && !roomComplete(p, r) ? { speaker: speakerOf(r.id), md: crewLines(r.id)!.demi } : undefined}
+                    after={<>
+                      {step.introduces.length > 0 && (
+                        <div className="plug-modules">
+                          <div className="mono">Modules ajoutés à ta Base</div>
+                          <div className="plug-modules-row">
+                            {step.introduces.map((n, k) => (
+                              <motion.div key={n} initial={{ opacity: 0, y: 16, rotate: -6 }} animate={{ opacity: 1, y: 0, rotate: 0 }} transition={{ delay: 0.3 + k * 0.15, type: "spring", stiffness: 260, damping: 18 }}>
+                                <NotionChip id={n} icon={notion(n)?.icon} size={34} trace /><span>{notion(n)?.term.replace(/\s*\(.+\)$/, "")}</span>
+                              </motion.div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                      <div className="plug-boutons">
+                        {nextButton}
+                        <div className="row" style={{ gap: 8 }}>
+                          <button className="btn ghost small grow" onClick={() => go(`caisson/${r.id}`)}>Retour au caisson</button>
+                          <button className="btn ghost small grow" onClick={() => { sfx("tap"); setFinished(null); }}>Relire le protocole</button>
+                        </div>
+                      </div>
+                    </>} />
+                </div>
+              ) : (
               <div style={{ maxWidth: 420, margin: "0 auto", padding: `${finished.top + 22}px 18px calc(var(--safe-bottom) + 28px)`, textAlign: "center" }}>
-                {finished.plug ? (
-                  <PlugScene room={r} index={idx} cells={finished.cells} energy={finished.energy} incidentOpen={!!r.incident && !p.incidents[r.id]} onPlugged={onPlugged} onAwaken={onAwaken} />
-                ) : (<>
                 <div style={{ position: "relative", display: "grid", placeItems: "center", height: 120 }}>
                     <Rays color={`hsl(${r.hue} 100% 62% / .35)`} size={360} opacity={0.6} />
                     <Shockwave color={`hsl(${r.hue} 100% 64%)`} delay={0.15} size={200} />
@@ -386,9 +404,6 @@ export function StepView({ roomId, stepId }: { roomId: string; stepId: string })
                     </div>
                     <div className="small muted" style={{ marginTop: 8 }}>{finished.after >= 100 ? `${r.member} ${accord(r, "est prêt", "est prête", "sont prêts")} à se réveiller.` : r.incident && idx === r.steps.length - 1 ? "Dernière étape : réparer la panne." : `${r.steps.length - roomStepsDone(p, r)} protocole${r.steps.length - roomStepsDone(p, r) > 1 ? "s" : ""} avant la panne finale.`}</div>
                   </div>
-  
-                </>)}
-                {(!finished.plug || plugged) && (<>
                 {crewLines(r.id) && !roomComplete(p, r) && <div style={{ textAlign: "left", marginTop: 12 }}><BulleSeule speaker={speakerOf(r.id)} md={crewLines(r.id)!.demi} /></div>}
                 {step.introduces.length > 0 && (
                   <>
@@ -403,14 +418,12 @@ export function StepView({ roomId, stepId }: { roomId: string; stepId: string })
                   </>
                 )}
                 <div className="stack" style={{ marginTop: 16 }}>
-                  {next ? <button className="btn block" onClick={() => { setFinished(null); go(`caisson/${r.id}/${next.id}`); }}>Protocole suivant : {next.title}</button>
-                    : r.incident && !p.incidents[r.id] ? <button className="btn block danger" onClick={() => { sfx("alarm"); go(`panne/${r.id}`); }}><Icon name="siren" size={18} /> Réparer la panne</button>
-                    : <button className="btn block" onClick={() => go("")}>Retour à la carte</button>}
+                  {nextButton}
                   <button className="btn ghost block" onClick={() => go(`caisson/${r.id}`)}>Retour au caisson</button>
                   <button className="btn ghost small block" onClick={() => { sfx("tap"); setFinished(null); }}>Relire le protocole</button>
                 </div>
-                </>)}
               </div>
+              )}
             </motion.div>
           )}
         </AnimatePresence>

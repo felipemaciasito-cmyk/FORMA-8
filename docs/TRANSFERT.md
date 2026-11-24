@@ -1,4 +1,4 @@
-# FORMA-8 · Réveille l'équipe : document de transfert (état au 17/11/2026 : caisson 02 validé par le propriétaire sur maquette jouable, PR ouverte depuis la branche claude/ecstatic-keller-i9o3gk)
+# FORMA-8 · Réveille l'équipe : document de transfert (état au 24/11/2026 : caisson 02 fusionné (PR #19) ; lot « bulles et écran de branchement » en cours sur la branche claude/practical-goldberg-n29pbz, en attente de l'accord du propriétaire)
 
 > À lire en entier au démarrage de chaque nouvelle session (renvoi dans `CLAUDE.md`), **en commençant par la
 > section 0**. Ce document complète `CLAUDE.md`, `docs/CONCEPTION.md` et `docs/PROGRAMME.md`. En cas d'écart, le
@@ -12,6 +12,14 @@
 Le propriétaire ouvre une nouvelle conversation Claude Code et envoie le prompt court de la section 0.3, qui renvoie
 ici. Ce document doit donc suffire seul : tout ce qu'il faut savoir est dans les sections 1 à 5, tout ce qu'il faut
 faire est ci-dessous.
+
+### 0.0 Mise à jour du 24/11/2026 (5e session) : à lire avant 0.1
+- **Le caisson 02 est fusionné dans `main`** (PR #19, commit `5a5ef4b`). La branche `claude/beautiful-cori-sz6dxq` est
+  ancienne et entièrement fusionnée (à faire supprimer par le propriétaire).
+- Petit lot en cours, **section 3.21** (« bulles et écran de branchement »), demandé par le propriétaire sur capture
+  d'iPad, sur la branche `claude/practical-goldberg-n29pbz` partie de `main` `5a5ef4b`. Captures montrées le
+  24/11/2026 ; **attendre son accord** avant d'ouvrir la PR (une seule, vers `main`).
+- Ensuite : le caisson 03 (point 4 ci-dessous). Les points 2 et 3 de 0.1 sont dépassés (caisson 02 fusionné).
 
 ### 0.1 Dans l'ordre (mis à jour le 17/11/2026, 4e session : le caisson 02 est EN COURS, pas encore fusionné)
 **Le lot « compagnon et règles de parole » (3.19) est fusionné dans `main` (PR #18, commit `87d615b`).** Le caisson 02
@@ -810,6 +818,32 @@ réveil, après le réveil). **Accord du propriétaire le 17/11/2026, PR ouverte
   iPhone (maquette validée le 17/11/2026). **À surveiller** ; piste : arrondir la cible de défilement, ou défiler sans
   animation quand le bouton est déjà presque en vue.
 - **Accord du propriétaire sur la maquette** : « Valide, fais la PR » (17/11/2026).
+
+### 3.21 Bulles et écran de branchement (24/11/2026), PAS ENCORE FUSIONNÉ
+Demande du propriétaire (capture d'iPad) : « Les bulles de texte personnages ne doivent pas masquer des zones de textes
+ou des boutons d'interactions sur la page » ; à la fin d'un protocole, sur la page de branchement, « tout doit tenir
+dans la page sans avoir besoin de scroller (page fixe) », enlever le texte « La centrale monte en puissance / Encore N
+protocoles… » et, si possible, agrandir le personnage. Branche `claude/practical-goldberg-n29pbz`.
+- **Bulle du compagnon** (`Companion.tsx`, `RoomView.tsx`) : elle ne flotte plus au-dessus de la batterie, par-dessus
+  la page. Elle s'ouvre **dans la page**, dans un emplacement (`#companion-slot`) placé sous le bouton « Continuer »,
+  juste au-dessus de la batterie (même aspect, pointe vers le hublot). L'emplacement garde sa hauteur quand la bulle se
+  ferme (rien ne saute sous le doigt), et se vide au bloc suivant ; quand elle s'ouvre, la page remonte pour la montrer
+  (si le joueur est près du bas). Les autres bulles (`.bulle`) étaient déjà dans la page.
+- **Écran du branchement** (`PlugScene.tsx`) : écran fixe en colonne. De haut en bas : la ligne « Protocole NN terminé
+  · centrale n / N » ; une zone de parole de hauteur fixe (avant : consigne du branchement ; après : bulle du membre,
+  pointe vers sa capsule, ou message d'échec, ou consigne de l'arc) ; la capsule et la centrale, qui prennent toute la
+  hauteur restante (calcul dans `PlugScene`, capsule dessinée à 240 px puis mise à l'échelle) ; en bas la batterie,
+  remplacée après le branchement par les modules gagnés (puces de 34 px) et les boutons (« Protocole suivant » ou
+  « Réparer la panne », puis « Retour au caisson » et « Relire le protocole » côte à côte). Après le branchement, la
+  centrale rapetisse (moitié de la capsule), le nom sous la capsule et la télémétrie disparaissent : la capsule grandit.
+  Mesures : capsule 140 px avant ; après, environ 165 px sur iPhone 13 (390 × 664), environ 185 px sur un iPad de
+  700 px de haut. Le texte « La centrale monte en puissance » et « Encore N protocoles… » est retiré.
+- Le rejeu d'un protocole déjà terminé (pas de branchement) garde l'ancien écran, qui défile.
+- Contrôles ajoutés : `expectFixedFinish` (helpers) vérifie à chaque branchement des bancs que l'écran ne défile pas
+  et que le dernier bouton est visible ; `compagnon.spec.ts` vérifie que rien de la page n'est sous la bulle.
+- Non vérifié : WebKit (téléchargement bloqué par le réseau de la session du 24/11/2026). Constat non traité, à
+  proposer : la notification « Badge débloqué » (en haut de l'écran) passe quelques secondes par-dessus la consigne du
+  branchement.
 
 ## 4. Décisions prises et pistes écartées
 
