@@ -858,6 +858,24 @@ protocoles… » et, si possible, agrandir le personnage. Branche `claude/practi
   dernier protocole, caisson 02 fin du protocole 03, bulle pendant un protocole au caisson 00). Méthode 3.3 ; script
   de construction et page hôte dans le dossier temporaire de la session (pas dans le dépôt). **Attendre ses retouches
   précises**, puis son accord, avant la PR.
+- **Troisième version (retouches du 24/11/2026 après la maquette)** :
+  - capsule et centrale **centrées** ; plus de consigne « Branche ta batterie… » (reste seulement, si l'arc peut
+    partir, « Maintiens ton doigt… », et les messages d'échec) ;
+  - la bulle du membre, une fois la batterie branchée, est **à gauche** de la capsule (pointe vers elle), dans une
+    zone qui part du haut de la capsule et descend jusqu'à l'anneau de la centrale ; la capsule ne dépasse pas la
+    taille qui laisse 116 px à cette zone (environ 140 px sur iPhone) ;
+  - **les boutons** (« Protocole suivant » ou « Réparer la panne », « Retour au caisson », « Relire le protocole »)
+    n'arrivent qu'une fois la réplique dite ou coupée (au bout de 8 s si elle ne démarre pas ; tout de suite sans
+    réplique), **au centre de l'écran, la scène assombrie derrière** (`.plug-choix`). Les modules restent sous la
+    centrale. Conséquence : une fois les boutons affichés, la centrale ne se touche plus (le banc du caisson 00
+    vérifie maintenant que la suite propose « Réparer la panne » et couvre la centrale) ;
+  - **arc plus explosif** (`Centrale.tsx`, climax) : gerbes d'étincelles sur la capsule, éclairs plus forts, dernière
+    décharge plus large ; la capsule tremble et grandit (`cap-surge`, jusqu'à 1,32 fois) ;
+  - **réveil** (`Rewards.tsx`, Awakening) : à la décharge, la capsule passe de 156 px à une grande taille (entre 170
+    et 280 px selon l'écran) en dépassant d'abord (1,32 fois), avec trois ondes de choc, des étincelles et une
+    secousse ; elle reste grande sur la page de présentation. Les boutons de fin (« Accueillir dans l'équipe »,
+    « Voir ton équipe », ou « Fermer ») arrivent aussi au centre, la scène assombrie, quand l'équipe a fini de
+    parler ou que le joueur a passé la scène.
 
 ## 4. Décisions prises et pistes écartées
 

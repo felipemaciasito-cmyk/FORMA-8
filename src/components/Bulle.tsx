@@ -162,7 +162,7 @@ export function BulleCorps({ speaker, b, choix, onChoix, extra }: { speaker: Spe
  * La bulle seule, pour un personnage déjà dessiné ailleurs (sa capsule) : elle ne s'affiche que pendant qu'il parle
  * (ou tant qu'une question attend sa réponse). Fermée, une petite mention invite à toucher le personnage.
  */
-export function BulleBoite({ speaker, b, choix, onChoix, extra, indice = true, vers }: { speaker: Speaker; b: ReturnType<typeof useBulle>; choix?: string[]; onChoix?: (i: number) => void; extra?: ReactNode; indice?: boolean; vers?: "bas" | "gauche" }) {
+export function BulleBoite({ speaker, b, choix, onChoix, extra, indice = true, vers }: { speaker: Speaker; b: ReturnType<typeof useBulle>; choix?: string[]; onChoix?: (i: number) => void; extra?: ReactNode; indice?: boolean; vers?: "bas" | "gauche" | "droite" }) {
   const hue = hueDe(speaker);
   return (
     <>
@@ -211,7 +211,7 @@ export function MemberSays({ md, room, choix, onChoix, options }: { md: string; 
  * La bulle d'un personnage déjà dessiné ailleurs (sa capsule, sur l'écran de fin de protocole…), sans second portrait.
  * `vers="bas"` : la bulle est posée au-dessus du personnage, sa pointe vers lui ; `vers="gauche"` : à sa droite.
  */
-export function BulleSeule({ speaker, md, options, vers }: { speaker: Speaker; md?: string; options?: BulleOptions; vers?: "bas" | "gauche" }) {
+export function BulleSeule({ speaker, md, options, vers }: { speaker: Speaker; md?: string; options?: BulleOptions; vers?: "bas" | "gauche" | "droite" }) {
   const b = useBulle(speaker, md, { retour: true, ...options });
   return <div className={`bulle-col ${vers ? `vers-${vers}` : ""}`}><BulleBoite speaker={speaker} b={b} vers={vers} /></div>;
 }

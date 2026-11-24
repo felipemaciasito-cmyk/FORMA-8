@@ -438,13 +438,17 @@ textarea.input { min-height: 96px; resize: vertical; line-height: 1.45; }
    bouge quand la bulle s'ouvre ou se ferme. */
 .plug-ecran { box-sizing: border-box; height: 100%; min-height: 380px; max-width: 640px; margin: 0 auto; padding: 0 16px calc(var(--safe-bottom) + 12px); display: flex; flex-direction: column; }
 .plug-fixe { flex: 1; min-height: 0; }
-.plug-aside { position: absolute; top: 6px; z-index: 3; display: flex; flex-direction: column; align-items: flex-start; justify-content: flex-start; gap: 6px; text-align: left; }
-.plug-aside .bulle-col.vers-gauche { width: 100%; }
+.plug-aside { position: absolute; top: 6px; z-index: 3; display: flex; flex-direction: column; align-items: flex-end; justify-content: flex-start; gap: 6px; text-align: left; }
+.plug-aside .bulle-col.vers-droite { width: 100%; align-items: flex-end; }
+.plug-aside .plug-msg, .plug-aside .plug-consigne { text-align: right; }
 .plug-aside .bulle { font-size: 12.5px; padding: 7px 10px 9px; }
-.plug-aside .bulle.vers-gauche::after { top: 34px; }
+.plug-aside .bulle.vers-droite::after { top: 34px; }
+.plug-aside .bulle-indice { text-align: right; }
 .plug-aside .bulle .bulle-texte { line-height: 1.36; }
 .plug-aside .bulle.vers-gauche { border-radius: 16px; }
 .bulle.vers-gauche::after { content: ""; position: absolute; left: -7px; top: 50%; width: 12px; height: 12px; margin-top: -6px; transform: rotate(45deg); background: hsl(200 40% 12%); border-style: solid; border-color: inherit; border-width: 0 0 1px 1px; }
+.bulle.vers-droite { border-radius: 16px; }
+.bulle.vers-droite::after { content: ""; position: absolute; right: -7px; top: 50%; width: 12px; height: 12px; margin-top: -6px; transform: rotate(45deg); background: #080d19; border-style: solid; border-color: inherit; border-width: 1px 1px 0 0; }
 .bulle-nom { font-size: 9.5px; letter-spacing: .1em; flex-wrap: wrap; }
 .plug-aside .bulle-indice { margin: 0; }
 .plug-titre { font-size: 16px; font-weight: 700; line-height: 1.2; }
@@ -507,3 +511,17 @@ textarea.input { min-height: 96px; resize: vertical; line-height: 1.45; }
 .reduce-motion .portrait-z { animation: none; }
 /* À droite de la capsule, la bulle est étroite : le nom tient sur une ligne. */
 .plug-aside .bulle-dort { display: none; }
+
+/* Fin de protocole : les boutons au centre de l'écran, sur la scène assombrie (24/11/2026). */
+.plug-choix { position: fixed; inset: 0; z-index: 20; display: grid; place-items: center; padding: 24px max(20px, env(safe-area-inset-left, 0px)) calc(var(--safe-bottom) + 24px);
+  background: rgba(2, 4, 9, .72); -webkit-backdrop-filter: blur(3px); backdrop-filter: blur(3px); }
+.plug-choix-carte { width: 100%; max-width: 360px; display: flex; flex-direction: column; gap: 10px; padding: 18px 16px 16px; border-radius: 20px;
+  background: linear-gradient(160deg, rgba(20, 34, 58, .96), rgba(8, 13, 25, .98)); border: 1px solid var(--line-strong); box-shadow: 0 24px 60px rgba(0, 0, 0, .6), 0 0 40px rgba(59, 232, 255, .12); }
+.plug-choix-titre { text-align: center; font-size: 11px; letter-spacing: .16em; text-transform: uppercase; color: var(--cyan); margin-bottom: 2px; }
+/* L'arc frappe la capsule : elle tremble, grandit, puis se fige plus grande (avant la scène du réveil). */
+.reactor.fired .cap-frame { transform-origin: 50% 100%; animation: cap-surge 2.7s cubic-bezier(.3, 0, .2, 1) forwards; }
+@keyframes cap-surge {
+  0% { transform: scale(1); } 10% { transform: scale(1.06) translate(-2px, 1px); } 20% { transform: scale(1.04) translate(2px, -1px); }
+  35% { transform: scale(1.12) translate(-3px, 0); } 50% { transform: scale(1.1) translate(3px, 1px); } 65% { transform: scale(1.2) translate(-3px, -1px); }
+  80% { transform: scale(1.18) translate(2px, 0); } 92% { transform: scale(1.4); } 100% { transform: scale(1.32); } }
+.reduce-motion .reactor.fired .cap-frame { animation: none; }

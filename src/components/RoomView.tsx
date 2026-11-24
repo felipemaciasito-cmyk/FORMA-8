@@ -360,29 +360,30 @@ export function StepView({ roomId, stepId }: { roomId: string; stepId: string })
                 <div className="plug-ecran" style={{ paddingTop: finished.top + 8 }}>
                   <PlugScene room={r} index={idx} cells={finished.cells} energy={finished.energy} incidentOpen={!!r.incident && !p.incidents[r.id]} onPlugged={onPlugged} onAwaken={onAwaken}
                     speech={crewLines(r.id) && !roomComplete(p, r) ? { speaker: speakerOf(r.id), md: crewLines(r.id)!.demi } : undefined}
-                    after={<>
-                      {/* Les modules et les boutons arrivent une fois la prise branchée, l'un après l'autre. */}
-                      {step.introduces.length > 0 && (
-                        <motion.div className="plug-modules" initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.35, ease: [0.2, 0.8, 0.2, 1] }}>
-                          <div className="mono">Modules ajoutés à ta Base</div>
-                          <div className="plug-modules-row">
-                            {step.introduces.map((n, k) => (
-                              <motion.div key={n} initial={{ opacity: 0, y: 16, rotate: -6 }} animate={{ opacity: 1, y: 0, rotate: 0 }} transition={{ delay: 0.2 + k * 0.12, type: "spring", stiffness: 260, damping: 18 }}>
-                                <NotionChip id={n} icon={notion(n)?.icon} size={34} trace /><span>{notion(n)?.term.replace(/\s*\(.+\)$/, "")}</span>
-                              </motion.div>
-                            ))}
-                          </div>
-                        </motion.div>
-                      )}
-                      <div className="plug-boutons">
-                        <motion.div initial={{ opacity: 0, y: 26, scale: 0.92 }} animate={{ opacity: 1, y: 0, scale: 1 }} transition={{ delay: 0.35, type: "spring", stiffness: 320, damping: 22 }}>
-                          {nextButton}
-                        </motion.div>
-                        <motion.div className="row" style={{ gap: 8 }} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.55, type: "spring", stiffness: 320, damping: 24 }}>
-                          <button className="btn ghost small grow" onClick={() => go(`caisson/${r.id}`)}>Retour au caisson</button>
-                          <button className="btn ghost small grow" onClick={() => { sfx("tap"); setFinished(null); }}>Relire le protocole</button>
-                        </motion.div>
-                      </div>
+                    modules={step.introduces.length > 0 && (
+                      <motion.div className="plug-modules" initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.35, ease: [0.2, 0.8, 0.2, 1] }}>
+                        <div className="mono">Modules ajoutés à ta Base</div>
+                        <div className="plug-modules-row">
+                          {step.introduces.map((n, k) => (
+                            <motion.div key={n} initial={{ opacity: 0, y: 16, rotate: -6 }} animate={{ opacity: 1, y: 0, rotate: 0 }} transition={{ delay: 0.2 + k * 0.12, type: "spring", stiffness: 260, damping: 18 }}>
+                              <NotionChip id={n} icon={notion(n)?.icon} size={34} trace /><span>{notion(n)?.term.replace(/\s*\(.+\)$/, "")}</span>
+                            </motion.div>
+                          ))}
+                        </div>
+                      </motion.div>
+                    )}
+                    // Les boutons arrivent au centre de l'écran, sur la scène assombrie, quand le membre a fini de parler.
+                    actions={<>
+                      <div className="mono plug-choix-titre">Protocole {String(idx + 1).padStart(2, "0")} terminé</div>
+                      <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.25, type: "spring", stiffness: 320, damping: 22 }}>
+                        {nextButton}
+                      </motion.div>
+                      <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.38, type: "spring", stiffness: 320, damping: 24 }}>
+                        <button className="btn ghost block" onClick={() => go(`caisson/${r.id}`)}>Retour au caisson</button>
+                      </motion.div>
+                      <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5, type: "spring", stiffness: 320, damping: 24 }}>
+                        <button className="btn ghost small block" onClick={() => { sfx("tap"); setFinished(null); }}>Relire le protocole</button>
+                      </motion.div>
                     </>} />
                 </div>
               ) : (

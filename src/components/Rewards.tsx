@@ -7,7 +7,7 @@ import { useReduceMotion } from "../lib/motion";
 import { go } from "../lib/router";
 import { key, LEVELUP_HIT, LEVELUP_LOCKS, sfx, WAKE_BEATS, WAKE_HIT, WAKE_SYSTEMS } from "../lib/sound";
 import { holdVoices, nomDe, speak, speakerOf, stopSpeaking } from "../lib/voice";
-import { INTERACTIONS } from "../lib/eveil";
+import { accord, INTERACTIONS } from "../lib/eveil";
 import { hueDe } from "./Bulle";
 import { arcs, centerOf, sparks, strike, type Pt } from "./Bolts";
 import { ChargedCapsule } from "./Crew";
@@ -249,6 +249,10 @@ function Awakening({ e, onClose }: { e: Extract<FxEvent, { type: "awaken" }>; on
   const [pace, setPace] = useState<{ ms: number; voiced: boolean; end: number }>({ ms: 26, voiced: false, end: 0 });
   const capRef = useRef<HTMLDivElement>(null);
   const line = scene[idx]?.texte ?? "";
+  // Taille du membre réveillé (demande du propriétaire, 24/11/2026) : il grandit à la décharge et reste plus grand
+  // sur la page qui le présente. La capsule part de sa taille d'avant (156 px).
+  const [big] = useState(() => Math.round(Math.max(170, Math.min(280, Math.min(window.innerWidth * 0.62, window.innerHeight * 0.36)))));
+  const small = 156 / big;
 
   // Chaque réplique est dite par son personnage (voix enregistrée ; en silence, au rythme de lecture).
   useEffect(() => {
@@ -296,7 +300,7 @@ function Awakening({ e, onClose }: { e: Extract<FxEvent, { type: "awaken" }>; on
     <motion.div role="dialog" aria-modal="true" aria-label={`Réveil : ${r.member}`} onClick={skip}
       initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.4 }}
       style={{ position: "fixed", inset: 0, zIndex: 111, overflowY: "auto", background: `radial-gradient(circle at 50% 34%, rgba(59,232,255,${awake ? 0.22 : phase === 1 ? 0.1 : 0.04}), transparent 64%), #04060c`, transition: "background .8s" }}>
-      {phase === 3 && beat === 0 && <Flash peak={0.9} duration={0.9} />}
+      {phase === 3 && beat === 0 && <Flash peak={1} duration={1.1} />}
       <AnimatePresence>{phase === 2 && <motion.div key="dim" aria-hidden="true" initial={{ opacity: 0 }} animate={{ opacity: 0.55 }} exit={{ opacity: 0 }} transition={{ duration: 0.15 }} style={{ position: "fixed", inset: 0, background: "#000", pointerEvents: "none" }} />}</AnimatePresence>
       <div style={{ minHeight: "100%", display: "flex", flexDirection: "column", alignItems: "center", padding: "calc(var(--safe-top) + 18px) 20px calc(var(--safe-bottom) + 18px)", textAlign: "center", position: "relative", zIndex: 3 }}>
         {/* Centrage vertical sans jamais couper le haut : ces espaceurs disparaissent quand la scène dépasse l'écran. */}
@@ -309,12 +313,24 @@ function Awakening({ e, onClose }: { e: Extract<FxEvent, { type: "awaken" }>; on
               style={{ display: "block", height: "100%", background: "#f4feff", boxShadow: "0 0 10px var(--cyan)" }} />
           </div>
         </div>
-        <motion.div ref={capRef} animate={phase === 1 ? { x: [0, -1.5, 1.5, -1, 1, 0] } : { x: 0 }} transition={{ duration: 0.3, repeat: phase === 1 ? 5 : 0 }} style={{ margin: "14px 0 4px", position: "relative" }}>
-          {awake && <Rays color="rgba(190,245,255,.18)" size={460} opacity={0.7} />}
-          {phase === 3 && beat === 0 && <><Shockwave key="sw1" color="#ffffff" size={240} /><Shockwave key="sw2" color="var(--cyan)" delay={0.18} size={320} /></>}
-          {beat > 0 && beat <= 4 && <Shockwave key={`b${beat}`} color={beat % 2 ? "#ffffff" : "var(--cyan)"} size={beat > 2 ? 280 : 220} />}
-          <motion.div key={`beat-${beat}`} animate={{ scale: beat > 0 ? [1.09, 1] : phase === 1 ? 1.02 : 1 }} transition={{ duration: 0.28 }}>
-            <ChargedCapsule id={r.id} state={awake ? "awake" : "asleep"} lux={awake ? 1 : phase === 1 ? 0.95 : phase === 2 ? 0.35 : 0.6} size={156} mood={phase >= 4 ? "happy" : "neutral"} />
+        <motion.div ref={capRef} animate={phase === 1 ? { x: [0, -1.5, 1.5, -1, 1, 0] } : phase === 3 && beat === 0 ? { x: [0, -9, 8, -6, 5, -3, 0], y: [0, 5, -6, 4, -2, 0] } : { x: 0, y: 0 }}
+          transition={{ duration: phase === 3 ? 0.55 : 0.3, repeat: phase === 1 ? 5 : 0 }} style={{ margin: "14px 0 4px", position: "relative" }}>
+          {awake && <Rays color="rgba(190,245,255,.2)" size={Math.round(big * 3.2)} opacity={0.8} />}
+          {phase === 3 && beat === 0 && <>
+            <Shockwave key="sw1" color="#ffffff" size={Math.round(big * 1.7)} />
+            <Shockwave key="sw2" color="var(--cyan)" delay={0.14} size={Math.round(big * 2.4)} />
+            <Shockwave key="sw3" color="#ffffff" delay={0.3} size={Math.round(big * 3.2)} />
+            <Sparks color="#ffffff" count={36} radius={Math.round(big * 1.3)} />
+            <Sparks color="var(--cyan)" count={28} radius={Math.round(big * 1.7)} delay={0.12} />
+          </>}
+          {beat > 0 && beat <= 4 && <Shockwave key={`b${beat}`} color={beat % 2 ? "#ffffff" : "var(--cyan)"} size={Math.round(big * (beat > 2 ? 1.8 : 1.4))} />}
+          {/* Il grandit d'un coup à la décharge (au-delà de sa taille finale), puis se pose, plus grand qu'avant. */}
+          <motion.div initial={false} animate={{ scale: reduce ? 1 : !awake ? small : [small, 1.32, 0.94, 1.04, 1] }}
+            transition={awake && !reduce ? { duration: 1.1, times: [0, 0.28, 0.55, 0.78, 1], ease: "easeOut" } : { duration: 0.3 }}
+            style={{ width: big, height: big * 1.2, transformOrigin: "50% 60%" }}>
+            <motion.div key={`beat-${beat}`} animate={{ scale: beat > 0 ? [1.09, 1] : phase === 1 ? 1.02 : 1 }} transition={{ duration: 0.28 }}>
+              <ChargedCapsule id={r.id} state={awake ? "awake" : "asleep"} lux={awake ? 1 : phase === 1 ? 0.95 : phase === 2 ? 0.35 : 0.6} size={big} mood={phase >= 4 ? "happy" : "neutral"} />
+            </motion.div>
           </motion.div>
         </motion.div>
         <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: phase >= 4 ? 1 : 0, y: phase >= 4 ? 0 : 10 }} transition={{ duration: 0.5 }}>
@@ -335,9 +351,16 @@ function Awakening({ e, onClose }: { e: Extract<FxEvent, { type: "awaken" }>; on
             );
           })}
         </div>
-        <AnimatePresence>
-          {phase >= 5 && (
-            <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} style={{ width: "100%", maxWidth: 360, marginTop: 10 }}>
+        {phase < 5 && <div className="small dim" style={{ marginTop: 16 }}>Touche l'écran pour passer</div>}
+        <div aria-hidden="true" style={{ flex: "1 0 0" }} />
+      </div>
+      {/* Quand l'équipe a fini de parler (ou que le joueur a passé), la suite arrive au centre de l'écran, la scène
+          assombrie derrière (demande du propriétaire, 24/11/2026). */}
+      <AnimatePresence>
+        {phase >= 5 && (
+          <motion.div key="suite" className="plug-choix" style={{ zIndex: 5 }} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.35, delay: reduce ? 0 : 0.2 }} onClick={(x) => x.stopPropagation()}>
+            <motion.div className="plug-choix-carte" role="group" aria-label="La suite" initial={{ opacity: 0, y: 30, scale: 0.88 }} animate={{ opacity: 1, y: 0, scale: 1 }} transition={{ delay: reduce ? 0 : 0.32, type: "spring", stiffness: 300, damping: 22 }}>
+              <div className="mono plug-choix-titre">{r.member} {e.replay ? "· souvenir" : accord(r, "est réveillé", "est réveillée", "sont réveillés")}</div>
               {!e.replay && (
                 <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, marginBottom: 10 }}>
                   {r.incident
@@ -347,13 +370,11 @@ function Awakening({ e, onClose }: { e: Extract<FxEvent, { type: "awaken" }>; on
                 </div>
               )}
               <button className="btn block" onClick={(x) => { x.stopPropagation(); sfx("tap"); onClose(); }}>{e.replay ? "Fermer" : "Accueillir dans l'équipe"}</button>
-              {!e.replay && <button className="btn ghost block" style={{ marginTop: 8 }} onClick={(x) => { x.stopPropagation(); onClose(); go("equipe"); }}><Icon name="team" size={18} /> Voir ton équipe</button>}
+              {!e.replay && <button className="btn ghost block" onClick={(x) => { x.stopPropagation(); onClose(); go("equipe"); }}><Icon name="team" size={18} /> Voir ton équipe</button>}
             </motion.div>
-          )}
-        </AnimatePresence>
-        {phase < 5 && <div className="small dim" style={{ marginTop: 16 }}>Touche l'écran pour passer</div>}
-        <div aria-hidden="true" style={{ flex: "1 0 0" }} />
-      </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.div>
   );
 }

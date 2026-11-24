@@ -114,11 +114,14 @@ export const Centrale = forwardRef<CentraleHandle, {
       for (let i = 0; i < n; i++) strike(Math.random() < 0.5 ? top : toScreen(sockAt(Math.floor(Math.random() * total))), around());
       if (k >= 1) window.clearInterval(id);
     }, 80);
-    [700, 1400].forEach((ms, i) => window.setTimeout(() => flash(0.25 + 0.15 * i, 380), ms));
+    // Plus explosif (demande du propriétaire, 24/11/2026) : des gerbes d'étincelles sur la capsule, des éclairs plus
+    // forts, et une dernière décharge plus large ; la capsule tremble et grandit pendant ce temps (cap-surge).
+    [700, 1400, 1900].forEach((ms, i) => window.setTimeout(() => { flash(0.3 + 0.15 * i, 380); sparks(to, 18 + 10 * i); }, ms));
+    window.setTimeout(() => arcs({ x: to.x, y: to.y - 70 }, 110, 1200, 7), 1200);
     window.setTimeout(() => {
       // l'image finale : tous les arcs à la fois
-      bigStrike(top, [to, around(), around(), around(), around()], 0.05, () => flash(0.85, 900));
-      Array.from({ length: total }, (_, i) => toScreen(sockAt(i))).forEach((s) => strike(s, around()));
+      bigStrike(top, [to, around(), around(), around(), around(), around(), around()], 0.05, () => { flash(1, 1000); sparks(to, 60); sparks({ x: to.x, y: to.y - 80 }, 40); });
+      Array.from({ length: total }, (_, i) => toScreen(sockAt(i))).forEach((s) => { strike(s, around()); strike(s, to); });
     }, 2250);
     window.setTimeout(() => cb.current.onFire?.(), 2650);
   };

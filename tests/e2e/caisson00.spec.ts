@@ -1,6 +1,6 @@
 import { readFileSync } from "node:fs";
 import { expect, test } from "@playwright/test";
-import { boot, ceremonies, holdCentrale, closeGradeCeremony, dismissCeremonies, sendArc, LABEL, playMaintenance, playStep, solve, type Step } from "./helpers";
+import { boot, ceremonies, closeGradeCeremony, dismissCeremonies, sendArc, LABEL, playMaintenance, playStep, solve, type Step } from "./helpers";
 
 // Banc d'essai du caisson 00 : on joue tout le caisson comme le joueur, sur un écran
 // d'iPhone. Chaque type d'exercice est résolu, les simulateurs et procédures sont
@@ -57,10 +57,13 @@ test("le caisson 00 se joue entièrement, avec chaque outil d'apprentissage", as
   // jamais pendant la lecture (playStep le vérifie).
   expect(ceremonies.grade).toBeGreaterThan(0);
 
-  // Les cinq prises de la centrale sont branchées, mais la panne coupe encore le circuit : toucher la centrale
-  // tente d'envoyer l'arc, et la tentative échoue.
-  await holdCentrale(page, 1600);
-  await expect(page.getByText("Connexion impossible : la panne coupe le circuit. Répare-la d'abord.")).toBeVisible();
+  // Les cinq prises de la centrale sont branchées, mais la panne coupe encore le circuit. Depuis le 24/11/2026, la
+  // suite arrive au centre de l'écran, sur la scène assombrie (choix du propriétaire) : elle propose de réparer la
+  // panne, et la centrale, derrière, ne se touche plus.
+  const suite = page.locator(".plug-choix");
+  await expect(suite.getByRole("button", { name: /Réparer la panne/ })).toBeVisible();
+  const c = (await page.getByRole("button", { name: /^Centrale : / }).first().boundingBox())!;
+  expect(await page.evaluate(({ x, y }) => !!document.elementFromPoint(x, y)?.closest(".plug-choix"), { x: c.x + c.width / 2, y: c.y + c.height / 2 })).toBe(true);
 
   // Procédure pas à pas : cocher une étape, l'état est gardé.
   // Le dernier protocole vient de se terminer : on referme sa cérémonie pour le relire.

@@ -163,7 +163,8 @@ export async function expectCoversTop(page: Page, dialogName: RegExp | string) {
 export async function plugBattery(page: Page) {
   await expectCoversTop(page, /^Protocole \d+ terminé$/);
   await page.getByRole("button", { name: /^Brancher la batterie/ }).click({ force: true }); // la prise bouge doucement
-  await expect(page.getByRole("button", { name: "Retour au caisson" })).toBeVisible({ timeout: 8000 });
+  // Les boutons arrivent quand le membre a fini sa réplique (voix enregistrée, ou rythme de lecture en silence).
+  await expect(page.getByRole("button", { name: "Retour au caisson" })).toBeVisible({ timeout: 30_000 });
   await expectFixedFinish(page);
 }
 
@@ -185,7 +186,8 @@ export async function expectFixedFinish(page: Page) {
     const zone = el.querySelector(".plug-aside"); if (!zone) return ["pas de zone de parole"];
     const r = zone.getBoundingClientRect(), out: string[] = [];
     el.querySelectorAll(".kicker, button, .plug-modules, .telemetry").forEach((x) => {
-      if (zone.contains(x)) return;
+      // les boutons de la suite passent volontairement au premier plan, sur la scène assombrie
+      if (zone.contains(x) || x.closest(".plug-choix")) return;
       const e = x.getBoundingClientRect(); if (!e.width || !e.height) return;
       if (e.left < r.right && e.right > r.left && e.top < r.bottom && e.bottom > r.top) out.push(`${x.tagName} ${(x.textContent ?? "").slice(0, 30)}`);
     });
